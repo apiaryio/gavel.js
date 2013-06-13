@@ -2,7 +2,7 @@
 
 {StringToJson} = require('../src/string-to-json')
 
-sample_text =  """
+sampleText =  """
               a
               b
               c
@@ -13,12 +13,12 @@ getLines = (text) ->
   return text.split('\n')
 
 describe 'StringToJson', ->
-  stj = new StringToJson sample_text
+  stj = new StringToJson sampleText
 
   describe '#constructor', ->
 
     it 'should assign @text', ->
-      assert.strictEqual stj.text, sample_text
+      assert.strictEqual stj.text, sampleText
 
     it 'should assign @json', ->
       assert.isDefined stj.json
@@ -30,10 +30,10 @@ describe 'StringToJson', ->
     describe 'returned hash', ->
       it 'should be same size as input text line count', ->
         assert.equal Object.keys(stj.generate()).length,
-        getLines(sample_text).length
+        getLines(sampleText).length
 
       it 'should contain all input text lines', ->
-        lines = getLines(sample_text)
+        lines = getLines(sampleText)
 
         for k,v of stj.generate()
           index = lines.indexOf v
@@ -44,7 +44,7 @@ describe 'StringToJson', ->
 
       describe 'each entry\'s key', ->
         it 'should match prefix of hash with line number in original text', ->
-          lines = getLines(sample_text)
+          lines = getLines(sampleText)
 
           for k,v of stj.generate()
             lineNumber = parseInt(k.split('-')[0])
