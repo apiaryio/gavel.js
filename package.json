@@ -7,6 +7,7 @@
     "test": "test"
   },
   "dependencies": {
+      "amanda": ""
   },
   "devDependencies": {
     "chai": "~1.6.0",
@@ -29,7 +30,7 @@
     "bluerpint",
     "rest"
   ],
-  "author": "Adam Kliment <adam@apiary.io>",
+  "author": "Adam Kliment <adam@apiary.io>, Peter Grilli [tu1ly] <tully@apiaty.io>",
   "license": "None",
   "readmeFilename": "Readme.md"
 }
