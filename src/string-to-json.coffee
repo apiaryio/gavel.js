@@ -1,6 +1,6 @@
 crypto = require('crypto')
 
-class StringToJson
+module.exports.StringToJson = class StringToJson
 
   constructor: ( @text ) ->
     @json = {}
@@ -8,10 +8,6 @@ class StringToJson
   generate: ->
     counter = 0
     for line in "#{@text}".split "\n"
-      hash = crypto.createHash('md5').update(line).digest('hex')
-      @json["#{counter}_#{hash}"] = line
+      @json["#{counter}_#{crypto.createHash('md5').update(line).digest('hex')}"] = line
       counter += 1
     @json
-
-
-module.exports.StringToJson = StringToJson
