@@ -7,35 +7,32 @@ sampleJsonNoValid = '''
 
 sampleJson = '''
 {
-  "items": [
-    [ { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 },
-      { "url": "/shopping-cart/2", "product":"2ZY48XPZaa", "quantity": 2, "name": "New socks2", "price": 1.99 }
-    ],
-    [ { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 },
-    { "url": "/shopping-cart/2", "product":"2ZY48XPZaa", "quantity": 2, "name": "New socks2", "price": 1.99 }
-    ]
+  "simple_key_value_pair": "simple_key_value_pair_value",
+  "complex_key_value_pair": {
+    "complex_key_value_pair_key1" : "complex_key_value_pair_value1",
+    "complex_key_value_pair_key2" : "complex_key_value_pair_value2",
+    "complex_key_value_pair_key3" : {
+      "complex_key_value_pair_key1_in_nested_hash": "complex_key_value_pair_value1_in_nested_hash",
+      "complex_key_value_pair_key2_in_nested_hash": "complex_key_value_pair_value2_in_nested_hash"
+      }
+    },
+
+  "array_of_hashes": [
+    {
+      "array_of_hashes_item1_key1": "array_of_hashes_item1_value1",
+      "array_of_hashes_item1_key2": "array_of_hashes_item1_value2"
+    },
+    {
+      "array_of_hashes_item2_key1": "array_of_hashes_item2_value1",
+      "array_of_hashes_item2_key2": "array_of_hashes_item2_value2"
+    }
+
   ],
-  "item2" : {
-  "item2_item1" : {"nested1": 1},
-  "item2_item1" : {"nested2": {"a": 2}}
-  }
+  "array_of_mixed_simple_types": [1,2,"a","b"],
+  "array_of_same_simple_types": ["a","b"]
 }
 '''
 
-sampleJsonWrong = '''{
-"items": [
-  [ { "url": "/shopping-cart/1", "product":"2ZY48XaPZ", "quantity": 1, "name": "New socks", "price": 1.25 },
-    { "url": "/shopping-cart/2", "product":"2ZY48XPZaa", "quantity": 2, "name": "New socks2", "price": 1.99 }
-  ],
-  [ { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 },
-    { "url": "/shopping-cart/2", "product":"2ZY48XPZaa", "quantity": 2, "name": "New socks2", "price": 1.99 }
-  ]
-],
-"item2" : {
-"item2_item1" : {"nested1": 1},
-"item2_item1" : {"nested2": {"a": 2}}
-}
-}'''
 
 {SchemaGenerator, SchemaProperties} = require('../src/schema-generator')
 
