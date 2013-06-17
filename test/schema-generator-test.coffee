@@ -32,7 +32,7 @@ sampleJson = '''
 
 sampleJsonSchema = '''
 {
-    "$schema":"http://json-schema.org/draft-03/schema",
+        "$schema":"http://json-schema.org/draft-03/schema",
     "id":"#",
     "required":true,
     "additionalProperties":false,
@@ -99,129 +99,66 @@ sampleJsonSchema = '''
             "required":true,
             "additionalItems":false,
             "type":"array",
-            "items":[
-                {
-                    "id":0,
-                    "required":true,
-                    "additionalProperties":false,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item1_key1":{
-                            "id":"array_of_hashes_item1_key1",
-                            "required":true,
-                            "enum":[
-                                "array_of_hashes_item1_value1"
-                            ],
-                            "type":"string"
-                        },
-                        "array_of_hashes_item1_key2":{
-                            "id":"array_of_hashes_item1_key2",
-                            "required":true,
-                            "enum":[
-                                "array_of_hashes_item1_value2"
-                            ],
-                            "type":"string"
-                        }
-                    }
-                },
-                {
-                    "id":1,
-                    "required":true,
-                    "additionalProperties":false,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item2_key1":{
-                            "id":"array_of_hashes_item2_key1",
-                            "required":true,
-                            "enum":[
-                                "array_of_hashes_item2_value1"
-                            ],
-                            "type":"string"
-                        },
-                        "array_of_hashes_item2_key2":{
-                            "id":"array_of_hashes_item2_key2",
-                            "required":true,
-                            "enum":[
-                                "array_of_hashes_item2_value2"
-                            ],
-                            "type":"string"
-                        }
+            "items":{
+                "id":0,
+                "required":true,
+                "additionalProperties":false,
+                "type":"object",
+                "properties":{
+                    "array_of_hashes_item1_key1":{
+                        "id":"array_of_hashes_item1_key1",
+                        "required":true,
+                        "enum":[
+                            "array_of_hashes_item1_value1"
+                        ],
+                        "type":"string"
+                    },
+                    "array_of_hashes_item1_key2":{
+                        "id":"array_of_hashes_item1_key2",
+                        "required":true,
+                        "enum":[
+                            "array_of_hashes_item1_value2"
+                        ],
+                        "type":"string"
                     }
                 }
-            ]
+            }
         },
         "array_of_mixed_simple_types":{
             "id":"array_of_mixed_simple_types",
             "required":true,
             "additionalItems":false,
             "type":"array",
-            "items":[
-                {
-                    "id":0,
-                    "required":true,
-                    "enum":[
-                        1
-                    ],
-                    "type":"integer"
-                },
-                {
-                    "id":1,
-                    "required":true,
-                    "enum":[
-                        2
-                    ],
-                    "type":"integer"
-                },
-                {
-                    "id":2,
-                    "required":true,
-                    "enum":[
-                        "a"
-                    ],
-                    "type":"string"
-                },
-                {
-                    "id":3,
-                    "required":true,
-                    "enum":[
-                        "b"
-                    ],
-                    "type":"string"
-                }
-            ]
+            "items":{
+                "id":0,
+                "required":true,
+                "enum":[
+                    1
+                ],
+                "type":"integer"
+            }
         },
         "array_of_same_simple_types":{
             "id":"array_of_same_simple_types",
             "required":true,
             "additionalItems":false,
             "type":"array",
-            "items":[
-                {
-                    "id":0,
-                    "required":true,
-                    "enum":[
-                        "a"
-                    ],
-                    "type":"string"
-                },
-                {
-                    "id":1,
-                    "required":true,
-                    "enum":[
-                        "b"
-                    ],
-                    "type":"string"
-                }
-            ]
+            "items":{
+                "id":0,
+                "required":true,
+                "enum":[
+                    "a"
+                ],
+                "type":"string"
+            }
         }
     }
-
 }
 '''
 
 sampleJsonSchemaNonStrict = '''
 {
-    "$schema":"http://json-schema.org/draft-03/schema",
+        "$schema":"http://json-schema.org/draft-03/schema",
     "id":"#",
     "required":true,
     "additionalProperties":true,
@@ -268,80 +205,42 @@ sampleJsonSchemaNonStrict = '''
             "required":true,
             "additionalItems":true,
             "type":"array",
-            "items":[
-                {
-                    "id":0,
-                    "required":true,
-                    "additionalProperties":true,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item1_key1":{
-                            "id":"array_of_hashes_item1_key1",
-                            "required":true
-                        },
-                        "array_of_hashes_item1_key2":{
-                            "id":"array_of_hashes_item1_key2",
-                            "required":true
-                        }
-                    }
-                },
-                {
-                    "id":1,
-                    "required":true,
-                    "additionalProperties":true,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item2_key1":{
-                            "id":"array_of_hashes_item2_key1",
-                            "required":true
-                        },
-                        "array_of_hashes_item2_key2":{
-                            "id":"array_of_hashes_item2_key2",
-                            "required":true
-                        }
+            "items":{
+                "id":0,
+                "required":true,
+                "additionalProperties":true,
+                "type":"object",
+                "properties":{
+                    "array_of_hashes_item1_key1":{
+                        "id":"array_of_hashes_item1_key1",
+                        "required":true
+                    },
+                    "array_of_hashes_item1_key2":{
+                        "id":"array_of_hashes_item1_key2",
+                        "required":true
                     }
                 }
-            ]
+            }
         },
         "array_of_mixed_simple_types":{
             "id":"array_of_mixed_simple_types",
             "required":true,
             "additionalItems":true,
             "type":"array",
-            "items":[
-                {
-                    "id":0,
-                    "required":true
-                },
-                {
-                    "id":1,
-                    "required":true
-                },
-                {
-                    "id":2,
-                    "required":true
-                },
-                {
-                    "id":3,
-                    "required":true
-                }
-            ]
+            "items":{
+                "id":0,
+                "required":true
+            }
         },
         "array_of_same_simple_types":{
             "id":"array_of_same_simple_types",
             "required":true,
             "additionalItems":true,
             "type":"array",
-            "items":[
-                {
-                    "id":0,
-                    "required":true
-                },
-                {
-                    "id":1,
-                    "required":true
-                }
-            ]
+            "items":{
+                "id":0,
+                "required":true
+            }
         }
     }
 }
@@ -363,7 +262,7 @@ describe 'SchemaGenerator', ->
     before ->
       sg.setProperties keysStrict: true, valuesStrict: true, typesStrict: true
 
-    it 'should chenge properties object', ->
+    it 'should change properties object', ->
       assert.isTrue sg.properties.keysStrict
       assert.isTrue sg.properties.valuesStrict
       assert.isTrue sg.properties.typesStrict

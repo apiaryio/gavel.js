@@ -88,8 +88,7 @@ module.exports.SchemaGenerator = class SchemaGenerator
 
     else if schemaType is 'array' and baseObject.length > 0
       firstItemType = @getSchemaTypeFor baseObject[0]
-
-      if (baseObject.filter (item) => firstItemType is @getSchemaTypeFor item) > 0
+      if (baseObject.filter (item) => firstItemType is @getSchemaTypeFor item).length > 0
         schemaDict['items'] =  @getSchemaForObject baseObject: baseObject[0], objectId: 0, firstLevel: false, properties: properties
       else
         schemaDict['items'] = []
