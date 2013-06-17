@@ -38,8 +38,7 @@ module.exports.SchemaGenerator = class SchemaGenerator
 
 
   isBaseType: (type) ->
-    not (type in ['array', 'object'])
-
+    !(type in ["array", "object"])
 
   getSchemaForObject: ({baseObject, objectId, firstLevel, properties}) ->
 
@@ -87,16 +86,13 @@ module.exports.SchemaGenerator = class SchemaGenerator
         schemaDict["properties"][prop] = @getSchemaForObject baseObject: value, objectId: prop, firstLevel: false, properties: properties
 
     else if schemaType is 'array' and baseObject.length > 0
-      firstItemType = @getSchemaTypeFor baseObject[0]
-      if (baseObject.filter (item) => firstItemType is @getSchemaTypeFor item).length > 0
-        schemaDict['items'] =  @getSchemaForObject baseObject: baseObject[0], objectId: 0, firstLevel: false, properties: properties
-      else
-        schemaDict['items'] = []
-        counter = 0
 
-        for item in baseObject
-          schemaDict['items'].push(@getSchemaForObject baseObject: item, objectId: counter, firstLevel: false, properties: properties)
-          counter += 1
+      schemaDict['items'] = []
+      counter = 0
+
+      for item in baseObject
+        schemaDict['items'].push(@getSchemaForObject baseObject: item, objectId: counter, firstLevel: false, properties: properties)
+        counter += 1
 
     return schemaDict
 
