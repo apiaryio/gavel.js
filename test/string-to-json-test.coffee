@@ -1,13 +1,6 @@
 {assert} = require('chai')
-
 {StringToJson} = require('../src/string-to-json')
-
-sampleText =  """
-              a
-              b
-              c
-              d
-              """
+{sampleText} = require '../test/fixtures'
 
 getLines = (text) ->
   return text.split('\n')

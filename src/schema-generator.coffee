@@ -1,5 +1,3 @@
-traverse = require "traverse"
-
 SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
 
 module.exports.SchemaProperties = class SchemaProperties
@@ -10,12 +8,16 @@ module.exports.SchemaProperties = class SchemaProperties
 module.exports.SchemaGenerator = class SchemaGenerator
 
   constructor: ( json ) ->
-    @json = JSON.parse json
+    if typeof json == 'string'
+      @json = JSON.parse json
+    else
+      @json = json
+
     @schema = undefined
     @properties = new SchemaProperties
 
-  setProperties: ({keysStrict, valuesStrict, typesStrict}) ->
 
+  setProperties: ({keysStrict, valuesStrict, typesStrict}) ->
     @properties.keysStrict   = keysStrict
     @properties.valuesStrict = valuesStrict
     @properties.typesStrict  = typesStrict
@@ -26,7 +28,6 @@ module.exports.SchemaGenerator = class SchemaGenerator
 
 
   getSchemaTypeFor: (val) ->
-
     if @isArray val then return 'array'
 
     type = typeof val
@@ -41,7 +42,6 @@ module.exports.SchemaGenerator = class SchemaGenerator
     !(type in ["array", "object"])
 
   getSchemaForObject: ({baseObject, objectId, firstLevel, properties}) ->
-
     if firstLevel is undefined then firstLevel = true
     properties ||= new SchemaProperties
 
@@ -76,9 +76,6 @@ module.exports.SchemaGenerator = class SchemaGenerator
     if (properties.typesStrict and @isBaseType schemaType) or not @isBaseType schemaType
       schemaDict["type"] = schemaType
 
-
-
-
     if schemaType is 'object' and Object.keys(baseObject).length > 0
       schemaDict["properties"] = {}
 
@@ -99,8 +96,6 @@ module.exports.SchemaGenerator = class SchemaGenerator
 
   isArray: (object) ->
     return object instanceof Array
-
-  tmpTravesre: () ->
 
 
 
