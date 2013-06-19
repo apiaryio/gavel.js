@@ -324,6 +324,8 @@ describe 'HitValidation', ->
 
       it "should set errors for body in request and response", () ->
         hitValidation.validate()
+        console.error hitValidation.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
+        console.error hitValidation.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
 
         assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
         assert.isDefined hitValidation.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
