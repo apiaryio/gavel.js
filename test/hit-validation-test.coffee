@@ -50,10 +50,10 @@ describe 'HitValidation', ->
         it "shouldn't set errors for body in request and response", () ->
           hitValidation.validate()
 
-          assert.isUndefined hitValidation.hit.request.validationResults.body
-          assert.isUndefined hitValidation.hit.request.validationResults.headers
-          assert.isUndefined hitValidation.hit.response.validationResults.body
-          assert.isUndefined hitValidation.hit.response.validationResults.headers
+          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'and there are missing keys in real payloads', ->
         before ->
@@ -76,12 +76,12 @@ describe 'HitValidation', ->
         it "should set errors for body in request and response", () ->
           hitValidation.validate()
 
-          assert.isDefined hitValidation.hit.request.validationResults.body
+          assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
           assert.isDefined hitValidation.hit.request.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash']
-          assert.isUndefined hitValidation.hit.request.validationResults.headers
-          assert.isDefined hitValidation.hit.response.validationResults.body
+          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
           assert.isDefined hitValidation.hit.response.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash']
-          assert.isUndefined hitValidation.hit.response.validationResults.headers
+          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'and there are different values in real payloads', ->
         before ->
@@ -104,10 +104,10 @@ describe 'HitValidation', ->
         it "shouldn't set errors for body in request and response", () ->
           hitValidation.validate()
 
-          assert.isUndefined hitValidation.hit.request.validationResults.body
-          assert.isUndefined hitValidation.hit.request.validationResults.headers
-          assert.isUndefined hitValidation.hit.response.validationResults.body
-          assert.isUndefined hitValidation.hit.response.validationResults.headers
+          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'when body and headers are same in request and response', ->
       before ->
@@ -126,10 +126,10 @@ describe 'HitValidation', ->
 
       it "shouldn't set any errors", () ->
         hitValidation.validate()
-        assert.isUndefined hitValidation.hit.request.validationResults.body
-        assert.isUndefined hitValidation.hit.request.validationResults.headers
-        assert.isUndefined hitValidation.hit.response.validationResults.body
-        assert.isUndefined hitValidation.hit.response.validationResults.headers
+        assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'when no schema is provided', ->
       describe 'when keys are added to body and headers', ->
@@ -149,10 +149,10 @@ describe 'HitValidation', ->
 
         it "shouldn't set any errors", () ->
           hitValidation.validate()
-          assert.isUndefined hitValidation.hit.request.validationResults.body
-          assert.isUndefined hitValidation.hit.request.validationResults.headers
-          assert.isUndefined hitValidation.hit.response.validationResults.body
-          assert.isUndefined hitValidation.hit.response.validationResults.headers
+          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'when keys are missing from body and headers', ->
         before ->
@@ -172,13 +172,13 @@ describe 'HitValidation', ->
         it "should set errors for body and headers in request and response", () ->
           hitValidation.validate()
 
-          assert.isDefined hitValidation.hit.request.validationResults.body
+          assert.isNotNull hitValidation.hit.request.validationResults.body , 'request.validationResults.body is defined'
           assert.isDefined hitValidation.hit.request.validationResults.body['simple_key_value_pair']
-          assert.isDefined hitValidation.hit.request.validationResults.headers
+          assert.isNotNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is defined'
           assert.isDefined hitValidation.hit.request.validationResults.headers['header2']
-          assert.isDefined hitValidation.hit.response.validationResults.body
+          assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
           assert.isDefined hitValidation.hit.response.validationResults.body['simple_key_value_pair']
-          assert.isDefined hitValidation.hit.response.validationResults.headers
+          assert.isNotNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is defined'
           assert.isDefined hitValidation.hit.response.validationResults.headers['header2']
 
       describe 'when values are different in body and headers', ->
@@ -199,11 +199,11 @@ describe 'HitValidation', ->
         it "should set errors for headers and no errors for body in request and response", () ->
           hitValidation.validate()
 
-          assert.isUndefined hitValidation.hit.request.validationResults.body
-          assert.isDefined hitValidation.hit.request.validationResults.headers
+          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNotNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is defined'
           assert.isDefined hitValidation.hit.request.validationResults.headers['header2']
-          assert.isUndefined hitValidation.hit.response.validationResults.body
-          assert.isDefined hitValidation.hit.response.validationResults.headers
+          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNotNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is defined'
           assert.isDefined hitValidation.hit.response.validationResults.headers['header2']
 
       describe 'when value is missing in array in body', ->
@@ -224,12 +224,12 @@ describe 'HitValidation', ->
         it "should set errors for body in request and response", () ->
           hitValidation.validate()
 
-          assert.isDefined hitValidation.hit.request.validationResults.body
+          assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
           assert.isDefined hitValidation.hit.request.validationResults.body['array_of_mixed_simple_types[3]']
-          assert.isUndefined hitValidation.hit.request.validationResults.headers
-          assert.isDefined hitValidation.hit.response.validationResults.body
+          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
           assert.isDefined hitValidation.hit.response.validationResults.body['array_of_mixed_simple_types[3]']
-          assert.isUndefined hitValidation.hit.response.validationResults.headers
+          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'when value is added to array in body', ->
         before ->
@@ -248,10 +248,10 @@ describe 'HitValidation', ->
 
         it "should set errors for body in request and response", () ->
           hitValidation.validate()
-          assert.isUndefined hitValidation.hit.request.validationResults.body
-          assert.isUndefined hitValidation.hit.request.validationResults.headers
-          assert.isUndefined hitValidation.hit.response.validationResults.body
-          assert.isUndefined hitValidation.hit.response.validationResults.headers
+          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
   describe "when body isn't json parsable (handled as text)", ->
     describe 'and lines are added', ->
@@ -273,12 +273,12 @@ describe 'HitValidation', ->
       it "should set errors for body in request and response", () ->
         hitValidation.validate()
 
-        assert.isDefined hitValidation.hit.request.validationResults.body
+        assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
         assert.isDefined hitValidation.hit.request.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]']
-        assert.isUndefined hitValidation.hit.request.validationResults.headers
-        assert.isDefined hitValidation.hit.response.validationResults.body
+        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
         assert.isDefined hitValidation.hit.response.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]']
-        assert.isUndefined hitValidation.hit.response.validationResults.headers
+        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'and lines are missing', ->
       before ->
@@ -299,12 +299,12 @@ describe 'HitValidation', ->
       it "should set errors for body in request and response", () ->
         hitValidation.validate()
 
-        assert.isDefined hitValidation.hit.request.validationResults.body
+        assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
         assert.isDefined hitValidation.hit.request.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]']
-        assert.isUndefined hitValidation.hit.request.validationResults.headers
-        assert.isDefined hitValidation.hit.response.validationResults.body
+        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
         assert.isDefined hitValidation.hit.response.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]']
-        assert.isUndefined hitValidation.hit.response.validationResults.headers
+        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'and lines are changed', ->
       before ->
@@ -325,12 +325,12 @@ describe 'HitValidation', ->
       it "should set errors for body in request and response", () ->
         hitValidation.validate()
 
-        assert.isDefined hitValidation.hit.request.validationResults.body
+        assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
         assert.isDefined hitValidation.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
-        assert.isUndefined hitValidation.hit.request.validationResults.headers
-        assert.isDefined hitValidation.hit.response.validationResults.body
+        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
         assert.isDefined hitValidation.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
-        assert.isUndefined hitValidation.hit.response.validationResults.headers
+        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
 
   

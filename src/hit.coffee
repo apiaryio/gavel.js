@@ -5,8 +5,8 @@ module.exports.hitStructure = class hitStructure
     @schemaVersion = 2
     @request =
       validationResults:
-        headers: undefined
-        body: undefined
+        headers: null
+        body: null
 
       defined:
         userSchemas: []
@@ -23,8 +23,8 @@ module.exports.hitStructure = class hitStructure
 
     @response =
       validationResults:
-        headers: undefined
-        body: undefined
+        headers: null
+        body: null
 
       defined:
         userSchemas: []
