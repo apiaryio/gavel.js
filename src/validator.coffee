@@ -11,7 +11,7 @@ module.exports.Validator = class Validator
     @schema = schema
 
   formatError: (error) ->
-    if not error then return
+    if not error then return null
 
     errors = {}
 

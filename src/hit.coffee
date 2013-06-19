@@ -4,9 +4,9 @@ module.exports.hitStructure = class hitStructure
   constructor: ->
     @schemaVersion = 2
     @request =
-      validationResults: {}
-        #headers:
-        #body:
+      validationResults:
+        headers: null
+        body: null
 
       defined:
         userSchemas: []
@@ -22,9 +22,9 @@ module.exports.hitStructure = class hitStructure
 
 
     @response =
-      validationResults:{}
-        #headers:
-        #body:
+      validationResults:
+        headers: null
+        body: null
 
       defined:
         userSchemas: []
