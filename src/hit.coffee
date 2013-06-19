@@ -1,3 +1,5 @@
+packageJson = require('../package.json')
+
 module.exports.hitStructure = class hitStructure
   constructor: ->
     @schemaVersion = 2
@@ -35,4 +37,5 @@ module.exports.hitStructure = class hitStructure
         statusCode: ''
 
 
-    @validatorVersion = ''
+    @validatorVersion = "#{packageJson.version}"
+
