@@ -326,10 +326,10 @@ describe 'HitValidation', ->
         hitValidation.validate()
 
         assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
+        assert.isDefined hitValidation.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
         assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
         assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
+        assert.isDefined hitValidation.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
         assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
 
