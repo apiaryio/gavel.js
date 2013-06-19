@@ -10,7 +10,19 @@ module.exports.Validator = class Validator
 
     @schema = schema
 
+  formatError: (error) ->
+    if not error then return
+
+    errors = {}
+
+    for i in [0..error.length - 1]
+      property = error[i]['property']
+      #delete error[i]['property']  //dup data
+      errors[property] = error[i]
+
+    return errors
+
   validate: ->
-    return amanda.validate  @data, @schema, (error) ->
-      return error
+    return amanda.validate  @data, @schema, (error) =>
+      return @formatError error
 
