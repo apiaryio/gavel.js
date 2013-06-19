@@ -75,9 +75,12 @@ describe 'HitValidation', ->
 
         it "should set errors for body in request and response", () ->
           hitValidation.validate()
+
           assert.isDefined hitValidation.hit.request.validationResults.body
+          assert.isDefined hitValidation.hit.request.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash']
           assert.isUndefined hitValidation.hit.request.validationResults.headers
           assert.isDefined hitValidation.hit.response.validationResults.body
+          assert.isDefined hitValidation.hit.response.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash']
           assert.isUndefined hitValidation.hit.response.validationResults.headers
 
       describe 'and there are different values in real payloads', ->
@@ -100,6 +103,7 @@ describe 'HitValidation', ->
 
         it "shouldn't set errors for body in request and response", () ->
           hitValidation.validate()
+
           assert.isUndefined hitValidation.hit.request.validationResults.body
           assert.isUndefined hitValidation.hit.request.validationResults.headers
           assert.isUndefined hitValidation.hit.response.validationResults.body
@@ -167,10 +171,15 @@ describe 'HitValidation', ->
 
         it "should set errors for body and headers in request and response", () ->
           hitValidation.validate()
+
           assert.isDefined hitValidation.hit.request.validationResults.body
+          assert.isDefined hitValidation.hit.request.validationResults.body['simple_key_value_pair']
           assert.isDefined hitValidation.hit.request.validationResults.headers
+          assert.isDefined hitValidation.hit.request.validationResults.headers['header2']
           assert.isDefined hitValidation.hit.response.validationResults.body
+          assert.isDefined hitValidation.hit.response.validationResults.body['simple_key_value_pair']
           assert.isDefined hitValidation.hit.response.validationResults.headers
+          assert.isDefined hitValidation.hit.response.validationResults.headers['header2']
 
       describe 'when values are different in body and headers', ->
         before ->
@@ -189,10 +198,60 @@ describe 'HitValidation', ->
 
         it "should set errors for headers and no errors for body in request and response", () ->
           hitValidation.validate()
+
           assert.isUndefined hitValidation.hit.request.validationResults.body
           assert.isDefined hitValidation.hit.request.validationResults.headers
+          assert.isDefined hitValidation.hit.request.validationResults.headers['header2']
           assert.isUndefined hitValidation.hit.response.validationResults.body
           assert.isDefined hitValidation.hit.response.validationResults.headers
+          assert.isDefined hitValidation.hit.response.validationResults.headers['header2']
+
+      describe 'when value is missing in array in body', ->
+        before ->
+          params =  {
+          req_body_defined:     fixtures.sampleJson,
+          req_headers_defined:  fixtures.sampleHeaders,
+          req_body_real:        fixtures.sampleJsonArrayItemMissing,
+          req_headers_real:     fixtures.sampleHeaders,
+          res_body_defined:     fixtures.sampleJson,
+          res_headers_defined:  fixtures.sampleHeaders,
+          res_body_real:        fixtures.sampleJsonArrayItemMissing,
+          res_headers_real:     fixtures.sampleHeaders
+          }
+          hit = get_hit params
+          hitValidation = new HitValidation hit
+
+        it "should set errors for body in request and response", () ->
+          hitValidation.validate()
+
+          assert.isDefined hitValidation.hit.request.validationResults.body
+          assert.isDefined hitValidation.hit.request.validationResults.body['array_of_mixed_simple_types[3]']
+          assert.isUndefined hitValidation.hit.request.validationResults.headers
+          assert.isDefined hitValidation.hit.response.validationResults.body
+          assert.isDefined hitValidation.hit.response.validationResults.body['array_of_mixed_simple_types[3]']
+          assert.isUndefined hitValidation.hit.response.validationResults.headers
+
+      describe 'when value is added to array in body', ->
+        before ->
+          params =  {
+          req_body_defined:     fixtures.sampleJson,
+          req_headers_defined:  fixtures.sampleHeaders,
+          req_body_real:        fixtures.sampleJsonArrayItemAdded,
+          req_headers_real:     fixtures.sampleHeaders,
+          res_body_defined:     fixtures.sampleJson,
+          res_headers_defined:  fixtures.sampleHeaders,
+          res_body_real:        fixtures.sampleJsonArrayItemAdded,
+          res_headers_real:     fixtures.sampleHeaders
+          }
+          hit = get_hit params
+          hitValidation = new HitValidation hit
+
+        it "should set errors for body in request and response", () ->
+          hitValidation.validate()
+          assert.isUndefined hitValidation.hit.request.validationResults.body
+          assert.isUndefined hitValidation.hit.request.validationResults.headers
+          assert.isUndefined hitValidation.hit.response.validationResults.body
+          assert.isUndefined hitValidation.hit.response.validationResults.headers
 
   describe "when body isn't json parsable (handled as text)", ->
     describe 'and lines are added', ->
@@ -215,8 +274,10 @@ describe 'HitValidation', ->
         hitValidation.validate()
 
         assert.isDefined hitValidation.hit.request.validationResults.body
+        assert.isDefined hitValidation.hit.request.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]']
         assert.isUndefined hitValidation.hit.request.validationResults.headers
         assert.isDefined hitValidation.hit.response.validationResults.body
+        assert.isDefined hitValidation.hit.response.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]']
         assert.isUndefined hitValidation.hit.response.validationResults.headers
 
     describe 'and lines are missing', ->
@@ -237,9 +298,12 @@ describe 'HitValidation', ->
 
       it "should set errors for body in request and response", () ->
         hitValidation.validate()
+
         assert.isDefined hitValidation.hit.request.validationResults.body
+        assert.isDefined hitValidation.hit.request.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]']
         assert.isUndefined hitValidation.hit.request.validationResults.headers
         assert.isDefined hitValidation.hit.response.validationResults.body
+        assert.isDefined hitValidation.hit.response.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]']
         assert.isUndefined hitValidation.hit.response.validationResults.headers
 
     describe 'and lines are changed', ->
@@ -260,9 +324,12 @@ describe 'HitValidation', ->
 
       it "should set errors for body in request and response", () ->
         hitValidation.validate()
+
         assert.isDefined hitValidation.hit.request.validationResults.body
+        assert.isDefined hitValidation.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
         assert.isUndefined hitValidation.hit.request.validationResults.headers
         assert.isDefined hitValidation.hit.response.validationResults.body
+        assert.isDefined hitValidation.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]']
         assert.isUndefined hitValidation.hit.response.validationResults.headers
 
 
