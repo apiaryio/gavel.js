@@ -6,7 +6,9 @@ getLines = (text) ->
   return text.split('\n')
 
 describe 'StringToJson', ->
-  stj = new StringToJson sampleText
+  stj = undefined
+  before ->
+    stj = new StringToJson sampleText
 
   describe '#constructor', ->
 
@@ -42,3 +44,13 @@ describe 'StringToJson', ->
           for k,v of stj.generate()
             lineNumber = parseInt(k.split('-')[0])
             assert.equal lines[lineNumber], v
+
+    describe 'in case when empty string is provided to constructor', ->
+      before ->
+        stj = new StringToJson ''
+
+      it 'should generate empty hash', ->
+        assert.isTrue Object.keys(stj.generate()).length == 0
+
+
+
