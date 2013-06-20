@@ -2,23 +2,23 @@
 {HitValidation} = require('../src/hit-validation')
 fixtures = require '../test/fixtures'
 
-get_hit = ({req_body_defined, req_headers_defined, req_body_schema, req_headers_schema, req_body_real, req_headers_real, res_body_defined, res_headers_defined, res_body_real, res_headers_real, res_body_schema, res_headers_schema }) ->
+getHit = ({reqBodyDefined, reqHeadersDefined, reqBodySchema, req_headers_schema, reqBodyReal, reqHeadersReal, resBodyDefined, resHeadersDefined, resBodyReal, resHeadersReal, resBodySchema, res_headers_schema }) ->
 
   hit = new fixtures.hitStructure
 
-  hit.request.defined.body            = req_body_defined
-  hit.request.defined.headers         = req_headers_defined
-  hit.request.defined.schema.body     = req_body_schema || ''
+  hit.request.defined.body            = reqBodyDefined
+  hit.request.defined.headers         = reqHeadersDefined
+  hit.request.defined.schema.body     = reqBodySchema || ''
   hit.request.defined.schema.headers  = req_headers_schema || ''
-  hit.request.realPayload.body        = req_body_real
-  hit.request.realPayload.headers     = req_headers_real
+  hit.request.realPayload.body        = reqBodyReal
+  hit.request.realPayload.headers     = reqHeadersReal
 
-  hit.response.defined.body           = res_body_defined
-  hit.response.defined.headers        = res_headers_defined
-  hit.response.defined.schema.body    = res_body_schema || ''
+  hit.response.defined.body           = resBodyDefined
+  hit.response.defined.headers        = resHeadersDefined
+  hit.response.defined.schema.body    = resBodySchema || ''
   hit.response.defined.schema.headers = res_headers_schema || ''
-  hit.response.realPayload.body       = res_body_real
-  hit.response.realPayload.headers    = res_headers_real
+  hit.response.realPayload.body       = resBodyReal
+  hit.response.realPayload.headers    = resHeadersReal
 
   return hit
 
@@ -30,19 +30,19 @@ describe 'HitValidation', ->
       describe 'and there are aditional keys in real payload', ->
         before ->
           params =  {
-            req_body_defined:     fixtures.sampleText,
-            req_body_schema:      fixtures.sampleJsonSchemaNonStrict
-            req_headers_defined:  fixtures.sampleHeaders,
-            req_body_real:        fixtures.sampleJsonComplexKeyAdded,
-            req_headers_real:     fixtures.sampleHeaders,
+            reqBodyDefined:     fixtures.sampleText,
+            reqBodySchema:      fixtures.sampleJsonSchemaNonStrict
+            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyReal:        fixtures.sampleJsonComplexKeyAdded,
+            reqHeadersReal:     fixtures.sampleHeaders,
 
-            res_body_defined:     fixtures.sampleText,
-            res_body_schema:      fixtures.sampleJsonSchemaNonStrict
-            res_headers_defined:  fixtures.sampleHeaders,
-            res_body_real:        fixtures.sampleJsonComplexKeyAdded,
-            res_headers_real:     fixtures.sampleHeaders
+            resBodyDefined:     fixtures.sampleText,
+            resBodySchema:      fixtures.sampleJsonSchemaNonStrict
+            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyReal:        fixtures.sampleJsonComplexKeyAdded,
+            resHeadersReal:     fixtures.sampleHeaders
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "shouldn't set errors for body in request and response", () ->
@@ -56,19 +56,19 @@ describe 'HitValidation', ->
       describe 'and there are missing keys in real payloads', ->
         before ->
           params =  {
-            req_body_defined:     fixtures.sampleText,
-            req_body_schema:      fixtures.sampleJsonSchemaNonStrict
-            req_headers_defined:  fixtures.sampleHeaders,
-            req_body_real:        fixtures.sampleJsonComplexKeyMissing,
-            req_headers_real:     fixtures.sampleHeaders,
+            reqBodyDefined:     fixtures.sampleText,
+            reqBodySchema:      fixtures.sampleJsonSchemaNonStrict
+            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyReal:        fixtures.sampleJsonComplexKeyMissing,
+            reqHeadersReal:     fixtures.sampleHeaders,
 
-            res_body_defined:     fixtures.sampleText,
-            res_body_schema:      fixtures.sampleJsonSchemaNonStrict
-            res_headers_defined:  fixtures.sampleHeaders,
-            res_body_real:        fixtures.sampleJsonComplexKeyMissing,
-            res_headers_real:     fixtures.sampleHeaders
+            resBodyDefined:     fixtures.sampleText,
+            resBodySchema:      fixtures.sampleJsonSchemaNonStrict
+            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyReal:        fixtures.sampleJsonComplexKeyMissing,
+            resHeadersReal:     fixtures.sampleHeaders
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "should set errors for body in request and response", () ->
@@ -84,19 +84,19 @@ describe 'HitValidation', ->
       describe 'and there are different values in real payloads', ->
         before ->
           params =  {
-            req_body_defined:     fixtures.sampleText,
-            req_body_schema:      fixtures.sampleJsonSchemaNonStrict
-            req_headers_defined:  fixtures.sampleHeaders,
-            req_body_real:        fixtures.sampleJsonComplexKeyValueDiffers,
-            req_headers_real:     fixtures.sampleHeaders,
+            reqBodyDefined:     fixtures.sampleText,
+            reqBodySchema:      fixtures.sampleJsonSchemaNonStrict
+            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyReal:        fixtures.sampleJsonComplexKeyValueDiffers,
+            reqHeadersReal:     fixtures.sampleHeaders,
 
-            res_body_defined:     fixtures.sampleText,
-            res_body_schema:      fixtures.sampleJsonSchemaNonStrict
-            res_headers_defined:  fixtures.sampleHeaders,
-            res_body_real:        fixtures.sampleJsonComplexKeyValueDiffers,
-            res_headers_real:     fixtures.sampleHeaders
+            resBodyDefined:     fixtures.sampleText,
+            resBodySchema:      fixtures.sampleJsonSchemaNonStrict
+            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyReal:        fixtures.sampleJsonComplexKeyValueDiffers,
+            resHeadersReal:     fixtures.sampleHeaders
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "shouldn't set errors for body in request and response", () ->
@@ -110,16 +110,16 @@ describe 'HitValidation', ->
     describe 'when body and headers are same in request and response', ->
       before ->
         params =  {
-          req_body_defined:     fixtures.sampleJson,
-          req_headers_defined:  fixtures.sampleHeaders,
-          req_body_real:        fixtures.sampleJson,
-          req_headers_real:     fixtures.sampleHeaders,
-          res_body_defined:     fixtures.sampleJson,
-          res_headers_defined:  fixtures.sampleHeaders,
-          res_body_real:        fixtures.sampleJson,
-          res_headers_real:     fixtures.sampleHeaders
+          reqBodyDefined:     fixtures.sampleJson,
+          reqHeadersDefined:  fixtures.sampleHeaders,
+          reqBodyReal:        fixtures.sampleJson,
+          reqHeadersReal:     fixtures.sampleHeaders,
+          resBodyDefined:     fixtures.sampleJson,
+          resHeadersDefined:  fixtures.sampleHeaders,
+          resBodyReal:        fixtures.sampleJson,
+          resHeadersReal:     fixtures.sampleHeaders
         }
-        hit = get_hit params
+        hit = getHit params
         hitValidation = new HitValidation hit
 
       it "shouldn't set any errors", () ->
@@ -133,16 +133,16 @@ describe 'HitValidation', ->
       describe 'when keys are added to body and headers', ->
         before ->
           params =  {
-            req_body_defined:     fixtures.sampleJson,
-            req_headers_defined:  fixtures.sampleHeaders,
-            req_body_real:        fixtures.sampleJsonSimpleKeyAdded,
-            req_headers_real:     fixtures.sampleHeadersAdded,
-            res_body_defined:     fixtures.sampleJson,
-            res_headers_defined:  fixtures.sampleHeaders,
-            res_body_real:        fixtures.sampleJsonSimpleKeyAdded,
-            res_headers_real:     fixtures.sampleHeadersAdded
+            reqBodyDefined:     fixtures.sampleJson,
+            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyReal:        fixtures.sampleJsonSimpleKeyAdded,
+            reqHeadersReal:     fixtures.sampleHeadersAdded,
+            resBodyDefined:     fixtures.sampleJson,
+            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyReal:        fixtures.sampleJsonSimpleKeyAdded,
+            resHeadersReal:     fixtures.sampleHeadersAdded
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "shouldn't set any errors", () ->
@@ -155,16 +155,16 @@ describe 'HitValidation', ->
       describe 'when keys are missing from body and headers', ->
         before ->
           params =  {
-            req_body_defined:     fixtures.sampleJson,
-            req_headers_defined:  fixtures.sampleHeaders,
-            req_body_real:        fixtures.sampleJsonSimpleKeyMissing,
-            req_headers_real:     fixtures.sampleHeadersMissing,
-            res_body_defined:     fixtures.sampleJson,
-            res_headers_defined:  fixtures.sampleHeaders,
-            res_body_real:        fixtures.sampleJsonSimpleKeyMissing,
-            res_headers_real:     fixtures.sampleHeadersMissing
+            reqBodyDefined:     fixtures.sampleJson,
+            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyReal:        fixtures.sampleJsonSimpleKeyMissing,
+            reqHeadersReal:     fixtures.sampleHeadersMissing,
+            resBodyDefined:     fixtures.sampleJson,
+            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyReal:        fixtures.sampleJsonSimpleKeyMissing,
+            resHeadersReal:     fixtures.sampleHeadersMissing
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "should set errors for body and headers in request and response", () ->
@@ -182,16 +182,16 @@ describe 'HitValidation', ->
       describe 'when values are different in body and headers', ->
         before ->
           params =  {
-            req_body_defined:     fixtures.sampleJson,
-            req_headers_defined:  fixtures.sampleHeaders,
-            req_body_real:        fixtures.sampleJsonSimpleKeyValueDiffers,
-            req_headers_real:     fixtures.sampleHeadersDiffers,
-            res_body_defined:     fixtures.sampleJson,
-            res_headers_defined:  fixtures.sampleHeaders,
-            res_body_real:        fixtures.sampleJsonSimpleKeyValueDiffers,
-            res_headers_real:     fixtures.sampleHeadersDiffers
+            reqBodyDefined:     fixtures.sampleJson,
+            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyReal:        fixtures.sampleJsonSimpleKeyValueDiffers,
+            reqHeadersReal:     fixtures.sampleHeadersDiffers,
+            resBodyDefined:     fixtures.sampleJson,
+            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyReal:        fixtures.sampleJsonSimpleKeyValueDiffers,
+            resHeadersReal:     fixtures.sampleHeadersDiffers
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "should set errors for headers and no errors for body in request and response", () ->
@@ -207,16 +207,16 @@ describe 'HitValidation', ->
       describe 'when value is missing in array in body', ->
         before ->
           params =  {
-          req_body_defined:     fixtures.sampleJson,
-          req_headers_defined:  fixtures.sampleHeaders,
-          req_body_real:        fixtures.sampleJsonArrayItemMissing,
-          req_headers_real:     fixtures.sampleHeaders,
-          res_body_defined:     fixtures.sampleJson,
-          res_headers_defined:  fixtures.sampleHeaders,
-          res_body_real:        fixtures.sampleJsonArrayItemMissing,
-          res_headers_real:     fixtures.sampleHeaders
+          reqBodyDefined:     fixtures.sampleJson,
+          reqHeadersDefined:  fixtures.sampleHeaders,
+          reqBodyReal:        fixtures.sampleJsonArrayItemMissing,
+          reqHeadersReal:     fixtures.sampleHeaders,
+          resBodyDefined:     fixtures.sampleJson,
+          resHeadersDefined:  fixtures.sampleHeaders,
+          resBodyReal:        fixtures.sampleJsonArrayItemMissing,
+          resHeadersReal:     fixtures.sampleHeaders
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "should set errors for body in request and response", () ->
@@ -232,16 +232,16 @@ describe 'HitValidation', ->
       describe 'when value is added to array in body', ->
         before ->
           params =  {
-          req_body_defined:     fixtures.sampleJson,
-          req_headers_defined:  fixtures.sampleHeaders,
-          req_body_real:        fixtures.sampleJsonArrayItemAdded,
-          req_headers_real:     fixtures.sampleHeaders,
-          res_body_defined:     fixtures.sampleJson,
-          res_headers_defined:  fixtures.sampleHeaders,
-          res_body_real:        fixtures.sampleJsonArrayItemAdded,
-          res_headers_real:     fixtures.sampleHeaders
+          reqBodyDefined:     fixtures.sampleJson,
+          reqHeadersDefined:  fixtures.sampleHeaders,
+          reqBodyReal:        fixtures.sampleJsonArrayItemAdded,
+          reqHeadersReal:     fixtures.sampleHeaders,
+          resBodyDefined:     fixtures.sampleJson,
+          resHeadersDefined:  fixtures.sampleHeaders,
+          resBodyReal:        fixtures.sampleJsonArrayItemAdded,
+          resHeadersReal:     fixtures.sampleHeaders
           }
-          hit = get_hit params
+          hit = getHit params
           hitValidation = new HitValidation hit
 
         it "should set errors for body in request and response", () ->
@@ -255,17 +255,17 @@ describe 'HitValidation', ->
     describe 'and lines are added', ->
       before ->
         params =  {
-        req_body_defined:     fixtures.sampleText,
-        req_headers_defined:  fixtures.sampleHeaders,
-        req_body_real:        fixtures.sampleTextLineAdded,
-        req_headers_real:     fixtures.sampleHeaders,
+        reqBodyDefined:     fixtures.sampleText,
+        reqHeadersDefined:  fixtures.sampleHeaders,
+        reqBodyReal:        fixtures.sampleTextLineAdded,
+        reqHeadersReal:     fixtures.sampleHeaders,
 
-        res_body_defined:     fixtures.sampleText,
-        res_headers_defined:  fixtures.sampleHeaders,
-        res_body_real:        fixtures.sampleTextLineAdded,
-        res_headers_real:     fixtures.sampleHeaders
+        resBodyDefined:     fixtures.sampleText,
+        resHeadersDefined:  fixtures.sampleHeaders,
+        resBodyReal:        fixtures.sampleTextLineAdded,
+        resHeadersReal:     fixtures.sampleHeaders
         }
-        hit = get_hit params
+        hit = getHit params
         hitValidation = new HitValidation hit
 
       it "should set errors for body in request and response", () ->
@@ -281,17 +281,17 @@ describe 'HitValidation', ->
     describe 'and lines are missing', ->
       before ->
         params =  {
-        req_body_defined:     fixtures.sampleText,
-        req_headers_defined:  fixtures.sampleHeaders,
-        req_body_real:        fixtures.sampleTextLineMissing,
-        req_headers_real:     fixtures.sampleHeaders,
+        reqBodyDefined:     fixtures.sampleText,
+        reqHeadersDefined:  fixtures.sampleHeaders,
+        reqBodyReal:        fixtures.sampleTextLineMissing,
+        reqHeadersReal:     fixtures.sampleHeaders,
 
-        res_body_defined:     fixtures.sampleText,
-        res_headers_defined:  fixtures.sampleHeaders,
-        res_body_real:        fixtures.sampleTextLineMissing,
-        res_headers_real:     fixtures.sampleHeaders
+        resBodyDefined:     fixtures.sampleText,
+        resHeadersDefined:  fixtures.sampleHeaders,
+        resBodyReal:        fixtures.sampleTextLineMissing,
+        resHeadersReal:     fixtures.sampleHeaders
         }
-        hit = get_hit params
+        hit = getHit params
         hitValidation = new HitValidation hit
 
       it "should set errors for body in request and response", () ->
@@ -307,17 +307,17 @@ describe 'HitValidation', ->
     describe 'and lines are changed', ->
       before ->
         params =  {
-        req_body_defined:     fixtures.sampleText,
-        req_headers_defined:  fixtures.sampleHeaders,
-        req_body_real:        fixtures.sampleTextLineDiffers,
-        req_headers_real:     fixtures.sampleHeaders,
+        reqBodyDefined:     fixtures.sampleText,
+        reqHeadersDefined:  fixtures.sampleHeaders,
+        reqBodyReal:        fixtures.sampleTextLineDiffers,
+        reqHeadersReal:     fixtures.sampleHeaders,
 
-        res_body_defined:     fixtures.sampleText,
-        res_headers_defined:  fixtures.sampleHeaders,
-        res_body_real:        fixtures.sampleTextLineDiffers,
-        res_headers_real:     fixtures.sampleHeaders
+        resBodyDefined:     fixtures.sampleText,
+        resHeadersDefined:  fixtures.sampleHeaders,
+        resBodyReal:        fixtures.sampleTextLineDiffers,
+        resHeadersReal:     fixtures.sampleHeaders
         }
-        hit = get_hit params
+        hit = getHit params
         hitValidation = new HitValidation hit
 
       it "should set errors for body in request and response", () ->
