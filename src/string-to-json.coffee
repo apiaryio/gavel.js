@@ -7,7 +7,11 @@ module.exports.StringToJson = class StringToJson
 
   generate: ->
     counter = 0
-    for line in "#{@text}".split "\n"
+    splitted = "#{@text}".split "\n"
+
+    if splitted.length == 1 and splitted[0] == '' then return {}
+
+    for line in splitted
       @json["#{counter}_#{crypto.createHash('md5').update(line).digest('hex')}"] = line
       counter += 1
     @json
