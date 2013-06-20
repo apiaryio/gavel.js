@@ -21,9 +21,22 @@ module.exports.HitValidation = class HitValidation
       body: @responseBodyValidator.validate()
     }
 
+  prepareHeaders: (headers) ->
+    transformedHeaders = {}
+
+    for key, value of headers
+      transformedHeaders[key.toLowerCase()] = value.toLowerCase()
+
+    return transformedHeaders
+
+  prepareBody: (body) ->
+    if body == ''
+      return {}
+    return body
+
   getBodyValidator: (type) ->
-    if @hit[type].defined.schema?.body and  Object.keys(@hit[type].defined.schema?.body).length > 0
-      schema = @hit[type].defined.schema?.body
+    if @hit[type].defined.schema?.body and  Object.keys(JSON.parse @hit[type].defined.schema?.body).length > 0
+      schema = JSON.parse @hit[type].defined.schema?.body
     else
       try
         dataDefined = JSON.parse @hit[type].defined.body
@@ -32,6 +45,7 @@ module.exports.HitValidation = class HitValidation
         stj = new StringToJson @hit[type].defined.body
         dataDefined = stj.generate()
         schema = @getSchema data: dataDefined, type: 'string_body'
+      @hit[type].defined.schema?.body = JSON.stringify schema
 
     try
       dataReal = JSON.parse @hit[type].realPayload.body
@@ -43,11 +57,13 @@ module.exports.HitValidation = class HitValidation
 
   getHeadersValidator: (type) ->
     if @hit[type].defined.schema?.headers and Object.keys(@hit[type].defined.schema?.headers).length > 0
-      schema = @hit[type].defined.schema?.headers
+      schema = JSON.parse @hit[type].defined.schema?.headers
     else
-      schema = @getSchema data: @hit[type].defined.headers, type: 'headers'
 
-    return new Validator(data: @hit[type].realPayload.headers, schema: schema)
+      schema = @getSchema data: @prepareHeaders(@hit[type].defined.headers), type: 'headers'
+      @hit[type].defined.schema?.headers = JSON.stringify schema
+
+    return new Validator(data: @prepareHeaders(@hit[type].realPayload.headers), schema: schema)
 
   getSchema: ({data, type, properties})->
     properties = if properties then properties else new SchemaProperties
