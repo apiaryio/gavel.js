@@ -647,27 +647,28 @@ sampleHeadersAdd = {
 
 
 
-module.exports.sampleJson                       = sampleJson
-module.exports.sampleJsonSchema                 = sampleJsonSchema
-module.exports.sampleJsonSchemaNonStrict        = sampleJsonSchemaNonStrict
-module.exports.sampleJsonSchemaNonStrictCustom  = sampleJsonSchemaNonStrictCustom
-module.exports.sampleJsonSimpleKeyMissing       = sampleJsonSimpleKeyMissing
-module.exports.sampleJsonSimpleKeyAdded         = sampleJsonSimpleKeyAdded
-module.exports.sampleJsonSimpleKeyValueDiffers  = sampleJsonSimpleKeyValueDiffers
-module.exports.sampleJsonComplexKeyMissing      = sampleJsonComplexKeyMissing
-module.exports.sampleJsonComplexKeyAdded        = sampleJsonComplexKeyAdded
-module.exports.sampleJsonComplexKeyValueDiffers = sampleJsonComplexKeyValueDiffers
-module.exports.sampleJsonArrayItemAdded         = sampleJsonArrayItemAdded
-module.exports.sampleJsonArrayItemMissing       = sampleJsonArrayItemMissing
-module.exports.sampleText                       = sampleText
-module.exports.sampleTextLineAdded              = sampleTextLineAdded
-module.exports.sampleTextLineMissing            = sampleTextLineMissing
-module.exports.sampleTextLineDiffers            = sampleTextLineDiffers
-module.exports.sampleHeaders                    = sampleHeaders
-module.exports.sampleHeadersDiffers             = sampleHeadersDiff
-module.exports.sampleHeadersMissing             = sampleHeadersMiss
-module.exports.sampleHeadersAdded               = sampleHeadersAdd
-module.exports.hitStructure                     = hitStructure
+module.exports = 
+  sampleJson                       : sampleJson
+  sampleJsonSchema                 : sampleJsonSchema
+  sampleJsonSchemaNonStrict        : sampleJsonSchemaNonStrict
+  sampleJsonSchemaNonStrictCustom  : sampleJsonSchemaNonStrictCustom
+  sampleJsonSimpleKeyMissing       : sampleJsonSimpleKeyMissing
+  sampleJsonSimpleKeyAdded         : sampleJsonSimpleKeyAdded
+  sampleJsonSimpleKeyValueDiffers  : sampleJsonSimpleKeyValueDiffers
+  sampleJsonComplexKeyMissing      : sampleJsonComplexKeyMissing
+  sampleJsonComplexKeyAdded        : sampleJsonComplexKeyAdded
+  sampleJsonComplexKeyValueDiffers : sampleJsonComplexKeyValueDiffers
+  sampleJsonArrayItemAdded         : sampleJsonArrayItemAdded
+  sampleJsonArrayItemMissing       : sampleJsonArrayItemMissing
+  sampleText                       : sampleText
+  sampleTextLineAdded              : sampleTextLineAdded
+  sampleTextLineMissing            : sampleTextLineMissing
+  sampleTextLineDiffers            : sampleTextLineDiffers
+  sampleHeaders                    : sampleHeaders
+  sampleHeadersDiffers             : sampleHeadersDiff
+  sampleHeadersMissing             : sampleHeadersMiss
+  sampleHeadersAdded               : sampleHeadersAdd
+  hitStructure                     : hitStructure
 
 
 
