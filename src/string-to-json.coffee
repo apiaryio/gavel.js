@@ -14,4 +14,5 @@ module.exports.StringToJson = class StringToJson
     for line in splitted
       @json["#{counter}_#{crypto.createHash('md5').update(line).digest('hex')}"] = line
       counter += 1
-    @json
+
+    return @json

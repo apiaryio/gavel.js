@@ -21,6 +21,8 @@ module.exports.HitValidation = class HitValidation
       body: @responseBodyValidator.validate()
     }
 
+    return @hit
+
   prepareHeaders: (headers) ->
     transformedHeaders = {}
 
@@ -59,7 +61,6 @@ module.exports.HitValidation = class HitValidation
     if @hit[type].defined.schema?.headers and Object.keys(@hit[type].defined.schema?.headers).length > 0
       schema = JSON.parse @hit[type].defined.schema?.headers
     else
-
       schema = @getSchema data: @prepareHeaders(@hit[type].defined.headers), type: 'headers'
       @hit[type].defined.schema?.headers = JSON.stringify schema
 
@@ -70,14 +71,20 @@ module.exports.HitValidation = class HitValidation
 
     switch type
       when 'headers'
-        @setProperties properties: properties, keysStrict: false, valuesStrict: true, typesStrict: false #typesStrict
+        @setProperties properties: properties, keysStrict: false, valuesStrict: true, typesStrict: false #typesStrict?
       when 'string_body'
         @setProperties properties: properties, keysStrict: true, valuesStrict: true, typesStrict: false
       else
         @setProperties properties: properties, keysStrict: false, valuesStrict: false, typesStrict: false
 
     schemaGenerator = new SchemaGenerator data
-    schemaGenerator.setProperties keysStrict: properties.keysStrict, valuesStrict: properties.valuesStrict, typesStrict: properties.typesStrict
+    setPropertiesProperties = {
+                              keysStrict: properties.keysStrict,
+                              valuesStrict: properties.valuesStrict,
+                              typesStrict: properties.typesStrict
+    }
+    schemaGenerator.setProperties setPropertiesProperties
+
     return schemaGenerator.generate()
 
   setProperties: ({properties, keysStrict, valuesStrict, typesStrict}) ->

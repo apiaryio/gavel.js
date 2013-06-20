@@ -16,7 +16,6 @@ module.exports.SchemaGenerator = class SchemaGenerator
     @schema = undefined
     @properties = new SchemaProperties
 
-
   setProperties: ({keysStrict, valuesStrict, typesStrict}) ->
     @properties.keysStrict   = keysStrict
     @properties.valuesStrict = valuesStrict
@@ -24,8 +23,13 @@ module.exports.SchemaGenerator = class SchemaGenerator
 
 
   generate: () ->
-    return @schema = @getSchemaForObject baseObject: @json, objectId: undefined, firstLevel: true, properties: @properties
-
+    getSchemaForObjectProperties = {
+      baseObject: @json,
+      objectId: undefined,
+      firstLevel: true,
+      properties: @properties
+    }
+    return @schema = @getSchemaForObject getSchemaForObjectProperties
 
   getSchemaTypeFor: (val) ->
     if @isArray val then return 'array'
@@ -37,14 +41,13 @@ module.exports.SchemaGenerator = class SchemaGenerator
 
     return type
 
-
   isBaseType: (type) ->
-    !(type in ["array", "object"])
+    return !(type in ["array", "object"])
 
   getSchemaForObject: ({baseObject, objectId, firstLevel, properties}) ->
     if firstLevel is undefined then firstLevel = true
-    properties ||= new SchemaProperties
 
+    properties ||= new SchemaProperties
     schemaDict = {}
 
     if firstLevel
@@ -82,7 +85,13 @@ module.exports.SchemaGenerator = class SchemaGenerator
       schemaDict["properties"] = {}
 
       for prop, value of baseObject
-        schemaDict["properties"][prop] = @getSchemaForObject baseObject: value, objectId: prop, firstLevel: false, properties: properties
+        getSchemaForObjectProperties = {
+          baseObject: value,
+          objectId: prop,
+          firstLevel: false,
+          properties: properties
+        }
+        schemaDict["properties"][prop] = @getSchemaForObject getSchemaForObjectProperties
 
     else if schemaType is 'array' and baseObject.length > 0
 
@@ -90,11 +99,16 @@ module.exports.SchemaGenerator = class SchemaGenerator
       counter = 0
 
       for item in baseObject
-        schemaDict['items'].push(@getSchemaForObject baseObject: item, objectId: counter, firstLevel: false, properties: properties)
+        getSchemaForObjectProperties = {
+          baseObject: item,
+          objectId: counter,
+          firstLevel: false,
+          properties: properties
+        }
+        schemaDict['items'].push(@getSchemaForObject getSchemaForObjectProperties)
         counter += 1
 
     return schemaDict
-
 
   isArray: (object) ->
     return object instanceof Array
