@@ -13,8 +13,8 @@ module.exports.hitStructure = class hitStructure
         headers: {}
         body: ''
         schema:
-          headers: {}
-          body: {}
+          headers: ''
+          body: ''
 
       realPayload:
         headers: {}
@@ -31,8 +31,8 @@ module.exports.hitStructure = class hitStructure
         headers: {}
         body: ''
         schema:
-          headers: {}
-          body: {}
+          headers: ''
+          body: ''
         statusCode: ''
 
       realPayload:
