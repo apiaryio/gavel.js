@@ -23,6 +23,8 @@ module.exports.Validator = class Validator
     return errors
 
   validate: ->
+    if typeof(@data)  == 'object' and Object.keys(@data).length == 0 and @schema['empty']
+      return
     return amanda.validate  @data, @schema, (error) =>
       return @formatError error
 
