@@ -1,26 +1,24 @@
 SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
 
 module.exports.SchemaProperties = class SchemaProperties
-  keysStrict = false
-  valuesStrict = false
-  typesStrict = false
+  constructor: ({keysStrict, valuesStrict, typesStrict}) ->
+    @setProperties {keysStrict: keysStrict || false, valuesStrict: valuesStrict || false, typesStrict: typesStrict || false}
+
+  setProperties: ({keysStrict, valuesStrict, typesStrict}) ->
+    @.keysStrict   = keysStrict
+    @.valuesStrict = valuesStrict
+    @.typesStrict  = typesStrict
 
 module.exports.SchemaGenerator = class SchemaGenerator
 
-  constructor: ( json ) ->
+  constructor: ( {json, properties} ) ->
     if typeof json == 'string'
       @json = JSON.parse json
     else
       @json = json
 
     @schema = undefined
-    @properties = new SchemaProperties
-
-  setProperties: ({keysStrict, valuesStrict, typesStrict}) ->
-    @properties.keysStrict   = keysStrict
-    @properties.valuesStrict = valuesStrict
-    @properties.typesStrict  = typesStrict
-
+    @properties = properties || new SchemaProperties {}
 
   generate: () ->
     getSchemaForObjectProperties = {

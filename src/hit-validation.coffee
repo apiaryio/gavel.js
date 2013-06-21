@@ -89,30 +89,21 @@ module.exports.HitValidation = class HitValidation
     return new Validator(data: @prepareHeaders(@hit[type].realPayload.headers), schema: schema)
 
   getSchema: ({data, type, properties})->
-    properties = if properties then properties else new SchemaProperties
+    properties = if properties then properties else new SchemaProperties {}
 
     switch type
       when 'headers'
-        @setProperties properties: properties, keysStrict: false, valuesStrict: true, typesStrict: false #typesStrict?
+        properties.setProperties keysStrict: false, valuesStrict: true, typesStrict: false #typesStrict?
       when 'string_body'
-        @setProperties properties: properties, keysStrict: true, valuesStrict: true, typesStrict: false
+        properties.setProperties keysStrict: true, valuesStrict: true, typesStrict: false
       else
-        @setProperties properties: properties, keysStrict: false, valuesStrict: false, typesStrict: false
+        properties.setProperties properties, keysStrict: false, valuesStrict: false, typesStrict: false
 
-    schemaGenerator = new SchemaGenerator data
-    setPropertiesProperties = {
-                              keysStrict: properties.keysStrict,
-                              valuesStrict: properties.valuesStrict,
-                              typesStrict: properties.typesStrict
-    }
-    schemaGenerator.setProperties setPropertiesProperties
+    schemaGenerator = new SchemaGenerator json: data, properties: properties
 
     return schemaGenerator.generate()
 
-  setProperties: ({properties, keysStrict, valuesStrict, typesStrict}) ->
-    properties.keysStrict   = keysStrict
-    properties.valuesStrict = valuesStrict
-    properties.typesStrict  = typesStrict
+
 
 
 

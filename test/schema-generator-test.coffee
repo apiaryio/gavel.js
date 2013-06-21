@@ -7,7 +7,7 @@ amanda = require 'amanda'
 describe 'SchemaGenerator', ->
   sg = {}
   before ->
-    sg = new SchemaGenerator sampleJson
+    sg = new SchemaGenerator json: sampleJson
 
   describe '#constructor', ->
     it 'should assign and parse @json', ->
@@ -17,7 +17,7 @@ describe 'SchemaGenerator', ->
 
   describe 'setProperties', ->
     before ->
-      sg.setProperties keysStrict: true, valuesStrict: true, typesStrict: true
+      sg.properties.setProperties keysStrict: true, valuesStrict: true, typesStrict: true
 
     it 'should change properties object', ->
       assert.isTrue sg.properties.keysStrict
@@ -27,7 +27,7 @@ describe 'SchemaGenerator', ->
   describe 'generate', ->
     schema = undefined
     before ->
-      sg.setProperties keysStrict: true, valuesStrict: true, typesStrict: true
+      sg.properties.setProperties keysStrict: true, valuesStrict: true, typesStrict: true
       schema = sg.generate()
 
     it 'should set @schema', ->
@@ -48,7 +48,7 @@ describe 'SchemaGenerator', ->
 
   describe 'generate non strict schema', ->
     before ->
-      sg.setProperties keysStrict: false, valuesStrict: false, typesStrict: false
+      sg.properties.setProperties keysStrict: false, valuesStrict: false, typesStrict: false
 
     it 'should be expected non strict schema', ->
       assert.deepEqual JSON.parse(sampleJsonSchemaNonStrict),  sg.generate()
