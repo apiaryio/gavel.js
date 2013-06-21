@@ -2,7 +2,7 @@
 {StringToJson} = require('../src/string-to-json')
 {SchemaGenerator, SchemaProperties} = require('../src/schema-generator')
 
-module.exports.HitValidation = class HitValidation
+module.exports.HitValidator = class HitValidator
 
   constructor: (@hit) ->
     @validated = false
@@ -25,26 +25,6 @@ module.exports.HitValidation = class HitValidation
 
     return @hit
 
-  isValid: ->
-    if not @validated
-      @validate()
-
-    results = [
-      @hit.request['validationResults']['headers'],
-      @hit.request['validationResults']['body'],
-      @hit.response['validationResults']['headers'],
-      @hit.response['validationResults']['body']
-    ]
-
-    for result in results
-      if not @checkIfResultValid result
-        return false
-
-    return true
-
-  checkIfResultValid: (result) ->
-    return not (result and typeof(result) == 'object' and Object.keys(result).length > 0)
-
   prepareHeaders: (headers) ->
     transformedHeaders = {}
 
@@ -59,7 +39,8 @@ module.exports.HitValidation = class HitValidation
     return body
 
   getBodyValidator: (type) ->
-    if @hit[type].defined.schema?.body and  Object.keys(JSON.parse @hit[type].defined.schema?.body).length > 0
+
+    if @hit[type].defined.schema?.body and Object.keys(JSON.parse @hit[type].defined.schema?.body).length > 0
       schema = JSON.parse @hit[type].defined.schema?.body
     else
       try
@@ -80,7 +61,7 @@ module.exports.HitValidation = class HitValidation
     return new Validator(data: dataReal, schema: schema)
 
   getHeadersValidator: (type) ->
-    if @hit[type].defined.schema?.headers and Object.keys(@hit[type].defined.schema?.headers).length > 0
+    if @hit[type].defined.schema?.headers and typeof(@hit[type].defined.schema.headers) == 'object' and Object.keys(@hit[type].defined.schema?.headers).length > 0
       schema = JSON.parse @hit[type].defined.schema?.headers
     else
       schema = @getSchema data: @prepareHeaders(@hit[type].defined.headers), type: 'headers'

@@ -1,4 +1,4 @@
-{hitStructure} = require('../src/hit')
+{HitStructure} = require('../src/hit')
 
 sampleJson = '''
 {
@@ -647,7 +647,7 @@ sampleHeadersAdd = {
 
 
 
-module.exports = 
+module.exports =
   sampleJson                       : sampleJson
   sampleJsonSchema                 : sampleJsonSchema
   sampleJsonSchemaNonStrict        : sampleJsonSchemaNonStrict
@@ -668,7 +668,7 @@ module.exports =
   sampleHeadersDiffers             : sampleHeadersDiff
   sampleHeadersMissing             : sampleHeadersMiss
   sampleHeadersAdded               : sampleHeadersAdd
-  hitStructure                     : hitStructure
+  HitStructure                     : HitStructure
 
 
 

@@ -1,6 +1,7 @@
 packageJson = require('../package.json')
+{HitValidator} = require('../src/hit-validator')
 
-module.exports.hitStructure = class hitStructure
+module.exports.HitStructure = class HitStructure
   constructor: ->
     @schemaVersion = 2
 
@@ -41,4 +42,43 @@ module.exports.hitStructure = class hitStructure
         statusCode: ''
 
     @validatorVersion = "#{packageJson.version}"
+
+module.exports.Hit = class Hit extends HitStructure
+
+  validate: ->
+    if not @validator then @validator = new HitValidator @
+    @validator.validate()
+
+  isValid: ->
+    @validate()
+
+    results = [
+      @request['validationResults']['headers'],
+      @request['validationResults']['body'],
+      @response['validationResults']['headers'],
+      @response['validationResults']['body']
+    ]
+
+    for result in results
+      if not @checkIfResultValid result
+        return false
+
+    return true
+
+  checkIfResultValid: (result) ->
+    return not (result and typeof(result) == 'object' and Object.keys(result).length > 0)
+
+  validationResults: ->
+    @validate()
+    result =  {
+              request: {
+                headers   : @request['validationResults']['headers'],
+                body      : @request['validationResults']['body']
+              },
+              response: {
+                headers   : @response['validationResults']['headers'],
+                body      : @response['validationResults']['body']
+              }
+    }
+    return result
 

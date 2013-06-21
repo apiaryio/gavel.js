@@ -1,10 +1,10 @@
 {assert} = require('chai')
-{HitValidation} = require('../src/hit-validation')
+{HitValidator} = require('../src/hit-validator')
 fixtures = require '../test/fixtures'
 
 getHit = ({reqBodyDefined, reqHeadersDefined, reqBodySchema, req_headers_schema, reqBodyReal, reqHeadersReal, resBodyDefined, resHeadersDefined, resBodyReal, resHeadersReal, resBodySchema, res_headers_schema }) ->
 
-  hit = new fixtures.hitStructure
+  hit = new fixtures.HitStructure
 
   hit.request.defined.body            = reqBodyDefined
   hit.request.defined.headers         = reqHeadersDefined
@@ -22,9 +22,9 @@ getHit = ({reqBodyDefined, reqHeadersDefined, reqBodySchema, req_headers_schema,
 
   return hit
 
-describe 'HitValidation', ->
+describe 'HitValidator', ->
   hit = undefined
-  hitValidation = undefined
+  hitValidator = undefined
   describe 'when body is json parsable', ->
     describe 'when custom schema is provided', ->
       describe 'and there are aditional keys in real payload', ->
@@ -42,19 +42,16 @@ describe 'HitValidation', ->
             resBodyReal:        fixtures.sampleJsonComplexKeyAdded,
             resHeadersReal:     fixtures.sampleHeaders
           }
+
           hit = getHit params
-          hitValidation = new HitValidation hit
-
+          hitValidator = new HitValidator hit
         it "shouldn't set errors for body in request and response", () ->
-          hitValidation.validate()
+          hitValidator.validate()
 
-          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-        it "and isValid should evaluate hit as valid", () ->
-          assert.isTrue hitValidation.isValid()
+          assert.isNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'and there are missing keys in real payloads', ->
         before ->
@@ -72,19 +69,16 @@ describe 'HitValidation', ->
             resHeadersReal:     fixtures.sampleHeaders
           }
           hit = getHit params
-          hitValidation = new HitValidation hit
-          hitValidation.validate()
+          hitValidator = new HitValidator hit
+          hitValidator.validate()
 
         it "should set errors for body in request and response", () ->
-          assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
-          assert.isDefined hitValidation.hit.request.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash is defined'
-          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-          assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
-          assert.isDefined hitValidation.hit.response.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash is defined'
-          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-        it "and isValid should evaluate hit as non valid", () ->
-          assert.isFalse hitValidation.isValid()
+          assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
+          assert.isDefined hitValidator.hit.request.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash is defined'
+          assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
+          assert.isDefined hitValidator.hit.response.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash is defined'
+          assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'and there are different values in real payloads', ->
         before ->
@@ -102,17 +96,14 @@ describe 'HitValidation', ->
             resHeadersReal:     fixtures.sampleHeaders
           }
           hit = getHit params
-          hitValidation = new HitValidation hit
-          hitValidation.validate()
+          hitValidator = new HitValidator hit
+          hitValidator.validate()
 
         it "shouldn't set errors for body in request and response", () ->
-          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-        it "and isValid should evaluate hit as valid", () ->
-          assert.isTrue hitValidation.isValid()
+          assert.isNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'when body and headers are same in request and response', ->
       before ->
@@ -127,17 +118,14 @@ describe 'HitValidation', ->
           resHeadersReal:     fixtures.sampleHeaders
         }
         hit = getHit params
-        hitValidation = new HitValidation hit
-        hitValidation.validate()
+        hitValidator = new HitValidator hit
+        hitValidator.validate()
 
       it "shouldn't set any errors", () ->
-        assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
-        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-        assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
-        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-      it "and isValid should evaluate hit as valid", () ->
-        assert.isTrue hitValidation.isValid()
+        assert.isNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+        assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+        assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'when no schema is provided', ->
       describe 'when keys are added to body and headers', ->
@@ -153,17 +141,14 @@ describe 'HitValidation', ->
             resHeadersReal:     fixtures.sampleHeadersAdded
           }
           hit = getHit params
-          hitValidation = new HitValidation hit
-          hitValidation.validate()
+          hitValidator = new HitValidator hit
+          hitValidator.validate()
 
         it "shouldn't set any errors", () ->
-          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-        it "and isValid should evaluate hit as valid", () ->
-          assert.isTrue hitValidation.isValid()
+          assert.isNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'when keys are missing from body and headers', ->
         before ->
@@ -178,21 +163,18 @@ describe 'HitValidation', ->
             resHeadersReal:     fixtures.sampleHeadersMissing
           }
           hit = getHit params
-          hitValidation = new HitValidation hit
-          hitValidation.validate()
+          hitValidator = new HitValidator hit
+          hitValidator.validate()
 
         it "should set errors for body and headers in request and response", () ->
-          assert.isNotNull hitValidation.hit.request.validationResults.body , 'request.validationResults.body is defined'
-          assert.isDefined hitValidation.hit.request.validationResults.body['simple_key_value_pair'], 'simple_key_value_pair is defined'
-          assert.isNotNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is defined'
-          assert.isDefined hitValidation.hit.request.validationResults.headers['header2'], 'header2 is defined'
-          assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
-          assert.isDefined hitValidation.hit.response.validationResults.body['simple_key_value_pair'], 'simple_key_value_pair is defined'
-          assert.isNotNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is defined'
-          assert.isDefined hitValidation.hit.response.validationResults.headers['header2'], 'header2 is defined'
-
-        it "and isValid should evaluate hit as non valid", () ->
-          assert.isFalse hitValidation.isValid()
+          assert.isNotNull hitValidator.hit.request.validationResults.body , 'request.validationResults.body is defined'
+          assert.isDefined hitValidator.hit.request.validationResults.body['simple_key_value_pair'], 'simple_key_value_pair is defined'
+          assert.isNotNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is defined'
+          assert.isDefined hitValidator.hit.request.validationResults.headers['header2'], 'header2 is defined'
+          assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
+          assert.isDefined hitValidator.hit.response.validationResults.body['simple_key_value_pair'], 'simple_key_value_pair is defined'
+          assert.isNotNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is defined'
+          assert.isDefined hitValidator.hit.response.validationResults.headers['header2'], 'header2 is defined'
 
       describe 'when values are different in body and headers', ->
         before ->
@@ -207,19 +189,16 @@ describe 'HitValidation', ->
             resHeadersReal:     fixtures.sampleHeadersDiffers
           }
           hit = getHit params
-          hitValidation = new HitValidation hit
-          hitValidation.validate()
+          hitValidator = new HitValidator hit
+          hitValidator.validate()
 
         it "should set errors for headers and no errors for body in request and response", () ->
-          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
-          assert.isNotNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is defined'
-          assert.isDefined hitValidation.hit.request.validationResults.headers['header2'], 'header2 is defined'
-          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
-          assert.isNotNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is defined'
-          assert.isDefined hitValidation.hit.response.validationResults.headers['header2'], 'header2 is defined'
-
-        it "and isValid should evaluate hit as non valid", () ->
-          assert.isFalse hitValidation.isValid()
+          assert.isNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNotNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is defined'
+          assert.isDefined hitValidator.hit.request.validationResults.headers['header2'], 'header2 is defined'
+          assert.isNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNotNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is defined'
+          assert.isDefined hitValidator.hit.response.validationResults.headers['header2'], 'header2 is defined'
 
       describe 'when value is missing in array in body', ->
         before ->
@@ -234,19 +213,16 @@ describe 'HitValidation', ->
           resHeadersReal:     fixtures.sampleHeaders
           }
           hit = getHit params
-          hitValidation = new HitValidation hit
-          hitValidation.validate()
+          hitValidator = new HitValidator hit
+          hitValidator.validate()
 
         it "should set errors for body in request and response", () ->
-          assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
-          assert.isDefined hitValidation.hit.request.validationResults.body['array_of_mixed_simple_types[3]'], 'array_of_mixed_simple_types[3] is defined'
-          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-          assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
-          assert.isDefined hitValidation.hit.response.validationResults.body['array_of_mixed_simple_types[3]'], 'array_of_mixed_simple_types[3] is defined'
-          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-        it "and isValid should evaluate hit as non valid", () ->
-          assert.isFalse hitValidation.isValid()
+          assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
+          assert.isDefined hitValidator.hit.request.validationResults.body['array_of_mixed_simple_types[3]'], 'array_of_mixed_simple_types[3] is defined'
+          assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
+          assert.isDefined hitValidator.hit.response.validationResults.body['array_of_mixed_simple_types[3]'], 'array_of_mixed_simple_types[3] is defined'
+          assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'when value is added to array in body', ->
         before ->
@@ -261,17 +237,14 @@ describe 'HitValidation', ->
           resHeadersReal:     fixtures.sampleHeaders
           }
           hit = getHit params
-          hitValidation = new HitValidation hit
-          hitValidation.validate()
+          hitValidator = new HitValidator hit
+          hitValidator.validate()
 
         it "should set errors for body in request and response", () ->
-          assert.isNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is not defined'
-          assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-        it "and isValid should evaluate hit as valid", () ->
-          assert.isTrue hitValidation.isValid()
+          assert.isNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is not defined'
+          assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
   describe "when body isn't json parsable (handled as text)", ->
     describe 'and lines are added', ->
@@ -288,19 +261,16 @@ describe 'HitValidation', ->
         resHeadersReal:     fixtures.sampleHeaders
         }
         hit = getHit params
-        hitValidation = new HitValidation hit
-        hitValidation.validate()
+        hitValidator = new HitValidator hit
+        hitValidator.validate()
 
       it "should set errors for body in request and response", () ->
-        assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.request.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["3_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
-        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-        assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.response.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["3_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
-        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-      it "and isValid should evaluate hit as non valid", () ->
-        assert.isFalse hitValidation.isValid()
+        assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
+        assert.isDefined hitValidator.hit.request.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["3_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
+        assert.isDefined hitValidator.hit.response.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["3_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'and lines are missing', ->
       before ->
@@ -316,19 +286,16 @@ describe 'HitValidation', ->
         resHeadersReal:     fixtures.sampleHeaders
         }
         hit = getHit params
-        hitValidation = new HitValidation hit
-        hitValidation.validate()
+        hitValidator = new HitValidator hit
+        hitValidator.validate()
 
       it "should set errors for body in request and response", () ->
-        assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.request.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["1_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
-        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-        assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.response.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["1_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
-        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
-
-      it "and isValid should evaluate hit as non valid", () ->
-        assert.isFalse hitValidation.isValid()
+        assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
+        assert.isDefined hitValidator.hit.request.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["1_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
+        assert.isDefined hitValidator.hit.response.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["1_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'and lines are changed', ->
       before ->
@@ -344,18 +311,15 @@ describe 'HitValidation', ->
         resHeadersReal:     fixtures.sampleHeaders
         }
         hit = getHit params
-        hitValidation = new HitValidation hit
-        hitValidation.validate()
+        hitValidator = new HitValidator hit
+        hitValidator.validate()
 
       it "should set errors for body in request and response", () ->
-        assert.isNotNull hitValidation.hit.request.validationResults.body, 'request.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
-        assert.isNull hitValidation.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
-        assert.isNotNull hitValidation.hit.response.validationResults.body, 'response.validationResults.body is defined'
-        assert.isDefined hitValidation.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
-        assert.isNull hitValidation.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
+        assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
+        assert.isDefined hitValidator.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
+        assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
+        assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
+        assert.isDefined hitValidator.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
+        assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
-      it "and isValid should evaluate hit as non valid", () ->
-        assert.isFalse hitValidation.isValid()
-
-  
+     
