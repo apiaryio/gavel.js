@@ -5,6 +5,8 @@
 module.exports.HitValidation = class HitValidation
 
   constructor: (@hit) ->
+    @validated = false
+
     @requestBodyValidator = @getBodyValidator 'request'
     @requestHeadersValidator = @getHeadersValidator 'request'
     @responseBodyValidator = @getBodyValidator 'response'
@@ -22,6 +24,26 @@ module.exports.HitValidation = class HitValidation
     }
 
     return @hit
+
+  isValid: ->
+    if not @validated
+      @validate()
+
+    results = [
+      @hit.request['validationResults']['headers'],
+      @hit.request['validationResults']['body'],
+      @hit.response['validationResults']['headers'],
+      @hit.response['validationResults']['body']
+    ]
+
+    for result in results
+      if not @checkIfResultValid result
+        return false
+
+    return true
+
+  checkIfResultValid: (result) ->
+    return not (result and typeof(result) == 'object' and Object.keys(result).length > 0)
 
   prepareHeaders: (headers) ->
     transformedHeaders = {}
