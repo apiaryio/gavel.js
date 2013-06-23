@@ -30,7 +30,20 @@
     "bluerpint",
     "rest"
   ],
-  "author": "Adam Kliment <adam@apiary.io>, Peter Grilli [tu1ly] <tully@apiaty.io>",
+  "author": "Apiary Inc <support@apiary.io>",
+  "contributors": [
+      {
+          "name": "Adam Kliment",
+          "email": "adam@apiary.io"
+      },
+      {
+          "name": "Peter Grilli",
+          "email": "tully@apiary.io"
+      }
+  ],
   "license": "MIT",
-  "readmeFilename": "Readme.md"
+  "readmeFilename": "README.md",
+  "engines": {
+    "node": "*"
+  }
 }
