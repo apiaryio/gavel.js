@@ -55,4 +55,4 @@ Feature: Body - JSON exapmle
       "string": "Foo bar"
     }    
     """    
-    Then it shouldnot est errors for body
+    Then it should not set errors for body

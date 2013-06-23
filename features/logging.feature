@@ -1,4 +1,4 @@
-@pending
+@draft
 Feature: Logging
   For purpose of postprocessing perforemd validations and debugging
 

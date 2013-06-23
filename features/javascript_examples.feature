@@ -1,12 +1,12 @@
-Feature: Javascript Examples
+@javascript
+Feature: Javascript Example
 
   Background:
-    Given defined following "hit" object:
+    Given defined "hit" object:
     """
     hit = new Hit
     hit.
     """
-    And created instance of hit
 
   Scenario: Is that hit valid?
     When I call:
@@ -21,6 +21,5 @@ Feature: Javascript Examples
     """
     hit.errors
     """
-    
     Then it should return following:
 

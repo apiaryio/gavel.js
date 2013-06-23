@@ -1,17 +1,13 @@
-@pending
-Feature: Status code and message
+@draft
+Feature: Status code
 
   Background:
-    Given defined following response status code and message:
+    Given defined expected response status code "200"
   
-  Scenario: different real reaponse status code
-    Then it should set status code error 
+  Scenario: different real reaponse status 
+    When real status code is "500"
+    Then it should set error for "status code"
   
   Scenario: response status code match
+    When real status code is "200"
     Then it should not set eny error
-  
-  Scenario: different real status message
-    Then it should not set any error 
-  
-  Scenario: same status message
-    Then it should not set any error
