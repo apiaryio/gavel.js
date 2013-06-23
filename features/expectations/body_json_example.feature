@@ -10,6 +10,10 @@ Feature: Body - JSON exapmle
         "c": "d",
         "e": "f"
       },
+      "array": [
+        1,
+        2
+      ],
       "string": "Hello World"
     }    
     """
@@ -22,10 +26,14 @@ Feature: Body - JSON exapmle
         "a": "b",
         "c": "d"
       },
+      "array": [
+        1,
+        2
+      ]
       "string": "Hello World"
     }
     """
-    Then it should set errors for "body"
+    Then it should set errors for body
   
   Scenario: extra key in real JSON body
     When real HTTP body is following:
@@ -36,23 +44,71 @@ Feature: Body - JSON exapmle
         "c": "d",
         "e": "f"
       },
-      "boolean": true,
-      "string": "Hello World"
+      "array": [
+        1,
+        2
+      ],
+      "string": "Hello World",
+      "boolean": true
     }    
     """    
-    Then it should not errors for body
+    Then it should not set errors for body
 
-  Scenario: different values and additional key in real JSON body
+  Scenario: different values in real JSON body
     When real body is following:
     """
     {
       "object": {
-        "g": "h",
-        "i": "j",
-        "k": "l"
+        "a": "bau bau",
+        "c": "boo boo",
+        "e": "mrau mrau"
       },
+      "array": [
+        1,
+        2
+      ],
+      "string": "Foo bar",
       "boolean": false,
-      "string": "Foo bar"
+
     }    
     """    
     Then it should not set errors for body
+
+
+  Scenario: array member is missing in real JSON body
+    When real body is following:
+    """
+    {
+      "object": {
+        "a": "bau bau",
+        "c": "boo boo",
+        "e": "mrau mrau"
+      },
+      "array": [
+        1
+      ],
+      "string": "Foo bar",
+    }    
+    """     
+    Then it should set errors for body
+
+  Scenario: extra array member in real JSON body
+    When real body is following:
+    """
+    {
+      "object": {
+        "a": "bau bau",
+        "c": "boo boo",
+        "e": "mrau mrau"
+      },
+      "array": [
+        1,
+        2,
+        3
+      ],
+      "string": "Foo bar",
+    }    
+    """ 
+    Then it should set errors for body
+    
+

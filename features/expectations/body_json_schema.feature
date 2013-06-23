@@ -46,7 +46,7 @@ Feature: Body - JSON schema
       "string": "Hello World"
     }
     """
-    Then it should not set errors for "body"
+    Then it should not set errors for body
   
   Scenario: payload body not validad againts schema
     When real body is following:
@@ -60,4 +60,4 @@ Feature: Body - JSON schema
       "string": "Hello World"
     }
     """
-    Then it should set errors for "body"
+    Then it should set errors for body

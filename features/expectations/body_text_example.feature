@@ -26,7 +26,7 @@ Feature: Body - text example
     Dog, cat, mouse!
     """
     
-    Then it should set errors for "body"
+    Then it should set errors for body
   
   Scenario: line is changed in real textual body
     When real HTTP body:
@@ -35,7 +35,7 @@ Feature: Body - text example
     Orange, strawberry, banana?
     Dog, cat, mouse!
     """
-    Then it should set errors for "body"
+    Then it should set errors for body
 
   Scenario: text in body equals difened example
     When real HTTP body:
@@ -44,6 +44,6 @@ Feature: Body - text example
     Orange, strawberry, banana?
     Dog, cat, mouse!
     """
-    Then it should not set errors for "body"
+    Then it should not set errors for body
 
 
