@@ -1,12 +1,14 @@
-{Validator} = require('../src/validator')
-{StringToJson} = require('../src/string-to-json')
+{Validator}                         = require('../src/validator')
+{StringToJson}                      = require('../src/string-to-json')
 {SchemaGenerator, SchemaProperties} = require('../src/schema-generator')
 
+
+# HitValidator is constructed for given Hit
+# Call .validate() to execute all validators against all parts of the hit
+# Examine new validationResults on hit.request/response attributes for
+# validation results
 HitValidator = class HitValidator
-
   constructor: (@hit) ->
-    @validated = false
-
     @requestBodyValidator = @getBodyValidator 'request'
     @requestHeadersValidator = @getHeadersValidator 'request'
     @responseBodyValidator = @getBodyValidator 'response'

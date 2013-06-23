@@ -3,7 +3,12 @@ packageJson    = require('../package.json')
 
 HitStructure = class HitStructure
   constructor: ->
+    # As you might store HitStructure in persistent store, we are assigning
+    # version for every HitStructe released.
+    # If new version is not clean superset, methods for transforming one
+    # version into any later will be provided.
     @schemaVersion = 2
+    @validatorVersion = "#{packageJson.version}"
 
     @request =
       validationResults:
@@ -41,7 +46,6 @@ HitStructure = class HitStructure
         body: ''
         statusCode: ''
 
-    @validatorVersion = "#{packageJson.version}"
 
 Hit = class Hit extends HitStructure
 
