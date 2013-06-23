@@ -15,7 +15,8 @@
     "mocha": "~1.10.0"
   },
   "scripts": {
-    "test": "mocha --compilers 'coffee:coffee-script'"
+    "test": "mocha --compilers 'coffee:coffee-script'",
+    "prepublish": "scripts/build"
   },
   "repository": {
     "type": "git",
