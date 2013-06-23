@@ -1,8 +1,8 @@
-{assert} = require('chai')
+{assert}       = require('chai')
 {HitValidator} = require('../src/hit-validator')
-fixtures = require '../test/fixtures'
+fixtures       = require '../test/fixtures'
 
-getHit = ({reqBodyDefined, reqHeadersDefined, reqBodySchema, req_headers_schema, reqBodyReal, reqHeadersReal, resBodyDefined, resHeadersDefined, resBodyReal, resHeadersReal, resBodySchema, res_headers_schema }) ->
+getHit = ({reqBodyDefined, reqHeadersDefined, reqBodySchema, req_headers_schema, reqBodyReal, reqHeadersReal, resBodyDefined, resHeadersDefined, resBodyReal, resHeadersReal, resBodySchema, res_headers_schema}) ->
 
   hit = new fixtures.HitStructure
 
@@ -322,4 +322,3 @@ describe 'HitValidator', ->
         assert.isDefined hitValidator.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
         assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
-     

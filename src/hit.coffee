@@ -1,7 +1,7 @@
-packageJson = require('../package.json')
+packageJson    = require('../package.json')
 {HitValidator} = require('../src/hit-validator')
 
-module.exports.HitStructure = class HitStructure
+HitStructure = class HitStructure
   constructor: ->
     @schemaVersion = 2
 
@@ -43,7 +43,7 @@ module.exports.HitStructure = class HitStructure
 
     @validatorVersion = "#{packageJson.version}"
 
-module.exports.Hit = class Hit extends HitStructure
+Hit = class Hit extends HitStructure
 
   validate: ->
     if not @validator then @validator = new HitValidator @
@@ -82,3 +82,7 @@ module.exports.Hit = class Hit extends HitStructure
     }
     return result
 
+module.exports = {
+  Hit,
+  HitStructure
+}

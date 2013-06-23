@@ -1,6 +1,6 @@
 amanda = require 'amanda'
 
-module.exports.Validator = class Validator
+Validator = class Validator
 
   constructor: ({data, schema}) ->
     if typeof data == 'string'
@@ -28,3 +28,6 @@ module.exports.Validator = class Validator
     return amanda.validate  @data, @schema, (error) =>
       return @formatError error
 
+module.exports = {
+  Validator
+}

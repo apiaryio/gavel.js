@@ -2,7 +2,7 @@
 {StringToJson} = require('../src/string-to-json')
 {SchemaGenerator, SchemaProperties} = require('../src/schema-generator')
 
-module.exports.HitValidator = class HitValidator
+HitValidator = class HitValidator
 
   constructor: (@hit) ->
     @validated = false
@@ -84,14 +84,6 @@ module.exports.HitValidator = class HitValidator
 
     return schemaGenerator.generate()
 
-
-
-
-
-
-
-
-
-
-
-
+module.exports = {
+  HitValidator
+}

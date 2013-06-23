@@ -1,7 +1,6 @@
 crypto = require('crypto')
 
-module.exports.StringToJson = class StringToJson
-
+StringToJson = class StringToJson
   constructor: ( @text ) ->
     @json = {}
 
@@ -16,3 +15,7 @@ module.exports.StringToJson = class StringToJson
       counter += 1
 
     return @json
+
+module.exports = {
+  StringToJson
+}
