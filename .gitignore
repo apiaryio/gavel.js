@@ -4,3 +4,5 @@
 /nbproject/
 *.sublime-workspace
 /.vagrant
+/lib
+
