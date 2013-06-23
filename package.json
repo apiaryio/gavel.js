@@ -12,7 +12,8 @@
   "devDependencies": {
     "chai": "~1.6.0",
     "coffee-script": "~1.6.3",
-    "mocha": "~1.10.0"
+    "mocha": "~1.10.0",
+    "cucumber": "0.3.0"
   },
   "scripts": {
     "test": "mocha --compilers 'coffee:coffee-script'",
