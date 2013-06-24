@@ -1,5 +1,5 @@
 packageJson    = require('../package.json')
-{HitValidator} = require('../src/hit-validator')
+{HitValidator} = require('./hit-validator')
 
 HitStructure = class HitStructure
   constructor: ->

@@ -1,6 +1,6 @@
-{Validator}                         = require('../src/validator')
-{StringToJson}                      = require('../src/string-to-json')
-{SchemaGenerator, SchemaProperties} = require('../src/schema-generator')
+{Validator}                         = require('./validator')
+{StringToJson}                      = require('./string-to-json')
+{SchemaGenerator, SchemaProperties} = require('./schema-generator')
 
 
 # HitValidator is constructed for given Hit
