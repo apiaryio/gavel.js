@@ -1,1 +1,1 @@
-module.exports = require './src/hit-validator'
+module.exports = require './hit-validator'
