@@ -17,7 +17,9 @@ describe 'SchemaGenerator', ->
 
   describe 'setProperties', ->
     before ->
-      sg.properties.setProperties keysStrict: true, valuesStrict: true, typesStrict: true
+      sg.properties.keysStrict   = true
+      sg.properties.valuesStrict = true
+      sg.properties.typesStrict  = true
 
     it 'should change properties object', ->
       assert.isTrue sg.properties.keysStrict
@@ -27,7 +29,10 @@ describe 'SchemaGenerator', ->
   describe 'generate', ->
     schema = undefined
     before ->
-      sg.properties.setProperties keysStrict: true, valuesStrict: true, typesStrict: true
+      sg.properties.keysStrict   = true
+      sg.properties.valuesStrict = true
+      sg.properties.typesStrict  = true
+
       schema = sg.generate()
 
     it 'should set @schema', ->
@@ -48,7 +53,9 @@ describe 'SchemaGenerator', ->
 
   describe 'generate non strict schema', ->
     before ->
-      sg.properties.setProperties keysStrict: false, valuesStrict: false, typesStrict: false
+      sg.properties.keysStrict   = false
+      sg.properties.valuesStrict = false
+      sg.properties.typesStrict  = false
 
     it 'should be expected non strict schema', ->
       assert.deepEqual JSON.parse(sampleJsonSchemaNonStrict),  sg.generate()

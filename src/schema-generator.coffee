@@ -3,12 +3,9 @@ SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
 # Configuration structure for SchemaGenerator
 SchemaProperties = class SchemaProperties
   constructor: ({keysStrict, valuesStrict, typesStrict}) ->
-    @setProperties {keysStrict: keysStrict || false, valuesStrict: valuesStrict || false, typesStrict: typesStrict || false}
-
-  setProperties: ({keysStrict, valuesStrict, typesStrict}) ->
-    @.keysStrict   = keysStrict
-    @.valuesStrict = valuesStrict
-    @.typesStrict  = typesStrict
+    @.keysStrict   = keysStrict || false
+    @.valuesStrict = valuesStrict || false
+    @.typesStrict  = typesStrict || false
 
 # From given JSON or object, construct JSON schema for Amanda
 SchemaGenerator = class SchemaGenerator

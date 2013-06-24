@@ -76,11 +76,17 @@ HitValidator = class HitValidator
 
     switch type
       when 'headers'
-        properties.setProperties keysStrict: false, valuesStrict: true, typesStrict: false #typesStrict?
+        properties.keysStrict   = false
+        properties.valuesStrict = true
+        properties.typesStrict  = false
       when 'string_body'
-        properties.setProperties keysStrict: true, valuesStrict: true, typesStrict: false
+        properties.keysStrict   = true
+        properties.valuesStrict = true
+        properties.typesStrict  = false
       else
-        properties.setProperties properties, keysStrict: false, valuesStrict: false, typesStrict: false
+        properties.keysStrict   = false
+        properties.valuesStrict = false
+        properties.typesStrict  = false
 
     schemaGenerator = new SchemaGenerator json: data, properties: properties
 
