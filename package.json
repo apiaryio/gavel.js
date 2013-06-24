@@ -2,7 +2,7 @@
   "name": "hit-validation",
   "version": "0.0.9",
   "description": "HTTP hit validation against API Blueprint",
-  "main": "index.js",
+  "main": "lib/index.js",
   "directories": {
     "test": "test"
   },
