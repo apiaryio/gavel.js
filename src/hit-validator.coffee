@@ -31,7 +31,7 @@ HitValidator = class HitValidator
     transformedHeaders = {}
 
     for key, value of headers
-      transformedHeaders[key.toLowerCase()] = value.toLowerCase()
+      transformedHeaders[key.toLowerCase()] = value
 
     return transformedHeaders
 
