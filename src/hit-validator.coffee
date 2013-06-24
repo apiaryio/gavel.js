@@ -86,6 +86,11 @@ HitValidator = class HitValidator
 
     return schemaGenerator.generate()
 
+validate = (hit) ->
+  hitValidator = new HitValidator hit
+  return hitValidator.validate()
+
 module.exports = {
-  HitValidator
+  HitValidator,
+  validate
 }
