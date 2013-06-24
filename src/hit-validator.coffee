@@ -31,7 +31,14 @@ HitValidator = class HitValidator
     transformedHeaders = {}
 
     for key, value of headers
-      transformedHeaders[key.toLowerCase()] = value
+      key = key.toLowerCase()
+      #ref:
+      # http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html
+      # http://www.w3.org/Protocols/rfc1341/4_Content-Type.html
+      if key == 'content-type'
+        transformedHeaders[key] = value.toLowerCase()
+      else
+        transformedHeaders[key] = value
 
     return transformedHeaders
 
