@@ -1,6 +1,6 @@
-{Validator}                         = require('./validator')
-{StringToJson}                      = require('./string-to-json')
 {SchemaGenerator, SchemaProperties} = require('./schema-generator')
+{StringToJson}                      = require('./string-to-json')
+{Validator}                         = require('./validator')
 
 
 # HitValidator is constructed for given Hit
@@ -92,9 +92,30 @@ HitValidator = class HitValidator
 
     return schemaGenerator.generate()
 
-validate = (hit) ->
-  hitValidator = new HitValidator hit
-  return hitValidator.validate()
+
+validate = ({real, definition}) ->
+  # cannot be required from top as Hit requires HitValidator...
+  {Hit} = require './hit'
+
+  hit = new Hit()
+  hit.request.defined      = definition.request
+  hit.request.realPayload  = real.request
+  hit.response.defined     = definition.response
+  hit.response.realPayload = real.response
+
+  if hit.isValid()
+    return null
+
+  err = null
+
+  for r in ['request', 'response']
+    for p in ['headers', 'body']
+      if hit[r].validationResults[p]
+        err       ?= {}
+        err[r]    ?= {}
+        err[r][p] = hit[r].validationResults[p]
+
+  return err
 
 module.exports = {
   HitValidator,
