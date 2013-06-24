@@ -17,7 +17,7 @@ Feature: Javascript Example
     Then it should return 'true'
   
   Scenario: Get hit validation errors
-    When I call 
+    When I call:
     """
     hit.errors
     """

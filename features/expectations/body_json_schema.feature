@@ -1,8 +1,7 @@
-@pending
 Feature: Body - JSON schema
 
   Background: 
-    Given expected body is defined by following JSON schema:
+    Given expected HTTP body is defined by following "JSON schema":
     """
     {
       "type":"object",
@@ -36,7 +35,7 @@ Feature: Body - JSON schema
     """
   
   Scenario: payload body is valid against given schema 
-    When real body is following:
+    When real HTTP body is following:
     """
     {
       "object": {
@@ -46,10 +45,10 @@ Feature: Body - JSON schema
       "string": "Hello World"
     }
     """
-    Then it should not set errors for body
+    Then it should not set any errors for "body"
   
   Scenario: payload body not validad againts schema
-    When real body is following:
+    When real HTTP body is following:
     """
     {
       "object": {
@@ -60,4 +59,4 @@ Feature: Body - JSON schema
       "string": "Hello World"
     }
     """
-    Then it should set errors for body
+    Then it should set some error for "body"

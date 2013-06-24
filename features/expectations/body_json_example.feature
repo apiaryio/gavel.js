@@ -1,8 +1,8 @@
-@pending
+@wip
 Feature: Body - JSON exapmle
 
   Background: 
-    Given expected body is defined by following JSON example:
+    Given expected HTTP body is defined by following "JSON example":
     """
     {
       "object": {
@@ -33,7 +33,7 @@ Feature: Body - JSON exapmle
       "string": "Hello World"
     }
     """
-    Then it should set errors for body
+    Then it should set some error for "body"
   
   Scenario: extra key in real JSON body
     When real HTTP body is following:
@@ -52,10 +52,10 @@ Feature: Body - JSON exapmle
       "boolean": true
     }    
     """    
-    Then it should not set errors for body
+    Then it should not set any errors for "body"
 
   Scenario: different values in real JSON body
-    When real body is following:
+    When real HTTP body is following:
     """
     {
       "object": {
@@ -72,11 +72,11 @@ Feature: Body - JSON exapmle
 
     }    
     """    
-    Then it should not set errors for body
+    Then it should set some error for "body"
 
 
   Scenario: array member is missing in real JSON body
-    When real body is following:
+    When real HTTP body is following:
     """
     {
       "object": {
@@ -90,10 +90,10 @@ Feature: Body - JSON exapmle
       "string": "Foo bar",
     }    
     """     
-    Then it should set errors for body
+    Then it should set some error for "body"
 
   Scenario: extra array member in real JSON body
-    When real body is following:
+    When real HTTP body is following:
     """
     {
       "object": {
@@ -109,6 +109,6 @@ Feature: Body - JSON exapmle
       "string": "Foo bar",
     }    
     """ 
-    Then it should set errors for body
+    Then it should not set any errors for "body"
     
 
