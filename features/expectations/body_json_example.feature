@@ -1,4 +1,4 @@
-@wip
+@done
 Feature: Body - JSON exapmle
 
   Background: 
@@ -92,6 +92,7 @@ Feature: Body - JSON exapmle
     """     
     Then it should set some error for "body"
 
+  @faulty
   Scenario: extra array member in real JSON body
     When real HTTP body is following:
     """

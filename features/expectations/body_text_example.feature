@@ -1,3 +1,4 @@
+@done
 Feature: Body - text example
   
   Background:

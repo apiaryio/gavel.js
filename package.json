@@ -16,7 +16,7 @@
     "cucumber": "0.3.0"
   },
   "scripts": {
-    "test": "mocha --compilers 'coffee:coffee-script'",
+    "test": "./node_modules/cucumber/bin/cucumber.js -f pretty -t @wip,@done -t ~@faulty && mocha --compilers 'coffee:coffee-script'",
     "prepublish": "scripts/build"
   },
   "repository": {

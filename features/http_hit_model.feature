@@ -2,11 +2,15 @@
 Feature: HTTP hit model
 
   Hit model can by represented by following JSON structure. We use [MongoDB dot notation](http://docs.mongodb.org/manual/core/document/) and JSON data types for model attributes description. 
-   
+  
+  HTTP hit - http message
+  http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html
+
   **url** *(string, optional)*
 
   **method** *(string, optional)* 
 
+  http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
   **request** *(object, required)* Container for real and expected HTTP request data
 
   **request.expected** *(object)* Expected request object
@@ -17,6 +21,8 @@ Feature: HTTP hit model
   **request.real** *(object)* Real HTTP request object
   **request.real.body** *(text, required)* Real raw HTTP request object
   **request.real.headers** *(object, required)* Real raw HTTP headers
+
+  http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
 
   **response** *(object, required)* Container for real and expected HTTP response data
 

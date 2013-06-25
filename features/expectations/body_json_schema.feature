@@ -1,3 +1,4 @@
+@faulty
 Feature: Body - JSON schema
 
   Background: 

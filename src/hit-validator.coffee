@@ -46,7 +46,7 @@ module.exports.HitValidator = class HitValidator
       try
         dataDefined = JSON.parse @hit[type].defined.body
         schema = @getSchema data: dataDefined, type: 'body'
-      catch
+      catch error
         stj = new StringToJson @hit[type].defined.body
         dataDefined = stj.generate()
         schema = @getSchema data: dataDefined, type: 'string_body'
@@ -54,7 +54,7 @@ module.exports.HitValidator = class HitValidator
 
     try
       dataReal = JSON.parse @hit[type].realPayload.body
-    catch
+    catch error
       stj = new StringToJson @hit[type].realPayload.body
       dataReal = stj.generate()
 

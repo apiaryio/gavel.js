@@ -1,10 +1,11 @@
 util = require('util')
 
-errorsStepDefs = () ->
+validationErrorsThens = () ->
   Given = When = Then = @.defineStep
   
   Then /^it should set some error for "([^"]*)"$/, (target, callback) ->
-    result = @.hit.validationResults()
+    target = toCamelCase(target)
+    result = @.hit.validationResults() 
     targetResult = result.response[target] || {}
     errorsCount = Object.keys(targetResult).length
     
@@ -14,18 +15,21 @@ errorsStepDefs = () ->
     callback()
     
   Then /^it should not set any errors for "([^"]*)"$/, (target, callback) ->
+    target = toCamelCase(target)
     result = @.hit.validationResults()
     targetResult = result.response[target] || {}
     errorsCount = Object.keys(targetResult).length
-    
     #inspect = util.inspect(targetResult, { depth: null })
-
 
     if errorsCount > 0
       callback.fail "No errors on '" + target + "' expected, but there are " + errorsCount + " validation errors."
 
     callback()
   
-  return
+  toCamelCase = (input) -> 
+    result = input.replace /\s([a-z])/g, (strings) -> 
+      strings[1].toUpperCase()
+    result
+  return 
 
-module.exports = errorsStepDefs
+module.exports = validationErrorsThens
