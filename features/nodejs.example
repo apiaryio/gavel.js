@@ -1,25 +1,33 @@
-@javascript
-Feature: Javascript Example
+@nodejs
+Feature: Node.js Example
 
   Background:
     Given defined "hit" object:
     """
-    hit = new Hit
-    hit.
+    var Hit = require('hit').Hit
+
+    var hit = new Hit
     """
 
   Scenario: Is that hit valid?
+    
     When I call:
     """
     hit.isValid()
     """
     
-    Then it should return 'true'
+    Then it should return:
+    """
+    true
+    """
   
   Scenario: Get hit validation errors
     When I call:
     """
-    hit.errors
+    hit.validationResults()
     """
-    Then it should return following:
+    Then it should return:
+    """
+    {}
+    """
 

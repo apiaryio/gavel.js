@@ -1,4 +1,4 @@
-@faulty
+@nodejs-pending
 Feature: Body - JSON schema
 
   Background: 

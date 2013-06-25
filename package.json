@@ -13,10 +13,11 @@
     "chai": "~1.6.0",
     "coffee-script": "~1.6.3",
     "mocha": "~1.10.0",
-    "cucumber": "0.3.0"
+    "cucumber": "0.3.0",
+    "lodash": "1.3.1"
   },
   "scripts": {
-    "test": "./node_modules/cucumber/bin/cucumber.js -f pretty -t @wip,@done -t ~@faulty && mocha --compilers 'coffee:coffee-script'",
+    "test": "./node_modules/cucumber/bin/cucumber.js -f pretty -t @nodejs -t ~@draft -t ~@nodejs-pending && mocha --compilers 'coffee:coffee-script'",
     "prepublish": "scripts/build"
   },
   "repository": {

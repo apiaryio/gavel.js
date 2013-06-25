@@ -1,6 +1,6 @@
 util = require('util')
 
-codeStepDefs = () ->
+statusCodeStepDefs = () ->
   Given = When = Then = @.defineStep
   
   Given /^defined expected response status code "([^"]*)"$/, (code, callback) ->
@@ -11,4 +11,4 @@ codeStepDefs = () ->
     @.hit.response.realPayload.statusCode = code
     callback()
 
-module.exports = codeStepDefs
+module.exports = statusCodeStepDefs

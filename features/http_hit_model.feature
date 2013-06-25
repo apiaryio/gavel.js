@@ -1,5 +1,5 @@
-@pending
-Feature: HTTP hit model
+ @draft
+ Feature: HTTP hit model
 
   Hit model can by represented by following JSON structure. We use [MongoDB dot notation](http://docs.mongodb.org/manual/core/document/) and JSON data types for model attributes description. 
   

@@ -1,5 +1,5 @@
 - Introduction.md
-- javascript_examples.feature (JavaScript example)
+- nodejs_examples.feature (Node.js examples)
 - http_hit_model.feature (HTTP hit model)
 - expectations:
   - headers.feature

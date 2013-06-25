@@ -6,6 +6,8 @@ module.exports = () ->
   myWorld = (callback) ->
     @.hit = new Hit
     
+    @.codeBuffer = ""
+
     callback(this)
 
   this.World = myWorld

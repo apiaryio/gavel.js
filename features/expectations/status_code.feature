@@ -1,4 +1,4 @@
-@faulty
+@nodejs-pending
 Feature: Status code
 
   Background:
