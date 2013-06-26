@@ -3,9 +3,9 @@ SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
 # Configuration structure for SchemaGenerator
 SchemaProperties = class SchemaProperties
   constructor: ({keysStrict, valuesStrict, typesStrict}) ->
-    @.keysStrict   = keysStrict || false
-    @.valuesStrict = valuesStrict || false
-    @.typesStrict  = typesStrict || false
+    @keysStrict   = keysStrict || false
+    @valuesStrict = valuesStrict || false
+    @typesStrict  = typesStrict || false
 
 # From given JSON or object, construct JSON schema for Amanda
 SchemaGenerator = class SchemaGenerator
@@ -27,6 +27,7 @@ SchemaGenerator = class SchemaGenerator
     }
     return @schema = @getSchemaForObject getSchemaForObjectProperties
 
+  #@private
   getSchemaTypeFor: (val) ->
     if @isArray val then return 'array'
 
@@ -37,9 +38,11 @@ SchemaGenerator = class SchemaGenerator
 
     return type
 
+  #@private
   isBaseType: (type) ->
     return !(type in ["array", "object"])
 
+  #@private
   getSchemaForObject: ({baseObject, objectId, firstLevel, properties}) ->
     if firstLevel is undefined then firstLevel = true
 
@@ -106,6 +109,7 @@ SchemaGenerator = class SchemaGenerator
 
     return schemaDict
 
+  #@private
   isArray: (object) ->
     return object instanceof Array
 

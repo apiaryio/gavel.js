@@ -1,20 +1,16 @@
 {
   "name": "hit-validation",
-  "version": "0.0.0",
+  "version": "0.0.9",
   "dependencies": {
     "amanda": {
-      "version": "0.4.6"
+      "version": "0.4.5",
+      "from": "git://github.com/apiaryio/Amanda.git"
     },
     "coffee-script": {
       "version": "1.6.3"
     },
     "chai": {
-      "version": "1.7.0",
-      "dependencies": {
-        "assertion-error": {
-          "version": "1.0.0"
-        }
-      }
+      "version": "1.6.1"
     },
     "mocha": {
       "version": "1.10.0",

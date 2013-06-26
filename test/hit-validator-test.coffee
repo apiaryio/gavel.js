@@ -74,10 +74,10 @@ describe 'HitValidator', ->
 
         it "should set errors for body in request and response", () ->
           assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
-          assert.isDefined hitValidator.hit.request.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash is defined'
+          assert.isDefined hitValidator.hit.request.validationResults.body['complex_key_value_pair,complex_key_value_pair_key3,complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair,complex_key_value_pair_key3,complex_key_value_pair_key1_in_nested_hash is defined'
           assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
           assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
-          assert.isDefined hitValidator.hit.response.validationResults.body['complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair.complex_key_value_pair_key3.complex_key_value_pair_key1_in_nested_hash is defined'
+          assert.isDefined hitValidator.hit.response.validationResults.body['complex_key_value_pair,complex_key_value_pair_key3,complex_key_value_pair_key1_in_nested_hash'], 'complex_key_value_pair,complex_key_value_pair_key3,complex_key_value_pair_key1_in_nested_hash is defined'
           assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'and there are different values in real payloads', ->
@@ -218,10 +218,10 @@ describe 'HitValidator', ->
 
         it "should set errors for body in request and response", () ->
           assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
-          assert.isDefined hitValidator.hit.request.validationResults.body['array_of_mixed_simple_types[3]'], 'array_of_mixed_simple_types[3] is defined'
+          assert.isDefined hitValidator.hit.request.validationResults.body['array_of_mixed_simple_types,3'], 'array_of_mixed_simple_types,3 is defined'
           assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
           assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
-          assert.isDefined hitValidator.hit.response.validationResults.body['array_of_mixed_simple_types[3]'], 'array_of_mixed_simple_types[3] is defined'
+          assert.isDefined hitValidator.hit.response.validationResults.body['array_of_mixed_simple_types,3'], 'array_of_mixed_simple_types,3 is defined'
           assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
       describe 'when value is added to array in body', ->
@@ -266,10 +266,10 @@ describe 'HitValidator', ->
 
       it "should set errors for body in request and response", () ->
         assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
-        assert.isDefined hitValidator.hit.request.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["3_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isDefined hitValidator.hit.request.validationResults.body['3_4ecfd8ea4b5004e149dff2a66c367c60'], '3_4ecfd8ea4b5004e149dff2a66c367c60 is defined'
         assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
         assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
-        assert.isDefined hitValidator.hit.response.validationResults.body['["3_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["3_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isDefined hitValidator.hit.response.validationResults.body['3_4ecfd8ea4b5004e149dff2a66c367c60'], '3_4ecfd8ea4b5004e149dff2a66c367c60 is defined'
         assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'and lines are missing', ->
@@ -291,10 +291,10 @@ describe 'HitValidator', ->
 
       it "should set errors for body in request and response", () ->
         assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
-        assert.isDefined hitValidator.hit.request.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["1_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isDefined hitValidator.hit.request.validationResults.body['1_4ecfd8ea4b5004e149dff2a66c367c60'], '1_4ecfd8ea4b5004e149dff2a66c367c60 is defined'
         assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
         assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
-        assert.isDefined hitValidator.hit.response.validationResults.body['["1_4ecfd8ea4b5004e149dff2a66c367c60"]'], '["1_4ecfd8ea4b5004e149dff2a66c367c60"] is defined'
+        assert.isDefined hitValidator.hit.response.validationResults.body['1_4ecfd8ea4b5004e149dff2a66c367c60'], '1_4ecfd8ea4b5004e149dff2a66c367c60 is defined'
         assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 
     describe 'and lines are changed', ->
@@ -316,9 +316,9 @@ describe 'HitValidator', ->
 
       it "should set errors for body in request and response", () ->
         assert.isNotNull hitValidator.hit.request.validationResults.body, 'request.validationResults.body is defined'
-        assert.isDefined hitValidator.hit.request.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
+        assert.isDefined hitValidator.hit.request.validationResults.body['2_68d47ae10cf158f7bf664a8980834673'], '2_68d47ae10cf158f7bf664a8980834673 is defined'
         assert.isNull hitValidator.hit.request.validationResults.headers, 'request.validationResults.headers is not defined'
         assert.isNotNull hitValidator.hit.response.validationResults.body, 'response.validationResults.body is defined'
-        assert.isDefined hitValidator.hit.response.validationResults.body['["2_68d47ae10cf158f7bf664a8980834673"]'], '["2_68d47ae10cf158f7bf664a8980834673"] is defined'
+        assert.isDefined hitValidator.hit.response.validationResults.body['2_68d47ae10cf158f7bf664a8980834673'], '2_68d47ae10cf158f7bf664a8980834673 is defined'
         assert.isNull hitValidator.hit.response.validationResults.headers, 'response.validationResults.headers is not defined'
 

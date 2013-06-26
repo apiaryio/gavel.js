@@ -625,6 +625,41 @@ ex ea commodo consequat. Duis aute irure dolor
 in reprehenderit in voluptate velit esse cillum
 """
 
+sampleAmandaError = """
+{
+"0":{
+  "property":[
+    "complex_key_value_pair",
+    "complex_key_value_pair_key3",
+    "complex_key_value_pair_key1_in_nested_hash"
+  ],
+  "attributeName":"required",
+  "attributeValue":true,
+  "message":"The ‘complex_key_value_pair,complex_key_value_pair_key3,complex_key_value_pair_key1_in_nested_hash’ property is required.",
+  "validator":"required",
+  "validatorName":"required",
+  "validatorValue":true
+  },
+  "1":{
+  "property":[
+    "complex_key_value_pair2",
+    "complex_key_value_pair_key3",
+    "complex_key_value_pair_key1_in_nested_hash"
+  ],
+  "attributeName":"required",
+  "attributeValue":true,
+  "message":"The ‘complex_key_value_pair2,complex_key_value_pair_key3,complex_key_value_pair_key1_in_nested_hash’ property is required.",
+  "validator":"required",
+  "validatorName":"required",
+  "validatorValue":true
+  },
+  "length":2,
+"errorMessages":{
+}
+
+}
+                    """
+
 sampleHeaders = {
 "Content-Type": "application/json",
 "header2": "header2_value"
@@ -668,7 +703,9 @@ module.exports =
   sampleHeadersDiffers             : sampleHeadersDiff
   sampleHeadersMissing             : sampleHeadersMiss
   sampleHeadersAdded               : sampleHeadersAdd
+  sampleAmandaError                : sampleAmandaError
   HitStructure                     : HitStructure
+
 
 
 

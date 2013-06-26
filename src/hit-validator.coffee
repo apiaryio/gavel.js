@@ -8,25 +8,32 @@
 # Examine new validationResults on hit.request/response attributes for
 # validation results
 HitValidator = class HitValidator
-  constructor: (@hit) ->
+  constructor: (@hit, @updateHit = true) ->
     @requestBodyValidator = @getBodyValidator 'request'
     @requestHeadersValidator = @getHeadersValidator 'request'
     @responseBodyValidator = @getBodyValidator 'response'
     @responseHeadersValidator = @getHeadersValidator 'response'
 
   validate: ->
-    @hit.request['validationResults'] = {
-      headers: @requestHeadersValidator.validate(),
-      body: @requestBodyValidator.validate()
-    }
+    requestHeadersValidationResult  = @requestHeadersValidator.validate()
+    requestBodyValidationResult     = @requestBodyValidator.validate()
+    responseHeadersValidationResult = @responseHeadersValidator.validate()
+    responseBodyValidationResult    = @responseBodyValidator.validate()
 
-    @hit.response['validationResults'] = {
-      headers: @responseHeadersValidator.validate(),
-      body: @responseBodyValidator.validate()
-    }
+    if @updateHit
+      @hit.request['validationResults'] = {
+        headers: requestHeadersValidationResult,
+        body: requestBodyValidationResult
+      }
+
+      @hit.response['validationResults'] = {
+        headers: responseHeadersValidationResult,
+        body: responseBodyValidationResult
+      }
 
     return @hit
 
+  #@private
   prepareHeaders: (headers) ->
     transformedHeaders = {}
 
@@ -42,11 +49,13 @@ HitValidator = class HitValidator
 
     return transformedHeaders
 
+  #@private
   prepareBody: (body) ->
     if body == ''
       return {}
     return body
 
+  #@private
   getBodyValidator: (type) ->
 
     if @hit[type].defined.schema?.body and Object.keys(JSON.parse @hit[type].defined.schema?.body).length > 0
@@ -69,6 +78,7 @@ HitValidator = class HitValidator
 
     return new Validator(data: dataReal, schema: schema)
 
+  #@private
   getHeadersValidator: (type) ->
     if @hit[type].defined.schema?.headers and typeof(@hit[type].defined.schema.headers) == 'object' and Object.keys(@hit[type].defined.schema?.headers).length > 0
       schema = JSON.parse @hit[type].defined.schema?.headers
@@ -78,6 +88,7 @@ HitValidator = class HitValidator
 
     return new Validator(data: @prepareHeaders(@hit[type].realPayload.headers), schema: schema)
 
+  #@private
   getSchema: ({data, type, properties})->
     properties = if properties then properties else new SchemaProperties {}
 

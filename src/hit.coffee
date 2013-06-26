@@ -69,9 +69,6 @@ Hit = class Hit extends HitStructure
 
     return true
 
-  checkIfResultValid: (result) ->
-    return not (result and typeof(result) == 'object' and Object.keys(result).length > 0)
-
   validationResults: ->
     @validate()
     result =  {
@@ -85,6 +82,10 @@ Hit = class Hit extends HitStructure
               }
     }
     return result
+
+  #@private
+  checkIfResultValid: (result) ->
+    return not (result and typeof(result) == 'object' and Object.keys(result).length > 0)
 
 module.exports = {
   Hit,
