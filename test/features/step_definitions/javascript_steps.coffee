@@ -44,7 +44,7 @@ javascriptStepDefs = () ->
     # further reading on node.js load paths:
     # http://nodejs.org/docs/v0.8.23/api/all.html#all_all_together
 
-    code = code.replace("require('","require('../../src/")
+    code = code.replace("require('","require('../../../src/")
 
     try  
       return eval(code)

@@ -1,4 +1,4 @@
-@nodejs-pending
+@nodejs @wip
 Feature: Body - JSON schema
 
   Background: 
@@ -19,7 +19,7 @@ Feature: Body - JSON schema
             },
             "c": {
               "type":"string",
-              "required":trie
+              "required":true
             },
             "e": {
               "type":"string",

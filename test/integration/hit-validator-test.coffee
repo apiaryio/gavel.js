@@ -1,6 +1,6 @@
 {assert}       = require('chai')
-{HitValidator} = require('../src/hit-validator')
-fixtures       = require '../test/fixtures'
+{HitValidator} = require('../../src/hit-validator')
+fixtures       = require '../fixtures'
 
 getHit = ({reqBodyDefined, reqHeadersDefined, reqBodySchema, req_headers_schema, reqBodyReal, reqHeadersReal, resBodyDefined, resHeadersDefined, resBodyReal, resHeadersReal, resBodySchema, res_headers_schema}) ->
 
