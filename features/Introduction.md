@@ -1,0 +1,21 @@
+# Gavel
+ - What is Gavel? Gavel is mighty tool for HTTP API hits validation and introspection.  
+      - Complex assert library for matching executed HTTP hit againts its declaration by:
+        - Example headers
+        - Textual example
+        - JSON example
+        - JSON schema
+      - Bored of writing tons of asserts for each single API call in your integration tests?
+      - Test HTTP API client request to API and backend server's response against its API documentation.
+      - It compares request payload from client to backend server and its response to the client
+      - Assertion is defined by payload content
+      - Main purpose is use Gavel to test API documentation written in API Blueprint format against backend implementation during whole project's life-time.
+      - Assure API documentation all-the-time validity by binding it with project's lifecycle and plugging it into the CI process.
+      - Portability
+      - This behavior documentation is language agnostic
+      - javascript reference implementation
+      - Brief behavior:
+        - headers can't miss
+        - header values metters
+        - textual body must match exactly 
+        - JSON keys can't be missing 

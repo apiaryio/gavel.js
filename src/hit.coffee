@@ -31,6 +31,7 @@ HitStructure = class HitStructure
       validationResults:
         headers: null
         body: null
+        statusCode: null
 
       defined:
         userSchemas: []
@@ -74,11 +75,13 @@ Hit = class Hit extends HitStructure
     result =  {
               request: {
                 headers   : @request['validationResults']['headers'],
-                body      : @request['validationResults']['body']
+                body      : @request['validationResults']['body'],
+                statusCode: @request['validationResults']['statusCode']
               },
               response: {
                 headers   : @response['validationResults']['headers'],
                 body      : @response['validationResults']['body']
+                statusCode: @response['validationResults']['statusCode']
               }
     }
     return result
