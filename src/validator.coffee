@@ -11,7 +11,10 @@ Validator = class Validator
     else
       @data = data
 
-    @schema = schema
+    if typeof data == 'string'
+      @schema = JSON.parse schema
+    else
+      @schema = schema
 
   formatError: (error) ->
     if not error then return null
@@ -34,19 +37,31 @@ Validator = class Validator
     if typeof(@data)  == 'object' and Object.keys(@data).length == 0 and @schema['empty']
       return
 
-    if @dataHash == @setDataHash @data
-      #console.error 'no need to validate'
-      return @formatedErrors
+    dataHash = @getHash @data
+    schemaHash = @getHash @schema
 
+    if @dataHash ==  dataHash and @schemaHash ==  schemaHash
+      #console.error 'no need to validate dataHash/schemaHash'
+      return @formatedErrors
+    else
+      @dataHash =  dataHash
+      @schemaHash =  schemaHash
+      return @validatePrivate()
+
+
+  #@private
+  validatePrivate: ->
     return amanda.validate  @data, @schema, (error) =>
+
       @errors = new Errors error
       @amandaErrors = error
       @formatedErrors = @formatError error
+
       return @formatError error
 
   #@private
-  setDataHash: (data) ->
-    @dataHash = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex')
+  getHash: (data) ->
+    crypto.createHash('md5').update(JSON.stringify(data)).digest('hex')
 
 
 module.exports = {
