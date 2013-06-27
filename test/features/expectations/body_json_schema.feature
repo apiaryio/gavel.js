@@ -41,7 +41,8 @@ Feature: Body - JSON schema
     {
       "object": {
         "a": "b",
-        "c": "d"
+        "c": "d",
+        "e": "f"
       },
       "string": "Hello World"
     }
@@ -54,8 +55,7 @@ Feature: Body - JSON schema
     {
       "object": {
         "a": "b",
-        "c": "d",
-        "e": "f"
+        "c": "d"
       },
       "string": "Hello World"
     }
