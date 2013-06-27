@@ -7,9 +7,7 @@ bodyStepDefs = () ->
     if type == "textual example" or type == "JSON example"
       @.hit.response.defined.body = body
     else if type == "JSON schema"
-      console.error body
-      schema = JSON.parse body
-      @.hit.response.defined.userSchemas.push schema 
+      @.hit.response.defined.schema.body = body
 
     callback()
   
