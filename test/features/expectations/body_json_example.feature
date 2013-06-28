@@ -92,7 +92,6 @@ Feature: Body - JSON exapmle
     """     
     Then it should set some error for "body"
 
-  @nodejs-pending
   Scenario: extra array member in real JSON body
     When real HTTP body is following:
     """
@@ -107,7 +106,7 @@ Feature: Body - JSON exapmle
         2,
         3
       ],
-      "string": "Foo bar",
+      "string": "Foo bar"
     }    
     """ 
     Then it should not set any errors for "body"

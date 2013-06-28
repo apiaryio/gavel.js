@@ -1,15 +1,15 @@
 {assert}       = require('chai')
 
 fixtures       = require '../fixtures'
-{Errors}       = require '../../src/errors'
+{ValidationErrors}       = require '../../src/validation-errors'
 
-describe 'Errors', ->
+describe 'ValidationErrors', ->
   errors = {}
   amandaError = JSON.parse fixtures.sampleAmandaError
 
-  describe 'when I create Errors object from amanda error', ->
+  describe 'when I create ValidationErrors object from amanda error', ->
     before ->
-      errors = new Errors amandaError
+      errors = new ValidationErrors amandaError
 
     it 'should has same int. keys and its values as original amanda error', ->
       for i in [0..amandaError.length-1]

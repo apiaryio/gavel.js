@@ -1,7 +1,7 @@
 amanda = require 'amanda'
 crypto = require('crypto')
 
-{Errors} = require('./errors')
+{ValidationErrors} = require('./validation-errors')
 
 Validator = class Validator
 
@@ -18,7 +18,6 @@ Validator = class Validator
 
   formatError: (error) ->
     if not error then return null
-
     errors = {}
 
     for i in [0..error.length - 1]
@@ -53,7 +52,7 @@ Validator = class Validator
   validatePrivate: ->
     return amanda.validate  @data, @schema, (error) =>
 
-      @errors = new Errors error
+      @errors = new ValidationErrors error
       @amandaErrors = error
       @formatedErrors = @formatError error
 

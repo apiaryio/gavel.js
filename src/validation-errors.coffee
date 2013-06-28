@@ -1,6 +1,6 @@
 crypto = require('crypto')
 
-Errors = class Errors
+ValidationErrors = class ValidationErrors
   constructor: (amandaErrors) ->
     @length = amandaErrors?.length || 0
     @amandaErrors = amandaErrors || {}
@@ -34,5 +34,5 @@ Errors = class Errors
     crypto.createHash('md5').update(path.join(@now)).digest('hex')
 
 module.exports = {
-  Errors
+  ValidationErrors
 }

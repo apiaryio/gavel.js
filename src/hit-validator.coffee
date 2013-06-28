@@ -57,6 +57,13 @@ HitValidator = class HitValidator
 
   #@private
   getBodyValidator: (type) ->
+    dataRealJsonParsable = false
+
+    try
+      dataReal = JSON.parse @hit[type].real.body
+    catch error
+      stj = new StringToJson @hit[type].real.body
+      dataReal = stj.generate()
 
     if @hit[type].expected.schema?.body and Object.keys(JSON.parse @hit[type].expected.schema?.body).length > 0
       schema = JSON.parse @hit[type].expected.schema?.body
@@ -70,11 +77,7 @@ HitValidator = class HitValidator
         schema = @getSchema data: dataDefined, type: 'string_body'
       @hit[type].expected.schema?.body = JSON.stringify schema
 
-    try
-      dataReal = JSON.parse @hit[type].real.body
-    catch error
-      stj = new StringToJson @hit[type].real.body
-      dataReal = stj.generate()
+
 
     return new Validator(data: dataReal, schema: schema)
 

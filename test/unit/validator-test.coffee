@@ -2,7 +2,7 @@
 
 fixtures       = require '../fixtures'
 {Validator}    = require('../../src/validator')
-{Errors}    = require('../../src/errors')
+{ValidationErrors}    = require('../../src/validation-errors')
 
 describe 'Validator', ->
   validator = null
@@ -34,7 +34,7 @@ describe 'Validator', ->
         assert.deepEqual JSON.parse(JSON.stringify validatorReturn) , JSON.parse(fixtures.sampleFormatedError)
 
       it 'should set @errors', ->
-        assert.isTrue validator.errors instanceof Errors
+        assert.isTrue validator.errors instanceof ValidationErrors
 
       it 'should set @amandaErrors', ->
         assert.deepEqual JSON.parse(JSON.stringify validator.amandaErrors), JSON.parse(fixtures.sampleAmandaError2)
