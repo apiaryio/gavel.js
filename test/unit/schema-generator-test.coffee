@@ -15,11 +15,9 @@ describe 'SchemaGenerator', ->
     it 'should initiate @properties', ->
       assert.isTrue sg.properties instanceof SchemaProperties
 
-  describe 'setProperties', ->
+  describe 'set properties', ->
     before ->
-      sg.properties.keysStrict   = true
-      sg.properties.valuesStrict = true
-      sg.properties.typesStrict  = true
+      sg.properties.set keysStrict: true, valuesStrict: true, typesStrict : true
 
     it 'should change properties object', ->
       assert.isTrue sg.properties.keysStrict
