@@ -15,7 +15,7 @@ HitStructure = class HitStructure
         headers: null
         body: null
 
-      defined:
+      expected:
         userSchemas: []
         headers: {}
         body: ''
@@ -23,7 +23,7 @@ HitStructure = class HitStructure
           headers: ''
           body: ''
 
-      realPayload:
+      real:
         headers: {}
         body: ''
 
@@ -33,7 +33,7 @@ HitStructure = class HitStructure
         body: null
         statusCode: null
 
-      defined:
+      expected:
         userSchemas: []
         headers: {}
         body: ''
@@ -42,7 +42,7 @@ HitStructure = class HitStructure
           body: ''
         statusCode: ''
 
-      realPayload:
+      real:
         headers: {}
         body: ''
         statusCode: ''

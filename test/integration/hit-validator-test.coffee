@@ -2,23 +2,23 @@
 {HitValidator} = require('../../src/hit-validator')
 fixtures       = require '../fixtures'
 
-getHit = ({reqBodyDefined, reqHeadersDefined, reqBodySchema, req_headers_schema, reqBodyReal, reqHeadersReal, resBodyDefined, resHeadersDefined, resBodyReal, resHeadersReal, resBodySchema, res_headers_schema}) ->
+getHit = ({reqBodyExpected, reqHeadersExpected, reqBodySchema, req_headers_schema, reqBodyReal, reqHeadersReal, resBodyExpected, resHeadersExpected, resBodyReal, resHeadersReal, resBodySchema, res_headers_schema}) ->
 
   hit = new fixtures.HitStructure
 
-  hit.request.defined.body            = reqBodyDefined
-  hit.request.defined.headers         = reqHeadersDefined
-  hit.request.defined.schema.body     = reqBodySchema || ''
-  hit.request.defined.schema.headers  = req_headers_schema || ''
-  hit.request.realPayload.body        = reqBodyReal
-  hit.request.realPayload.headers     = reqHeadersReal
+  hit.request.expected.body            = reqBodyExpected
+  hit.request.expected.headers         = reqHeadersExpected
+  hit.request.expected.schema.body     = reqBodySchema || ''
+  hit.request.expected.schema.headers  = req_headers_schema || ''
+  hit.request.real.body        = reqBodyReal
+  hit.request.real.headers     = reqHeadersReal
 
-  hit.response.defined.body           = resBodyDefined
-  hit.response.defined.headers        = resHeadersDefined
-  hit.response.defined.schema.body    = resBodySchema || ''
-  hit.response.defined.schema.headers = res_headers_schema || ''
-  hit.response.realPayload.body       = resBodyReal
-  hit.response.realPayload.headers    = resHeadersReal
+  hit.response.expected.body           = resBodyExpected
+  hit.response.expected.headers        = resHeadersExpected
+  hit.response.expected.schema.body    = resBodySchema || ''
+  hit.response.expected.schema.headers = res_headers_schema || ''
+  hit.response.real.body       = resBodyReal
+  hit.response.real.headers    = resHeadersReal
 
   return hit
 
@@ -30,15 +30,15 @@ describe 'HitValidator', ->
       describe 'and there are aditional keys in real payload', ->
         before ->
           params =  {
-            reqBodyDefined:     fixtures.sampleText,
+            reqBodyExpected:     fixtures.sampleText,
             reqBodySchema:      fixtures.sampleJsonSchemaNonStrict
-            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqHeadersExpected:  fixtures.sampleHeaders,
             reqBodyReal:        fixtures.sampleJsonComplexKeyAdded,
             reqHeadersReal:     fixtures.sampleHeaders,
 
-            resBodyDefined:     fixtures.sampleText,
+            resBodyExpected:     fixtures.sampleText,
             resBodySchema:      fixtures.sampleJsonSchemaNonStrict
-            resHeadersDefined:  fixtures.sampleHeaders,
+            resHeadersExpected:  fixtures.sampleHeaders,
             resBodyReal:        fixtures.sampleJsonComplexKeyAdded,
             resHeadersReal:     fixtures.sampleHeaders
           }
@@ -56,15 +56,15 @@ describe 'HitValidator', ->
       describe 'and there are missing keys in real payloads', ->
         before ->
           params =  {
-            reqBodyDefined:     fixtures.sampleText,
+            reqBodyExpected:     fixtures.sampleText,
             reqBodySchema:      fixtures.sampleJsonSchemaNonStrict
-            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqHeadersExpected:  fixtures.sampleHeaders,
             reqBodyReal:        fixtures.sampleJsonComplexKeyMissing,
             reqHeadersReal:     fixtures.sampleHeaders,
 
-            resBodyDefined:     fixtures.sampleText,
+            resBodyExpected:     fixtures.sampleText,
             resBodySchema:      fixtures.sampleJsonSchemaNonStrict
-            resHeadersDefined:  fixtures.sampleHeaders,
+            resHeadersExpected:  fixtures.sampleHeaders,
             resBodyReal:        fixtures.sampleJsonComplexKeyMissing,
             resHeadersReal:     fixtures.sampleHeaders
           }
@@ -83,15 +83,15 @@ describe 'HitValidator', ->
       describe 'and there are different values in real payloads', ->
         before ->
           params =  {
-            reqBodyDefined:     fixtures.sampleText,
+            reqBodyExpected:     fixtures.sampleText,
             reqBodySchema:      fixtures.sampleJsonSchemaNonStrict
-            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqHeadersExpected:  fixtures.sampleHeaders,
             reqBodyReal:        fixtures.sampleJsonComplexKeyValueDiffers,
             reqHeadersReal:     fixtures.sampleHeaders,
 
-            resBodyDefined:     fixtures.sampleText,
+            resBodyExpected:     fixtures.sampleText,
             resBodySchema:      fixtures.sampleJsonSchemaNonStrict
-            resHeadersDefined:  fixtures.sampleHeaders,
+            resHeadersExpected:  fixtures.sampleHeaders,
             resBodyReal:        fixtures.sampleJsonComplexKeyValueDiffers,
             resHeadersReal:     fixtures.sampleHeaders
           }
@@ -108,12 +108,12 @@ describe 'HitValidator', ->
     describe 'when body and headers are same in request and response', ->
       before ->
         params =  {
-          reqBodyDefined:     fixtures.sampleJson,
-          reqHeadersDefined:  fixtures.sampleHeaders,
+          reqBodyExpected:     fixtures.sampleJson,
+          reqHeadersExpected:  fixtures.sampleHeaders,
           reqBodyReal:        fixtures.sampleJson,
           reqHeadersReal:     fixtures.sampleHeaders,
-          resBodyDefined:     fixtures.sampleJson,
-          resHeadersDefined:  fixtures.sampleHeaders,
+          resBodyExpected:     fixtures.sampleJson,
+          resHeadersExpected:  fixtures.sampleHeaders,
           resBodyReal:        fixtures.sampleJson,
           resHeadersReal:     fixtures.sampleHeaders
         }
@@ -131,12 +131,12 @@ describe 'HitValidator', ->
       describe 'when keys are added to body and headers', ->
         before ->
           params =  {
-            reqBodyDefined:     fixtures.sampleJson,
-            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyExpected:     fixtures.sampleJson,
+            reqHeadersExpected:  fixtures.sampleHeaders,
             reqBodyReal:        fixtures.sampleJsonSimpleKeyAdded,
             reqHeadersReal:     fixtures.sampleHeadersAdded,
-            resBodyDefined:     fixtures.sampleJson,
-            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyExpected:     fixtures.sampleJson,
+            resHeadersExpected:  fixtures.sampleHeaders,
             resBodyReal:        fixtures.sampleJsonSimpleKeyAdded,
             resHeadersReal:     fixtures.sampleHeadersAdded
           }
@@ -153,12 +153,12 @@ describe 'HitValidator', ->
       describe 'when keys are missing from body and headers', ->
         before ->
           params =  {
-            reqBodyDefined:     fixtures.sampleJson,
-            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyExpected:     fixtures.sampleJson,
+            reqHeadersExpected:  fixtures.sampleHeaders,
             reqBodyReal:        fixtures.sampleJsonSimpleKeyMissing,
             reqHeadersReal:     fixtures.sampleHeadersMissing,
-            resBodyDefined:     fixtures.sampleJson,
-            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyExpected:     fixtures.sampleJson,
+            resHeadersExpected:  fixtures.sampleHeaders,
             resBodyReal:        fixtures.sampleJsonSimpleKeyMissing,
             resHeadersReal:     fixtures.sampleHeadersMissing
           }
@@ -179,12 +179,12 @@ describe 'HitValidator', ->
       describe 'when values are different in body and headers', ->
         before ->
           params =  {
-            reqBodyDefined:     fixtures.sampleJson,
-            reqHeadersDefined:  fixtures.sampleHeaders,
+            reqBodyExpected:     fixtures.sampleJson,
+            reqHeadersExpected:  fixtures.sampleHeaders,
             reqBodyReal:        fixtures.sampleJsonSimpleKeyValueDiffers,
             reqHeadersReal:     fixtures.sampleHeadersDiffers,
-            resBodyDefined:     fixtures.sampleJson,
-            resHeadersDefined:  fixtures.sampleHeaders,
+            resBodyExpected:     fixtures.sampleJson,
+            resHeadersExpected:  fixtures.sampleHeaders,
             resBodyReal:        fixtures.sampleJsonSimpleKeyValueDiffers,
             resHeadersReal:     fixtures.sampleHeadersDiffers
           }
@@ -203,12 +203,12 @@ describe 'HitValidator', ->
       describe 'when value is missing in array in body', ->
         before ->
           params =  {
-          reqBodyDefined:     fixtures.sampleJson,
-          reqHeadersDefined:  fixtures.sampleHeaders,
+          reqBodyExpected:     fixtures.sampleJson,
+          reqHeadersExpected:  fixtures.sampleHeaders,
           reqBodyReal:        fixtures.sampleJsonArrayItemMissing,
           reqHeadersReal:     fixtures.sampleHeaders,
-          resBodyDefined:     fixtures.sampleJson,
-          resHeadersDefined:  fixtures.sampleHeaders,
+          resBodyExpected:     fixtures.sampleJson,
+          resHeadersExpected:  fixtures.sampleHeaders,
           resBodyReal:        fixtures.sampleJsonArrayItemMissing,
           resHeadersReal:     fixtures.sampleHeaders
           }
@@ -227,12 +227,12 @@ describe 'HitValidator', ->
       describe 'when value is added to array in body', ->
         before ->
           params =  {
-          reqBodyDefined:     fixtures.sampleJson,
-          reqHeadersDefined:  fixtures.sampleHeaders,
+          reqBodyExpected:     fixtures.sampleJson,
+          reqHeadersExpected:  fixtures.sampleHeaders,
           reqBodyReal:        fixtures.sampleJsonArrayItemAdded,
           reqHeadersReal:     fixtures.sampleHeaders,
-          resBodyDefined:     fixtures.sampleJson,
-          resHeadersDefined:  fixtures.sampleHeaders,
+          resBodyExpected:     fixtures.sampleJson,
+          resHeadersExpected:  fixtures.sampleHeaders,
           resBodyReal:        fixtures.sampleJsonArrayItemAdded,
           resHeadersReal:     fixtures.sampleHeaders
           }
@@ -250,13 +250,13 @@ describe 'HitValidator', ->
     describe 'and lines are added', ->
       before ->
         params =  {
-        reqBodyDefined:     fixtures.sampleText,
-        reqHeadersDefined:  fixtures.sampleHeaders,
+        reqBodyExpected:     fixtures.sampleText,
+        reqHeadersExpected:  fixtures.sampleHeaders,
         reqBodyReal:        fixtures.sampleTextLineAdded,
         reqHeadersReal:     fixtures.sampleHeaders,
 
-        resBodyDefined:     fixtures.sampleText,
-        resHeadersDefined:  fixtures.sampleHeaders,
+        resBodyExpected:     fixtures.sampleText,
+        resHeadersExpected:  fixtures.sampleHeaders,
         resBodyReal:        fixtures.sampleTextLineAdded,
         resHeadersReal:     fixtures.sampleHeaders
         }
@@ -275,13 +275,13 @@ describe 'HitValidator', ->
     describe 'and lines are missing', ->
       before ->
         params =  {
-        reqBodyDefined:     fixtures.sampleText,
-        reqHeadersDefined:  fixtures.sampleHeaders,
+        reqBodyExpected:     fixtures.sampleText,
+        reqHeadersExpected:  fixtures.sampleHeaders,
         reqBodyReal:        fixtures.sampleTextLineMissing,
         reqHeadersReal:     fixtures.sampleHeaders,
 
-        resBodyDefined:     fixtures.sampleText,
-        resHeadersDefined:  fixtures.sampleHeaders,
+        resBodyExpected:     fixtures.sampleText,
+        resHeadersExpected:  fixtures.sampleHeaders,
         resBodyReal:        fixtures.sampleTextLineMissing,
         resHeadersReal:     fixtures.sampleHeaders
         }
@@ -300,13 +300,13 @@ describe 'HitValidator', ->
     describe 'and lines are changed', ->
       before ->
         params =  {
-        reqBodyDefined:     fixtures.sampleText,
-        reqHeadersDefined:  fixtures.sampleHeaders,
+        reqBodyExpected:     fixtures.sampleText,
+        reqHeadersExpected:  fixtures.sampleHeaders,
         reqBodyReal:        fixtures.sampleTextLineDiffers,
         reqHeadersReal:     fixtures.sampleHeaders,
 
-        resBodyDefined:     fixtures.sampleText,
-        resHeadersDefined:  fixtures.sampleHeaders,
+        resBodyExpected:     fixtures.sampleText,
+        resHeadersExpected:  fixtures.sampleHeaders,
         resBodyReal:        fixtures.sampleTextLineDiffers,
         resHeadersReal:     fixtures.sampleHeaders
         }

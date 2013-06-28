@@ -58,35 +58,35 @@ HitValidator = class HitValidator
   #@private
   getBodyValidator: (type) ->
 
-    if @hit[type].defined.schema?.body and Object.keys(JSON.parse @hit[type].defined.schema?.body).length > 0
-      schema = JSON.parse @hit[type].defined.schema?.body
+    if @hit[type].expected.schema?.body and Object.keys(JSON.parse @hit[type].expected.schema?.body).length > 0
+      schema = JSON.parse @hit[type].expected.schema?.body
     else
       try
-        dataDefined = JSON.parse @hit[type].defined.body
+        dataDefined = JSON.parse @hit[type].expected.body
         schema = @getSchema data: dataDefined, type: 'body'
       catch error
-        stj = new StringToJson @hit[type].defined.body
+        stj = new StringToJson @hit[type].expected.body
         dataDefined = stj.generate()
         schema = @getSchema data: dataDefined, type: 'string_body'
-      @hit[type].defined.schema?.body = JSON.stringify schema
+      @hit[type].expected.schema?.body = JSON.stringify schema
 
     try
-      dataReal = JSON.parse @hit[type].realPayload.body
+      dataReal = JSON.parse @hit[type].real.body
     catch error
-      stj = new StringToJson @hit[type].realPayload.body
+      stj = new StringToJson @hit[type].real.body
       dataReal = stj.generate()
 
     return new Validator(data: dataReal, schema: schema)
 
   #@private
   getHeadersValidator: (type) ->
-    if @hit[type].defined.schema?.headers and typeof(@hit[type].defined.schema.headers) == 'object' and Object.keys(@hit[type].defined.schema?.headers).length > 0
-      schema = JSON.parse @hit[type].defined.schema?.headers
+    if @hit[type].expected.schema?.headers and typeof(@hit[type].expected.schema.headers) == 'object' and Object.keys(@hit[type].expected.schema?.headers).length > 0
+      schema = JSON.parse @hit[type].expected.schema?.headers
     else
-      schema = @getSchema data: @prepareHeaders(@hit[type].defined.headers), type: 'headers'
-      @hit[type].defined.schema?.headers = JSON.stringify schema
+      schema = @getSchema data: @prepareHeaders(@hit[type].expected.headers), type: 'headers'
+      @hit[type].expected.schema?.headers = JSON.stringify schema
 
-    return new Validator(data: @prepareHeaders(@hit[type].realPayload.headers), schema: schema)
+    return new Validator(data: @prepareHeaders(@hit[type].real.headers), schema: schema)
 
   #@private
   getSchema: ({data, type, properties})->

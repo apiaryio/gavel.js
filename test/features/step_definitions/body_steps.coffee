@@ -5,14 +5,14 @@ bodyStepDefs = () ->
   
   Given /^expected HTTP body is defined by following "([^"]*)":$/, (type, body, callback) ->
     if type == "textual example" or type == "JSON example"
-      @.hit.response.defined.body = body
+      @.hit.response.expected.body = body
     else if type == "JSON schema"
-      @.hit.response.defined.schema.body = body
+      @.hit.response.expected.schema.body = body
 
     callback()
   
   When /^real HTTP body is following:$/, (body, callback) ->
-    @.hit.response.realPayload.body = body
+    @.hit.response.real.body = body
     callback()
 
 module.exports = bodyStepDefs
