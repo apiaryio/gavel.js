@@ -1,9 +1,10 @@
-{actAsValidatable }  = require './mixins'
+require './mixins'
 
 HttpMessage = class HttpMessage
-  actAsValidatable @
+  @actAsValidatable()
 
   constructor: ({@httpRequest, @httpResponse}) ->
+
 
 module.exports = {
   HttpMessage

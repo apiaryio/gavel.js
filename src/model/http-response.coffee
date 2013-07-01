@@ -1,7 +1,7 @@
-{actAsValidatable }  = require './mixins'
+require './mixins'
 
 HttpResponse = class HttpResponse
-  actAsValidatable @
+  @actAsValidatable()
 
   constructor: ({@statusCode, @statusMessage, @headers, @body, @expectedHttpResponse}) ->
 

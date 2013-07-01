@@ -2,14 +2,13 @@
 
 validate =
   validate : () ->
+    console.error @a
 
   isValidatable : () ->
 
   isValid : () ->
 
-actAsValidatable = (self) ->
-  extendable.include validate, self
 
-module.exports = {
-  actAsValidatable
-}
+Function.prototype.actAsValidatable = () ->
+  extendable.include validate, @
+

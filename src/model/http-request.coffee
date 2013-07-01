@@ -1,10 +1,9 @@
-{actAsValidatable }  = require './mixins'
+require './mixins'
 
 HttpRequest = class HttpRequest
-  actAsValidatable @
+  @actAsValidatable()
 
   constructor: ({@method, @url, @headers, @body, @expectedHttpRequest}) ->
-
 
 
 ExpectedHttpRequest = class ExpectedHttpRequest
