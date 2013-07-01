@@ -1,7 +1,7 @@
 {assert}       = require('chai')
 
 fixtures       = require '../fixtures'
-{Validator}    = require('../../src/validator')
+{JsonValidator}    = require('../../src/validators/json')
 {ValidationErrors}    = require('../../src/validation-errors')
 
 describe 'Validator', ->
@@ -11,7 +11,7 @@ describe 'Validator', ->
   describe 'when i create new instance of validator', ->
 
     before ->
-      validator = new Validator data: fixtures.sampleJsonComplexKeyMissing ,schema: fixtures.sampleJsonSchemaNonStrict
+      validator = new JsonValidator data: fixtures.sampleJsonComplexKeyMissing ,schema: fixtures.sampleJsonSchemaNonStrict
 
     it 'should parse data to object', ->
       assert.equal typeof validator.data, 'object'

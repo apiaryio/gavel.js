@@ -79,7 +79,7 @@ HitValidator = class HitValidator
 
 
 
-    return new Validator(data: dataReal, schema: schema)
+    return new Validator(data: {real: dataReal, expected: schema}, type: 'json')
 
   #@private
   getHeadersValidator: (type) ->
@@ -89,7 +89,7 @@ HitValidator = class HitValidator
       schema = @getSchema data: @prepareHeaders(@hit[type].expected.headers), type: 'headers'
       @hit[type].expected.schema?.headers = JSON.stringify schema
 
-    return new Validator(data: @prepareHeaders(@hit[type].real.headers), schema: schema)
+    return new Validator(data: {real: @prepareHeaders(@hit[type].real.headers), expected: schema}, type: 'json')
 
   #@private
   getSchema: ({data, type, properties})->
