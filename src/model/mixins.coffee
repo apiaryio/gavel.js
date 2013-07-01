@@ -1,3 +1,4 @@
+{extendable} = require '../utils/extendable'
 
 validate =
   validate : () ->
@@ -6,6 +7,9 @@ validate =
 
   isValid : () ->
 
+actAsValidatable = (self) ->
+  extendable.include validate, self
+
 module.exports = {
-  validate
+  actAsValidatable
 }
