@@ -890,6 +890,151 @@ sampleHeadersAdd = {
 "header_added": "header_added_value",
 }
 
+sampleHttpRequestSchema = {
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required":true,
+  "properties":{
+    "body": {
+      "type":"string",
+      "id": "#/body",
+      "required":true
+    },
+    "expectedHttpRequest": {
+      "type":"object",
+      "id": "#/expectedHttpRequest",
+      "required":true,
+      "properties":{
+        "bodySchema": {
+          "type":"object",
+          "id": "#/expectedHttpRequest/bodySchema",
+          "required":true
+        },
+        "body": {
+          "type":"string",
+          "id": "#/expectedHttpRequest/body",
+          "required":true
+        },
+        "headersSchema": {
+          "type":"object",
+          "id": "#/expectedHttpRequest/headersSchema",
+          "required":true
+        },
+        "headers": {
+          "type":"string",
+          "id": "#/expectedHttpRequest/headers",
+          "required":true
+        },
+        "method": {
+          "type":"string",
+          "id": "#/expectedHttpRequest/method",
+          "required":true
+        },
+        "url": {
+          "type":"string",
+          "id": "#/expectedHttpRequest/url",
+          "required":true
+        }
+      }
+    },
+    "headers": {
+      "type":"string",
+      "id": "#/headers",
+      "required":true
+    },
+    "method": {
+      "type":"string",
+      "id": "#/method",
+      "required":true
+    },
+    "url": {
+      "type":"string",
+      "id": "#/url",
+      "required":true
+    }
+  }
+}
+
+sampleHttpResponseSchema = {
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required":true,
+  "properties":{
+    "body": {
+      "type":"string",
+      "id": "#/body",
+      "required":true
+    },
+    "expectedHttpResponse": {
+      "type":"object",
+      "id": "#/expectedHttpResponse",
+      "required":true,
+      "properties":{
+        "bodySchema": {
+          "type":"object",
+          "id": "#/expectedHttpResponse/bodySchema",
+          "required":true,
+          "properties":{
+            "type": {
+              "type":"string",
+              "id": "#/expectedHttpResponse/bodySchema/type",
+              "required":true
+            }
+          }
+        },
+        "body": {
+          "type":"string",
+          "id": "#/expectedHttpResponse/body",
+          "required":true
+        },
+        "headersSchema": {
+          "type":"object",
+          "id": "#/expectedHttpResponse/headersSchema",
+          "required":true,
+          "properties":{
+            "type": {
+              "type":"string",
+              "id": "#/expectedHttpResponse/headersSchema/type",
+              "required":true
+            }
+          }
+        },
+        "headers": {
+          "type":"string",
+          "id": "#/expectedHttpResponse/headers",
+          "required":true
+        },
+        "statusCode": {
+          "type":"string",
+          "id": "#/expectedHttpResponse/statusCode",
+          "required":true
+        },
+        "statusMessage": {
+          "type":"string",
+          "id": "#/expectedHttpResponse/statusMessage",
+          "required":true
+        }
+      }
+    },
+    "headers": {
+      "type":"string",
+      "id": "#/headers",
+      "required":true
+    },
+    "statusCode": {
+      "type":"string",
+      "id": "#/statusCode",
+      "required":true
+    },
+    "statusMessage": {
+      "type":"string",
+      "id": "#/statusMessage",
+      "required":true
+    }
+  }
+}
 
 
 module.exports =
@@ -919,6 +1064,8 @@ module.exports =
   sampleAmandaError2               : sampleAmandaError2
   sampleFormatedError              : sampleFormatedError
   sampleError                      : sampleError
+  sampleHttpRequestSchema          : sampleHttpRequestSchema
+  sampleHttpResponseSchema         : sampleHttpResponseSchema
 
 
 
