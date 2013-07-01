@@ -1,8 +1,8 @@
-{Extendable} = require '../utils/extendable'
+{extendable} = require '../utils/extendable'
 {validate}  = require './mixins'
 
-HttpRequest = class HttpRequest extends Extendable
-  @include validate
+HttpRequest = class HttpRequest
+  extendable.include validate, @
 
   constructor: ({@method, @url, @headers, @body, @expectedHttpRequest}) ->
 
