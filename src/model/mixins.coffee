@@ -52,6 +52,12 @@ validatableMessage =
       httpResponse: @httpResponse.validate()
     }
 
+  isValidatable : () ->
+    return true
+
+  isValid : () ->
+    @httpRequest.isValid() and @httpResponse.isValid()
+
 
 Function.prototype.actAsValidatable = () ->
   extendable.include validatable, @
