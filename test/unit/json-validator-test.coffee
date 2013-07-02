@@ -1,17 +1,27 @@
 {assert}       = require('chai')
 
 fixtures       = require '../fixtures'
-{JsonValidator}    = require('../../src/validators/json')
+{JsonValidator}    = require('../../src/validators/json-validator')
 {ValidationErrors}    = require('../../src/validation-errors')
 
-describe 'Validator', ->
+describe 'JsonValidator', ->
   validator = null
 
+  describe 'when i create new instance of validator with incorrect data', ->
+    validator = null
 
-  describe 'when i create new instance of validator', ->
+    it 'should throw exception', ->
+      fn = () ->
+        validator = new JsonValidator data: fixtures.sampleJsonComplexKeyMissing ,schema: fixtures.sampleJsonSchemaNonStrict
+      assert.throws fn
 
-    before ->
-      validator = new JsonValidator data: fixtures.sampleJsonComplexKeyMissing ,schema: fixtures.sampleJsonSchemaNonStrict
+  describe 'when i create new instance of validator with correct data', ->
+    validator = null
+
+    it 'should not throw exception', ->
+      fn = () ->
+        validator = new JsonValidator data: JSON.parse(fixtures.sampleJsonComplexKeyMissing) ,schema: JSON.parse(fixtures.sampleJsonSchemaNonStrict)
+      assert.doesNotThrow fn
 
     it 'should parse data to object', ->
       assert.equal typeof validator.data, 'object'
@@ -27,42 +37,45 @@ describe 'Validator', ->
 
     describe 'when I run validate', ->
       validatorReturn = null
+      validatorReturnAgain = null
+      validatorReturnAfterDataChanged = null
       before ->
         validatorReturn = validator.validate()
-
-      it 'should return correct formated errors', ->
-        assert.deepEqual JSON.parse(JSON.stringify validatorReturn) , JSON.parse(fixtures.sampleFormatedError)
 
       it 'should set @errors', ->
         assert.isTrue validator.errors instanceof ValidationErrors
 
-      it 'should set @amandaErrors', ->
-        assert.deepEqual JSON.parse(JSON.stringify validator.amandaErrors), JSON.parse(fixtures.sampleAmandaError2)
+      it 'should return some errors', ->
+        assert.notEqual validatorReturn.length , 0
 
-      it 'should set @formatedErrors', ->
-        assert.deepEqual JSON.parse(JSON.stringify validator.formatedErrors) , JSON.parse(fixtures.sampleFormatedError)
+      describe 'and run validate again', ->
+        before ->
+          validatorReturnAgain = validator.validate()
+
+        it 'errors should not change', ->
+          assert.deepEqual JSON.parse(JSON.stringify(validatorReturnAgain)), JSON.parse(JSON.stringify(validatorReturn))
 
       describe 'when i change data', ->
         before ->
           validator.data = fixtures.sampleJson
 
         describe 'and run validate again', ->
-          validatorReturnAfterDataChanged = null
+
           before ->
             validatorReturnAfterDataChanged = validator.validate()
 
           it 'errors should change', ->
-            assert.isNull validatorReturnAfterDataChanged
+            assert.equal validatorReturnAfterDataChanged.length, 0
 
       describe 'when i change schema', ->
         before ->
           validator.schema = JSON.parse fixtures.sampleJsonSchemaNonStrict2
 
         describe 'and run validate again', ->
-          validatorReturnAfterDataChanged = null
+          validatorReturnAfterDataChanged2 = null
           before ->
-            validatorReturnAfterDataChanged = validator.validate()
+            validatorReturnAfterDataChanged2 = validator.validate()
 
           it 'errors should change', ->
-            assert.isNotNull validatorReturnAfterDataChanged
+            assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
 

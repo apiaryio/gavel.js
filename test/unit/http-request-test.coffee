@@ -13,7 +13,7 @@ describe 'HttpRequest', ->
   describe 'when I create new instance', ->
     before ->
       expectedHttpRequest = new ExpectedHttpRequest {method: '1', url: '2', headers: '3', body: '4', headersSchema: {"type":"object"}, bodySchema: {"type":"object"}}
-      httpRequest = new HttpRequest method: '1', url: '2', headers: '3', body: '4', expectedHttpRequest: expectedHttpRequest
+      httpRequest = new HttpRequest method: '1', url: '2', headers: '3', body: '4', expected: expectedHttpRequest
 
     it 'should has correct structure', ->
       assert.isUndefined validate JSON.parse(JSON.stringify(httpRequest)), sampleHttpRequestSchema

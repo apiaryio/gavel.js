@@ -1,38 +1,21 @@
-crypto = require('crypto')
+MalformedDataError = class MalformedDataError extends Error
 
-Errors = class Errors
-  constructor: (amandaErrors) ->
-    @length = amandaErrors?.length || 0
-    @amandaErrors = amandaErrors || {}
-    @now = Date.now().toString()
+DataNotJsonParsableError = class DataNotJsonParsableError extends MalformedDataError
 
-    for i in [0..@length - 1]
-      @[i] = @amandaErrors[i]
+DataNotStringError = class DataNotStringError extends MalformedDataError
 
-  getByPath: (pathArray) ->
-    if not @hashTable then @buildHashtable()
+MalformedSchemaError = class MalformedSchemaError extends Error
 
-    @hashTable[@getKeyFromPath(pathArray)] || []
+SchemaNotJsonParsableError = class DataNotJsonParcableError extends MalformedSchemaError
 
-  #@private
-  buildHashtable: () ->
-    @hashTable = {}
-
-    if @length < 1
-      return
-
-    for i in [0..@length - 1]
-      key = @getKeyFromPath(@amandaErrors[i]['property'])
-
-      if not @hashTable[key]
-        @hashTable[key] = []
-
-      @hashTable[key].push @amandaErrors[i]
-
-  #@private
-  getKeyFromPath: (path) ->
-    crypto.createHash('md5').update(path.join(@now)).digest('hex')
+UnknownValidatorError = class UnknownValidatorError extends Error
 
 module.exports = {
-  Errors
+  DataNotJsonParsableError,
+  SchemaNotJsonParsableError,
+  MalformedSchemaError,
+  MalformedDataError,
+  UnknownValidatorError,
+  DataNotStringError,
+
 }

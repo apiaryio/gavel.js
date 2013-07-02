@@ -47,50 +47,50 @@ HitStructure = class HitStructure
         body: ''
         statusCode: ''
 
-
-Hit = class Hit extends HitStructure
-
-  validate: ->
-    if not @validator then @validator = new HitValidator @
-    @validator.validate()
-
-  isValid: ->
-    @validate()
-
-    results = [
-      @request['validationResults']['headers'],
-      @request['validationResults']['body'],
-      @response['validationResults']['headers'],
-      @response['validationResults']['body']
-    ]
-
-    for result in results
-      if not @checkIfResultValid result
-        return false
-
-    return true
-
-  validationResults: ->
-    @validate()
-    result =  {
-              request: {
-                headers   : @request['validationResults']['headers'],
-                body      : @request['validationResults']['body'],
-                statusCode: @request['validationResults']['statusCode']
-              },
-              response: {
-                headers   : @response['validationResults']['headers'],
-                body      : @response['validationResults']['body']
-                statusCode: @response['validationResults']['statusCode']
-              }
-    }
-    return result
-
-  #@private
-  checkIfResultValid: (result) ->
-    return not (result and typeof(result) == 'object' and Object.keys(result).length > 0)
-
-module.exports = {
-  Hit,
-  HitStructure
-}
+#
+#Hit = class Hit extends HitStructure
+#
+#  validate: ->
+#    if not @validator then @validator = new HitValidator @
+#    @validator.validate()
+#
+#  isValid: ->
+#    @validate()
+#
+#    results = [
+#      @request['validationResults']['headers'],
+#      @request['validationResults']['body'],
+#      @response['validationResults']['headers'],
+#      @response['validationResults']['body']
+#    ]
+#
+#    for result in results
+#      if not @checkIfResultValid result
+#        return false
+#
+#    return true
+#
+#  validationResults: ->
+#    @validate()
+#    result =  {
+#              request: {
+#                headers   : @request['validationResults']['headers'],
+#                body      : @request['validationResults']['body'],
+#                statusCode: @request['validationResults']['statusCode']
+#              },
+#              response: {
+#                headers   : @response['validationResults']['headers'],
+#                body      : @response['validationResults']['body']
+#                statusCode: @response['validationResults']['statusCode']
+#              }
+#    }
+#    return result
+#
+#  #@private
+#  checkIfResultValid: (result) ->
+#    return not (result and typeof(result) == 'object' and Object.keys(result).length > 0)
+#
+#module.exports = {
+#  Hit,
+#  HitStructure
+#}

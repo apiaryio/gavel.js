@@ -2,7 +2,7 @@ require './mixins'
 
 HttpRequest = class HttpRequest
   @actAsValidatable()
-  constructor: ({@method, @url, @headers, @body, @expectedHttpRequest}) ->
+  constructor: ({@method, @url, @headers, @body, @expected}) ->
 
 
 ExpectedHttpRequest = class ExpectedHttpRequest

@@ -13,7 +13,7 @@ describe 'HttpResponse', ->
   describe 'when I create new instance', ->
     before ->
       expectedHttpResponse = new ExpectedHttpResponse {statusCode: '1', statusMessage: '2', headers: '3', body: '4', headersSchema: {"type":"object"}, bodySchema: {"type":"object"}}
-      httpResponse = new HttpResponse statusCode: '1', statusMessage: '2', headers: '3', body: '4', expectedHttpResponse: expectedHttpResponse
+      httpResponse = new HttpResponse statusCode: '1', statusMessage: '2', headers: '3', body: '4', expected: expectedHttpResponse
 
     it 'should has correct structure', ->
       assert.isUndefined validate JSON.parse(JSON.stringify(httpResponse)), sampleHttpResponseSchema
