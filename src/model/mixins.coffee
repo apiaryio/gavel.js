@@ -1,14 +1,29 @@
 {extendable} = require '../utils/extendable'
 
-validate =
+validatable =
   validate : () ->
-    console.error @a
 
   isValidatable : () ->
 
   isValid : () ->
 
+  #@private
+  getValidator: () ->
+
+  #@private
+  validateInt: () ->
+
+  #@private
+  getType: () ->
+
+  #@private
+  getValidatorByTpe: () ->
+
+
+
+
+
 
 Function.prototype.actAsValidatable = () ->
-  extendable.include validate, @
+  extendable.include validatable, @
 
