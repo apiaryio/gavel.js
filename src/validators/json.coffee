@@ -3,7 +3,7 @@ crypto = require('crypto')
 
 {ValidationErrors} = require('../validation-errors')
 
-JsonValidator = class Validator
+JsonValidator = class JsonValidator
 
   constructor: ({data, schema}) ->
     if typeof data == 'string'
