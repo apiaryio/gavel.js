@@ -1,7 +1,7 @@
 # Function exported in this file is called before each 
 
 module.exports = () ->
-  {Hit} = require '../../../src/hit'
+  {Hit} = require '../../../src/model/hit'
   
   myWorld = (callback) ->
     @.hit = new Hit

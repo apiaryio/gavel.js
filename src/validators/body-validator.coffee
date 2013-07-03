@@ -1,7 +1,7 @@
 errors          = require '../errors'
 {JsonValidator}   = require './json-validator'
 {StringValidator} = require './string-validator'
-{SchemaGenerator, SchemaProperties} = require('../schema-generator')
+{SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
 BodyValidator = class BodyValidator
   #@params

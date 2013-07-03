@@ -1,6 +1,6 @@
 errors          = require '../errors'
 {JsonValidator}   = require './json-validator'
-{SchemaGenerator, SchemaProperties} = require('../schema-generator')
+{SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
 HeadersValidator = class HeadersValidator
   #@params
