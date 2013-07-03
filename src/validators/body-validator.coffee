@@ -12,10 +12,12 @@ BodyValidator = class BodyValidator
     if typeof(real) != 'string'
       outError = new errors.MalformedDataError 'provided real data is not string'
       outError['data'] = real
+      throw outError
 
-    if typeof(expected) != 'string'
+    if (not schema) and typeof(expected) != 'string'
       outError = new errors.MalformedDataError 'provided expected data is not string'
       outError['data'] = expected
+      throw outError
 
     validatorType = 'json'
 
@@ -24,7 +26,11 @@ BodyValidator = class BodyValidator
         if typeof(schema) != 'object'
           throw new Error 'schema is not object'
 
-        @schema = JSON.parse(JSON.stringify(schema))
+        if Object.keys(schema).length == 0
+          @schema = null
+        else
+          @schema = JSON.parse(JSON.stringify(schema))
+
       catch error
         outError = new errors.SchemaNotJsonParsableError error.message
         outError['schema'] = schema
@@ -37,6 +43,8 @@ BodyValidator = class BodyValidator
       catch error
         validatorType = 'string'
         @expected = expected
+    else
+      throw new errors.NotEnoughDataError "expected data or json schema must be defined"
 
     if validatorType == 'json'
       try

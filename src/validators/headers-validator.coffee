@@ -13,14 +13,15 @@ HeadersValidator = class HeadersValidator
         if typeof(schema) != 'object'
           throw new Error 'schema is not object'
 
-        @schema = JSON.parse(JSON.stringify(schema))
+        if Object.keys(schema).length == 0
+          @schema = null
+        else
+          @schema = JSON.parse(JSON.stringify(schema))
 
       catch error
         outError = new errors.SchemaNotJsonParsableError error.message
         outError['schema'] = schema
         throw outError
-
-
     else if expected
       try
         @expected = JSON.parse(JSON.stringify(expected))
@@ -29,6 +30,8 @@ HeadersValidator = class HeadersValidator
         outError = new errors.MalformedDataError error.message
         outError['data'] = expected
         throw outError
+    else
+      throw new errors.NotEnoughDataError "expected data or json schema must be defined"
 
     try
       @real = JSON.parse(JSON.stringify(real))

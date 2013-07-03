@@ -1,4 +1,4 @@
-{ValidationErrors} = require('../validation-errors')
+{ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
 
 StringValidator = class StringValidator

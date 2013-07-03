@@ -1,7 +1,7 @@
 amanda = require 'amanda'
 crypto = require('crypto')
 
-{ValidationErrors} = require('../validation-errors')
+{ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
 
 JsonValidator = class JsonValidator

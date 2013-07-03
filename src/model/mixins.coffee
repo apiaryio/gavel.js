@@ -15,7 +15,7 @@ validatable =
     return true
 
   isValid : () ->
-    @validateBody().length == 0 and @validateHeaders() == 0 and @validateStatus()
+    @validateBody().length == 0 and @validateHeaders().length == 0 and @validateStatus()
 
   #@private
   #@params
@@ -43,7 +43,9 @@ validatable =
 
     return @statusCode == @expected?.statusCode
 
-
+  #@private
+  validatableObject: () ->
+    true
 
 validatableMessage =
   validate: () ->
@@ -53,15 +55,18 @@ validatableMessage =
     }
 
   isValidatable : () ->
-    return true
+    @httpRequest.isValidatable() and @httpResponse.isValidatable()
 
   isValid : () ->
     @httpRequest.isValid() and @httpResponse.isValid()
 
+  validatableObject: () ->
+    @httpRequest.validatableObject and @httpResponse.validatableObject and @httpRequest.validatableObject() and @httpResponse.validatableObject()
+
 
 Function.prototype.actAsValidatable = () ->
   extendable.include validatable, @
-#
-#Function.prototype.actAsValidatableMessage = () ->
-#  extendable.include validatableMessage, @
+
+Function.prototype.actAsValidatableMessage = () ->
+  extendable.include validatableMessage, @
 

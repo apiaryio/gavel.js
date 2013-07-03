@@ -2,7 +2,7 @@
 
 fixtures       = require '../fixtures'
 {JsonValidator}    = require('../../src/validators/json-validator')
-{ValidationErrors}    = require('../../src/validation-errors')
+{ValidationErrors}    = require('../../src/validators/validation-errors')
 
 describe 'JsonValidator', ->
   validator = null

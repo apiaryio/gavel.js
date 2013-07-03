@@ -10,6 +10,10 @@ SchemaNotJsonParsableError = class DataNotJsonParcableError extends MalformedSch
 
 UnknownValidatorError = class UnknownValidatorError extends Error
 
+NotValidatableError = class NotValidatableError extends Error
+
+NotEnoughDataError = class NotEnoughDataError extends Error
+
 module.exports = {
   DataNotJsonParsableError,
   SchemaNotJsonParsableError,
@@ -17,5 +21,6 @@ module.exports = {
   MalformedDataError,
   UnknownValidatorError,
   DataNotStringError,
-
+  NotValidatableError,
+  NotEnoughDataError,
 }
