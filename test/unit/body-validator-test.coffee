@@ -26,6 +26,12 @@ describe 'BodyValidator', ->
           bodyValidator = new BodyValidator real: "{'header1': 'value1'}",expected: "{'header1': 'value1'}", schema: 'malformed'
         assert.throws fn
 
+    describe 'when I do not provide schema or expected', ->
+      it 'should throw exception', ->
+        fn = () ->
+          bodyValidator = new BodyValidator real: {'header1': 'value1'},expected: null, schema: null
+        assert.throws fn
+
     describe 'when I provide correct data', ->
       it 'should not throw exception', ->
         fn = () ->
