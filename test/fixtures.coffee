@@ -568,133 +568,132 @@ sampleJsonSchemaNonStrict = '''
 '''
 
 sampleJsonSchemaNonStrict2 = '''
-                            {
-                            "$schema":"http://json-schema.org/draft-03/schema",
-                            "id":"#",
-                            "required":true,
-                            "additionalProperties":true,
-                            "type":"object",
-                            "properties":{
-                            "simple_key_value_pairXXXXX":{
-                            "id":"simple_key_value_pair",
-                            "required":true
-                            },
-                            "complex_key_value_pair":{
-                            "id":"complex_key_value_pair",
-                            "required":true,
-                            "additionalProperties":true,
-                            "type":"object",
-                            "properties":{
-                            "complex_key_value_pair_key1":{
-                            "id":"complex_key_value_pair_key1",
-                            "required":true
-                            },
-                            "complex_key_value_pair_key2":{
-                            "id":"complex_key_value_pair_key2",
-                            "required":true
-                            },
-                            "complex_key_value_pair_key3":{
-                            "id":"complex_key_value_pair_key3",
-                            "required":true,
-                            "additionalProperties":true,
-                            "type":"object",
-                            "properties":{
-                            "complex_key_value_pair_key1_in_nested_hash":{
-                            "id":"complex_key_value_pair_key1_in_nested_hash",
-                            "required":true
-                            },
-                            "complex_key_value_pair_key2_in_nested_hash":{
-                            "id":"complex_key_value_pair_key2_in_nested_hash",
-                            "required":true
-                            }
-                            }
-                            }
-                            }
-                            },
-                            "array_of_hashes":{
-                            "id":"array_of_hashes",
-                            "required":true,
-                            "additionalItems":true,
-                            "type":"array",
-                            "items":[
-                            {
-                            "id":0,
-                            "required":true,
-                            "additionalProperties":true,
-                            "type":"object",
-                            "properties":{
-                            "array_of_hashes_item1_key1":{
-                            "id":"array_of_hashes_item1_key1",
-                            "required":true
-                            },
-                            "array_of_hashes_item1_key2":{
-                            "id":"array_of_hashes_item1_key2",
-                            "required":true
-                            }
-                            }
-                            },
-                            {
-                            "id":1,
-                            "required":true,
-                            "additionalProperties":true,
-                            "type":"object",
-                            "properties":{
-                            "array_of_hashes_item2_key1":{
-                            "id":"array_of_hashes_item2_key1",
-                            "required":true
-                            },
-                            "array_of_hashes_item2_key2":{
-                            "id":"array_of_hashes_item2_key2",
-                            "required":true
-                            }
-                            }
-                            }
-                            ]
-                            },
-                            "array_of_mixed_simple_types":{
-                            "id":"array_of_mixed_simple_types",
-                            "required":true,
-                            "additionalItems":true,
-                            "type":"array",
-                            "items":[
-                            {
-                            "id":0,
-                            "required":true
-                            },
-                            {
-                            "id":1,
-                            "required":true
-                            },
-                            {
-                            "id":2,
-                            "required":true
-                            },
-                            {
-                            "id":3,
-                            "required":true
-                            }
-                            ]
-                            },
-                            "array_of_same_simple_types":{
-                            "id":"array_of_same_simple_types",
-                            "required":true,
-                            "additionalItems":true,
-                            "type":"array",
-                            "items":[
-                            {
-                            "id":0,
-                            "required":true
-                            },
-                            {
-                            "id":1,
-                            "required":true
-                            }
-                            ]
-                            }
-                            }
-                            }
-                            '''
-
+{
+  "$schema":"http://json-schema.org/draft-03/schema",
+  "id":"#",
+  "required":true,
+  "additionalProperties":true,
+  "type":"object",
+  "properties":{
+    "simple_key_value_pairXXXXX":{
+      "id":"simple_key_value_pair",
+      "required":true
+    },
+    "complex_key_value_pair":{
+      "id":"complex_key_value_pair",
+      "required":true,
+      "additionalProperties":true,
+      "type":"object",
+      "properties":{
+        "complex_key_value_pair_key1":{
+          "id":"complex_key_value_pair_key1",
+          "required":true
+        },
+        "complex_key_value_pair_key2":{
+          "id":"complex_key_value_pair_key2",
+          "required":true
+        },
+        "complex_key_value_pair_key3":{
+          "id":"complex_key_value_pair_key3",
+          "required":true,
+          "additionalProperties":true,
+          "type":"object",
+          "properties":{
+            "complex_key_value_pair_key1_in_nested_hash":{
+              "id":"complex_key_value_pair_key1_in_nested_hash",
+              "required":true
+            },
+            "complex_key_value_pair_key2_in_nested_hash":{
+              "id":"complex_key_value_pair_key2_in_nested_hash",
+              "required":true
+            }
+          }
+        }
+      }
+    },
+    "array_of_hashes":{
+      "id":"array_of_hashes",
+      "required":true,
+      "additionalItems":true,
+      "type":"array",
+      "items":[
+      {
+        "id":0,
+        "required":true,
+        "additionalProperties":true,
+        "type":"object",
+        "properties":{
+          "array_of_hashes_item1_key1":{
+            "id":"array_of_hashes_item1_key1",
+            "required":true
+          },
+          "array_of_hashes_item1_key2":{
+            "id":"array_of_hashes_item1_key2",
+            "required":true
+          }
+        }
+      },
+      {
+        "id":1,
+        "required":true,
+        "additionalProperties":true,
+        "type":"object",
+        "properties":{
+          "array_of_hashes_item2_key1":{
+            "id":"array_of_hashes_item2_key1",
+            "required":true
+          },
+          "array_of_hashes_item2_key2":{
+            "id":"array_of_hashes_item2_key2",
+            "required":true
+          }
+        }
+      }
+      ]
+    },
+    "array_of_mixed_simple_types":{
+      "id":"array_of_mixed_simple_types",
+      "required":true,
+      "additionalItems":true,
+      "type":"array",
+      "items":[
+      {
+        "id":0,
+        "required":true
+      },
+      {
+        "id":1,
+        "required":true
+      },
+      {
+        "id":2,
+        "required":true
+      },
+      {
+        "id":3,
+        "required":true
+      }
+      ]
+    },
+    "array_of_same_simple_types":{
+      "id":"array_of_same_simple_types",
+      "required":true,
+      "additionalItems":true,
+      "type":"array",
+      "items":[
+      {
+        "id":0,
+        "required":true
+      },
+      {
+        "id":1,
+        "required":true
+      }
+      ]
+    }
+  }
+}
+'''
 
 sampleJsonSchemaNonStrictCustom = '''
 {
@@ -1052,6 +1051,171 @@ sampleHttpResponseSchema = {
   }
 }
 
+sampleHttpMessageSchema =
+{
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required":true,
+  "properties":{
+    "httpRequest": {
+      "type":"object",
+      "id": "httpRequest",
+      "required":true,
+      "properties":{
+        "body": {
+          "type":"string",
+          "id": "httpRequest/body",
+          "required":true
+        },
+        "expected": {
+          "type":"object",
+          "id": "httpRequest/expected",
+          "required":true,
+          "properties":{
+            "bodySchema": {
+              "type":"object",
+              "id": "httpRequest/expected/bodySchema",
+              "required":true,
+              "properties":{
+                "type": {
+                  "type":"string",
+                  "id": "httpRequest/expected/bodySchema/type",
+                  "required":true
+                }
+              }
+            },
+            "body": {
+              "type":"string",
+              "id": "httpRequest/expected/body",
+              "required":true
+            },
+            "headersSchema": {
+              "type":"object",
+              "id": "httpRequest/expected/headersSchema",
+              "required":true,
+              "properties":{
+                "type": {
+                  "type":"string",
+                  "id": "httpRequest/expected/headersSchema/type",
+                  "required":true
+                }
+              }
+            },
+            "headers": {
+              "type":"string",
+              "id": "httpRequest/expected/headers",
+              "required":true
+            },
+            "method": {
+              "type":"string",
+              "id": "httpRequest/expected/method",
+              "required":true
+            },
+            "url": {
+              "type":"string",
+              "id": "httpRequest/expected/url",
+              "required":true
+            }
+          }
+        },
+        "headers": {
+          "type":"string",
+          "id": "httpRequest/headers",
+          "required":true
+        },
+        "method": {
+          "type":"string",
+          "id": "httpRequest/method",
+          "required":true
+        },
+        "url": {
+          "type":"string",
+          "id": "httpRequest/url",
+          "required":true
+        }
+      }
+    },
+    "httpResponse": {
+      "type":"object",
+      "id": "httpResponse",
+      "required":true,
+      "properties":{
+        "body": {
+          "type":"string",
+          "id": "httpResponse/body",
+          "required":true
+        },
+        "expected": {
+          "type":"object",
+          "id": "httpResponse/expected",
+          "required":true,
+          "properties":{
+            "bodySchema": {
+              "type":"object",
+              "id": "httpResponse/expected/bodySchema",
+              "required":true,
+              "properties":{
+                "type": {
+                  "type":"string",
+                  "id": "httpResponse/expected/bodySchema/type",
+                  "required":true
+                }
+              }
+            },
+            "body": {
+              "type":"string",
+              "id": "httpResponse/expected/body",
+              "required":true
+            },
+            "headersSchema": {
+              "type":"object",
+              "id": "httpResponse/expected/headersSchema",
+              "required":true,
+              "properties":{
+                "type": {
+                  "type":"string",
+                  "id": "httpResponse/expected/headersSchema/type",
+                  "required":true
+                }
+              }
+            },
+            "headers": {
+              "type":"string",
+              "id": "httpResponse/expected/headers",
+              "required":true
+            },
+            "statusCode": {
+              "type":"string",
+              "id": "httpResponse/expected/statusCode",
+              "required":true
+            },
+            "statusMessage": {
+              "type":"string",
+              "id": "httpResponse/expected/statusMessage",
+              "required":true
+            }
+          }
+        },
+        "headers": {
+          "type":"string",
+          "id": "httpResponse/headers",
+          "required":true
+        },
+        "statusCode": {
+          "type":"string",
+          "id": "httpResponse/statusCode",
+          "required":true
+        },
+        "statusMessage": {
+          "type":"string",
+          "id": "httpResponse/statusMessage",
+          "required":true
+        }
+      }
+    }
+  }
+}
 
 module.exports =
   sampleJson                       : sampleJson
@@ -1082,6 +1246,7 @@ module.exports =
   sampleHttpRequestSchema          : sampleHttpRequestSchema
   sampleHttpResponseSchema         : sampleHttpResponseSchema
   sampleHeadersSchema              : sampleHeadersSchema
+  sampleHttpMessageSchema          : sampleHttpMessageSchema
 
 
 
