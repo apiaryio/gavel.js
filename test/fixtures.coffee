@@ -1,5 +1,3 @@
-{HitStructure} = require('../src/hit')
-
 sampleJson = '''
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
@@ -890,6 +888,169 @@ sampleHeadersAdd = {
 "header_added": "header_added_value",
 }
 
+sampleHeadersSchema = '''
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "additionalProperties": true,
+  "type": "object",
+  "properties": {
+    "header1": {
+      "id": "header1",
+      "required": true,
+      "enum": [
+        "value1"
+      ]
+    }
+  }
+}
+                      '''
+sampleHttpRequestSchema = {
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required":true,
+  "properties":{
+    "body": {
+      "type":"string",
+      "id": "#/body",
+      "required":true
+    },
+    "expected": {
+      "type":"object",
+      "id": "#/expected",
+      "required":true,
+      "properties":{
+        "bodySchema": {
+          "type":"object",
+          "id": "#/expected/bodySchema",
+          "required":true
+        },
+        "body": {
+          "type":"string",
+          "id": "#/expected/body",
+          "required":true
+        },
+        "headersSchema": {
+          "type":"object",
+          "id": "#/expected/headersSchema",
+          "required":true
+        },
+        "headers": {
+          "type":"string",
+          "id": "#/expected/headers",
+          "required":true
+        },
+        "method": {
+          "type":"string",
+          "id": "#/expected/method",
+          "required":true
+        },
+        "url": {
+          "type":"string",
+          "id": "#/expected/url",
+          "required":true
+        }
+      }
+    },
+    "headers": {
+      "type":"string",
+      "id": "#/headers",
+      "required":true
+    },
+    "method": {
+      "type":"string",
+      "id": "#/method",
+      "required":true
+    },
+    "url": {
+      "type":"string",
+      "id": "#/url",
+      "required":true
+    }
+  }
+}
+
+sampleHttpResponseSchema = {
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required":true,
+  "properties":{
+    "body": {
+      "type":"string",
+      "id": "#/body",
+      "required":true
+    },
+    "expected": {
+      "type":"object",
+      "id": "#/expected",
+      "required":true,
+      "properties":{
+        "bodySchema": {
+          "type":"object",
+          "id": "#/expected/bodySchema",
+          "required":true,
+          "properties":{
+            "type": {
+              "type":"string",
+              "id": "#/expected/bodySchema/type",
+              "required":true
+            }
+          }
+        },
+        "body": {
+          "type":"string",
+          "id": "#/expected/body",
+          "required":true
+        },
+        "headersSchema": {
+          "type":"object",
+          "id": "#/expected/headersSchema",
+          "required":true,
+          "properties":{
+            "type": {
+              "type":"string",
+              "id": "#/expected/headersSchema/type",
+              "required":true
+            }
+          }
+        },
+        "headers": {
+          "type":"string",
+          "id": "#/expected/headers",
+          "required":true
+        },
+        "statusCode": {
+          "type":"string",
+          "id": "#/expected/statusCode",
+          "required":true
+        },
+        "statusMessage": {
+          "type":"string",
+          "id": "#/expected/statusMessage",
+          "required":true
+        }
+      }
+    },
+    "headers": {
+      "type":"string",
+      "id": "#/headers",
+      "required":true
+    },
+    "statusCode": {
+      "type":"string",
+      "id": "#/statusCode",
+      "required":true
+    },
+    "statusMessage": {
+      "type":"string",
+      "id": "#/statusMessage",
+      "required":true
+    }
+  }
+}
 
 
 module.exports =
@@ -915,10 +1076,12 @@ module.exports =
   sampleHeadersMissing             : sampleHeadersMiss
   sampleHeadersAdded               : sampleHeadersAdd
   sampleAmandaError                : sampleAmandaError
-  HitStructure                     : HitStructure
   sampleAmandaError2               : sampleAmandaError2
   sampleFormatedError              : sampleFormatedError
   sampleError                      : sampleError
+  sampleHttpRequestSchema          : sampleHttpRequestSchema
+  sampleHttpResponseSchema         : sampleHttpResponseSchema
+  sampleHeadersSchema              : sampleHeadersSchema
 
 
 

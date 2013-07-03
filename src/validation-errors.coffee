@@ -5,9 +5,12 @@ ValidationErrors = class ValidationErrors
     @length = amandaErrors?.length || 0
     @amandaErrors = amandaErrors || {}
     @now = Date.now().toString()
+    #TO DO need to be solved
+    @dataError = null
 
-    for i in [0..@length - 1]
-      @[i] = @amandaErrors[i]
+    if @length > 0
+      for i in [0..@length - 1]
+        @[i] = @amandaErrors[i]
 
   getByPath: (pathArray) ->
     if not @hashTable then @buildHashtable()
