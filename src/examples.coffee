@@ -1,8 +1,8 @@
+async       = require 'async'
 
 {HttpRequest, ExpectedHttpRequest} = require('./model/http-request')
 {HttpResponse, ExpectedHttpResponse} = require('./model/http-response')
 {HttpMessage} = require('./model/http-message')
-
 {validate,isValid,isValidatable} = require('./validate')
 
 
@@ -49,30 +49,90 @@ httpMessageProps =
 
 httpMessage = new HttpMessage httpMessageProps
 
-console.error 'HttpRequest'
-console.error httpRequest.validate()
-console.error httpRequest.isValidatable()
-console.error httpRequest.isValid()
-
-console.error validate(httpRequest)
-console.error isValidatable(httpRequest)
-console.error isValid(httpRequest)
-
-console.error 'httpResponse'
-console.error httpResponse.validate()
-console.error httpResponse.isValidatable()
-console.error httpResponse.isValid()
-
-console.error validate(httpResponse)
-console.error isValidatable(httpResponse)
-console.error isValid(httpResponse)
-
-console.error 'httpResponse'
-console.error httpResponse.validate()
-console.error httpResponse.isValidatable()
-console.error httpResponse.isValid()
-
-console.error validate(httpResponse)
-console.error isValidatable(httpResponse)
-console.error isValid(httpResponse)
+async.series [
+  (cb) ->
+    console.error '----------------------------------'
+    console.error 'HttpRequest called on object'
+    httpRequest.validate (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    httpRequest.isValidatable (err, result) ->
+      console.error result
+      cb err, result
+  (cb) ->
+    httpRequest.isValid (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    console.error '----------------------------------'
+    console.error 'HttpRequest called by wrapper'
+    validate httpRequest, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    isValidatable httpRequest, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    isValid httpRequest, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    console.error '----------------------------------'
+    console.error 'httpResponse called on object'
+    httpResponse.validate (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    httpResponse.isValidatable (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    httpResponse.isValid (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    console.error '----------------------------------'
+    console.error 'httpResponse called by wrapper'
+    validate httpResponse, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    isValidatable httpResponse, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    isValid httpResponse, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    console.error '----------------------------------'
+    console.error 'httpMessage called on object'
+    httpMessage.validate (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    httpMessage.isValidatable (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    httpMessage.isValid (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    console.error '----------------------------------'
+    console.error 'httpMessage called by wrapper'
+    validate httpMessage, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    isValidatable httpMessage, (err, result) ->
+      console.error result
+      cb err, result
+  ,(cb) ->
+    isValid httpMessage, (err, result) ->
+      console.error result
+      cb err, result
+  ]
 

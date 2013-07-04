@@ -1,21 +1,38 @@
+async       = require 'async'
+
 {extendable}    = require '../utils/extendable'
 errors          = require '../errors'
 {BodyValidator}      = require '../validators/body-validator'
 {HeadersValidator}      = require '../validators/headers-validator'
 
 validatable =
-  validate: () ->
-    result =
-      headers: @validateHeaders(),
-      body: @validateBody(),
-      statusCode: @validateStatus()
-    return result
+  validate: (cb) ->
+    result = null
+    outError = null
 
-  isValidatable : () ->
-    return true
+    try
+      result =
+        headers: @validateHeaders(),
+        body: @validateBody(),
+        statusCode: @validateStatus()
+    catch error
+      outError = error
 
-  isValid : () ->
-    @validateBody().length == 0 and @validateHeaders().length == 0 and @validateStatus()
+    return cb outError, result
+
+  isValidatable : (cb) ->
+    return cb null, true
+
+  isValid : (cb) ->
+    result = null
+    outError = null
+
+    try
+      result = (@validateBody().length == 0) && (@validateHeaders().length == 0) and @validateStatus()
+    catch error
+      outError = error
+
+    return cb outError, result
 
   #@private
   #@params
@@ -48,18 +65,52 @@ validatable =
     true
 
 validatableMessage =
-  validate: () ->
-    return {
-      httpRequest: @httpRequest.validate(),
-      httpResponse: @httpResponse.validate()
-    }
+  validate: (cb) ->
+    async.parallel {
+      httpRequest: (cb) =>
+        @httpRequest.validate cb
+      ,
+      httpResponse: (cb) =>
+        @httpResponse.validate cb
 
-  isValidatable : () ->
-    @httpRequest.isValidatable() and @httpResponse.isValidatable()
+      }, (err, result) ->
+        if err
+          return cb err
+        result =
+          httpRequest: result['httpRequest'],
+          httpResponse: result['httpResponse']
+        return cb null, result
 
-  isValid : () ->
-    @httpRequest.isValid() and @httpResponse.isValid()
+  isValidatable : (cb) ->
+    async.parallel {
+        httpRequest: (cb) =>
+          @httpRequest.isValidatable cb
+        ,
+        httpResponse: (cb) =>
+          @httpResponse.isValidatable cb
 
+      }, (err, result) ->
+        if err
+          return cb err
+        return cb null, result['httpRequest'] and result['httpResponse']
+
+
+  isValid : (cb) ->
+    async.parallel {
+        httpRequest: (cb) =>
+          @httpRequest.isValid cb
+        ,
+        httpResponse: (cb) =>
+          @httpResponse.isValid cb
+
+      }, (err, result) ->
+        if err
+          return cb err
+        return cb null, result['httpRequest'] and result['httpResponse']
+
+
+
+  #@private
   validatableObject: () ->
     @httpRequest.validatableObject and @httpResponse.validatableObject and @httpRequest.validatableObject() and @httpResponse.validatableObject()
 

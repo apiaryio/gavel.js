@@ -4,21 +4,21 @@ errors          = require './errors'
 validatable = (object) ->
   object.validatableObject && object.validatableObject()
 
-proxy = (validatableObject, method) ->
+proxy = (validatableObject, method, cb) ->
   if not validatable validatableObject
-    throw new errors.NotValidatableError "Object is not validatable: #{validatableObject}"
+    return cb new errors.NotValidatableError "Object is not validatable: #{validatableObject}"
 
-  return validatableObject[method]()
+  return validatableObject[method] cb
 
 
-validate = (validatableObject) ->
-  proxy validatableObject, 'validate'
+validate = (validatableObject, cb) ->
+  proxy validatableObject, 'validate', cb
 
-isValid = (validatableObject) ->
-  proxy validatableObject, 'isValid'
+isValid = (validatableObject, cb) ->
+  proxy validatableObject, 'isValid', cb
 
-isValidatable = (validatableObject) ->
-  proxy validatableObject, 'isValidatable'
+isValidatable = (validatableObject, cb) ->
+  proxy validatableObject, 'isValidatable', cb
 
 module.exports = {
   validate,

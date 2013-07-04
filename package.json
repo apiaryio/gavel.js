@@ -7,7 +7,8 @@
     "test": "test"
   },
   "dependencies": {
-      "amanda": "git://github.com/apiaryio/Amanda.git"
+      "amanda": "git://github.com/apiaryio/Amanda.git",
+      "async": ""
   },
   "devDependencies": {
     "chai": "~1.6.0",
