@@ -49,22 +49,26 @@ httpMessageProps =
 
 httpMessage = new HttpMessage httpMessageProps
 
+console.error '----------------------------------'
+console.error 'HttpRequest called on object'
+console.error httpRequest.validate()
+console.error httpRequest.isValidatable()
+console.error httpRequest.isValid()
+
+console.error '----------------------------------'
+console.error 'httpResponse called on object'
+console.error httpResponse.validate()
+console.error httpResponse.isValidatable()
+console.error httpResponse.isValid()
+
+console.error '----------------------------------'
+console.error 'httpMessage called on object'
+console.error httpMessage.validate()
+console.error httpMessage.isValidatable()
+console.error httpMessage.isValid()
+
 async.series [
   (cb) ->
-    console.error '----------------------------------'
-    console.error 'HttpRequest called on object'
-    httpRequest.validate (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
-    httpRequest.isValidatable (err, result) ->
-      console.error result
-      cb err, result
-  (cb) ->
-    httpRequest.isValid (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
     console.error '----------------------------------'
     console.error 'HttpRequest called by wrapper'
     validate httpRequest, (err, result) ->
@@ -80,20 +84,6 @@ async.series [
       cb err, result
   ,(cb) ->
     console.error '----------------------------------'
-    console.error 'httpResponse called on object'
-    httpResponse.validate (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
-    httpResponse.isValidatable (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
-    httpResponse.isValid (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
-    console.error '----------------------------------'
     console.error 'httpResponse called by wrapper'
     validate httpResponse, (err, result) ->
       console.error result
@@ -104,20 +94,6 @@ async.series [
       cb err, result
   ,(cb) ->
     isValid httpResponse, (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
-    console.error '----------------------------------'
-    console.error 'httpMessage called on object'
-    httpMessage.validate (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
-    httpMessage.isValidatable (err, result) ->
-      console.error result
-      cb err, result
-  ,(cb) ->
-    httpMessage.isValid (err, result) ->
       console.error result
       cb err, result
   ,(cb) ->

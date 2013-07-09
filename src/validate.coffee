@@ -8,10 +8,15 @@ proxy = (validatableObject, method, cb) ->
   if not validatable validatableObject
     return cb new errors.NotValidatableError "Object is not validatable: #{validatableObject}"
 
-  return validatableObject[method] cb
+  try
+    result = validatableObject[method]()
+  catch error
+    return cb error, null
+  return cb null, result
 
 
 validate = (validatableObject, cb) ->
+  
   proxy validatableObject, 'validate', cb
 
 isValid = (validatableObject, cb) ->

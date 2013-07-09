@@ -7,32 +7,17 @@ errors          = require '../errors'
 
 validatable =
   validate: (cb) ->
-    result = null
-    outError = null
+    result =
+      headers: @validateHeaders(),
+      body: @validateBody(),
+      statusCode: @validateStatus()
+    return result
 
-    try
-      result =
-        headers: @validateHeaders(),
-        body: @validateBody(),
-        statusCode: @validateStatus()
-    catch error
-      outError = error
+  isValidatable : () ->
+    return true
 
-    return cb outError, result
-
-  isValidatable : (cb) ->
-    return cb null, true
-
-  isValid : (cb) ->
-    result = null
-    outError = null
-
-    try
-      result = (@validateBody().length == 0) && (@validateHeaders().length == 0) and @validateStatus()
-    catch error
-      outError = error
-
-    return cb outError, result
+  isValid : () ->
+      @validateBody().length == 0 and @validateHeaders().length == 0 and @validateStatus()
 
   #@private
   #@params
@@ -65,49 +50,17 @@ validatable =
     true
 
 validatableMessage =
-  validate: (cb) ->
-    async.parallel {
-      httpRequest: (cb) =>
-        @httpRequest.validate cb
-      ,
-      httpResponse: (cb) =>
-        @httpResponse.validate cb
+  validate: () ->
+    return {
+      httpRequest: @httpRequest.validate(),
+      httpResponse: @httpResponse.validate()
+    }
 
-      }, (err, result) ->
-        if err
-          return cb err
-        result =
-          httpRequest: result['httpRequest'],
-          httpResponse: result['httpResponse']
-        return cb null, result
+  isValidatable : () ->
+    @httpRequest.isValidatable() and @httpResponse.isValidatable()
 
-  isValidatable : (cb) ->
-    async.parallel {
-        httpRequest: (cb) =>
-          @httpRequest.isValidatable cb
-        ,
-        httpResponse: (cb) =>
-          @httpResponse.isValidatable cb
-
-      }, (err, result) ->
-        if err
-          return cb err
-        return cb null, result['httpRequest'] and result['httpResponse']
-
-
-  isValid : (cb) ->
-    async.parallel {
-        httpRequest: (cb) =>
-          @httpRequest.isValid cb
-        ,
-        httpResponse: (cb) =>
-          @httpResponse.isValid cb
-
-      }, (err, result) ->
-        if err
-          return cb err
-        return cb null, result['httpRequest'] and result['httpResponse']
-
+  isValid : () ->
+    @httpRequest.isValid() and @httpResponse.isValid()
 
 
   #@private
