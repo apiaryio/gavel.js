@@ -28,8 +28,6 @@ validatable =
       when 'headers' then return new HeadersValidator {real: @headers, expected: @expected.headers, schema: @expected.headersSchema}
       else throw new errors.UnknownValidatorError "no validator found for type: #{type}"
 
-
-
   #@private
   validateBody: () ->
     return @getValidator('body').validate()

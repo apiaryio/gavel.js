@@ -36,7 +36,7 @@ BodyValidator = class BodyValidator
         outError['schema'] = schema
         throw outError
 
-    else if expected
+    else if expected or expected is ''
       try
         @expected = JSON.parse(expected)
         @schema = @getSchema @expected

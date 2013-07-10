@@ -28,8 +28,13 @@ JsonValidator = class JsonValidator
       throw outError
 
   validate: ->
-    if typeof(@data)  == 'object' and Object.keys(@data).length == 0 and @schema['empty']
-      return
+    if (typeof(@data)  == 'object' and Object.keys(@data).length == 0) or (typeof(@data)  == 'object' and @schema['empty'])
+      error = {
+        "length":0,
+        "errorMessages":{
+        }
+      }
+      return new ValidationErrors error
 
     dataHash = @getHash @data
     schemaHash = @getHash @schema
@@ -45,8 +50,24 @@ JsonValidator = class JsonValidator
 
   #@private
   validatePrivate: ->
-    return amanda.validate  @data, @schema, {singleError: false}, (error) =>
+    try
+      return amanda.validate  @data, @schema, {singleError: false}, (error) =>
+        return @errors = new ValidationErrors error
+    catch error
+      error = {
+        "0":{
+          "property":[],
+          "attributeValue":true,
+          "message":"Validator internal error: #{error.message}",
+          "validatorName":"error",
+        },
+        "length":1,
+        "errorMessages":{
+        }
+
+      }
       return @errors = new ValidationErrors error
+
 
   #@private
   getHash: (data) ->

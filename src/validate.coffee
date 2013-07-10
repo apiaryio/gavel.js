@@ -16,7 +16,6 @@ proxy = (validatableObject, method, cb) ->
 
 
 validate = (validatableObject, cb) ->
-  
   proxy validatableObject, 'validate', cb
 
 isValid = (validatableObject, cb) ->
@@ -29,5 +28,4 @@ module.exports = {
   validate,
   isValid,
   isValidatable
-
 }
