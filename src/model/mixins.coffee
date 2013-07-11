@@ -30,18 +30,24 @@ validatable =
 
   #@private
   validateBody: () ->
-    return @getValidator('body').validate()
+    if typeof @validateBodyResult == 'undefined'
+      @validateBodyResult = @getValidator('body').validate()
+    return @validateBodyResult
 
   #@private
   validateHeaders: () ->
-    return @getValidator('headers').validate()
+    if typeof @validateHeadersResult == 'undefined'
+      @validateHeadersResult = @getValidator('headers').validate()
+    return @validateHeadersResult
 
   #@private
   validateStatus: () ->
-    if not @statusCode
-      return true
-
-    return @statusCode == @expected?.statusCode
+    if typeof @validateStatusCodeResult == 'undefined'
+      if not @statusCode
+        @validateStatusCodeResult = true
+      else
+        @validateStatusCodeResult = (@statusCode == @expected?.statusCode)
+    return @validateStatusCodeResult
 
   #@private
   validatableObject: () ->
