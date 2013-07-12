@@ -45,7 +45,6 @@ BodyValidator = class BodyValidator
         @expected = expected
     else
       throw new errors.NotEnoughDataError "expected data or json schema must be defined"
-
     if validatorType == 'json'
       try
         @real = JSON.parse(real)
