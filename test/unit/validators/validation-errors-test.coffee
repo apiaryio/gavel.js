@@ -1,7 +1,7 @@
 {assert}       = require('chai')
 
-fixtures       = require '../fixtures'
-{ValidationErrors}       = require '../../src/validators/validation-errors'
+fixtures       = require '../../fixtures'
+{ValidationErrors}       = require '../../../src/validators/validation-errors'
 
 describe 'ValidationErrors', ->
   errors = {}

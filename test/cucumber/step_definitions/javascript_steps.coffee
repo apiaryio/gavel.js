@@ -27,7 +27,7 @@ javascriptStepDefs = () ->
     realOutputInspect = util.inspect(realOutput)
     expectedOutputInspect = util.inspect(expectedOutput)
     
-    if not _.isEqual(realOutput, expectedOutput)
+    if not _.isEqual realOutput, expectedOutput
       callback.fail "Output of code buffer does not equal. Expected output:\n" \
                     + expectedOutputInspect \
                     + "\n but got: \n" \

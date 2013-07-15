@@ -1,8 +1,8 @@
 {assert} = require('chai')
 amanda = require 'amanda'
-{sampleJson, sampleJsonSchema, sampleJsonSchemaNonStrict} = require '../fixtures'
+{sampleJson, sampleJsonSchema, sampleJsonSchemaNonStrict} = require '../../fixtures'
 
-{SchemaGenerator, SchemaProperties} = require('../../src/utils/schema-generator')
+{SchemaGenerator, SchemaProperties} = require('../../../src/utils/schema-generator')
 
 describe 'SchemaGenerator', ->
   sg = {}

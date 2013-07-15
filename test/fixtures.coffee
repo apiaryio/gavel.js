@@ -946,9 +946,9 @@ sampleHttpRequestSchema = {
           "id": "#/expected/method",
           "required":true
         },
-        "url": {
+        "uri": {
           "type":"string",
-          "id": "#/expected/url",
+          "id": "#/expected/uri",
           "required":true
         }
       }
@@ -963,9 +963,9 @@ sampleHttpRequestSchema = {
       "id": "#/method",
       "required":true
     },
-    "url": {
+    "uri": {
       "type":"string",
-      "id": "#/url",
+      "id": "#/uri",
       "required":true
     }
   }
@@ -1112,9 +1112,9 @@ sampleHttpMessageSchema =
               "id": "httpRequest/expected/method",
               "required":true
             },
-            "url": {
+            "uri": {
               "type":"string",
-              "id": "httpRequest/expected/url",
+              "id": "httpRequest/expected/uri",
               "required":true
             }
           }
@@ -1129,9 +1129,9 @@ sampleHttpMessageSchema =
           "id": "httpRequest/method",
           "required":true
         },
-        "url": {
+        "uri": {
           "type":"string",
-          "id": "httpRequest/url",
+          "id": "httpRequest/uri",
           "required":true
         }
       }

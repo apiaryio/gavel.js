@@ -5,12 +5,12 @@ StringValidator = class StringValidator
 
   constructor: ({@string1, @string2}) ->
     if typeof(@string1) != 'string'
-      outError = new errors.DataNotStringError 'input data is not string'
+      outError = new errors.DataNotStringError 'String validator: input data is not string'
       outError['data'] = @string1
       throw outError
 
     if typeof(@string2) != 'string'
-      outError = new errors.DataNotStringError 'input data is not string'
+      outError = new errors.DataNotStringError 'String validator: input data is not string'
       outError['data'] = @string2
       throw outError
 

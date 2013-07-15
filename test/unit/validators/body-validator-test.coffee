@@ -1,9 +1,9 @@
 {assert} = require('chai')
-{BodyValidator} = require('../../src/validators/body-validator')
-{StringValidator} = require '../../src/validators/string-validator'
-{JsonValidator}   = require '../../src/validators/json-validator'
+{BodyValidator} = require('../../../src/validators/body-validator')
+{StringValidator} = require '../../../src/validators/string-validator'
+{JsonValidator}   = require '../../../src/validators/json-validator'
 
-fixtures = require '../fixtures'
+fixtures = require '../../fixtures'
 
 describe 'BodyValidator', ->
   bodyValidator = {}
@@ -25,7 +25,14 @@ describe 'BodyValidator', ->
         fn = () ->
           bodyValidator = new BodyValidator real: "{'header1': 'value1'}",expected: "{'header1': 'value1'}", schema: 'malformed'
         assert.throws fn
-
+   
+    describe 'when I provide valid schema as string', ->
+      it 'should not throw exception', ->
+        fn = () ->
+          schemaString = '{"type":"object","$schema":"http://json-schema.org/draft-03/schema","required":true,"properties":{"object":{"type":"object","required":false,"properties":{"a":{"type":"string","required":true},"c":{"type":"string","required":true},"e":{"type":"string","required":true}}},"string":{"type":"string","required":true}}}'
+          bodyValidator = new BodyValidator real: "{'header1': 'value1'}",expected: "{'header1': 'value1'}", schema: schemaString
+        assert.doesNotThrow fn
+    
     describe 'when I do not provide schema or expected', ->
       it 'should throw exception', ->
         fn = () ->
@@ -37,6 +44,13 @@ describe 'BodyValidator', ->
         fn = () ->
           bodyValidator = new BodyValidator real: "{'header1': 'value1'}", expected: "{'header1': 'value1'}", schema: {'header1': 'value1'}
         assert.doesNotThrow fn
+
+    describe 'when I do not provide real, expected and schema', ->
+      it 'should not throw exception', ->
+        fn = () ->
+          bodyValidator = new BodyValidator real: null, expected: null, schema: null
+        assert.doesNotThrow fn
+
 
     describe 'when I do not provide schema', ->
       before ->

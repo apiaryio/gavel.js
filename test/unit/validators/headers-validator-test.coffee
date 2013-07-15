@@ -1,6 +1,6 @@
 {assert} = require('chai')
-{HeadersValidator} = require('../../src/validators/headers-validator')
-fixtures = require '../fixtures'
+{HeadersValidator} = require('../../../src/validators/headers-validator')
+fixtures = require '../../fixtures'
 
 describe 'HeadersValidator', ->
   headersValidator = {}
@@ -23,11 +23,17 @@ describe 'HeadersValidator', ->
           headersValidator = new HeadersValidator real: {'header1': 'value1'},expected: {'header1': 'value1'}, schema: 'malformed'
         assert.throws fn
 
-    describe 'when I do not provide schema or expected', ->
+    describe 'when I do not provide schema and expected', ->
       it 'should throw exception', ->
         fn = () ->
           headersValidator = new HeadersValidator real: {'header1': 'value1'},expected: null, schema: null
-        assert.throws fn
+        assert.doesNotThrow fn
+
+  describe 'when I do not provide real, schema and expected', ->
+      it 'should not throw exception', ->
+        fn = () ->
+          headersValidator = new HeadersValidator real: null ,expected: null, schema: null
+        assert.doesNotThrow fn
 
     describe 'when I provide correct data', ->
       it 'should not throw exception', ->

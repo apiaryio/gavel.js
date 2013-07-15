@@ -7,11 +7,13 @@ HeadersValidator = class HeadersValidator
   # real: hash
   # expected: hash
   # schema: string
-  constructor: ({real, expected, schema}) ->
+  constructor: ({real, expected, schema}) -> 
+    expected = {} if expected == null or expected == undefined 
+    real = {} if real == null or real == undefined 
     if schema
       try
         if typeof(schema) != 'object'
-          throw new Error 'schema is not object'
+          throw new Error 'Headers validator: schema is not object'
 
         if Object.keys(schema).length == 0
           @schema = null
@@ -27,16 +29,18 @@ HeadersValidator = class HeadersValidator
         @expected = JSON.parse(JSON.stringify(expected))
         @schema = @getSchema @expected
       catch error
-        outError = new errors.MalformedDataError error.message
+        outError = new errors.MalformedDataError "Headers validator - Expected malformed:" + error.message
         outError['data'] = expected
         throw outError
     else
-      throw new errors.NotEnoughDataError "expected data or json schema must be defined"
+      throw new errors.NotEnoughDataError "Headers validator: expected data or json schema must be defined"
 
     try
       @real = JSON.parse(JSON.stringify(real))
     catch error
-      outError = new errors.MalformedDataError error.message
+
+
+      outError = new errors.MalformedDataError "Headers validator - Real malformed:" + error.message
       outError['data'] = real
       throw outError
 

@@ -1,0 +1,7 @@
+#!/bin/sh
+git submodule init
+cd $(dirname $0)
+./cucumber \
+&& ./mocha
+
+

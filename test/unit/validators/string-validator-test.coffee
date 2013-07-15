@@ -1,8 +1,8 @@
 {assert}       = require('chai')
 
-fixtures       = require '../fixtures'
-{StringValidator}    = require('../../src/validators/string-validator')
-{ValidationErrors}    = require('../../src/validators/validation-errors')
+fixtures       = require '../../fixtures'
+{StringValidator}    = require('../../../src/validators/string-validator')
+{ValidationErrors}    = require('../../../src/validators/validation-errors')
 
 describe 'StringValidator', ->
   validator = null

@@ -1,35 +1,37 @@
-util = require('util')
-
 validationErrorsThens = () ->
   Given = When = Then = @.defineStep
   
-  Then /^it should set some error for "([^"]*)"$/, (target, callback) ->
-    target = toCamelCase(target)
-    result = @.hit.validationResults() 
-    targetResult = result.response[target] || {}
-    errorsCount = Object.keys(targetResult).length
+  Then /^Gavel will set some error for "([^"]*)"$/, (target, callback) ->
+
+    @validate (error, result) =>
+      if error
+        callback.fail "Error during validation: " + error
+
+      target = @toCamelCase(target)
+      targetResult = result[target]
+      errorsCount = targetResult.length
+      
+      if not errorsCount > 0
+        callback.fail "Expected validation errors on '" + target + "', but there are no validation errors."  
     
-    if not errorsCount > 0
-      callback.fail "Expected validation errors on '" + target + "', but there are no validation errors."  
-  
-    callback()
+      callback()
+
+  Then /^Gavel will NOT set any errors for "([^"]*)"$/, (target, callback) ->
     
-  Then /^it should not set any errors for "([^"]*)"$/, (target, callback) ->
-    target = toCamelCase(target)
-    result = @.hit.validationResults()
-    targetResult = result.response[target] || {}
-    errorsCount = Object.keys(targetResult).length
-    #inspect = util.inspect(targetResult, { depth: null })
+    @validate (error, result) =>
+      if error
+        callback.fail "Error during validation: " + error
 
-    if errorsCount > 0
-      callback.fail "No errors on '" + target + "' expected, but there are " + errorsCount + " validation errors."
+      target = @toCamelCase(target)
+      targetResult = result[target]
+      errorsCount = targetResult.length
 
-    callback()
-  
-  toCamelCase = (input) -> 
-    result = input.replace /\s([a-z])/g, (strings) -> 
-      strings[1].toUpperCase()
-    result
-  return 
+      if errorsCount > 0
+        callback.fail "No errors on '" + target + "' expected, but there are " + errorsCount + " validation errors."
 
+      callback()
+      
+
+
+ 
 module.exports = validationErrorsThens

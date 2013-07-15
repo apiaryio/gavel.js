@@ -6,8 +6,8 @@ errors          = require '../errors'
 {HeadersValidator}      = require '../validators/headers-validator'
 
 validatable =
-  validate: (cb) ->
-    result =
+  validate: () ->
+    result  =
       headers: @validateHeaders(),
       body: @validateBody(),
       statusCode: @validateStatus()
@@ -27,7 +27,6 @@ validatable =
       when 'body' then return new BodyValidator {real: @body, expected: @expected.body, schema: @expected.bodySchema}
       when 'headers' then return new HeadersValidator {real: @headers, expected: @expected.headers, schema: @expected.headersSchema}
       else throw new errors.UnknownValidatorError "no validator found for type: #{type}"
-
 
 
   #@private
