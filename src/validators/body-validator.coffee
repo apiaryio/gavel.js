@@ -42,7 +42,7 @@ BodyValidator = class BodyValidator
         outError['schema'] = schema
         throw outError
 
-    else if not (expected == null or expected == undefined)
+    else if expected or expected is ''
       try
         @expected = JSON.parse(expected)
         @schema = @getSchema @expected
@@ -50,8 +50,7 @@ BodyValidator = class BodyValidator
         validatorType = 'string'
         @expected = expected
     else
-      throw new errors.NotEnoughDataError "Body: expected data or json schema must be defined"
-
+      throw new errors.NotEnoughDataError "expected data or json schema must be defined"
     if validatorType == 'json'
       try
         @real = JSON.parse(real)

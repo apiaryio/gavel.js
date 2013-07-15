@@ -27,7 +27,7 @@ HeadersValidator = class HeadersValidator
     else if expected
       try
         @expected = JSON.parse(JSON.stringify(expected))
-        @schema = @getSchema @expected
+        @schema = @getSchema @prepareHeaders @expected
       catch error
         outError = new errors.MalformedDataError "Headers validator - Expected malformed:" + error.message
         outError['data'] = expected
@@ -36,7 +36,7 @@ HeadersValidator = class HeadersValidator
       throw new errors.NotEnoughDataError "Headers validator: expected data or json schema must be defined"
 
     try
-      @real = JSON.parse(JSON.stringify(real))
+      @real = @prepareHeaders JSON.parse(JSON.stringify(real))
     catch error
 
 
@@ -48,6 +48,18 @@ HeadersValidator = class HeadersValidator
 
   validate: () ->
     @validator.validate()
+
+  #@private
+  prepareHeaders: (headers) ->
+    if typeof(headers) != 'object'
+      return headers
+
+    transformedHeaders = {}
+
+    for key, value of headers
+      transformedHeaders[key.toLowerCase()] = value
+
+    return transformedHeaders
 
   #@private
   getSchema: (data)->
