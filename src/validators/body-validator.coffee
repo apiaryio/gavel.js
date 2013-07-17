@@ -3,7 +3,7 @@ errors          = require '../errors'
 {StringValidator} = require './string-validator'
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
-BodyValidator = class BodyValidator
+class BodyValidator
   #@params
   # real: string
   # expected: string

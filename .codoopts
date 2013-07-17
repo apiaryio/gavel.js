@@ -1,0 +1,9 @@
+--name       "Gavel"
+--readme     README.md
+--title      "Gavel Documentation"
+--verbose
+--debug
+--output-dir ./doc
+./src/model
+-
+CHANGELOG.md

@@ -2,7 +2,7 @@ errors          = require '../errors'
 {JsonValidator}   = require './json-validator'
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
-HeadersValidator = class HeadersValidator
+class HeadersValidator
   #@params
   # real: hash
   # expected: hash

@@ -23,7 +23,7 @@ json_schema_options =
     'divisibleBy': (prop, val, validator) -> "The <code>#{prop}</code> property is not divisible by <code>#{validator}</code> (current value is <code>#{JSON.stringify val}</code>)."
     'uniqueItems': (prop, val, validator) -> "All items in the <code>#{prop}</code> property must be unique."
 
-JsonValidator = class JsonValidator
+class JsonValidator
 
   constructor: ({data, schema}) ->
     try

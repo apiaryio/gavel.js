@@ -1,18 +1,18 @@
-MalformedDataError = class MalformedDataError extends Error
+class MalformedDataError extends Error
 
-DataNotJsonParsableError = class DataNotJsonParsableError extends MalformedDataError
+class DataNotJsonParsableError extends MalformedDataError
 
-DataNotStringError = class DataNotStringError extends MalformedDataError
+class DataNotStringError extends MalformedDataError
 
-MalformedSchemaError = class MalformedSchemaError extends Error
+class MalformedSchemaError extends Error
 
-SchemaNotJsonParsableError = class DataNotJsonParcableError extends MalformedSchemaError
+class SchemaNotJsonParsableError extends MalformedSchemaError
 
-UnknownValidatorError = class UnknownValidatorError extends Error
+class UnknownValidatorError extends Error
 
-NotValidatableError = class NotValidatableError extends Error
+class NotValidatableError extends Error
 
-NotEnoughDataError = class NotEnoughDataError extends Error
+class NotEnoughDataError extends Error
 
 module.exports = {
   DataNotJsonParsableError,

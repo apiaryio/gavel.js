@@ -1,10 +1,13 @@
 require './mixins'
 
-HttpRequest = class HttpRequest
+# This class has a virtual method, that doesn't
+# exist in the source but appears in the documentation.
+# @include validatable
+class HttpRequest
   @actAsValidatable()
   constructor: ({@method, @uri, @headers, @body, @expected}) ->
 
-ExpectedHttpRequest = class ExpectedHttpRequest
+class ExpectedHttpRequest
   constructor: ({@method, @uri, @headers, @body, @headersSchema, @bodySchema}) ->
 
 module.exports = {

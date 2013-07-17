@@ -1,7 +1,7 @@
 {ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
 
-StringValidator = class StringValidator
+class StringValidator
 
   constructor: ({@string1, @string2}) ->
     if typeof(@string1) != 'string'

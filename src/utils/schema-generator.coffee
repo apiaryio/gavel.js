@@ -1,7 +1,7 @@
 SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
 
 # Configuration structure for SchemaGenerator
-SchemaProperties = class SchemaProperties
+class SchemaProperties
   constructor: ({keysStrict, valuesStrict, typesStrict}) ->
     @set {keysStrict: keysStrict || false, valuesStrict: valuesStrict || false, typesStrict: typesStrict || false}
 
@@ -11,7 +11,7 @@ SchemaProperties = class SchemaProperties
     @.typesStrict  = typesStrict
 
 # From given JSON or object, construct JSON schema for Amanda
-SchemaGenerator = class SchemaGenerator
+class SchemaGenerator
   constructor: ( {json, properties} ) ->
     if typeof json == 'string'
       @json = JSON.parse json

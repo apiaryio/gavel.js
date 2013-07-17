@@ -1,6 +1,7 @@
 require './mixins'
 
-HttpMessage = class HttpMessage
+# @include validatableMessage
+class HttpMessage
   @actAsValidatableMessage()
   constructor: ({@httpRequest, @httpResponse}) ->
 

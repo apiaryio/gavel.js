@@ -1,3 +1,9 @@
+# Validation mixin.
+#
+# @mixin
+# @author Peter Grilli <tully@apiary.io>
+#
+
 async       = require 'async'
 
 {extendable}    = require '../utils/extendable'
@@ -6,6 +12,9 @@ errors          = require '../errors'
 {HeadersValidator}      = require '../validators/headers-validator'
 
 validatable =
+  ###
+  Validates headers, body and status attributes of mixed class
+  ###
   validate: () ->
     result  =
       headers: @validateHeaders(),

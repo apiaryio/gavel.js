@@ -1,6 +1,6 @@
 crypto = require('crypto')
 
-ValidationErrors = class ValidationErrors
+class ValidationErrors
   constructor: (amandaErrors) ->
     @length = amandaErrors?.length || 0
     @amandaErrors = amandaErrors || {}
