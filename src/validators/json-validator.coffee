@@ -6,6 +6,8 @@ errors          = require '../errors'
 
 
 sylables = ['a','e','i','o','u']
+
+#options for {Amanda} json validator
 json_schema_options =
   singleError: false
   messages:
@@ -23,8 +25,13 @@ json_schema_options =
     'divisibleBy': (prop, val, validator) -> "The <code>#{prop}</code> property is not divisible by <code>#{validator}</code> (current value is <code>#{JSON.stringify val}</code>)."
     'uniqueItems': (prop, val, validator) -> "All items in the <code>#{prop}</code> property must be unique."
 
+# Validates given data against given schema
+# @author Peter Grilli <tully@apiary.io>
 class JsonValidator
-
+  # Construct a JsonValidator and checks given data
+  #@option {} [Object] data data to validate
+  #@option {} [Object] schema json schema
+  #@throw {DataNotJsonParsableError} when given data or schema is not json parsable object
   constructor: ({data, schema}) ->
     try
       if typeof(data) != 'object'
@@ -46,6 +53,8 @@ class JsonValidator
       outError['schema'] = schema
       throw outError
 
+  #Validates given data against given schema
+  #@return [ValidationErrors]
   validate: ->
     if (typeof(@data)  == 'object' and Object.keys(@data).length == 0) or (typeof(@data)  == 'object' and @schema['empty'])
       error = {

@@ -3,11 +3,18 @@ errors          = require '../errors'
 {StringValidator} = require './string-validator'
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
+# Checks data, prepares validator and validates request or response body against given expected data or json schema
+# @author Peter Grilli <tully@apiary.io>
 class BodyValidator
-  #@params
-  # real: string
-  # expected: string
-  # schema: string
+
+  # Construct a BodyValidator, checks data and chooses right validator
+  #if real data is json parsable and (expected data is json parsable or correct schema is given), then {JsonValidator} is choosen, otherwise {StringValidator} is choosen
+  #@option {} [String] real data to validate
+  #@option {} [String] expected expected data
+  #@option {} [String/Object] schema json schema - if no schema is provided, schema will be generated from expected data, if expected data are json parsable
+  #@throw {MalformedDataError} when real is not a String or when no schema provided and expected is not a String
+  #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
+  #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
   constructor: ({real, expected, schema}) ->
     real = "" if real == null or real == undefined
     expected = "" if expected == null or expected == undefined
@@ -66,6 +73,8 @@ class BodyValidator
       when 'json' then @validator = new JsonValidator data: @real, schema: @schema
       else @validator = new StringValidator string1: @real, string2: @expected
 
+  #calls validation for given data
+  #@return [ValidationErrors] {ValidationErrors}
   validate: () ->
     @validator.validate()
 

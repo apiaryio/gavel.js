@@ -1,17 +1,32 @@
+#@private
 SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
 
-# Configuration structure for SchemaGenerator
+# Configuration structure container for SchemaGenerator
+# @author Peter Grilli <tully@apiary.io>
 class SchemaProperties
+
+  # Construct a SchemaProperties
+  #@option {} [Boolean] keysStrict if true - no additional properties are allowed
+  #@option {} [Boolean] valuesStrict if true - values will be presented as enums in schema
+  #@option {} [Boolean] typesStrict if true - "type" property according to the value in source json will be generated in schema
   constructor: ({keysStrict, valuesStrict, typesStrict}) ->
     @set {keysStrict: keysStrict || false, valuesStrict: valuesStrict || false, typesStrict: typesStrict || false}
 
+  # Sets a SchemaProperties instance attributes
+  #@option {} [Boolean] keysStrict if true - no additional properties are allowed
+  #@option {} [Boolean] valuesStrict if true - values will be presented as enums in schema
+  #@option {} [Boolean] typesStrict if true - "type" property according to the value in source json will be generated in schema
   set: ({keysStrict, valuesStrict, typesStrict}) ->
     @.keysStrict   = keysStrict
     @.valuesStrict = valuesStrict
     @.typesStrict  = typesStrict
 
 # From given JSON or object, construct JSON schema for Amanda
+# @author Peter Grilli <tully@apiary.io>
 class SchemaGenerator
+  # Construct a SchemaGenerator
+  #@option {} [Object] json source json from which the schema will be generated
+  #@option {} [SchemaProperties] properties see {SchemaProperties}
   constructor: ( {json, properties} ) ->
     if typeof json == 'string'
       @json = JSON.parse json
@@ -21,6 +36,8 @@ class SchemaGenerator
     @schema = undefined
     @properties = properties || new SchemaProperties {}
 
+  #generates json schema
+  #@return [Object] generated json schema
   generate: () ->
     getSchemaForObjectProperties = {
       baseObject: @json,

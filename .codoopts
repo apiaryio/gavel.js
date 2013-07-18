@@ -1,9 +1,8 @@
 --name       "Gavel"
 --readme     README.md
 --title      "Gavel Documentation"
---verbose
---debug
+--private=false
 --output-dir ./doc
-./src/model
+./src
 -
 CHANGELOG.md
