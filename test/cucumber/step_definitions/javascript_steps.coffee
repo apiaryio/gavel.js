@@ -5,15 +5,15 @@ util = require 'util'
 javascriptStepDefs = () ->
   Given = When = Then = @.defineStep
   
-  Given /^defined "([^"]*)" object:$/, (objectName, string, callback) ->
+  Given /^you define following "([^"]*)" object:$/, (objectName, string, callback) ->
     @.codeBuffer += string + "\n"
     callback()
   
-  When /^I call:$/, (string, callback) ->
+  When /^you call:$/, (string, callback) ->
     @.codeBuffer += string + "\n"
     callback()
 
-  Then /^it should return:$/, (expected, callback) ->
+  Then /^it will return:$/, (expected, callback) ->
     realOutput = safeEval(@.codeBuffer,callback)
 
     # I'm terribly sorry, but curly braces not asigned to any
