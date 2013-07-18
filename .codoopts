@@ -1,0 +1,5 @@
+--readme     README.md
+--title      "Gavel.js API Reference"
+--private
+--output-dir ./doc
+./src
