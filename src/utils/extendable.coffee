@@ -1,3 +1,4 @@
+#@private
 extendable =
   extend: (obj, self) ->
     for key, value of obj when key not in ['extended', 'included']

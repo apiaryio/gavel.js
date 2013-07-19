@@ -1,5 +1,8 @@
+--name       "Gavel"
 --readme     README.md
---title      "Gavel.js API Reference"
---private
+--title      "Gavel Documentation"
+--private=false
 --output-dir ./doc
 ./src
+-
+CHANGELOG.md

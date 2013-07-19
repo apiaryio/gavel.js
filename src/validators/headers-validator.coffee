@@ -2,20 +2,28 @@ errors          = require '../errors'
 {JsonValidator}   = require './json-validator'
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
-HeadersValidator = class HeadersValidator
-  #@params
-  # real: hash
-  # expected: hash
-  # schema: string
+# Checks data, prepares validator and validates request or response headers against given expected headers or json schema
+# @author Peter Grilli <tully@apiary.io>
+class HeadersValidator
+  # Construct a HeadersValidator, checks data
+  #@option {} [Object] real data to validate
+  #@option {} [Object] expected expected data
+  #@option {} [String/Object] schema json schema - if no schema is provided, schema will be generated from expected data, if expected data are json parsable
+  #@throw {MalformedDataError} when real is not a String or when no schema provided and expected is not a String
+  #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
+  #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
   constructor: ({real, expected, schema}) -> 
     expected = {} if expected == null or expected == undefined 
     real = {} if real == null or real == undefined 
     if schema
       try
         if typeof(schema) != 'object'
-          throw new Error 'Headers validator: schema is not object'
+          try
+            @schema = JSON.parse schema
 
-        if Object.keys(schema).length == 0
+          catch error
+            throw new Error 'Body: schema is not object or parseable JSON'
+        else if Object.keys(schema).length == 0
           @schema = null
         else
           @schema = JSON.parse(JSON.stringify(schema))
@@ -46,6 +54,7 @@ HeadersValidator = class HeadersValidator
 
     @validator = new JsonValidator data: @real, schema: @schema
 
+  #calls validation for given data
   validate: () ->
     @validator.validate()
 

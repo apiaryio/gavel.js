@@ -1,6 +1,9 @@
 crypto = require('crypto')
 
-ValidationErrors = class ValidationErrors
+# Wrapper class for errors provided by {Amanda} json schema validator
+# @author Peter Grilli <tully@apiary.io>
+class ValidationErrors
+  # Construct a ValidationErrors
   constructor: (amandaErrors) ->
     @length = amandaErrors?.length || 0
     @amandaErrors = amandaErrors || {}
@@ -12,6 +15,9 @@ ValidationErrors = class ValidationErrors
       for i in [0..@length - 1]
         @[i] = @amandaErrors[i]
 
+  #returns errors from given path if any or empty array
+  #@param [Array] pathArray every element is key in source object
+  #@return [Array] errors from given path if any or empty array
   getByPath: (pathArray) ->
     if not @hashTable then @buildHashtable()
 
