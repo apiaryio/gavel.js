@@ -6,5 +6,5 @@ if [ -d "src/" ]; then
 	#mkdir lib
 	#cp -a -R src/* lib/
 fi
-
+cp test/cucumber/features/node_js/README.md ./
 

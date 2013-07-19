@@ -1,7 +1,7 @@
 {
   "name": "gavel",
   "version": "0.1.0e",
-  "description": "HTTP hit validation against API Blueprint",
+  "description": "Gavel HTTP validator JavaScript library",
   "main": "lib/index.js",
   "directories": {
     "test": "test"
@@ -29,6 +29,9 @@
   },
   "keywords": [
     "http",
+    "request",
+    "response",
+    "message",
     "hit",
     "proxy",
     "mock",

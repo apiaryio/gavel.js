@@ -5,3 +5,4 @@
 *.sublime-workspace
 /.vagrant
 /doc
+/lib
