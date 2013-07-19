@@ -1,6 +1,6 @@
 {
   "name": "gavel",
-  "version": "0.1.0e",
+  "version": "0.1.1",
   "description": "Gavel HTTP validator JavaScript library",
   "main": "lib/index.js",
   "directories": {
