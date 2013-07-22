@@ -1,6 +1,6 @@
 # GAVEL—JavaScript library for HTTP validation
 
-API NOT STABLE, YET!
+### API NOT STABLE, YET!
 
 [![Build Status](https://travis-ci.org/apiaryio/gavel.js.png?branch=master)](https://travis-ci.org/apiaryio/gavel.js)
 [![Dependency Status](https://david-dm.org/apiaryio/gavel.js.png)](https://david-dm.org/apiaryio/gavel.js)
