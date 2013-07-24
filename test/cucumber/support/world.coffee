@@ -67,8 +67,11 @@ module.exports = () ->
                       + "\nWith error: " \
                       + error
 
-    @validate = (cb) ->
+    @isValid = (cb) ->
+       gavel.isValid @real, @expected, 'response', (error,result) ->
+        cb error,result
 
+    @validate = (cb) ->
       gavel.validate @real, @expected, 'response',  (error,result) ->
         cb error, result 
 

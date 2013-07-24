@@ -31,7 +31,17 @@ validationErrorsThens = () ->
 
       callback()
       
+  Then /^Request or Response is NOT valid$/, (callback) ->
+    @isValid (error, result) =>
+      if result
+        callback.fail "Request or Response is valid and should NOT be valid."
+      callback()
 
+  Then /^Request or Response is valid$/, (callback) ->
+    @isValid (error, result) =>
+      unless result
+        callback.fail "Request or Response is NOT valid and should be valid."
+      callback()
 
  
 module.exports = validationErrorsThens
