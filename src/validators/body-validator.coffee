@@ -33,10 +33,9 @@ class BodyValidator
 
     if schema
       try
-        if typeof(schema) != 'object'
+        if not (schema instanceof Object)
           try
             @schema = JSON.parse schema
-
           catch error
             throw new Error 'Body: schema is not object or parseable JSON'
         else if Object.keys(schema).length == 0

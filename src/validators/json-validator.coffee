@@ -34,7 +34,7 @@ class JsonValidator
   #@throw {DataNotJsonParsableError} when given data or schema is not json parsable object
   constructor: ({data, schema}) ->
     try
-      if typeof(data) != 'object'
+      if not (data instanceof Object)
         throw new Error 'input data is not object'
 
       @data = JSON.parse(JSON.stringify(data))
@@ -44,7 +44,7 @@ class JsonValidator
       throw outError
 
     try
-      if typeof(schema) != 'object'
+      if not (schema instanceof Object)
         throw new Error 'input schema is not object'
 
       @schema = JSON.parse(JSON.stringify(schema))
@@ -56,7 +56,7 @@ class JsonValidator
   #Validates given data against given schema
   #@return [ValidationErrors]
   validate: ->
-    if (typeof(@data)  == 'object' and Object.keys(@data).length == 0) or (typeof(@data)  == 'object' and @schema['empty'])
+    if ((@data instanceof Object) and Object.keys(@data).length == 0) or ((@data instanceof Object) and @schema['empty'])
       error = {
         "length":0,
         "errorMessages":{
