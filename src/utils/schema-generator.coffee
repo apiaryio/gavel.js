@@ -72,7 +72,7 @@ class SchemaGenerator
     if firstLevel
       schemaDict["$schema"] = SCHEMA_VERSION
       schemaDict["id"] = "#"
-      if typeof(baseObject) == 'object' and Object.keys(baseObject).length == 0
+      if (baseObject instanceof Object) and Object.keys(baseObject).length == 0
         schemaDict["empty"] = true
 
     if objectId isnt undefined
