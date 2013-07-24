@@ -1,4 +1,4 @@
-gavel = require '../../../src/index'
+gavel = require '../../../src/gavel'
 prettyjson = require 'prettyjson'
 _ = require 'lodash'
 

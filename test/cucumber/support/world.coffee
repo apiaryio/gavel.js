@@ -1,4 +1,7 @@
-gavel = require('../../../src/index')
+gavel = require('../../../src/gavel')
+_ = require 'lodash'
+vm = require 'vm'
+util = require 'util'
 
 # Function exported in this file is called before each 
 module.exports = () ->
@@ -18,13 +21,55 @@ module.exports = () ->
     # contains parsed http objects for model valdiation
     @model = {}
     
+    @expectBlockEval = (block, expectedReturn, callback) ->
+      realOutput = safeEval(block,callback)
+
+      # I'm terribly sorry, but curly braces not asigned to any
+      # variable in evaled string are interpreted as code block
+      # not an Object literal, so I'm wrapping expected code output
+      # with brackets. 
+      # see: http://stackoverflow.com/questions/8949274/javascript-calling-eval-on-an-object-literal-with-functions
+
+      expectedOutput = safeEval("(" + expectedReturn + ")",callback)
+
+      realOutputInspect = util.inspect(realOutput)
+      expectedOutputInspect = util.inspect(expectedOutput)
+      
+      if not _.isEqual realOutput, expectedOutput
+        callback.fail "Output of code buffer does not equal. Expected output:\n" \
+                      + expectedOutputInspect \
+                      + "\nbut got: \n" \
+                      + realOutputInspect + "\n" \ 
+                      + "Evaled code block:" + "\n" \ 
+                      + "- - - \n" \ 
+                      + block + "\n" \
+                      + "- - - "
+
+
+      callback()
+
+    safeEval = (code,callback) ->
+      
+      # I'm terribly sorry, it's no longer possible to manipulate module require/load 
+      # path inside node's process. So I'm prefixing require path by hard 
+      # substitution in code to pretend to 'hit' is packaged module.
+      # 
+      # further reading on node.js load paths:
+      # http://nodejs.org/docs/v0.8.23/api/all.html#all_all_together
+
+      code = code.replace("require('","require('../../../src/")
+
+      try  
+        return eval(code)
+      catch error
+        callback.fail "Eval failed. Code buffer: \n\n" \
+                      + code \
+                      + "\nWith error: " \
+                      + error
 
     @validate = (cb) ->
 
-      @real.expected = new gavel.ExpectedHttpResponse @expected
-      http = new gavel.HttpResponse @real
-      
-      gavel.validate http, (error,result) ->
+      gavel.validate @real, @expected, 'response',  (error,result) ->
         cb error, result 
 
     
@@ -51,8 +96,6 @@ module.exports = () ->
       #parsed.protocol = firstLine[0]
       parsed.statusCode = firstLine[1]
       parsed.statusMessage = firstLine[2]
-
-
 
     @parseHttp = (type, string) ->   
       throw Error 'Type must be "request" or "response"' unless type == 'request' or type == 'response' 
