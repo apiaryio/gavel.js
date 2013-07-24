@@ -17,7 +17,7 @@ class HeadersValidator
     real = {} if real == null or real == undefined 
     if schema
       try
-        if typeof(schema) != 'object'
+        if not (schema instanceof Object)
           try
             @schema = JSON.parse schema
 
@@ -60,7 +60,7 @@ class HeadersValidator
 
   #@private
   prepareHeaders: (headers) ->
-    if typeof(headers) != 'object'
+    if not (headers instanceof Object)
       return headers
 
     transformedHeaders = {}
