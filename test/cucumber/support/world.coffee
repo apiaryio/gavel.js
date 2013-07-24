@@ -10,6 +10,8 @@ module.exports = () ->
     
     @codeBuffer = ""
     
+    @commandBuffer = ""
+
     # expected will contains data for creation of objects:
     # ExpecterHttpResponse, ExpectedHttpRequest or ExpectedHttpMessage
     @expected = {}

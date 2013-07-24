@@ -8,7 +8,10 @@
   },
   "dependencies": {
       "amanda": "git://github.com/apiaryio/Amanda.git",
-      "async": "0.2.9"
+      "async": "0.2.9",
+      "commander": "2.0.0",
+      "curl-trace-parser": "0.0.7",
+      "http-string-parser": "0.0.1"
   },
   "devDependencies": {
     "chai": "~1.7.2",

@@ -1,7 +1,5 @@
 # GAVEL—JavaScript library for HTTP validation
 
-### API NOT STABLE, YET!
-
 [![Build Status](https://travis-ci.org/apiaryio/gavel.js.png?branch=master)](https://travis-ci.org/apiaryio/gavel.js)
 [![Dependency Status](https://david-dm.org/apiaryio/gavel.js.png)](https://david-dm.org/apiaryio/gavel.js)
 [![devDependency Status](https://david-dm.org/apiaryio/gavel.js/dev-status.png)](https://david-dm.org/apiaryio/gavel.js#info=devDependencies)
@@ -14,10 +12,8 @@ gavel.isValid(response, expected, function(error,result){
 });
 ```
 
-Find out more on [Sync][Sync] and [Async][Async] API.
+Find out more on Sync and Async API in [Cucumber documentation and examples](https://www.relishapp.com/apiary/gavel/docs/node-js/)
 
-[Async]: https://www.relishapp.com/apiary/gavel/docs/node-js/async-api
-[Sync]: https://www.relishapp.com/apiary/gavel/docs/node-js/sync-api
 
 ## Installation
 
@@ -29,7 +25,7 @@ npm install gavel
 
 - [Gavel behavior specification](https://www.relishapp.com/apiary/gavel/docs)
 - [Github repository](https://github.com/apiaryio/gavel.js)
-- [API Reference](http://coffeedoc.info/github/apiaryio/gavel.js/master/)
+- [Complete API Reference](http://coffeedoc.info/github/apiaryio/gavel.js/master/)
 
 ## Development
 

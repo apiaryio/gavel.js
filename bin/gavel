@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+var cmd = require('commander');
+var httpParser = require('http-string-parser');
+var curlParser = require('curl-trace-parser');
+var gavel = require('../lib/gavel');
+var fs = require('fs');
+
+cmd.version('0.0.1');
+
+var stdin = "";
+
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('data', function(data) {
+  stdin += data;
+});
+
+process.stdin.on('end', function() {
+  fs.readFile(process.argv[2], 'utf8', function (err,string){
+    var expectedHttp = curlParser.parseBack(string);    
+    
+    var realHttp = curlParser.parseBack(stdin);
+    
+    var realRequest = httpParser.parseRequest(realHttp['request']);
+    var realResponse = httpParser.parseResponse(realHttp['response']);
+    
+    var expectedRequest = httpParser.parseRequest(expectedHttp['request']);
+    var expectedResponse = httpParser.parseResponse(expectedHttp['response']);
+
+    var requestResult = false; 
+    var responseResult = false;
+    
+    gavel.isValid(realRequest, expectedRequest, 'request',function (err, result){
+      requestResult = result;
+      gavel.isValid(realResponse, expectedResponse, 'response', function (err, result){
+        responseResult = result;
+      })
+    });
+ 
+    if(requestResult && responseResult){
+      process.exit(0);
+    } else {
+      process.exit(1);
+    };
+  })
+  
+});
+
+// do not end unit stdin end
+var busyLoop = function() {
+  setTimeout( function() {
+    if(stdin == ""){
+      process.stderr.write("ERROR: No input on stdin after 1s. Exiting. \n");
+      process.exit(1)
+    }
+    busyLoop();
+  }, 1000);
+};
+busyLoop();
