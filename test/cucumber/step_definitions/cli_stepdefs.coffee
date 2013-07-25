@@ -22,7 +22,7 @@ cliStepDefs = () ->
   Then /^exit status is (\d+)$/, (expectedExitStatus, callback) ->
 
     cmd = "PATH=$PATH:" + process.cwd() + "/bin; cd ./test/fixtures " + @commandBuffer 
-        
+    console.error cmd    
     child = exec cmd, (error, stdout, stderr) ->
       if error
         unless parseInt(error.code) == parseInt(expectedExitStatus)
