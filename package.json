@@ -11,7 +11,7 @@
       "async": "0.2.9",
       "commander": "2.0.0",
       "curl-trace-parser": "0.0.7",
-      "http-string-parser": "0.0.1"
+      "http-string-parser": "0.0.4"
   },
   "devDependencies": {
     "chai": "~1.7.2",

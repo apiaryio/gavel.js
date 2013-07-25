@@ -25,12 +25,11 @@ cliStepDefs = () ->
     console.error cmd    
     child = exec cmd, (error, stdout, stderr) ->
       if error
-        console.error "TRAVIS DEBUG"
-        console.error "stdout: " + stdout
-        console.error "stderr: " + stderr
-
         unless parseInt(error.code) == parseInt(expectedExitStatus)
-          callback.fail 'Expected exit status ' + expectedExitStatus + ' but got ' + error.code + '.'
+          callback.fail 'Expected exit status ' + expectedExitStatus + ' but got ' + error.code + '.' + \
+            "STDERR: " + stderr + \
+            "STDOUT: " + stdout
+
       
     child.on 'exit', (code) ->
       unless parseInt(code) == parseInt(expectedExitStatus)
