@@ -20,8 +20,7 @@ cliStepDefs = () ->
     callback()
 
   Then /^exit status is (\d+)$/, (expectedExitStatus, callback) ->
-    cmd = "PATH=$PATH:" + process.cwd() + "/bin; cd /tmp-gavel-* " + @commandBuffer 
-    console.error cmd    
+    cmd = "PATH=$PATH:" + process.cwd() + "/bin; cd /tmp/gavel-* " + @commandBuffer 
     child = exec cmd, (error, stdout, stderr) ->
       if error
         unless parseInt(error.code) == parseInt(expectedExitStatus)
