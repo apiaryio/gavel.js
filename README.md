@@ -7,14 +7,14 @@
 
 ```
 var gavel = require('gavel');
-gavel.isValid(response, expected, function(error,result){
+gavel.isValid(response, expected, 'request', function(error,result){
   console.log result;
 });
 ```
 
-Find out more on Sync and Async API in [Cucumber documentation and examples](https://www.relishapp.com/apiary/gavel/docs/node-js/)
+- Find out more on Sync and Async API in [Cucumber documentation and examples](https://www.relishapp.com/apiary/gavel/docs/node-js/)
 
-Try [command-line interface](https://www.relishapp.com/apiary/gavel/docs/command-line-interface)!
+- Try [command-line interface](https://www.relishapp.com/apiary/gavel/docs/command-line-interface)!
 
 ## Installation
 
