@@ -12,7 +12,7 @@ class HeadersValidator
   #@throw {MalformedDataError} when real is not a String or when no schema provided and expected is not a String
   #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
   #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
-  constructor: ({real, expected, schema}) -> 
+  constructor: ({real, expected, schema}) ->
     expected = {} if expected == null or expected == undefined 
     real = {} if real == null or real == undefined 
     if schema
@@ -51,6 +51,13 @@ class HeadersValidator
       outError = new errors.MalformedDataError "Headers validator - Real malformed:" + error.message
       outError['data'] = real
       throw outError
+
+    #headers to ignore their values  
+    unless @schema == undefined
+      unless @schema['properties'] == undefined
+        ['date', 'expires'].forEach (header) =>  
+          unless @schema['properties'][header] == undefined
+            delete @schema['properties'][header]['enum']
 
     @validator = new JsonValidator data: @real, schema: @schema
 

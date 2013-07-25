@@ -887,6 +887,20 @@ sampleHeadersAdd = {
 "header_added": "header_added_value",
 }
 
+sampleHeadersWithDateAndExpires = {
+"Content-Type": "application/json",
+"header2": "header2_value",
+"Date": "Fri, 30 Oct 1998 13:19:41 GMT",
+"Expires": "Fri, 30 Oct 1998 14:19:41 GMT",
+}
+
+sampleHeadersWithDateAndExpiresChanged = {
+"Content-Type": "application/json",
+"header2": "header2_value",
+"Date": "Thu, 25 Jul 2013 23:59:59 GMT",
+"Expires": "Thu, 25 Jul 2013 23:59:59 GMT",
+}
+
 sampleHeadersSchema = '''
 {
   "$schema": "http://json-schema.org/draft-03/schema",
@@ -1247,6 +1261,8 @@ module.exports =
   sampleHttpResponseSchema         : sampleHttpResponseSchema
   sampleHeadersSchema              : sampleHeadersSchema
   sampleHttpMessageSchema          : sampleHttpMessageSchema
+  sampleHeadersWithDateAndExpires  : sampleHeadersWithDateAndExpires
+  sampleHeadersWithDateAndExpiresChanged : sampleHeadersWithDateAndExpiresChanged
 
 
 

@@ -80,6 +80,12 @@ describe 'HeadersValidator', ->
           result = headersValidator.validate()
           assert.equal result.length, 0
 
-
+    describe 'when Date or Expires values header differs', ->
+      before ->
+        headersValidator = new HeadersValidator real: fixtures.sampleHeadersWithDateAndExpiresChanged, expected: fixtures.sampleHeadersWithDateAndExpires , schema: null
+      describe 'and i run validate()', ->
+        it "shouldn't return any errors", ->
+          result = headersValidator.validate()
+          assert.equal result.length, 0
 
 
