@@ -4,11 +4,11 @@ cliStepDefs = () ->
   
 
   Given /^you record expected raw HTTP messages:$/, (cmd, callback) ->
-    @commandBuffer += ";" + cmd
+
     callback()
 
   Given /^you record real raw HTTP message:$/, (cmd, callback) ->
-    @commandBuffer += ";" + cmd 
+
     callback()
 
   When /^you validate messages using following Gavel command:$/, (cmd, callback) ->
@@ -21,7 +21,7 @@ cliStepDefs = () ->
 
   Then /^exit status is (\d+)$/, (expectedExitStatus, callback) ->
 
-    cmd = "PATH=$PATH:" + process.cwd() + "/bin; cd /tmp/gavel-test-* " + @commandBuffer 
+    cmd = "PATH=$PATH:" + process.cwd() + "/bin; cd ./test/fixtures " + @commandBuffer 
         
     child = exec cmd, (error, stdout, stderr) ->
       if error
