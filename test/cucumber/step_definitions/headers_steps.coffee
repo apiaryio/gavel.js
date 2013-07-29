@@ -1,7 +1,7 @@
 headersStepDefs = () ->
   Given = When = Then = @.defineStep
   
-  Given /^you expect following HTTP headers:$/, (string, callback) ->
+  Given /^you expect the following HTTP headers:$/, (string, callback) ->
     @expected.headers = @parseHeaders(string)
     callback()
   

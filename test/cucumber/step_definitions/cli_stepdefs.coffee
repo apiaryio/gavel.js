@@ -7,15 +7,15 @@ cliStepDefs = () ->
     @commandBuffer += ";" + cmd 
     callback()
 
-  Given /^you record real raw HTTP message:$/, (cmd, callback) ->
+  Given /^you record real raw HTTP messages:$/, (cmd, callback) ->
     @commandBuffer += ";" + cmd 
     callback()
 
-  When /^you validate messages using following Gavel command:$/, (cmd, callback) ->
+  When /^you validate the message using the following Gavel command:$/, (cmd, callback) ->
     @commandBuffer += ";" + cmd 
     callback()
 
-  When /^there is some header missing in real messages:$/, (cmd, callback) ->
+  When /^a header is missing in real messages:$/, (cmd, callback) ->
     @commandBuffer += ";" + cmd 
     callback()
 

@@ -1,7 +1,7 @@
 bodyStepDefs = () ->
   Given = When = Then = @.defineStep
   
-  Given /^you define expected HTTP body by following "([^"]*)":$/, (type, body, callback) ->
+  Given /^you define expected HTTP body using the following "([^"]*)":$/, (type, body, callback) ->
     if type == "textual example"
       @expected.body = body
     else if type == "JSON example"

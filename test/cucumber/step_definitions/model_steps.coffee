@@ -7,11 +7,11 @@ modelStepDefs = () ->
 
   # TODO consider refactoring for for better acceptace testing to separated steps 
   # i.e. do not use http parsing, use separate steps for body, headers, code, etc...
-  When /^you have following real HTTP request:$/, (requestString, callback) ->
+  When /^you have the following real HTTP request:$/, (requestString, callback) ->
     @model.request = @parseHttp 'request', requestString
     callback()
 
-  When /^you have following real HTTP response:$/, (responseString, callback) ->
+  When /^you have the following real HTTP response:$/, (responseString, callback) ->
     @model.response = @parseHttp 'response', responseString
     callback()
 

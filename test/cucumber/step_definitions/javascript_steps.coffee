@@ -3,7 +3,7 @@
 javascriptStepDefs = () ->
   Given = When = Then = @.defineStep
 
-  Given /^you define following "([^"]*)" variable:$/, (arg1, string, callback) ->
+  Given /^you define the following "([^"]*)" variable:$/, (arg1, string, callback) ->
     @codeBuffer += string + "\n"
     callback()
   
