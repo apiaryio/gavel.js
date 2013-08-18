@@ -1,4 +1,4 @@
-require './mixins'
+require '../mixins/validatable-http-message'
 
 # HttpRequest class
 #

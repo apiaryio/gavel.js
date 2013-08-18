@@ -2,7 +2,6 @@ errors          = require './errors'
 
 {HttpRequest, ExpectedHttpRequest} = require('./model/http-request')
 {HttpResponse, ExpectedHttpResponse} = require('./model/http-response')
-{HttpMessage} = require('./model/http-message')
 
 #@private
 validatable = (object) ->

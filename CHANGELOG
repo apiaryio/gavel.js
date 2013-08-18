@@ -1,0 +1,30 @@
+0.2
+- Added decision diagram
+- HTTP Component terminus
+- Validatable components
+- Removed HTTP Message
+- Pseudo media type for HTTP Headers JSON representation
+- Validation result schema
+- Plugable component validators
+- HTTP body must be a string
+- Test coverage improvement
+- Removed schema option from HeadersValidator
+- Renamed HeadersValidator to HeadersJsonExample
+
+
+
+TODO:
+- add expected description to features
+- extract json schema generator for json examples and parameters
+  - default schema generated from example
+    - all keys required
+    - all values must match type
+  - parameters override generated defaults
+- extract convertor for amanda to gavel errors
+- remove tully's sanitized error
+- remove body validator
+- remove json validator
+- add jsonSchema validator
+- add jsonExample validator
+- add dedicated statusCode validator
+- use upstream amanda (array vs dot notation)

@@ -23,6 +23,15 @@ module.exports = () ->
     # contains parsed http objects for model valdiation
     @model = {}
     
+    # results for validators features
+    @results = {}
+    
+    # boolan validation result for whole HTTP Message
+    @booleanResult = false
+
+    # topic of expectation e.g. 'body'
+    @component = ''
+
     @expectBlockEval = (block, expectedReturn, callback) ->
       realOutput = safeEval(block,callback)
 

@@ -21,9 +21,6 @@ describe 'HttpRequest', ->
     it 'should have validate method', ->
       assert.isDefined httpRequest.validate
 
-    it 'should have isValidatable method', ->
-      assert.isDefined httpRequest.isValidatable
-
     it 'should have isValid method', ->
       assert.isDefined httpRequest.isValid
 
