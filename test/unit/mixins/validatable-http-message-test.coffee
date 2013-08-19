@@ -827,11 +827,46 @@ describe "Http validatable mixin", () ->
         it 'should let rawData null',() ->
           assert.isNull instance.validation.body.rawData
 
-    describe '#setBodyResults',  () ->
-      describe 'when rawData and validator present', () ->
-        it 'should set some errors'
-        it 'should not overwrite previous errors'
-    
+    describe "#setBodyResults()", () ->
+      before () ->
+        instance = new HttpResponse response
+        instance.validation = {}
+        instance.validation.body = {}
+
+        instance.validation.body.rawData = '@@ -1,5 +1,5 @@\n text\n-1\n+2\n'
+        instance.validation.body.validator = 'TextDiff'
+      
+      describe 'any previously set results', () ->
+        before () ->
+          instance.validation.body.results = ['booboo']
+          instance.setBodyResults()
+        
+        it 'should not overwrite existing results', () ->
+          assert.include instance.validation.body.results, 'booboo'
+
+        it 'should set results to an array', () ->
+          assert.isArray instance.validation.body.results
+        
+      describe 'no previous results', () ->
+        before () ->
+          instance.validation.body.results = []
+          instance.setBodyResults()
+
+        it 'should set results to an array', () ->
+          assert.isArray instance.validation.body.results
+
+        it 'should have 1 result', () ->
+          assert.equal instance.validation.body.results.length, 1
+
+      describe 'no validator given', () ->
+        before () ->
+          instance.validation.body.validator = null
+
+        it 'should not throw', () ->
+          fn = () ->
+            instance.setBodyResults()
+          assert.doesNotThrow fn
+
     # Status code validation
     describe '#validateStatusCode',  () ->
       #instance = {}

@@ -4,7 +4,6 @@ crypto = require('crypto')
 {ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
 
-
 sylables = ['a','e','i','o','u']
 
 #options for {Amanda} json validator
@@ -68,7 +67,23 @@ class JsonValidator
       @schemaHash =  schemaHash
     return @validatePrivate()
 
-
+  @evaluateOutputToResults: (data) -> 
+    results = []
+    if data == null
+      return results     
+    
+    #amanda to gavel converter
+    if data.length > 0 # expects sanitized Tully pseudo amanda error
+      indexes = [0..data.length - 1]
+      indexes.forEach (index) ->
+        item = data[index]
+        console.error
+        message =
+          pointer: jsonPointer.compile item['property']
+          severity: 'error'
+          message: item.message
+        results.push message
+    results
 
   #@private
   validatePrivate: ->

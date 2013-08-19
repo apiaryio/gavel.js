@@ -35,7 +35,4 @@ TODO:
 - remove expected jsonSchema, add expected type
 - refactor test suite to be more DRY
 - catch only syntax error when catchin' JSON parse
-
-NOTES
-a = dmp.patch_make 'text1\ntext3', 'text2\ntext4'
-dmp.diff_prettyHtml dmp.patch_fromText(dmp.patch_toText(a))[0]['diffs']
+- move HeadersJsonExample.evaluateOutputToResults to AmandaToGavel

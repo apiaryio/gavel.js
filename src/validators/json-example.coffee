@@ -1,5 +1,7 @@
 errors          = require '../errors'
 {JsonValidator}   = require './json-validator'
+
+
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
 # Checks data, prepares validator and validates request or response body against given expected data or json schema
@@ -41,6 +43,24 @@ class JsonExample
   validate: () ->
     @validator.validate()
 
+  @evaluateOutputToResults: (data) -> 
+    results = []
+    if data == null
+      return results     
+    
+    #amanda to gavel converter
+    if data.length > 0 # expects sanitized Tully pseudo amanda error
+      indexes = [0..data.length - 1]
+      indexes.forEach (index) ->
+        item = data[index]
+        console.error
+        message =
+          pointer: jsonPointer.compile item['property']
+          severity: 'error'
+          message: item.message
+        results.push message
+    results
+  
   #@private
   getSchema: (data)->
     properties = new SchemaProperties {}

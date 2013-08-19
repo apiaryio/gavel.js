@@ -261,7 +261,14 @@ validatable =
       @validation.body.rawData = validator.validate()
     
   setBodyResults: () ->
-
+    if @validation.body.validator != null
+      if not Array.isArray @validation.body.results
+        @validation.body.results = [] 
+      
+      validatorClass = validators[@validation.body.validator]
+      results = validatorClass.evaluateOutputToResults @validation.body.rawData
+      @validation.body.results = results.concat @validation.body.results
+  
   # Status code validation
   validateStatusCode: () ->
 

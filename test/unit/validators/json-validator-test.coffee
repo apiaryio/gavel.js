@@ -70,4 +70,6 @@ describe 'JsonValidator', ->
 
           it 'errors should change', ->
             assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
-
+  
+  describe '.evaluateOutputToResults', () ->
+    it 'should set some errors'

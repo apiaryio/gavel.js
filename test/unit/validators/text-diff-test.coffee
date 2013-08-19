@@ -60,7 +60,7 @@ describe 'TextDiff', ->
         dmp = new DiffMatchPatch
         assert.isArray dmp.patch_fromText validator.output
   
-  describe 'evaluateOutputToResults', () ->
+  describe '.evaluateOutputToResults', () ->
     data = null
     results = null
     

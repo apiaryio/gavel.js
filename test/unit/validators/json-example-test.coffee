@@ -62,3 +62,6 @@ describe 'JsonExample', ->
           it "shouldn't return any errors", ->
             result = bodyValidator.validate()
             assert.equal result.length, 0
+
+  describe '.evaluateOutputToResults', () ->
+    it 'should set some errors'
