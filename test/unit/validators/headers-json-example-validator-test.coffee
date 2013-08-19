@@ -6,12 +6,6 @@ jsonPointer = require 'json-pointer'
 describe 'HeadersJsonExample', ->
   headersValidator = {}
   describe 'constructor', ->
-    describe 'when I provide malformed real data', ->
-      it 'should throw exception', ->
-        fn = () ->
-          headersValidator = new HeadersJsonExample 'malformed', {'header1': 'value1'}
-        assert.throws fn
-
     describe 'when I provide correct data', ->
       it 'should not throw an exception', ->
         fn = () ->

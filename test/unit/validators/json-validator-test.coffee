@@ -7,20 +7,12 @@ fixtures       = require '../../fixtures'
 describe 'JsonValidator', ->
   validator = null
 
-  describe 'when i create new instance of validator with incorrect data', ->
-    validator = null
-
-    it 'should throw exception', ->
-      fn = () ->
-        validator = new JsonValidator data: fixtures.sampleJsonComplexKeyMissing ,schema: fixtures.sampleJsonSchemaNonStrict
-      assert.throws fn
-
   describe 'when i create new instance of validator with correct data', ->
     validator = null
 
-    it 'should not throw exception', ->
+    it 'should not throw an exception', ->
       fn = () ->
-        validator = new JsonValidator data: JSON.parse(fixtures.sampleJsonComplexKeyMissing) ,schema: JSON.parse(fixtures.sampleJsonSchemaNonStrict)
+        validator = new JsonValidator JSON.parse(fixtures.sampleJsonComplexKeyMissing) ,JSON.parse(fixtures.sampleJsonSchemaNonStrict)
       assert.doesNotThrow fn
 
     it 'should parse data to object', ->

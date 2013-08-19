@@ -14,6 +14,7 @@
 
 
 TODO:
+- review codo rendering
 - add expected description to features
 - extract json schema generator for json examples and parameters
   - default schema generated from example
@@ -21,6 +22,8 @@ TODO:
     - all values must match type
   - parameters override generated defaults
 - extract convertor for amanda to gavel errors
+- document media type validators api (validate(), evaluateOutputToResults)
+- validate json schema against meta schemas
 - remove tully's sanitized error
 - remove body validator
 - remove json validator
@@ -28,3 +31,11 @@ TODO:
 - add jsonExample validator
 - add dedicated statusCode validator
 - use upstream amanda (array vs dot notation)
+- rewiew mocha before vs. beforeEach
+- remove expected jsonSchema, add expected type
+- refactor test suite to be more DRY
+- catch only syntax error when catchin' JSON parse
+
+NOTES
+a = dmp.patch_make 'text1\ntext3', 'text2\ntext4'
+dmp.diff_prettyHtml dmp.patch_fromText(dmp.patch_toText(a))[0]['diffs']

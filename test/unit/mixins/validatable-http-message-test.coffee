@@ -486,86 +486,346 @@ describe "Http validatable mixin", () ->
         #  instance.validation.headers = {}
         #  instance.setHeadersExpectedType()
 
-      describe 'JSON Schema for expected body is provided', () ->        
+      describe 'JSON Schema for expected body is provided', () ->
+        instance = {}
+        
         describe 'schema is a parseable JSON', () ->
           describe 'parsed JSON is a valid JSON Schema', () ->
-            it 'should set expected type to application/schema+json'
+            before () ->
+              instance = new HttpResponse {
+                expected:
+                  bodySchema: fixtures.sampleJsonSchema
+              }
+              instance.validation = {}
+              instance.validation.body = {}
+              instance.setBodyExpectedType()
+
+            it 'should set expected type to application/schema+json', () ->
+              assert.equal instance.validation.body.expectedType,
+                'application/schema+json'
+            it 'should set not error message to result', () ->
+              assert.equal instance.validation.body.results.length, 0
+
+          describe 'parsed JSON is not an object', () ->
+            before () ->
+              instance = new HttpResponse {
+                expected: 
+                  bodySchema: "0"
+              }
+              instance.validation = {}              
+              instance.validation.body = {}
+              instance.setBodyExpectedType()
+            
+            it 'should set an error message to result', () ->
+              results = instance.validation.body.results
+              results.forEach (result) ->
+                results.push result.severity
+              
+              assert.include results, 'error'
+            
+            it 'should set expected type to null', () ->
+              assert.equal instance.validation.body.expectedType,
+                null
+
           describe 'parsed JSON is not a valid JSON Schema', () ->
             it 'should set an error message to results'
             it 'should set expected type to null'
         
         describe 'schema is not a parseable JSON', () ->
-          it 'should set error messages to results'
-          it 'should set expceted type to null'
-      
+          before () ->
+            instance = new HttpResponse {
+              expected: 
+                bodySchema: "{()}}"
+            }
+            instance.validation = {}            
+            instance.validation.body = {}
+            instance.setBodyExpectedType()
+
+          it 'should set error messages to results', () ->
+            results = instance.validation.body.results
+            results.forEach (result) ->
+              results.push result.severity
+            
+            assert.include results, 'error'
+
+          it 'should set expceted type to null', () ->
+            assert.equal instance.validation.body.expectedType,
+              null
+
       describe 'JSON Schema for expected body is not provided', () ->
         describe 'expected headers have content-type application/json', () ->
           describe 'expected body is a parseable JSON', () ->
-            it 'should set expected type to application/json'
+            before () ->
+              instance = new HttpResponse {
+                headers:
+                  'content-type': 'application/json'
+                expected:
+                  body: "{}"
+              }
+              instance.validation = {}            
+              instance.validation.body = {}
+              instance.setBodyExpectedType()
+
+            it 'should set expected type to application/json', () ->
+              assert.equal instance.validation.body.expectedType,
+                'application/json'
+            
+            it 'should set no error message to result', () ->
+              assert.equal instance.validation.body.results.length, 0
+
           
           describe 'expected body is not a parseable JSON', () ->
-            it 'should set an error message to results'
-            it 'should set expected type to null'
-                  
+            before () ->
+              instance = new HttpResponse {
+                headers:
+                  'content-type': 'application/json'
+                expected:
+                  body: "{Boo{Boo"
+              }
+              instance.validation = {}            
+              instance.validation.body = {}
+              instance.setBodyExpectedType()
+
+            it 'should set an error message to results', () ->
+              results = instance.validation.body.results
+              results.forEach (result) ->
+                results.push result.severity
+              
+              assert.include results, 'error'            
+
+            it 'should set expected type to null', () ->
+              assert.equal instance.validation.body.expectedType,
+                null
+            
         describe 'expected headers have not content-type application/json', () ->
           describe 'expected body is a parseable JSON', () ->
-            it 'should set expected type to application/json'
+            before () ->
+              instance = new HttpResponse {
+                expected:
+                  body: "{}"
+              }
+              instance.validation = {}            
+              instance.validation.body = {}
+              instance.setBodyExpectedType()
+
+            it 'should set expected type to application/json', () ->
+              assert.equal instance.validation.body.expectedType,
+                'application/json'
+
           describe 'expected body is not a parseable JSON', () ->
-            it 'should set expected body to text/plain'
-    
+            before () ->
+              instance = new HttpResponse {
+                expected:
+                  body: "{Boo{Boo"
+              }
+              instance.validation = {}            
+              instance.validation.body = {}
+              instance.setBodyExpectedType()
+
+            it 'should set expected body to text/plain', () ->
+              assert.equal instance.validation.body.expectedType,
+                'text/plain'
+
     describe "#setBodyValidator()", () ->
       describe 'real or expected type is null', () ->
-        it 'should not set any validator'
-        it 'should set unknown validator error message to results'
+        before () ->
+          instance = new HttpResponse {
+            expected:
+              body: "{}"
+          }
+          instance.validation = {}            
+          instance.validation.body  =
+            realType: null
+            expectedType: null
+          instance.setBodyValidator()
+
+        it 'should not set any validator', () ->
+          assert.equal instance.validation.body.validator,
+            null
+
+        it 'should set unknown validator error message to results', () ->
+          results = instance.validation.body.results
+          results.forEach (result) ->
+            results.push result.severity
+          
+          assert.include results, 'error'            
 
       describe 'real is application/json', () ->
         describe 'expected is application/json', () ->
-          it 'should set jsonExample validator'
-          it 'should set no error message'
+          before () ->
+            instance = new HttpResponse {
+              expected:
+                body: "{}"
+            }
+            instance.validation = {}            
+            instance.validation.body = 
+              realType: 'application/json'
+              expectedType: 'application/json'          
+            instance.setBodyValidator()
+
+          it 'should set JsonExample validator', () ->
+            assert.equal instance.validation.body.validator,
+              'JsonExample'
+
+          it 'should set no error message', () ->
+            assert.equal instance.validation.body.results.length, 0
         
         describe 'expected is application/schema+json', () ->
-          it 'should set jsonSchemaValidator'
-          it 'should set no error message'
+          before () ->
+            instance = new HttpResponse {
+              expected:
+                body: "{}"
+            }
+            instance.validation = {}            
+            instance.validation.body =
+              realType: 'application/json'
+              expectedType: 'application/schema+json'          
+            instance.setBodyValidator()
+
+          it 'should set JsonSchema', () ->
+            assert.equal instance.validation.body.validator,
+              'JsonSchema'
+
+          it 'should set no error message', () ->
+            assert.equal instance.validation.body.results.length, 0
 
         describe 'expected is text/plain', () ->
-          it 'should set no validator for combination error message'
-          it 'should not set any validator'
+          before () ->
+            instance = new HttpResponse {
+              expected:
+                body: "{}"
+            }
+            instance.validation = {}            
+            instance.validation.body =
+              realType: 'application/json'
+              expectedType: 'text/plain'
+            instance.setBodyValidator()
+
+          it 'should set no validator for combination error message', () ->
+            results = instance.validation.body.results
+            results.forEach (result) ->
+              results.push result.severity
+            
+            assert.include results, 'error'            
+ 
+          it 'should not set any validator', () ->
+            assert.equal instance.validation.body.validator,
+              null
 
       describe 'real is text/plain', () ->
         describe 'expected is text/plain', () ->
-          it 'should set textDiff validator'
-          it 'should set no error message'
+          before () ->
+            instance = new HttpResponse {
+              expected:
+                body: "{}"
+            }
+            instance.validation = {}            
+            instance.validation.body =
+              realType: 'text/plain'
+              expectedType: 'text/plain'
+            instance.setBodyValidator()
+          
+          it 'should set TextDiff validator', () ->
+            assert.equal instance.validation.body.validator,
+              'TextDiff'
+
+          it 'should set no error message', () ->
+            assert.equal instance.validation.body.results.length, 0
+
+        describe 'expected is not text/plain', () ->
+          before () ->
+            instance = new HttpResponse {
+              expected:
+                body: "{}"
+            }
+            instance.validation = {}            
+            instance.validation.body =
+              realType: 'text/plain'
+              expectedType: 'application/json'
+            instance.setBodyValidator()         
         
-        describe 'expcted is not text/plain', () ->
-          it 'should set no validator for combination errror message'
-      
+          it 'should not set any validator', () ->
+            assert.equal instance.validation.body.validator,
+              null
+        
+          it 'should set no validator for combination errror message', () ->
+            results = instance.validation.body.results
+            results.forEach (result) ->
+              results.push result.severity
+            
+            assert.include results, 'error'            
+       
     describe '#runBodyValidator', () ->
-      describe "if available validator" , () ->
-        #before () ->
-        #  instance = new HttpResponse response
-        #  instance.validation = {}
-        #  instance.validation.headers = {}
-
-        #  instance.expected.headers = fixtures.sampleHeaders
-        #  instance.validation.headers.validator = 'HeadersJsonExample'
-        #  instance.runHeadersValidator()
-      
-        it 'should set rawData property'#, () ->
-        #  assert.isDefined instance.validation.headers.rawData
-        it 'rawData should not be null'
-
-      describe "if no validator available", () ->
+      describe "if JsonExample validator" , () ->
         before () ->
-        #  instance = new HttpResponse response
-        #  instance.validation = {}
-        #  instance.validation.headers = {}
+          instance = new HttpResponse response
+          instance.body = fixtures.sampleJsonSimpleKeyMissing
+          instance.expected =
+            body: fixtures.sampleJson
 
-        #  instance.expected.headers = fixtures.sampleHeaders
-        #  instance.validation.headers.validator = ''
-        #  instance.runHeadersValidator()
+          instance.validation = {}
+          instance.validation.body = 
+            validator: 'JsonExample'
+          instance.runBodyValidator()
+      
+        it 'should set rawData property', () ->
+          assert.isDefined instance.validation.body.rawData
 
-        it 'should let rawData null'#,() ->
-          #assert.isNull instance.validation.headers.rawData, ""
+        it 'rawData should not be null', () ->
+          assert.isNotNull instance.validation.body.rawData
+      
+      describe "when JsonSchema validator" , () ->
+        before () ->
+          instance = new HttpResponse response
+          instance.body = fixtures.sampleJsonSimpleKeyMissing
+          instance.expected =
+            bodySchema: fixtures.sampleJsonSchema
+
+          instance.validation = {}
+          instance.validation.body = 
+            validator: 'JsonSchema'
+          instance.runBodyValidator()
+      
+        it 'should set rawData property', () ->
+          assert.isDefined instance.validation.body.rawData
+
+        it 'rawData should not be null', () ->
+          assert.isNotNull instance.validation.body.rawData
+
+      describe "when TextDiff validator" , () ->
+        before () ->
+          instance = new HttpResponse response
+          instance.body = fixtures.sampleTextLineDiffers
+          instance.expected =
+            body: fixtures.sampleText
+
+          instance.validation = {}
+          instance.validation.body = 
+            validator: 'TextDiff'
+          instance.runBodyValidator()
+      
+        it 'should set rawData property', () ->
+          assert.isDefined instance.validation.body.rawData
+
+        it 'rawData should not be null', () ->
+          assert.isNotNull instance.validation.body.rawData
+
+
+
+      describe "when no validator available", () ->
+        before () ->
+          instance = new HttpResponse response
+          instance.body = fixtures.sampleJsonSimpleKeyMissing
+          instance.expected = 
+            body: fixtures.sampleJson
+          
+          instance.validation = {}
+          instance.validation.body = 
+            validator: null
+          instance.runBodyValidator()
+
+        it 'should let rawData null',() ->
+          assert.isNull instance.validation.body.rawData
 
     describe '#setBodyResults',  () ->
       describe 'when rawData and validator present', () ->

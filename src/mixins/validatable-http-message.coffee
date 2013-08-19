@@ -147,13 +147,119 @@ validatable =
 
   setBodyExpectedType: () ->
     @validation.body.expectedType = null
+    if @validation.body.results == undefined
+      @validation.body.results = []
+
+    if !(@expected.bodySchema == undefined) and
+      !(@expected.bodySchema == null)
+        try
+          parsed = JSON.parse @expected.bodySchema
+          if typeof parsed != 'object' or Array.isArray parsed 
+            message = {
+              message: 'JSON Schema provided, but it is not an Object'
+              severity: 'error'
+            }
+            @validation.body.results.push message  
+          else
+            @validation.body.expectedType = 'application/schema+json'
+        catch error
+          message = {
+            message: 'JSON Schema provided, but it is not a parseable JSON'
+            severity: 'error'
+          }
+          @validation.body.results.push message        
+          return
+    else
+      if @headers != undefined and 
+        @headers['content-type'] != undefined and
+        @headers['content-type'] == 'application/json'
+          try
+            JSON.parse @expected.body
+            @validation.body.expectedType = 'application/json'
+          catch error
+            message = {
+              message: 'Content-Type is application/json but body is not a parseable JSON '
+              severity: 'error'
+            }           
+            @validation.body.results.push message            
+        else
+          try        
+            JSON.parse @expected.body
+            @validation.body.expectedType = 'application/json'
+          catch
+            @validation.body.expectedType = 'text/plain'       
+
 
   setBodyValidator: () ->
     @validation.body.validator = null
-  
-  runBodyValidator: () ->
-    @validation.body.rawData = null
 
+    if @validation.body.results == undefined
+      @validation.body.results = []
+        
+    if @validation.body.realType == null and
+      @validation.body.expectedType == null
+        message = {
+          message: 'Content-Type is application/json but body is not a parseable JSON '
+          severity: 'error'
+        }           
+        @validation.body.results.push message
+    else
+      if @validation.body.realType == 'application/json'
+        if @validation.body.expectedType == 'application/json'
+          @validation.body.validator = 'JsonExample'
+        else if @validation.body.expectedType == 'application/schema+json'
+          @validation.body.validator = 'JsonSchema'
+        else
+          message = {
+            message: 'No validator found for real data media type "' + 
+              + JSON.stringify(@validation.body.realType) +
+              '" and expected data media type "' +
+              + JSON.stringify(@validation.body.expectedType) + 
+              '".' 
+            severity: 'error'
+          }           
+          @validation.body.results.push message       
+
+      else if @validation.body.realType == 'text/plain'
+        if @validation.body.expectedType == 'text/plain'
+          @validation.body.validator = 'TextDiff'        
+        else
+          message = {
+            message: 'No validator found for real data media type "' + 
+              + JSON.stringify(@validation.body.realType) +
+              '" and expected data media type "' +
+              + JSON.stringify(@validation.body.expectedType) + 
+              '".' 
+            severity: 'error'
+          }           
+          @validation.body.results.push message       
+
+      else
+        message = {
+          message: 'No validator found for real data media type "' + 
+            + JSON.stringify(@validation.headers.realType) +
+            '" and expected data media type "' +
+            + JSON.stringify(@validation.headers.expectedType) + 
+            '".' 
+          severity: 'error'
+        }           
+        @validation.body.results.push message       
+
+  runBodyValidator: () ->
+    if @validation.body.validator == null
+      @validation.body.rawData = null
+    else
+      validatorClass = validators[@validation.body.validator]
+      if @validation.body.validator == 'JsonSchema'
+        real = @body
+        expected = @expected.bodySchema
+      else
+        real = @body
+        expected = @expected.body
+
+      validator = new validatorClass real, expected
+      @validation.body.rawData = validator.validate()
+    
   setBodyResults: () ->
 
   # Status code validation

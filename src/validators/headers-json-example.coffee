@@ -36,7 +36,7 @@ class HeadersJsonExample
           unless @schema['properties'][header] == undefined
             delete @schema['properties'][header]['enum']
 
-    @validator = new JsonValidator data: @real, schema: @schema
+    @validator = new JsonValidator @real, @schema
 
   #calls validation for given data
   validate: () ->

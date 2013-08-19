@@ -29,28 +29,22 @@ json_schema_options =
 # @author Peter Grilli <tully@apiary.io>
 class JsonValidator
   # Construct a JsonValidator and checks given data
-  #@option {} [Object] data data to validate
-  #@option {} [Object] schema json schema
+  #@param {} [Object] data to validate
+  #@param {} [Object] json schema
   #@throw {DataNotJsonParsableError} when given data or schema is not json parsable object
-  constructor: ({data, schema}) ->
+  constructor: (@data, @schema) ->
     try
-      if not (data instanceof Object)
-        throw new Error 'input data is not object'
-
-      @data = JSON.parse(JSON.stringify(data))
+      @data = JSON.parse(JSON.stringify(@data))
     catch error
-      outError = new errors.DataNotJsonParsableError 'JSON validator: ' + error.message
-      outError['data'] = data
+      outError = new errors.DataNotJsonParsableError 'JSON validator: body: ' + error.message
+      outError['data'] = @data
       throw outError
 
     try
-      if not (schema instanceof Object)
-        throw new Error 'input schema is not object'
-
       @schema = JSON.parse(JSON.stringify(schema))
     catch error
-      outError = new errors.SchemaNotJsonParsableError 'JSON validator: ' + error.message
-      outError['schema'] = schema
+      outError = new errors.SchemaNotJsonParsableError 'JSON validator: schema: ' + error.message
+      outError['schema'] = @schema
       throw outError
 
   #Validates given data against given schema
