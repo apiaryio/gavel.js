@@ -19,6 +19,8 @@ validatable =
     @validation = {}
     @validateHeaders() unless @headers == undefined
     @validateBody() unless @body == undefined
+    @validateStatusCode() unless @statusCode == undefined    
+    @validation
 
   #returns true if object has any validatable entity
   #@return [Boolean]
@@ -152,23 +154,26 @@ validatable =
 
     if !(@expected.bodySchema == undefined) and
       !(@expected.bodySchema == null)
-        try
-          parsed = JSON.parse @expected.bodySchema
-          if typeof parsed != 'object' or Array.isArray parsed 
+        if typeof @expected.bodySchema == 'string'
+          try
+            parsed = JSON.parse @expected.bodySchema
+            if typeof parsed != 'object' or Array.isArray parsed 
+              message = {
+                message: 'JSON Schema provided, but it is not an Object'
+                severity: 'error'
+              }
+              @validation.body.results.push message  
+            else
+              @validation.body.expectedType = 'application/schema+json'
+          catch error
             message = {
-              message: 'JSON Schema provided, but it is not an Object'
+              message: 'JSON Schema provided, but it is not a parseable JSON'
               severity: 'error'
             }
-            @validation.body.results.push message  
-          else
-            @validation.body.expectedType = 'application/schema+json'
-        catch error
-          message = {
-            message: 'JSON Schema provided, but it is not a parseable JSON'
-            severity: 'error'
-          }
-          @validation.body.results.push message        
-          return
+            @validation.body.results.push message        
+            return
+        else
+          @validation.body.expectedType = 'application/schema+json'          
     else
       if @headers != undefined and 
         @headers['content-type'] != undefined and
@@ -186,7 +191,7 @@ validatable =
           try        
             JSON.parse @expected.body
             @validation.body.expectedType = 'application/json'
-          catch
+          catch error
             @validation.body.expectedType = 'text/plain'       
 
 

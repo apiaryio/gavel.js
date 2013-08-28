@@ -141,9 +141,6 @@ module.exports = () ->
 
       parsed
       
-
-    #@responseParser = (response) ->
-
     @toCamelCase = (input) -> 
       result = input.replace /\s([a-z])/g, (strings) -> 
         strings[1].toUpperCase()

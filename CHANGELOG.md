@@ -1,4 +1,6 @@
-0.2
+# Gavel.js change log proposal
+
+## 0.2
 - Added decision diagram
 - HTTP Component terminus
 - Validatable components
@@ -13,15 +15,21 @@
 - Removed 'schema' parameter from HeadersValidator
 - Renamed HeadersValidator to HeadersJsonExample
 - statusCode validator
+- expected.jsonSchema must be a stringn not a object?
 
-TODO:
+**TODO:**
+- no untagged steps
+- remove timestamp from validation errors
 - remove tully's sanitized zero error
 - document media type validators api (validate(), evaluateOutputToResults)
 - add expected description to features
 - catch only syntax error when catchin' JSON parse
 - review codo rendering
+- Cucumber integration tests
+- get rid of validation errors
 
-0.3
+## 0.3
+- bug JsonExample real {}, expected {"a": "b"} no errors
 - extract json schema generator for json examples and parameters
   - default schema generated from example
     - all keys required
@@ -36,3 +44,6 @@ TODO:
 - body mime type decision diagram
 - use upstream amanda (array vs dot notation)
 - validate json schema against meta schemas
+- do not distinguish if Request or Response in Async API
+- remove actsAs paradigm
+- case insensitive headers in media type identificator

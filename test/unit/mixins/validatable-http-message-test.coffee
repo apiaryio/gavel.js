@@ -56,8 +56,7 @@ describe "Http validatable mixin", () ->
       it 'should return true', () ->
         instance = new HttpResponse {headers: {'content-type:': 'application/json'}}
         assert.isTrue instance.isValidatable()
-        
-  describe "#validate()", () ->
+       
 
   describe "any HTTP Message instance", () ->
     instance = {}
@@ -74,9 +73,17 @@ describe "Http validatable mixin", () ->
 
 
     describe "#validate()", () ->
+      result = null
       before () ->
-        instance.validate()
+        result = instance.validate()
       
+      it 'should return an object', () ->
+        assert.isObject result
+
+      ['headers', 'body', 'statusCode'].forEach (key) ->
+        it 'should contain validatable Component key "' + key + '"', () ->
+          assert.include Object.keys(result), key
+
       it "should create validation property", () ->
         assert.isDefined instance.validation   
       
@@ -489,6 +496,27 @@ describe "Http validatable mixin", () ->
       describe 'JSON Schema for expected body is provided', () ->
         instance = {}
         
+        describe 'schema is an object', () ->
+          describe 'it is not a valid JSON schema', () ->
+            it 'should set warrning'
+          describe 'it is a valid JSON schema', () ->
+            before () ->
+              instance = new HttpResponse {
+                expected:
+                  bodySchema: JSON.parse fixtures.sampleJsonSchema
+              }
+              instance.validation = {}
+              instance.validation.body = {}
+              instance.setBodyExpectedType()
+              
+            it 'should set expected type to application/schema+json', () ->
+              assert.equal instance.validation.body.expectedType,
+                'application/schema+json'
+            
+            it 'should set not error message to result', () ->
+              assert.equal instance.validation.body.results.length, 0
+
+
         describe 'schema is a parseable JSON', () ->
           describe 'parsed JSON is a valid JSON Schema', () ->
             before () ->
@@ -503,6 +531,7 @@ describe "Http validatable mixin", () ->
             it 'should set expected type to application/schema+json', () ->
               assert.equal instance.validation.body.expectedType,
                 'application/schema+json'
+            
             it 'should set not error message to result', () ->
               assert.equal instance.validation.body.results.length, 0
 

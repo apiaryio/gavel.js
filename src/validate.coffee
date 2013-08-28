@@ -3,14 +3,9 @@ errors          = require './errors'
 {HttpRequest, ExpectedHttpRequest} = require('./model/http-request')
 {HttpResponse, ExpectedHttpResponse} = require('./model/http-response')
 
-#@private
-validatable = (object) ->
-  object.validatableObject && object.validatableObject()
 
 #@private
 proxy = (validatableObject, method, cb) ->
-  if not validatable validatableObject
-    return cb new errors.NotValidatableError "Object is not validatable: #{validatableObject}"
   try
     result = validatableObject[method]()
   catch error

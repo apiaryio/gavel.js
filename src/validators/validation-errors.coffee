@@ -6,14 +6,10 @@ class ValidationErrors
   # Construct a ValidationErrors
   constructor: (amandaErrors) ->
     @length = amandaErrors?.length || 0
-    @amandaErrors = amandaErrors || {}
-    @now = Date.now().toString()
-    #TO DO need to be solved
-    @dataError = null
 
     if @length > 0
       for i in [0..@length - 1]
-        @[i] = @amandaErrors[i]
+        @[i] = amandaErrors[i]
 
   #returns errors from given path if any or empty array
   #@param [Array] pathArray every element is key in source object
