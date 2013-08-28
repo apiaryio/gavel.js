@@ -1,6 +1,6 @@
 errors          = require '../errors'
-{JsonValidator}   = require './json-validator'
-
+{JsonSchema}   = require './json-schema'
+jsonPointer = require 'json-pointer'
 
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 
@@ -36,7 +36,7 @@ class JsonExample
     catch error
       validatorType = 'string'
 
-    @validator = new JsonValidator @real, @schema
+    @validator = new JsonSchema @real, @schema
   
   #calls validation for given data
   #@return [ValidationErrors] {ValidationErrors}

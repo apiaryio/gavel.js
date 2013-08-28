@@ -271,6 +271,21 @@ validatable =
   
   # Status code validation
   validateStatusCode: () ->
+    @validation.statusCode = {}
+    @validation.statusCode.realType = "text/vnd.apiary.status-code"
+    @validation.statusCode.expectedType = "text/vnd.apiary.status-code"
+    @validation.statusCode.validator = 'TextDiff'
+    
+    real = String(@statusCode).trim()
+    expected = String(@expected.statusCode).trim()
+    
+    validator = new validators.TextDiff real, expected
+    @validation.statusCode.rawData = validator.validate()
+    
+    @validation.statusCode.results = []
+    results = validators.TextDiff.evaluateOutputToResults @validation.statusCode.rawData
+    @validation.statusCode.results = results.concat @validation.statusCode.results
+  
 
 
 # adds validatable mixin to class where its called

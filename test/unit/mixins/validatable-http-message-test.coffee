@@ -32,7 +32,7 @@ describe "Http validatable mixin", () ->
       'runBodyValidator'
       'setBodyResults'
 
-      #'validateStatusCode'
+      'validateStatusCode'
     ]
     
     methods.forEach (method) ->
@@ -870,13 +870,17 @@ describe "Http validatable mixin", () ->
     # Status code validation
     describe '#validateStatusCode',  () ->
       #instance = {}
-      #response = 
-      #  statusCode: 200
-      #  expected:
-      #    statusCode: 200
        
-     # before () ->
-        #instance = new HttpResponse response
+      before () ->
+        response = 
+          statusCode: 200
+          expected: 
+            statusCode: 200
+
+        instance = new HttpResponse response
+        instance.validation = {}
+
+        instance.validateStatusCode()
 
       fields = [
         'realType'
@@ -887,17 +891,23 @@ describe "Http validatable mixin", () ->
       ]
 
       fields.forEach (field) ->
-        it "should set '" + field + "' property for the component"#, () ->
-        #  assert.isDefined instance.validation.statusCode[field]
-      
-      describe 'real can\'t be converted to number', () ->
-        it 'should throw an error'      
-
-      describe 'expcted can\'t be converted to numner', () ->
-        it 'should set error message to results'
+        it "should set '" + field + "' property for the component", () ->
+          assert.isDefined instance.validation.statusCode[field]
       
       describe "expceted matches real", () ->
         it 'should set no errors to results', () ->
+          assert.equal instance.validation.statusCode.results.length, 0
       
       describe "expected does not matches real", () ->
-        it 'should set error message to results'
+        before () ->
+          response = 
+            statusCode: 200
+            expected: 
+              statusCode: 201
+
+          instance = new HttpResponse response
+          instance.validation = {}
+
+          instance.validateStatusCode()
+        it 'should set error message to results', () ->
+          assert.notEqual instance.validation.statusCode.results.length, 0

@@ -1,5 +1,5 @@
 errors          = require '../errors'
-{JsonValidator}   = require './json-validator'
+{JsonSchema}   = require './json-schema'
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
 jsonPointer = require 'json-pointer'
 
@@ -36,7 +36,7 @@ class HeadersJsonExample
           unless @schema['properties'][header] == undefined
             delete @schema['properties'][header]['enum']
 
-    @validator = new JsonValidator @real, @schema
+    @validator = new JsonSchema @real, @schema
 
   #calls validation for given data
   validate: () ->

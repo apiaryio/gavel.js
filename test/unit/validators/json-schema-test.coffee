@@ -1,10 +1,10 @@
-{assert}       = require('chai')
+{assert} = require 'chai'
+fixtures = require '../../fixtures'
+{JsonSchema} = require '../../../src/validators/json-schema'
+{ValidationErrors}    = require '../../../src/validators/validation-errors'
+shared = require '../support/amanda-to-gavel-shared'
 
-fixtures       = require '../../fixtures'
-{JsonValidator}    = require('../../../src/validators/json-validator')
-{ValidationErrors}    = require('../../../src/validators/validation-errors')
-
-describe 'JsonValidator', ->
+describe 'JsonSchema', ->
   validator = null
 
   describe 'when i create new instance of validator with correct data', ->
@@ -12,7 +12,7 @@ describe 'JsonValidator', ->
 
     it 'should not throw an exception', ->
       fn = () ->
-        validator = new JsonValidator JSON.parse(fixtures.sampleJsonComplexKeyMissing) ,JSON.parse(fixtures.sampleJsonSchemaNonStrict)
+        validator = new JsonSchema JSON.parse(fixtures.sampleJsonComplexKeyMissing) ,JSON.parse(fixtures.sampleJsonSchemaNonStrict)
       assert.doesNotThrow fn
 
     it 'should parse data to object', ->
@@ -71,5 +71,4 @@ describe 'JsonValidator', ->
           it 'errors should change', ->
             assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
   
-  describe '.evaluateOutputToResults', () ->
-    it 'should set some errors'
+  shared.shouldBehaveLikeAmandaToGavel(JsonSchema)

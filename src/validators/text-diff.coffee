@@ -39,7 +39,7 @@ class TextDiff
     else
       message = {
         severity: 'error',
-        message: 'Real and expected text does not match.'
+        message: 'Real and expected data does not match.'
       }
       results.push message
     results

@@ -2,37 +2,37 @@
 - Added decision diagram
 - HTTP Component terminus
 - Validatable components
+- Validators API
+- Added validators for combination of media types
 - Removed HTTP Message
 - Pseudo media type for HTTP Headers JSON representation
 - Validation result schema
 - Plugable component validators
 - HTTP body must be a string
 - Test coverage improvement
-- Removed schema option from HeadersValidator
+- Removed 'schema' parameter from HeadersValidator
 - Renamed HeadersValidator to HeadersJsonExample
-
-
+- statusCode validator
 
 TODO:
-- review codo rendering
+- remove tully's sanitized zero error
+- document media type validators api (validate(), evaluateOutputToResults)
 - add expected description to features
+- catch only syntax error when catchin' JSON parse
+- review codo rendering
+
+0.3
 - extract json schema generator for json examples and parameters
   - default schema generated from example
     - all keys required
     - all values must match type
   - parameters override generated defaults
-- extract convertor for amanda to gavel errors
-- document media type validators api (validate(), evaluateOutputToResults)
-- validate json schema against meta schemas
-- remove tully's sanitized error
-- remove body validator
-- remove json validator
-- add jsonSchema validator
-- add jsonExample validator
-- add dedicated statusCode validator
-- use upstream amanda (array vs dot notation)
 - rewiew mocha before vs. beforeEach
-- remove expected jsonSchema, add expected type
+- rewrite as functinoal
 - refactor test suite to be more DRY
-- catch only syntax error when catchin' JSON parse
+- remove bodySchema in expected, add expected type
+- extract convertor for amanda to gavel errors
 - move HeadersJsonExample.evaluateOutputToResults to AmandaToGavel
+- body mime type decision diagram
+- use upstream amanda (array vs dot notation)
+- validate json schema against meta schemas

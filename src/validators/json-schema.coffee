@@ -1,5 +1,6 @@
 amanda = require 'amanda'
 crypto = require('crypto')
+jsonPointer = require 'json-pointer'
 
 {ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
@@ -26,7 +27,7 @@ json_schema_options =
 
 # Validates given data against given schema
 # @author Peter Grilli <tully@apiary.io>
-class JsonValidator
+class JsonSchema
   # Construct a JsonValidator and checks given data
   #@param {} [Object] data to validate
   #@param {} [Object] json schema
@@ -112,5 +113,5 @@ class JsonValidator
 
 
 module.exports = {
-  JsonValidator
+  JsonSchema
 }
