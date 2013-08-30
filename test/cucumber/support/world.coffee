@@ -30,7 +30,12 @@ module.exports = () ->
     @booleanResult = false
 
     # topic of expectation e.g. 'body'
-    @component = ''
+    @component = null
+    @componentResutls = null
+
+    @expectedType = null
+    
+    @realType = null
 
     @expectBlockEval = (block, expectedReturn, callback) ->
       realOutput = safeEval(block,callback)
@@ -151,6 +156,17 @@ module.exports = () ->
         return g1.toUpperCase() + g2.toLowerCase()
       result = result.replace " ", ''
     
+    # debug functions
+    @inspect = (data) ->
+      if typeof data == 'object'
+        return JSON.stringify(data, null, 2)
+      else
+        return data
+     
+
+    @throw = (data) ->
+      throw new Error @inspect(data)
+
     callback this
 
   this.World = myWorld

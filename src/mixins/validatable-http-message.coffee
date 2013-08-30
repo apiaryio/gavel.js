@@ -96,6 +96,7 @@ validatable =
       @validation.headers.results.push entry
 
   runHeadersValidator: () ->
+    #throw new Error JSON.stringify @validation.headers.validator, null, 2
     if @validation.headers.validator == null
       @validation.headers.rawData = null
     else
@@ -106,11 +107,14 @@ validatable =
   
   setHeadersResults: () ->
     if not Array.isArray @validation.headers.results
-      @validation.headers.results = [] 
-    validatorClass = validators[@validation.headers.validator]
-    results = validatorClass.evaluateOutputToResults @validation.headers.rawData
-    @validation.headers.results = results.concat @validation.headers.results
+        @validation.headers.results = [] 
+    
+    if @validation.headers.rawData != null
+      validatorClass = validators[@validation.headers.validator]
+      results = validatorClass.evaluateOutputToResults @validation.headers.rawData
+      @validation.headers.results = results.concat @validation.headers.results
   
+
 
   # Body validation
   validateBody: () ->

@@ -6,6 +6,18 @@ shared = require '../support/amanda-to-gavel-shared'
 describe 'HeadersJsonExample', ->
   headersValidator = {}
   describe 'constructor', ->
+    describe 'when I provede real data as non obejct', () ->
+      it 'should throw an exception', () ->
+        fn = () ->
+          headersValidator = new HeadersJsonExample "", {'header1': 'value1'}
+        assert.throw fn, "is not an Object"
+    
+    describe 'when I provede expected data as non obejct', () ->
+      it 'should throw an exception', () ->
+        fn = () ->
+          headersValidator = new HeadersJsonExample {'header1': 'value1'}, ""
+        assert.throw fn, "is not an Object"
+    
     describe 'when I provide correct data', ->
       it 'should not throw an exception', ->
         fn = () ->

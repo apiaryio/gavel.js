@@ -57,7 +57,6 @@ describe "Http validatable mixin", () ->
         instance = new HttpResponse {headers: {'content-type:': 'application/json'}}
         assert.isTrue instance.isValidatable()
        
-
   describe "any HTTP Message instance", () ->
     instance = {}
     response = 
@@ -330,7 +329,7 @@ describe "Http validatable mixin", () ->
 
         instance.validation.headers.rawData = JSON.parse fixtures.sampleAmandaError
         instance.validation.headers.validator = 'HeadersJsonExample'
-
+      
       describe 'any previously set results', () ->
         before () ->
           instance.validation.results = ['booboo']
@@ -351,8 +350,21 @@ describe "Http validatable mixin", () ->
           assert.isArray instance.validation.headers.results
 
         it 'should have 2 results', () ->
-
           assert.equal instance.validation.headers.results.length, 2
+
+      describe 'no rawData and validator available', () ->
+        before () ->
+          instance.validation.headers.validator = null
+          instance.validation.headers.rawData = null
+
+        it 'should not throw an error', () ->
+          fn = () ->
+            instance.setHeadersResults()
+
+          assert.doesNotThrow fn
+
+
+
 
     # Body validation tests
 
@@ -433,8 +445,7 @@ describe "Http validatable mixin", () ->
             assert.equal instance.validation.body.realType,
               'application/json'
             
-          #TBD
-          it 'should set some warning'
+          it 'TBD: should set some warning'
 
         describe 'body is not a parseable JSON', () ->
           before () ->

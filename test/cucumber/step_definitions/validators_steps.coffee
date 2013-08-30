@@ -1,6 +1,7 @@
 assert = require('chai').assert
 amanda = require 'amanda'
 gavel = require '../../../src/gavel'
+{assert} = require 'chai'
 _ = require 'lodash'
 
 json_schema_options =
@@ -76,16 +77,70 @@ validatorStepDefs = () ->
     assert.include validators, error[key]
     callback()
 
-  Given /^you express expected data by the following "([^"]*)" example:$/, (type, string, callback) ->
+  Given /^you want validate "([^"]*)" HTTP component$/, (component, callback) ->
+    @component = component
     callback()
-  Given /^you have the following "([^"]*)" real data:$/, (type, string, callback) ->
+
+  Given /^you express expected data by the following "([^"]*)" example:$/, (type, data, callback) ->
+    if type == 'application/schema+json'
+      @expected['bodySchema'] = data
+    else if type == 'application/vnd.apiary.http-headers+json'
+      @expected[@component] = JSON.parse data
+    else      
+      @expected[@component] = data
+    
+    @expectedType = type
+    callback()
+
+  Given /^you have the following "([^"]*)" real data:$/, (type, data, callback) ->
+    if type == 'application/vnd.apiary.http-headers+json'
+      @real[@component] = JSON.parse data
+    else
+      @real[@component] = data
+
+    @realType = type
     callback()  
+
   When /^you perform validation on the HTTP component$/, (callback) ->
-    callback()
+    @validate (error, result) =>
+      if error
+        callback.fail "Error during validation: " + error
+
+      @results = result
+      @componentResults = @results[@component]
+      callback()
+  
   Then /^validator "([^"]*)" is used for validation$/, (validator, callback) ->
+    usedValidator = @componentResults['validator']
+    if validator != usedValidator
+      callback.fail "Used validator '" + usedValidator + "'" + \
+        " instead of '" + validator + "'. Got validation results: " + \
+        JSON.stringify(@results, null, 2)
     callback()
-  Then /^validation key "([^"]*)" looks like:$/, (data, string, callback) ->
+  
+  Then /^validation key "([^"]*)" looks like the following "([^"]*)":$/, (key, type, expected, callback) ->
+    real = @componentResults[key]
+    if type == "JSON"
+      expected = JSON.parse expected
+    else if type == "text"
+      # FIXME investigate how does cucumber docstrings handle 
+      # newlines and remove trim and remove this hack
+      expected = expected + "\n"
+
+    if type == "JSON"
+      if not _.isEqual expected, real
+        callback.fail "Not matched! Expected:" + "\n" + \
+                      @inspect(expected) + "\n" + \
+                      "But got:" + "\n" + \
+                      @inspect(real) + "\n" + \
+                      "End"
+    else if type == "text"
+      assert.equal expected, real    
     callback()
+  
   Then /^each result entry must contain "([^"]*)" key$/, (key, callback) ->
+    @componentResults['results'].forEach (error) ->
+      assert.include Object.keys(error), key
+    callback()
 
 module.exports = validatorStepDefs

@@ -7,68 +7,81 @@ shared = require '../support/amanda-to-gavel-shared'
 describe 'JsonSchema', ->
   validator = null
 
-  describe 'when i create new instance of validator with correct data', ->
-    validator = null
+  dataForTypes =
+    string: 
+      real: fixtures.sampleJsonComplexKeyMissing
+      schema: fixtures.sampleJsonSchemaNonStrict
+    object:
+      real: JSON.parse fixtures.sampleJsonComplexKeyMissing
+      schema: JSON.parse fixtures.sampleJsonSchemaNonStrict
 
-    it 'should not throw an exception', ->
-      fn = () ->
-        validator = new JsonSchema JSON.parse(fixtures.sampleJsonComplexKeyMissing) ,JSON.parse(fixtures.sampleJsonSchemaNonStrict)
-      assert.doesNotThrow fn
+  types = Object.keys dataForTypes
+  types.forEach (type) ->
+    
+    data = dataForTypes[type]
 
-    it 'should parse data to object', ->
-      assert.equal typeof validator.data, 'object'
+    describe 'when i create new instance of validator with "' + type + '" type arguments', ->
+      validator = null
 
-    it 'should parse data to object which is json parsable', ->
-      assert.doesNotThrow () -> JSON.stringify validator.data
+      it 'should not throw an exception', ->
+        fn = () ->
+          validator = new JsonSchema data['real'], data['schema']
+        assert.doesNotThrow fn
 
-    it 'should parse schema to object', ->
-      assert.equal typeof validator.schema, 'object'
+      it 'should set data to object', ->
+        assert.equal typeof validator.data, 'object'
 
-    it 'should parse schema to object which is json parsable', ->
-      assert.doesNotThrow () -> JSON.stringify validator.schema
+      it 'should parse data to object which is json parsable', ->
+        assert.doesNotThrow () -> JSON.stringify validator.data
 
-    describe 'when I run validate', ->
-      validatorReturn = null
-      validatorReturnAgain = null
-      validatorReturnAfterDataChanged = null
-      before ->
-        validatorReturn = validator.validate()
+      it 'should parse schema to object', ->
+        assert.equal typeof validator.schema, 'object'
 
-      it 'should set @errors', ->
-        assert.isTrue validator.errors instanceof ValidationErrors
+      it 'should parse schema to object which is json parsable', ->
+        assert.doesNotThrow () -> JSON.stringify validator.schema
 
-      it 'should return some errors', ->
-        assert.notEqual validatorReturn.length , 0
-
-      describe 'and run validate again', ->
+      describe 'when I run validate', ->
+        validatorReturn = null
+        validatorReturnAgain = null
+        validatorReturnAfterDataChanged = null
         before ->
-          validatorReturnAgain = validator.validate()
+          validatorReturn = validator.validate()
 
-        it 'errors should not change', ->
-          assert.deepEqual JSON.parse(JSON.stringify(validatorReturnAgain)), JSON.parse(JSON.stringify(validatorReturn))
+        it 'should set @errors', ->
+          assert.isTrue validator.errors instanceof ValidationErrors
 
-      describe 'when i change data', ->
-        before ->
-          validator.data = fixtures.sampleJson
+        it 'should return some errors', ->
+          assert.notEqual validatorReturn.length , 0
 
         describe 'and run validate again', ->
-
           before ->
-            validatorReturnAfterDataChanged = validator.validate()
+            validatorReturnAgain = validator.validate()
 
-          it 'errors should change', ->
-            assert.equal validatorReturnAfterDataChanged.length, 0
+          it 'errors should not change', ->
+            assert.deepEqual JSON.parse(JSON.stringify(validatorReturnAgain)), JSON.parse(JSON.stringify(validatorReturn))
 
-      describe 'when i change schema', ->
-        before ->
-          validator.schema = JSON.parse fixtures.sampleJsonSchemaNonStrict2
-
-        describe 'and run validate again', ->
-          validatorReturnAfterDataChanged2 = null
+        describe 'when i change data', ->
           before ->
-            validatorReturnAfterDataChanged2 = validator.validate()
+            validator.data = fixtures.sampleJson
 
-          it 'errors should change', ->
-            assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
-  
-  shared.shouldBehaveLikeAmandaToGavel(JsonSchema)
+          describe 'and run validate again', ->
+
+            before ->
+              validatorReturnAfterDataChanged = validator.validate()
+
+            it 'errors should change', ->
+              assert.equal validatorReturnAfterDataChanged.length, 0
+
+        describe 'when i change schema', ->
+          before ->
+            validator.schema = JSON.parse fixtures.sampleJsonSchemaNonStrict2
+
+          describe 'and run validate again', ->
+            validatorReturnAfterDataChanged2 = null
+            before ->
+              validatorReturnAfterDataChanged2 = validator.validate()
+
+            it 'errors should change', ->
+              assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
+    
+    shared.shouldBehaveLikeAmandaToGavel(JsonSchema)

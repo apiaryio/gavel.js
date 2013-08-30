@@ -5,6 +5,8 @@
 - HTTP Component terminus
 - Validatable components
 - Validators API
+  - Using GoogleDiff for TEXT comparison in TextDiff
+  - Using 
 - Added validators for combination of media types
 - Removed HTTP Message
 - Pseudo media type for HTTP Headers JSON representation
@@ -16,8 +18,10 @@
 - Renamed HeadersValidator to HeadersJsonExample
 - statusCode validator
 - expected.jsonSchema must be a stringn not a object?
+- schema validator accepts both string and object
 
 **TODO:**
+- TBD consider headers pointer vs. field and error copywriting
 - no untagged steps
 - remove timestamp from validation errors
 - remove tully's sanitized zero error
@@ -27,6 +31,9 @@
 - review codo rendering
 - Cucumber integration tests
 - get rid of validation errors
+- eradicate error classes
+- gavel release management
+- status code validation message can change
 
 ## 0.3
 - bug JsonExample real {}, expected {"a": "b"} no errors
@@ -47,3 +54,8 @@
 - do not distinguish if Request or Response in Async API
 - remove actsAs paradigm
 - case insensitive headers in media type identificator
+- validators more unit testing approach
+- move no validator found logic to setXXXresults() methods
+- generic type identificators
+- warning if added header
+

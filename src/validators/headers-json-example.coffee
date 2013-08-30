@@ -13,6 +13,12 @@ class HeadersJsonExample
   #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
   #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
   constructor: (@real, @expected) ->
+    if typeof @real != 'object' 
+      throw new errors.MalformedDataError "Real is not an Object"
+
+    if typeof @expected != 'object'
+      throw new errors.MalformedDataError "Expected is not an Object"
+    
     try
       @expected = JSON.parse(JSON.stringify(@expected))
     catch error
