@@ -34,6 +34,7 @@
 - eradicate error classes
 - gavel release management
 - status code validation message can change
+- release to product changelog
 
 ## 0.3
 - bug JsonExample real {}, expected {"a": "b"} no errors
@@ -58,4 +59,10 @@
 - move no validator found logic to setXXXresults() methods
 - generic type identificators
 - warning if added header
+
+
+Release process
+- merge spec repo branch to master
+- merge implementation repo branch to master
+- tag spec and implementation
 
