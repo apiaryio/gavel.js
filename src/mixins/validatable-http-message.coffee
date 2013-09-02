@@ -1,7 +1,7 @@
 async = require 'async'
 
 errors = require '../errors'
-{extendable} = require '../utils/extendable.coffee'
+{extendable} = require '../utils/extendable'
 
 validators = require '../validators'
 
