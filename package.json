@@ -10,12 +10,12 @@
     "gavel": "bin/gavel"
   },
   "dependencies": {
-      "amanda": "git://github.com/apiaryio/Amanda.git",
-      "async": "0.2.9",
-      "commander": "2.0.0",
-      "curl-trace-parser": "0.0.7",
-      "http-string-parser": "0.0.4",
-      "googlediff": "0.1.0"
+    "amanda": "git://github.com/apiaryio/Amanda.git",
+    "async": "0.2.9",
+    "commander": "2.0.0",
+    "curl-trace-parser": "0.0.7",
+    "http-string-parser": "0.0.4",
+    "googlediff": "0.1.0"
   },
   "devDependencies": {
     "chai": "~1.7.2",
@@ -26,7 +26,11 @@
     "prettyjson": "0.8.1",
     "codo": "1.7.0",
     "json-pointer": "0.0.3",
-    "sinon": "1.7.3"
+    "sinon": "1.7.3",
+    "coffee-coverage": "0.1.4",
+    "jscoverage": "~0.3.8",
+    "coveralls": "~2.2.0",
+    "mocha-lcov-reporter": "0.0.1"
   },
   "scripts": {
     "test": "scripts/test",
@@ -50,14 +54,14 @@
   ],
   "author": "Apiary Inc <support@apiary.io>",
   "contributors": [
-      {
-          "name": "Adam Kliment",
-          "email": "adam@apiary.io"
-      },
-      {
-          "name": "Peter Grilli",
-          "email": "tully@apiary.io"
-      }
+    {
+      "name": "Adam Kliment",
+      "email": "adam@apiary.io"
+    },
+    {
+      "name": "Peter Grilli",
+      "email": "tully@apiary.io"
+    }
   ],
   "license": "MIT",
   "readmeFilename": "README.md",
