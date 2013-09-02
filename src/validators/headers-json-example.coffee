@@ -1,57 +1,40 @@
 errors          = require '../errors'
-{JsonValidator}   = require './json-validator'
+{JsonSchema}   = require './json-schema'
 {SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
+jsonPointer = require 'json-pointer'
 
 # Checks data, prepares validator and validates request or response headers against given expected headers or json schema
 # @author Peter Grilli <tully@apiary.io>
-class HeadersValidator
+class HeadersJsonExample
   # Construct a HeadersValidator, checks data
-  #@option {} [Object] real data to validate
-  #@option {} [Object] expected expected data
-  #@option {} [String/Object] schema json schema - if no schema is provided, schema will be generated from expected data, if expected data are json parsable
+  #@param [Object] real data to validate
+  #@param [Object] expected expected data
   #@throw {MalformedDataError} when real is not a String or when no schema provided and expected is not a String
   #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
   #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
-  constructor: ({real, expected, schema}) ->
-    expected = {} if expected == null or expected == undefined 
-    real = {} if real == null or real == undefined 
-    if schema
-      try
-        if not (schema instanceof Object)
-          try
-            @schema = JSON.parse schema
+  constructor: (@real, @expected) ->
+    if typeof @real != 'object' 
+      throw new errors.MalformedDataError "Real is not an Object"
 
-          catch error
-            throw new Error 'Body: schema is not object or parseable JSON'
-        else if Object.keys(schema).length == 0
-          @schema = null
-        else
-          @schema = JSON.parse(JSON.stringify(schema))
-
-      catch error
-        outError = new errors.SchemaNotJsonParsableError error.message
-        outError['schema'] = schema
-        throw outError
-    else if expected
-      try
-        @expected = JSON.parse(JSON.stringify(expected))
-        @schema = @getSchema @prepareHeaders @expected
-      catch error
-        outError = new errors.MalformedDataError "Headers validator - Expected malformed:" + error.message
-        outError['data'] = expected
-        throw outError
-    else
-      throw new errors.NotEnoughDataError "Headers validator: expected data or json schema must be defined"
-
+    if typeof @expected != 'object'
+      throw new errors.MalformedDataError "Expected is not an Object"
+    
     try
-      @real = @prepareHeaders JSON.parse(JSON.stringify(real))
+      @expected = JSON.parse(JSON.stringify(@expected))
     catch error
-
-
-      outError = new errors.MalformedDataError "Headers validator - Real malformed:" + error.message
-      outError['data'] = real
+      outError = new errors.MalformedDataError "Headers validator - Expected malformed:" + error.message
+      outError['data'] = @expected
       throw outError
 
+    try
+      @real = @prepareHeaders JSON.parse(JSON.stringify(@real))
+    catch error  
+      outError = new errors.MalformedDataError "Headers validator - Real malformed:" + error.message
+      outError['data'] = @real
+      throw outError
+
+    @schema = @getSchema @prepareHeaders @expected
+    
     #headers to ignore their values  
     unless @schema == undefined
       unless @schema['properties'] == undefined
@@ -59,12 +42,31 @@ class HeadersValidator
           unless @schema['properties'][header] == undefined
             delete @schema['properties'][header]['enum']
 
-    @validator = new JsonValidator data: @real, schema: @schema
+    @validator = new JsonSchema @real, @schema
 
   #calls validation for given data
   validate: () ->
-    @validator.validate()
-
+    @output = @validator.validate()
+  
+  
+  @evaluateOutputToResults: (data) -> 
+    results = []
+    if data == null
+      return results     
+    
+    #amanda to gavel converter
+    if data.length > 0 # expects sanitized Tully pseudo amanda error
+      indexes = [0..data.length - 1]
+      indexes.forEach (index) ->
+        item = data[index]
+        console.error
+        message =
+          pointer: jsonPointer.compile item['property']
+          severity: 'error'
+          message: item.message
+        results.push message
+    results
+  
   #@private
   prepareHeaders: (headers) ->
     if not (headers instanceof Object)
@@ -88,5 +90,5 @@ class HeadersValidator
 
 
 module.exports = {
-  HeadersValidator
+  HeadersJsonExample
 }

@@ -1,5 +1,3 @@
-
-
 javascriptStepDefs = () ->
   Given = When = Then = @.defineStep
 

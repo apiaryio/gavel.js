@@ -23,6 +23,20 @@ module.exports = () ->
     # contains parsed http objects for model valdiation
     @model = {}
     
+    # results for validators features
+    @results = {}
+    
+    # boolan validation result for whole HTTP Message
+    @booleanResult = false
+
+    # topic of expectation e.g. 'body'
+    @component = null
+    @componentResutls = null
+
+    @expectedType = null
+    
+    @realType = null
+
     @expectBlockEval = (block, expectedReturn, callback) ->
       realOutput = safeEval(block,callback)
 
@@ -132,9 +146,6 @@ module.exports = () ->
 
       parsed
       
-
-    #@responseParser = (response) ->
-
     @toCamelCase = (input) -> 
       result = input.replace /\s([a-z])/g, (strings) -> 
         strings[1].toUpperCase()
@@ -145,6 +156,17 @@ module.exports = () ->
         return g1.toUpperCase() + g2.toLowerCase()
       result = result.replace " ", ''
     
+    # debug functions
+    @inspect = (data) ->
+      if typeof data == 'object'
+        return JSON.stringify(data, null, 2)
+      else
+        return data
+     
+
+    @throw = (data) ->
+      throw new Error @inspect(data)
+
     callback this
 
   this.World = myWorld
