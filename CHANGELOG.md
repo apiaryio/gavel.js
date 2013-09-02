@@ -1,14 +1,12 @@
-# Gavel.js change log proposal
+# Gavel.js change log
 
-## 0.2
+## 0.2.x
 - Added decision diagram
 - HTTP Component terminus
 - Validatable components
-- Validators API
-  - Using GoogleDiff for TEXT comparison in TextDiff
-  - Using 
-- Added validators for combination of media types
-- Removed HTTP Message
+- Added Validators API
+- Added media types
+- Removed HTTP Message class
 - Pseudo media type for HTTP Headers JSON representation
 - Validation result schema
 - Plugable component validators
@@ -16,25 +14,28 @@
 - Test coverage improvement
 - Removed 'schema' parameter from HeadersValidator
 - Renamed HeadersValidator to HeadersJsonExample
-- statusCode validator
-- expected.jsonSchema must be a stringn not a object?
-- schema validator accepts both string and object
+- StatusCode validator
+- Expected.jsonSchema must be a stringn not a object?
+- JsonSchema validator accepts both string and object
+- removed timestamp from validation errors
+- Cucumber step definitions for Gavel spec v1.1
+
+## 0.1.x
+- Initial release for Gavel specification v1.0
+
 
 **TODO:**
-- TBD consider headers pointer vs. field and error copywriting
-- no untagged steps
-- remove timestamp from validation errors
-- remove tully's sanitized zero error
-- document media type validators api (validate(), evaluateOutputToResults)
-- add expected description to features
-- catch only syntax error when catchin' JSON parse
-- review codo rendering
-- Cucumber integration tests
-- get rid of validation errors
-- eradicate error classes
-- gavel release management
-- status code validation message can change
-- release to product changelog
+- ADD coverage reporter
+- TBD HeadersValidator - rename pointer to field, better error text
+- Forbidden untagged steps in Gavel spec - test to CI 
+- remove sanitized zero length Amanda error
+- Document media type validators JS api (validate(), evaluateOutputToResults)
+- Add expected description to features
+- Catch only syntax error when catchin' JSON parse
+- Review codo rendering
+- Remove ValidationErrors class
+- TBD Status code validation message change
+- Release to product changelog
 
 ## 0.3
 - bug JsonExample real {}, expected {"a": "b"} no errors
@@ -61,8 +62,8 @@
 - warning if added header
 
 
-Release process
+Release process:
 - merge spec repo branch to master
 - merge implementation repo branch to master
 - tag spec and implementation
-
+- npm publish
