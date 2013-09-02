@@ -18,10 +18,7 @@ modelStepDefs = () ->
   Then /^"([^"]*)" JSON representation will look like this:$/, (objectTypeString, string, callback) ->
     expectedObject = JSON.parse(string)
 
-    if objectTypeString == 'HTTP Message'
-      klass = 'HttpMessage'
-      data = {httpRequest: @model.request, httpResponse: @model.response}
-    else if objectTypeString == 'HTTP Request'
+    if objectTypeString == 'HTTP Request'
       klass = 'HttpRequest'
       data = @model.request
     else if objectTypeString == 'HTTP Response'
