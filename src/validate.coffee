@@ -19,8 +19,8 @@ isValid = (real, expected, type, cb) ->
       validatableObject = new HttpRequest real
       validatableObject['expected']= new ExpectedHttpRequest expected
     when 'response'
-      validatableObject = new HttpRequest real
-      validatableObject['expected']= new ExpectedHttpRequest expected
+      validatableObject = new HttpResponse real
+      validatableObject['expected']= new ExpectedHttpResponse expected
 
   proxy validatableObject, 'isValid', cb
 
@@ -31,8 +31,8 @@ isValidatable = (real,expected, type, cb) ->
       validatableObject = new HttpRequest real
       validatableObject['expected']= new ExpectedHttpRequest expected
     when 'response'
-      validatableObject = new HttpRequest real
-      validatableObject['expected']= new ExpectedHttpRequest expected
+      validatableObject = new HttpResponse real
+      validatableObject['expected']= new ExpectedHttpResponse expected
       
   proxy validatableObject, 'isValidatable', cb
 
@@ -44,8 +44,8 @@ validate = (real, expected, type, cb) ->
       validatableObject = new HttpRequest real
       validatableObject['expected']= new ExpectedHttpRequest expected
     when 'response'
-      validatableObject = new HttpRequest real
-      validatableObject['expected']= new ExpectedHttpRequest expected
+      validatableObject = new HttpResponse real
+      validatableObject['expected']= new ExpectedHttpResponse expected
     
   proxy validatableObject, 'validate', cb
 
