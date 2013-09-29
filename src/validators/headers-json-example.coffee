@@ -23,7 +23,7 @@ class HeadersJsonExample
       @expected = @prepareHeaders JSON.parse(JSON.stringify(@expected))
     catch error
       outError = new errors.MalformedDataError "Headers validator - Expected malformed:" + error.message
-      @expected = @prepareHeaders JSON.parse(JSON.stringify(@expected))
+      outError['data'] = @expected
       throw outError
 
     try
