@@ -53,7 +53,7 @@ class SchemaGenerator
 
     type = typeof val
 
-    if type is 'undefined' then return 'null'
+    if ((type is 'undefined') or not val?) then return 'null'
     if type is 'number' and val % 1 == 0 then return 'integer'
 
     return type
