@@ -1,3 +1,9 @@
+emptyStringJson = '''
+{
+  "issue": ""
+}
+'''
+
 sampleJson = '''
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
@@ -1232,6 +1238,7 @@ sampleHttpMessageSchema =
 }
 
 module.exports =
+  emptyStringJson: emptyStringJson
   sampleJson                       : sampleJson
   sampleJsonSchema                 : sampleJsonSchema
   sampleJsonSchemaNonStrict        : sampleJsonSchemaNonStrict

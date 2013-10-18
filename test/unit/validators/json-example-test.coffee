@@ -62,5 +62,14 @@ describe 'JsonExample', ->
           it "shouldn't return any errors", ->
             result = bodyValidator.validate()
             assert.equal result.length, 0
+  
+      describe 'when key value is a empty string', ->
+        before ->
+          bodyValidator = new JsonExample fixtures.emptyStringJson ,fixtures.emptyStringJson
+        describe 'and i run validate()', ->
+          it "shouldn't return any errors", ->
+            result = bodyValidator.validate()
+            assert.equal result.length, 0
 
+  
   shared.shouldBehaveLikeAmandaToGavel(JsonExample)
