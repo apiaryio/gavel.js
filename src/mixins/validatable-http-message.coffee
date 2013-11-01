@@ -133,7 +133,14 @@ validatable =
     unless typeof @body == 'string'
       throw new Error "HTTP Body is not a String."
 
-    if !(@headers == undefined) and !(@headers['content-type']  == undefined) and @headers['content-type'] == 'application/json'
+    isJsonContentType = false
+
+    # TODO refactor to separate unit when adding more complicated logic
+    # e.g. for application/hal+json or or application/vnd.apiary.something
+    if !(@headers == undefined) and !(@headers['content-type']  == undefined)
+      isJsonContentType = @headers['content-type'].split(';')[0] == 'application/json'
+    
+    if isJsonContentType
       try
         JSON.parse @body
         @validation.body.realType = 'application/json'
@@ -163,7 +170,7 @@ validatable =
             parsed = JSON.parse @expected.bodySchema
             if typeof parsed != 'object' or Array.isArray parsed 
               message = {
-                message: 'JSON Schema provided, but it is not an Object'
+                message: 'Expected:JSON Schema provided, but it is not an Object'
                 severity: 'error'
               }
               @validation.body.results.push message  
@@ -171,7 +178,7 @@ validatable =
               @validation.body.expectedType = 'application/schema+json'
           catch error
             message = {
-              message: 'JSON Schema provided, but it is not a parseable JSON'
+              message: 'Expected: JSON Schema provided, but it is not a parseable JSON'
               severity: 'error'
             }
             @validation.body.results.push message        
@@ -179,15 +186,20 @@ validatable =
         else
           @validation.body.expectedType = 'application/schema+json'          
     else
-      if @headers != undefined and 
-        @headers['content-type'] != undefined and
-        @headers['content-type'] == 'application/json'
+
+      isJsonContentType = false
+      # TODO refactor to separate unit when adding more complicated logic
+      # e.g. for application/hal+json or or application/vnd.apiary.something
+      if !(@expected.headers == undefined) and !(@expected.headers['content-type']  == undefined)
+        isJsonContentType = @expected.headers['content-type'].split(';')[0] == 'application/json'
+
+      if isJsonContentType
           try
             JSON.parse @expected.body
             @validation.body.expectedType = 'application/json'
           catch error
             message = {
-              message: 'Content-Type is application/json but body is not a parseable JSON '
+              message: 'Expected: Content-Type is application/json but body is not a parseable JSON '
               severity: 'error'
             }           
             @validation.body.results.push message            
@@ -205,13 +217,12 @@ validatable =
     if @validation.body.results == undefined
       @validation.body.results = []
         
-    if @validation.body.realType == null and
-      @validation.body.expectedType == null
-        message = {
-          message: 'Content-Type is application/json but body is not a parseable JSON '
-          severity: 'error'
-        }           
-        @validation.body.results.push message
+    if @validation.body.realType == null and @validation.body.expectedType == null
+      message = {
+        message: 'Unknown real and expected type. No validator found.'
+        severity: 'error'
+      }           
+      @validation.body.results.push message
     else
       if @validation.body.realType == 'application/json'
         if @validation.body.expectedType == 'application/json'
@@ -219,39 +230,26 @@ validatable =
         else if @validation.body.expectedType == 'application/schema+json'
           @validation.body.validator = 'JsonSchema'
         else
-          message = {
-            message: 'No validator found for real data media type "' + 
-              + JSON.stringify(@validation.body.realType) +
-              '" and expected data media type "' +
-              + JSON.stringify(@validation.body.expectedType) + 
-              '".' 
+          message = 
+            message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
             severity: 'error'
-          }           
+
           @validation.body.results.push message       
 
       else if @validation.body.realType == 'text/plain'
         if @validation.body.expectedType == 'text/plain'
           @validation.body.validator = 'TextDiff'        
         else
-          message = {
-            message: 'No validator found for real data media type "' + 
-              + JSON.stringify(@validation.body.realType) +
-              '" and expected data media type "' +
-              + JSON.stringify(@validation.body.expectedType) + 
-              '".' 
+          message = 
+            message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
             severity: 'error'
-          }           
+
           @validation.body.results.push message       
 
       else
-        message = {
-          message: 'No validator found for real data media type "' + 
-            + JSON.stringify(@validation.headers.realType) +
-            '" and expected data media type "' +
-            + JSON.stringify(@validation.headers.expectedType) + 
-            '".' 
+        message = 
+          message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
           severity: 'error'
-        }           
         @validation.body.results.push message       
 
   runBodyValidator: () ->

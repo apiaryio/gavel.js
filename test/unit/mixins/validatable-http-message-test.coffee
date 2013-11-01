@@ -427,50 +427,56 @@ describe "Http validatable mixin", () ->
           assert.include message, 'String'
 
      
-      describe 'header content-type is an application/json', () ->
-        before () ->    
-          instance = new HttpResponse {
-            headers: {'content-type': 'application/json'}
-          }
-          instance.validation = {}
-          instance.validation.body = {}
-          instance.validation.body.results = []
+      jsonContentTypes = [
+        'application/json', 
+        'application/json; charset=utf-8'
+      ]
 
-        describe 'body is a parseable JSON', () ->
-          before () ->
-            instance.body = '{"foo": "bar"}'
-            instance.setBodyRealType()
-             
-          it 'should set real type to application/json', () ->
-            assert.equal instance.validation.body.realType,
-              'application/json'
-            
-          it 'TBD: should set some warning'
+      jsonContentTypes.forEach (contentType) ->
+       
+        describe "header content-type is '#{contentType}'", () ->
+          before () ->    
+            instance = new HttpResponse {
+              headers: {'content-type': contentType}
+            }
+            instance.validation = {}
+            instance.validation.body = {}
+            instance.validation.body.results = []
 
-        describe 'body is not a parseable JSON', () ->
-          before () ->
-            instance.body = 'Boobooo foo bar john doe'
-            instance.setBodyRealType()
+          describe 'body is a parseable JSON', () ->
+            before () ->
+              instance.body = '{"foo": "bar"}'
+              instance.setBodyRealType()
+               
+            it 'should set real type to application/json', () ->
+              assert.equal instance.validation.body.realType,
+                'application/json'
+              
 
-          it 'should set realType to null', () ->
-            assert.equal instance.validation.body.realType,
-              null
+          describe 'body is not a parseable JSON', () ->
+            before () ->
+              instance.body = 'Boobooo foo bar john doe'
+              instance.setBodyRealType()
 
-          it 'should add error message to results with error severity', () ->
-            results = instance.validation.body.results
-            results.forEach (result) ->
-              results.push result.severity
-            
-            assert.include results, 'error'
+            it 'should set realType to null', () ->
+              assert.equal instance.validation.body.realType,
+                null
 
-          it 'should not overwrite exitsing errors', () ->
-            instance.validation.body.results = [
-              {'message': 'Shit happen.', 'severity': 'error'}
-            ]
-            before = instance.validation.body.results.length
-            instance.setBodyRealType()
-            after = instance.validation.body.results.length
-            assert.equal before + 1, after 
+            it 'should add error message to results with error severity', () ->
+              results = instance.validation.body.results
+              results.forEach (result) ->
+                results.push result.severity
+              
+              assert.include results, 'error'
+
+            it 'should not overwrite exitsing errors', () ->
+              instance.validation.body.results = [
+                {'message': 'Shit happen.', 'severity': 'error'}
+              ]
+              before = instance.validation.body.results.length
+              instance.setBodyRealType()
+              after = instance.validation.body.results.length
+              assert.equal before + 1, after 
 
 
       describe 'any or no content-type header', () ->
@@ -593,50 +599,59 @@ describe "Http validatable mixin", () ->
               null
 
       describe 'JSON Schema for expected body is not provided', () ->
-        describe 'expected headers have content-type application/json', () ->
-          describe 'expected body is a parseable JSON', () ->
-            before () ->
-              instance = new HttpResponse {
-                headers:
-                  'content-type': 'application/json'
-                expected:
-                  body: "{}"
-              }
-              instance.validation = {}            
-              instance.validation.body = {}
-              instance.setBodyExpectedType()
+        
+        jsonContentTypes = [
+          'application/json', 
+          'application/json; charset=utf-8'
+        ]
 
-            it 'should set expected type to application/json', () ->
-              assert.equal instance.validation.body.expectedType,
-                'application/json'
-            
-            it 'should set no error message to result', () ->
-              assert.equal instance.validation.body.results.length, 0
+        jsonContentTypes.forEach (contentType) ->
+                 
+          describe "expected headers have content-type '#{contentType}'", () ->
+            describe 'expected body is a parseable JSON', () ->
+              before () ->
+                instance = new HttpResponse {
+                  expected:
+                    headers:
+                      'content-type': contentType
+                    body: "{}"
+                }
+                instance.validation = {}            
+                instance.validation.body = {}
+                instance.setBodyExpectedType()
 
-          
-          describe 'expected body is not a parseable JSON', () ->
-            before () ->
-              instance = new HttpResponse {
-                headers:
-                  'content-type': 'application/json'
-                expected:
-                  body: "{Boo{Boo"
-              }
-              instance.validation = {}            
-              instance.validation.body = {}
-              instance.setBodyExpectedType()
-
-            it 'should set an error message to results', () ->
-              results = instance.validation.body.results
-              results.forEach (result) ->
-                results.push result.severity
+              it 'should set expected type to application/json', () ->
+                assert.equal instance.validation.body.expectedType,
+                  'application/json'
               
-              assert.include results, 'error'            
+              it 'should set no error message to result', () ->
+                assert.equal instance.validation.body.results.length, 0
 
-            it 'should set expected type to null', () ->
-              assert.equal instance.validation.body.expectedType,
-                null
             
+            describe 'expected body is not a parseable JSON', () ->
+              before () ->
+                instance = new HttpResponse {
+                  expected:
+                    headers:
+                      'content-type': contentType                    
+                    body: "{Boo{Boo"
+                }
+
+                instance.validation = {}            
+                instance.validation.body = {}
+                instance.setBodyExpectedType()
+
+              it 'should set an error message to results', () ->
+                results = instance.validation.body.results
+                results.forEach (result) ->
+                  results.push result.severity
+                
+                assert.include results, 'error'            
+
+              it 'should set expected type to null', () ->
+                assert.equal instance.validation.body.expectedType,
+                  null
+              
         describe 'expected headers have not content-type application/json', () ->
           describe 'expected body is a parseable JSON', () ->
             before () ->
