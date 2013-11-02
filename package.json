@@ -61,6 +61,10 @@
     {
       "name": "Peter Grilli",
       "email": "tully@apiary.io"
+    },
+    {
+       "name": "Lukas Linhart",
+        "email": "lukas@apiary.io"
     }
   ],
   "license": "MIT",
