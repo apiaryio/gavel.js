@@ -54,46 +54,58 @@ class JsonSchema
   #@return [ValidationErrors]
   validate: ->
     if ((@data instanceof Object) and Object.keys(@data).length == 0) or ((@data instanceof Object) and @schema['empty'])
-      error = {
+      @output = {
         "length":0,
         "errorMessages":{
         }
       }
-      return new ValidationErrors error
+      return new ValidationErrors @output
 
     dataHash = @getHash @data
     schemaHash = @getHash @schema
 
     if @dataHash ==  dataHash and @schemaHash ==  schemaHash
-      return @errors
+      return @output
     else
       @dataHash =  dataHash
       @schemaHash =  schemaHash
-    return @validatePrivate()
+    return @output = @validatePrivate()
 
-  @evaluateOutputToResults: (data) -> 
+  evaluateOutputToResults:  (data)->
+    if not data
+      data = @output
+
+    if not data
+      return []
+
     results = []
-    if data == null
-      return results     
-    
+
     #amanda to gavel converter
-    if data.length > 0 # expects sanitized Tully pseudo amanda error
+    if data.length > 0
       indexes = [0..data.length - 1]
       indexes.forEach (index) ->
         item = data[index]
-        console.error
+        pointer = item['property'] or []
+
         message =
-          pointer: jsonPointer.compile item['property']
+          pointer: jsonPointer.compile pointer
           severity: 'error'
           message: item.message
         results.push message
-    results
+
+    return results
 
   #@private
   validatePrivate: ->
     try
       return amanda.validate  @data, @schema, json_schema_options, (error) =>
+        if error?.length > 0
+          for i in [0..error.length-1]
+            if error[i].property == ''
+              error[i].property = []
+
         return @errors = new ValidationErrors error
+
     catch error
       error = {
         "0":{
