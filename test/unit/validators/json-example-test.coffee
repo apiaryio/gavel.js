@@ -28,8 +28,6 @@ describe 'JsonExample', ->
     describe 'when expected and real data are json parsable', ->
       before ->
         bodyValidator = new JsonExample fixtures.sampleJson ,fixtures.sampleJson
-      it 'should set json validator', ->
-        assert.isTrue bodyValidator.validator instanceof JsonSchema
 
       describe 'when provided real and expected data are the same', ->
         before ->
@@ -72,4 +70,4 @@ describe 'JsonExample', ->
             assert.equal result.length, 0
 
   
-  shared.shouldBehaveLikeAmandaToGavel(JsonExample)
+  shared.shouldBehaveLikeAmandaToGavel(new JsonExample '{}','{}')

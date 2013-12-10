@@ -5,7 +5,7 @@ jsonPointer = require 'json-pointer'
 
 # Checks data, prepares validator and validates request or response headers against given expected headers or json schema
 # @author Peter Grilli <tully@apiary.io>
-class HeadersJsonExample
+class HeadersJsonExample extends JsonSchema
   # Construct a HeadersValidator, checks data
   #@param [Object] real data to validate
   #@param [Object] expected expected data
@@ -42,31 +42,8 @@ class HeadersJsonExample
           unless @schema['properties'][header] == undefined
             delete @schema['properties'][header]['enum']
 
-    @validator = new JsonSchema @real, @schema
+    super @real, @schema
 
-  #calls validation for given dataHeadersJsonExample
-  validate: () ->
-    @output = @validator.validate()
-  
-  
-  @evaluateOutputToResults: (data) -> 
-    results = []
-    if data == null
-      return results     
-    
-    #amanda to gavel converter
-    if data.length > 0 # expects sanitized Tully pseudo amanda error
-      indexes = [0..data.length - 1]
-      indexes.forEach (index) ->
-        item = data[index]
-        console.error
-        message =
-          pointer: jsonPointer.compile item['property']
-          severity: 'error'
-          message: item.message
-        results.push message
-    results
-  
   #@private
   prepareHeaders: (headers) ->
     if not (headers instanceof Object)

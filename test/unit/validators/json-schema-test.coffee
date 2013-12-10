@@ -84,4 +84,4 @@ describe 'JsonSchema', ->
             it 'errors should change', ->
               assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
     
-    shared.shouldBehaveLikeAmandaToGavel(JsonSchema)
+    shared.shouldBehaveLikeAmandaToGavel(new JsonSchema '{}','{}')

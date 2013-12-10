@@ -57,8 +57,6 @@ validatable =
     @setHeadersExpectedType()
     @setHeadersValidator()
     @runHeadersValidator()
-    @setHeadersResults()
-
 
   setHeadersRealType: () ->
     if @headers instanceof Object and not Array.isArray @headers
@@ -103,15 +101,12 @@ validatable =
       validatorClass = validators[@validation.headers.validator]
       validator = new validatorClass @headers, @expected.headers 
       @validation.headers.rawData = validator.validate()
-      
-  
-  setHeadersResults: () ->
+
     if not Array.isArray @validation.headers.results
         @validation.headers.results = [] 
     
     if @validation.headers.rawData != null
-      validatorClass = validators[@validation.headers.validator]
-      results = validatorClass.evaluateOutputToResults @validation.headers.rawData
+      results = validator.evaluateOutputToResults()
       @validation.headers.results = results.concat @validation.headers.results
   
 
@@ -125,7 +120,6 @@ validatable =
     @setBodyExpectedType()
     @setBodyValidator()
     @runBodyValidator()
-    @setBodyResults()
 
   setBodyRealType: () ->
     @validation.body.realType = null
@@ -266,14 +260,12 @@ validatable =
 
       validator = new validatorClass real, expected
       @validation.body.rawData = validator.validate()
-    
-  setBodyResults: () ->
+
     if @validation.body.validator != null
       if not Array.isArray @validation.body.results
         @validation.body.results = [] 
-      
-      validatorClass = validators[@validation.body.validator]
-      results = validatorClass.evaluateOutputToResults @validation.body.rawData
+
+      results = validator.evaluateOutputToResults()
       @validation.body.results = results.concat @validation.body.results
   
   # Status code validation
@@ -290,7 +282,7 @@ validatable =
     @validation.statusCode.rawData = validator.validate()
     
     @validation.statusCode.results = []
-    results = validators.TextDiff.evaluateOutputToResults @validation.statusCode.rawData
+    results = validator.evaluateOutputToResults()
     @validation.statusCode.results = results.concat @validation.statusCode.results
   
 

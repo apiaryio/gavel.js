@@ -42,21 +42,19 @@ class TextDiff
       else
         throw e
 
-  @evaluateOutputToResults: (data) -> 
-    results = []
-    if data == null
-      return results     
-    
-    if data == ''
+  evaluateOutputToResults: (data)  ->
+
+    if not data
+      data = @output
+
+    if not data
       return []
-    
-    else
-      message = {
-        severity: 'error',
-        message: 'Real and expected data does not match.'
-      }
-      results.push message
-    results
+
+    return [
+      severity: 'error',
+      message: 'Real and expected data does not match.'
+    ]
+
   #@private
   getHash: (data) ->
     crypto.createHash('md5').update(JSON.stringify(data)).digest('hex')
