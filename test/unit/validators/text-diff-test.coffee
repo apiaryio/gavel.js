@@ -16,6 +16,21 @@ describe 'TextDiff', ->
         validator = new TextDiff {}, {}
       assert.throws fn
 
+  describe 'when i create new instance of validator with surrogate pair in data', ->
+    validator = null
+
+    it "should not throw exception", ->
+      fn = () ->
+        validator = new TextDiff "text1\uD800", "\uD800text1"
+      assert.doesNotThrow fn
+
+    describe 'when  I run validate', ->
+      it "should not throw exception", ->
+        fn = () ->
+          validator.validate()
+        assert.doesNotThrow fn
+
+
   describe 'when i create new instance of validator with correct data', ->
     validator = null
 

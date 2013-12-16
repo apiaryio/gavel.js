@@ -69,5 +69,33 @@ describe 'JsonExample', ->
             result = bodyValidator.validate()
             assert.equal result.length, 0
 
+      describe 'when expected and real data are different on root level', ->
+        describe 'when expected is object and real is array', ->
+          before ->
+            bodyValidator = new JsonExample '[{"a":1}]' ,'{"a":1}'
+          describe 'and i run validate()', ->
+            it "should not throw exception", ->
+              fn = () ->
+                bodyValidator.validate()
+              assert.doesNotThrow fn
+
+        describe 'when expected is array and real is object', ->
+          before ->
+            bodyValidator = new JsonExample '{"a":1}', '[{"a":1}]'
+          describe 'and i run validate()', ->
+            it "should not throw exception", ->
+              fn = () ->
+                bodyValidator.validate()
+              assert.doesNotThrow fn
+
+        describe 'when expected is primitive and real is object', ->
+          before ->
+            bodyValidator = new JsonExample '0', '{"a":1}'
+          describe 'and i run validate()', ->
+            it "should not throw exception", ->
+              fn = () ->
+                bodyValidator.validate()
+              assert.doesNotThrow fn
+
   
   shared.shouldBehaveLikeAmandaToGavel(new JsonExample '{}','{}')
