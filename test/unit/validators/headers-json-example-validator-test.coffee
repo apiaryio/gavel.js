@@ -69,11 +69,8 @@ describe 'HeadersJsonExample', ->
     before () ->
       headersValidator = new HeadersJsonExample fixtures.sampleHeadersMissing , fixtures.sampleHeaders    
       output = headersValidator.validate()
-    
-    it 'should set validation data to output property', () ->
-      assert.isDefined headersValidator.output
-    
+
     it 'should return an obejct', () ->
       assert.isObject output
   
-  shared.shouldBehaveLikeAmandaToGavel(HeadersJsonExample)
+  shared.shouldBehaveLikeAmandaToGavel(new HeadersJsonExample {},{})

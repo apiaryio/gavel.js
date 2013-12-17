@@ -6,7 +6,7 @@ jsonPointer = require 'json-pointer'
 
 # Checks data, prepares validator and validates request or response body against given expected data or json schema
 # @author Peter Grilli <tully@apiary.io>
-class JsonExample
+class JsonExample extends JsonSchema
 
   # Construct a BodyValidator, checks data and chooses right validator
   #if real data is json parsable and (expected data is json parsable or correct schema is given), then {JsonValidator} is choosen, otherwise {StringValidator} is choosen
@@ -36,31 +36,8 @@ class JsonExample
     catch error
       validatorType = 'string'
 
-    @validator = new JsonSchema @real, @schema
-  
-  #calls validation for given data
-  #@return [ValidationErrors] {ValidationErrors}
-  validate: () ->
-    @validator.validate()
+    super @real, @schema
 
-  @evaluateOutputToResults: (data) -> 
-    results = []
-    if data == null
-      return results     
-    
-    #amanda to gavel converter
-    if data.length > 0 # expects sanitized Tully pseudo amanda error
-      indexes = [0..data.length - 1]
-      indexes.forEach (index) ->
-        item = data[index]
-        console.error
-        message =
-          pointer: jsonPointer.compile item['property']
-          severity: 'error'
-          message: item.message
-        results.push message
-    results
-  
   #@private
   getSchema: (data)->
     properties = new SchemaProperties {}

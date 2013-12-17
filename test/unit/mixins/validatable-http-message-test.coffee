@@ -23,14 +23,12 @@ describe "Http validatable mixin", () ->
       'setHeadersExpectedType'
       'setHeadersValidator'
       'runHeadersValidator'
-      'setHeadersResults'
 
       'validateBody'
       'setBodyRealType'
       'setBodyExpectedType'
       'setBodyValidator'
       'runBodyValidator'
-      'setBodyResults'
 
       'validateStatusCode'
     ]
@@ -177,7 +175,6 @@ describe "Http validatable mixin", () ->
         sinon.spy instance, 'setHeadersExpectedType'
         sinon.spy instance, 'setHeadersValidator'
         sinon.spy instance, 'runHeadersValidator'
-        sinon.spy instance, 'setHeadersResults'
 
         instance.validateHeaders()
   
@@ -204,9 +201,7 @@ describe "Http validatable mixin", () ->
       
       it 'should call runHeadersValidator', () ->
         assert.isTrue instance.runHeadersValidator.called
- 
-       it 'should call setHeadersResults', () ->
-        assert.isTrue instance.setHeadersResults.called
+
 
     describe "#setHeadersRealType()", ->
 
@@ -321,7 +316,7 @@ describe "Http validatable mixin", () ->
         it 'should let rawData null',() ->
           assert.isNull instance.validation.headers.rawData
 
-    describe "#setHeadersResults()", () ->
+    describe "#runHeadersValidator()", () ->
       before () ->
         instance = new HttpResponse response
         instance.validation = {}
@@ -329,22 +324,22 @@ describe "Http validatable mixin", () ->
 
         instance.validation.headers.rawData = JSON.parse fixtures.sampleAmandaError
         instance.validation.headers.validator = 'HeadersJsonExample'
-      
+
       describe 'any previously set results', () ->
         before () ->
           instance.validation.results = ['booboo']
-          instance.setHeadersResults()
-        
+          instance.runHeadersValidator()
+
         it 'should not overwrite existing results', () ->
           assert.include instance.validation.results, 'booboo'
 
         it 'should set results to an array', () ->
           assert.isArray instance.validation.headers.results
-        
+
       describe 'no previous results', () ->
         before () ->
           instance.validation.headers.results = []
-          instance.setHeadersResults()
+          instance.runHeadersValidator()
 
         it 'should set results to an array', () ->
           assert.isArray instance.validation.headers.results
@@ -359,7 +354,7 @@ describe "Http validatable mixin", () ->
 
         it 'should not throw an error', () ->
           fn = () ->
-            instance.setHeadersResults()
+            instance.runHeadersValidator()
 
           assert.doesNotThrow fn
 
@@ -374,7 +369,6 @@ describe "Http validatable mixin", () ->
         sinon.spy instance, 'setBodyExpectedType'
         sinon.spy instance, 'setBodyValidator'
         sinon.spy instance, 'runBodyValidator'
-        sinon.spy instance, 'setBodyResults'
 
         instance.validateBody()
   
@@ -401,9 +395,7 @@ describe "Http validatable mixin", () ->
       
       it 'should call runBodyValidator', () ->
         assert.isTrue instance.runBodyValidator.called
- 
-      it 'should call setHBodyResults', () ->
-        assert.isTrue instance.setBodyResults.called
+
 
     describe '#setBodyRealType()', () ->
       
@@ -882,30 +874,34 @@ describe "Http validatable mixin", () ->
         it 'should let rawData null',() ->
           assert.isNull instance.validation.body.rawData
 
-    describe "#setBodyResults()", () ->
+    describe "#runBodyValidator()", () ->
       before () ->
         instance = new HttpResponse response
+        instance.body = fixtures.sampleTextLineDiffers
+        instance.expected =
+          body: fixtures.sampleText
+
         instance.validation = {}
         instance.validation.body = {}
 
         instance.validation.body.rawData = '@@ -1,5 +1,5 @@\n text\n-1\n+2\n'
         instance.validation.body.validator = 'TextDiff'
-      
+
       describe 'any previously set results', () ->
         before () ->
           instance.validation.body.results = ['booboo']
-          instance.setBodyResults()
-        
+          instance.runBodyValidator()
+
         it 'should not overwrite existing results', () ->
           assert.include instance.validation.body.results, 'booboo'
 
         it 'should set results to an array', () ->
           assert.isArray instance.validation.body.results
-        
+
       describe 'no previous results', () ->
         before () ->
           instance.validation.body.results = []
-          instance.setBodyResults()
+          instance.runBodyValidator()
 
         it 'should set results to an array', () ->
           assert.isArray instance.validation.body.results
@@ -919,7 +915,7 @@ describe "Http validatable mixin", () ->
 
         it 'should not throw', () ->
           fn = () ->
-            instance.setBodyResults()
+            instance.runBodyValidator()
           assert.doesNotThrow fn
 
     # Status code validation

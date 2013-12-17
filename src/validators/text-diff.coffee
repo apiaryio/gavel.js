@@ -23,26 +23,38 @@ class TextDiff
   #Validates if given strings are equal
   #@return [ValidationErrors]
   validate: ->
+
+    sanitizeSurrogatePairs = (data) ->
+      data.replace(/[\uD800-\uDBFF]/g, '').replace(/[\uDC00-\uDFFF]/g, '')
+
     @output = null
     dmp = new DiffMatchPatch
-    patch = dmp.patch_make @real, @expected
-    @output = dmp.patch_toText patch
-  
-  @evaluateOutputToResults: (data) -> 
-    results = []
-    if data == null
-      return results     
-    
-    if data == ''
+
+    try
+      patch = dmp.patch_make @real, @expected
+      @output = dmp.patch_toText patch
+      return @output
+    catch e
+      if e instanceof URIError
+        patch = dmp.patch_make sanitizeSurrogatePairs(@real), sanitizeSurrogatePairs(@expected)
+        @output = dmp.patch_toText patch
+        return @output
+      else
+        throw e
+
+  evaluateOutputToResults: (data)  ->
+
+    if not data
+      data = @output
+
+    if not data
       return []
-    
-    else
-      message = {
-        severity: 'error',
-        message: 'Real and expected data does not match.'
-      }
-      results.push message
-    results
+
+    return [
+      severity: 'error',
+      message: 'Real and expected data does not match.'
+    ]
+
   #@private
   getHash: (data) ->
     crypto.createHash('md5').update(JSON.stringify(data)).digest('hex')

@@ -3,14 +3,14 @@ fixtures = require '../../fixtures'
 jsonPointer = require 'json-pointer'
 {assert} = require('chai')
 
-exports.shouldBehaveLikeAmandaToGavel = (klass) ->
+exports.shouldBehaveLikeAmandaToGavel = (instance) ->
   describe '.evaluateOutputToResults()', () ->
     output = null
     
     describe 'if data is null', () ->
       before () ->
         data = null
-        output = klass.evaluateOutputToResults data
+        output = instance.evaluateOutputToResults data
       it 'should set no messages to results', () ->
         assert.equal output.length, 0
 
@@ -21,7 +21,7 @@ exports.shouldBehaveLikeAmandaToGavel = (klass) ->
     describe 'if data is an amanda error', () ->
       before () ->
         data = JSON.parse fixtures.sampleAmandaError
-        output = klass.evaluateOutputToResults data
+        output = instance.evaluateOutputToResults data
       
       it 'should return an array', () ->
         assert.isArray output

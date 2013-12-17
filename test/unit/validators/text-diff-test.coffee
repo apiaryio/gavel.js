@@ -16,6 +16,21 @@ describe 'TextDiff', ->
         validator = new TextDiff {}, {}
       assert.throws fn
 
+  describe 'when i create new instance of validator with surrogate pair in data', ->
+    validator = null
+
+    it "should not throw exception", ->
+      fn = () ->
+        validator = new TextDiff "text1\uD800", "\uD800text1"
+      assert.doesNotThrow fn
+
+    describe 'when  I run validate', ->
+      it "should not throw exception", ->
+        fn = () ->
+          validator.validate()
+        assert.doesNotThrow fn
+
+
   describe 'when i create new instance of validator with correct data', ->
     validator = null
 
@@ -64,10 +79,11 @@ describe 'TextDiff', ->
     data = null
     results = null
     
-    describe 'empty string data', () ->
+    describe 'empty validation result', () ->
       before () ->
-        data = ''
-        results = TextDiff.evaluateOutputToResults data
+        validator = new TextDiff '',''
+        validator.validate()
+        results = validator.evaluateOutputToResults()
       
       it 'should return an array', () ->
         assert.isArray results    
@@ -75,10 +91,11 @@ describe 'TextDiff', ->
       it 'should has no results', () ->
         assert.equal results.length, 0
 
-    describe 'non empty string data', () ->
+    describe 'non empty validation result', () ->
       before () ->
-        data = '@@ -1,5 +1,5 @@\n text\n-1\n+2\n'
-        results = TextDiff.evaluateOutputToResults data
+        validator = new TextDiff 'abc','cde'
+        validator.validate()
+        results = validator.evaluateOutputToResults()
       
       it 'should return an array', () ->
         assert.isArray results
