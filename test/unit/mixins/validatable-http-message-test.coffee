@@ -949,7 +949,7 @@ describe "Http validatable mixin", () ->
         it 'should set no errors to results', () ->
           assert.equal instance.validation.statusCode.results.length, 0
       
-      describe "expected does not matches real", () ->
+      describe "expected does not match real", () ->
         before () ->
           response = 
             statusCode: 200
@@ -959,6 +959,10 @@ describe "Http validatable mixin", () ->
           instance = new HttpResponse response
           instance.validation = {}
 
-          instance.validateStatusCode()
+          instance.validate()
+
         it 'should set error message to results', () ->
           assert.notEqual instance.validation.statusCode.results.length, 0
+
+        it 'should return false boolean result', () ->
+          assert.isFalse instance.isValid()
