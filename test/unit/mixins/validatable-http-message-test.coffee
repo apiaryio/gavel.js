@@ -1,5 +1,5 @@
-chai = require 'chai'
-sinon = require 'sinon'
+chai = require('chai')
+sinon = require('sinon')
 
 assert = chai.assert
 

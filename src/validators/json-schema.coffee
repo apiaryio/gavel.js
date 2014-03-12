@@ -86,7 +86,6 @@ class JsonSchema
       indexes.forEach (index) ->
         item = data[index]
         pointer = item['property'] or []
-
         message =
           pointer: jsonPointer.compile pointer
           severity: 'error'

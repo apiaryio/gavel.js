@@ -67,6 +67,7 @@ describe 'JsonExample', ->
         describe 'and i run validate()', ->
           it "shouldn't return any errors", ->
             result = bodyValidator.validate()
+            console.error result
             assert.equal result.length, 0
 
       describe 'when expected and real data are different on root level', ->
