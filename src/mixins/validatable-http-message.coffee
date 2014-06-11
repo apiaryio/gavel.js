@@ -210,6 +210,10 @@ validatable =
 
     if @validation.body.results == undefined
       @validation.body.results = []
+
+    message = 
+      message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'. Watchout for malformed JSON!"
+      severity: 'error'
         
     if @validation.body.realType == null and @validation.body.expectedType == null
       message = {
@@ -224,26 +228,15 @@ validatable =
         else if @validation.body.expectedType == 'application/schema+json'
           @validation.body.validator = 'JsonSchema'
         else
-          message = 
-            message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
-            severity: 'error'
-
           @validation.body.results.push message       
 
       else if @validation.body.realType == 'text/plain'
         if @validation.body.expectedType == 'text/plain'
           @validation.body.validator = 'TextDiff'        
         else
-          message = 
-            message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
-            severity: 'error'
-
           @validation.body.results.push message       
 
       else
-        message = 
-          message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
-          severity: 'error'
         @validation.body.results.push message       
 
   runBodyValidator: () ->
