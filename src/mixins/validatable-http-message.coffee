@@ -212,7 +212,7 @@ validatable =
       @validation.body.results = []
 
     message = 
-      message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'. Watchout for malformed JSON!"
+      message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
       severity: 'error'
         
     if @validation.body.realType == null and @validation.body.expectedType == null
