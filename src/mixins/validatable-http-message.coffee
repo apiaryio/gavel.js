@@ -30,7 +30,7 @@ validatable =
       unless @[component] == undefined
         result = true
     result
-  
+
   # returns false if any validatable HTTP component has validation
   # property with any result messages with the error severity
   # @return [Boolean]
@@ -133,7 +133,7 @@ validatable =
     # e.g. for application/hal+json or or application/vnd.apiary.something
     if !(@headers == undefined) and !(@headers['content-type']  == undefined)
       isJsonContentType = @headers['content-type'].split(';')[0] == 'application/json'
-    
+
     if isJsonContentType
       try
         JSON.parse @body
@@ -228,7 +228,11 @@ validatable =
         else if @validation.body.expectedType == 'application/schema+json'
           @validation.body.validator = 'JsonSchema'
         else
-          @validation.body.results.push message       
+          message =
+            message: "Expected data media type ('#{@validation.body.expectedType}') does not match real media type ('#{@validation.body.realType}'). Watchout for malformed JSON."
+            severity: 'error'
+
+          @validation.body.results.push message
 
       else if @validation.body.realType == 'text/plain'
         if @validation.body.expectedType == 'text/plain'
