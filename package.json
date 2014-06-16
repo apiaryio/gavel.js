@@ -10,7 +10,7 @@
     "gavel": "bin/gavel"
   },
   "dependencies": {
-     "amanda": "git://github.com/apiaryio/Amanda.git#2e5c07d85b83b0ed1059050cae80860019ee740e",
+    "amanda": "git://github.com/apiaryio/Amanda.git#1294d064844df3bac0b40e946e923499b55da130",
     "async": "~0.2.10",
     "commander": "~2.1.0",
     "curl-trace-parser": "0.0.8",
