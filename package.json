@@ -1,6 +1,6 @@
 {
   "name": "gavel",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Gavel HTTP validator JavaScript library",
   "main": "lib/gavel.js",
   "directories": {
@@ -10,7 +10,7 @@
     "gavel": "bin/gavel"
   },
   "dependencies": {
-    "amanda": "git://github.com/apiaryio/Amanda.git#1294d064844df3bac0b40e946e923499b55da130",
+    "amanda": "",
     "async": "~0.2.10",
     "commander": "~2.1.0",
     "curl-trace-parser": "0.0.8",
