@@ -199,7 +199,7 @@ validatable =
       # e.g. for application/hal+json or or application/vnd.apiary.something
       if !(@expected.headers == undefined) and !(@expected.headers['content-type']  == undefined)
         contentType = @expected.headers['content-type'].split(';')[0]
-        console.log "GAVEL: #{contentType}"
+
         isJsonContentType = contentType == 'application/json'
 
       if isJsonContentType
