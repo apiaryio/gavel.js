@@ -18,6 +18,8 @@ describe "Http validatable mixin", () ->
       'isValid'
       'validationResults'
 
+      'lowercaseHeaders'
+
       'validateHeaders'
       'setHeadersRealType'
       'setHeadersExpectedType'
@@ -85,6 +87,12 @@ describe "Http validatable mixin", () ->
         assert.isDefined instance.validation   
       
       # Headers
+      it 'should call lowercaseHeaders', () ->
+        instance = new HttpResponse response
+        sinon.spy instance, 'lowercaseHeaders'
+        instance.validate()
+        assert.isTrue instance.lowercaseHeaders.called       
+
       describe 'real headers are present', () ->
         before () ->
           instance = new HttpResponse response
@@ -166,6 +174,34 @@ describe "Http validatable mixin", () ->
           instance.validation = validation
           assert.equal instance.validationResults(), validation
 
+    describe "#lowercaseHeaders()", () ->
+      inst = null 
+      before () ->
+        inst = new HttpRequest {
+          headers:
+            'Content-Type': 'application/json; charset=utf-8'
+            'User-Agent': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
+
+          expected:
+            headers:
+              'Content-Type': 'application/json; charset=utf-8'
+              'User-Agent': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
+        }
+        inst.lowercaseHeaders()      
+      
+      it 'should convert all keys in real headers object to lowercase', () ->
+        keys = Object.keys inst.headers
+        assert.include keys, 'content-type'
+        assert.include keys, 'user-agent'
+        assert.notInclude keys, 'Content-Type'
+        assert.notInclude keys, 'User-Agebt'
+
+      it 'should convert all keys in expected headers object to lowercase', () ->
+        keys = Object.keys inst.expected.headers
+        assert.include keys, 'content-type'
+        assert.include keys, 'user-agent'
+        assert.notInclude keys, 'Content-Type'
+        assert.notInclude keys, 'User-Agent'
     
     # Headers validation tests
 
@@ -633,17 +669,26 @@ describe "Http validatable mixin", () ->
                 instance.validation.body = {}
                 instance.setBodyExpectedType()
 
-              it 'should set an error message to results', () ->
+              it 'should set an severity "error" item to results', () ->
                 results = instance.validation.body.results
+                severities = []
                 results.forEach (result) ->
-                  results.push result.severity
+                  severities.push result.severity
                 
-                assert.include results, 'error'            
+                assert.include severities, 'error'            
 
               it 'should set expected type to null', () ->
                 assert.equal instance.validation.body.expectedType,
                   null
               
+              it 'should set a descriptive message to results', () ->
+                results = instance.validation.body.results
+                messages = []
+                results.forEach (result) ->
+                  messages.push result.message
+                
+                assert.include messages, 'Expected body: Content-Type is application/json but body is not a parseable JSON'   
+
         describe 'expected headers have not content-type application/json', () ->
           describe 'expected body is a parseable JSON', () ->
             before () ->

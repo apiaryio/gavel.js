@@ -17,6 +17,9 @@ validatable =
   #@return [Object] :headers {ValidationErrors}, :body {ValidationErrors}, :statusCode [Boolean]
   validate: () ->
     @validation = {}
+
+    @lowercaseHeaders()
+
     @validateHeaders() unless @headers == undefined
     @validateBody() unless @body == undefined
     @validateStatusCode() unless @statusCode == undefined    
@@ -48,6 +51,16 @@ validatable =
   validationResults: () ->
     @validate() if @validation == undefined
     @validation
+
+  lowercaseHeaders: () ->
+    for name, value of @headers
+      delete @headers[name]
+      @headers[name.toLowerCase()] = value
+
+    for name, value of @expected.headers
+      delete @expected.headers[name]
+      @expected.headers[name.toLowerCase()] = value
+
 
   # Headers validation
   validateHeaders: () ->
@@ -164,7 +177,7 @@ validatable =
             parsed = JSON.parse @expected.bodySchema
             if typeof parsed != 'object' or Array.isArray parsed 
               message = {
-                message: 'Expected:JSON Schema provided, but it is not an Object'
+                message: 'Expected body: JSON Schema provided, but it is not an Object'
                 severity: 'error'
               }
               @validation.body.results.push message  
@@ -172,7 +185,7 @@ validatable =
               @validation.body.expectedType = 'application/schema+json'
           catch error
             message = {
-              message: 'Expected: JSON Schema provided, but it is not a parseable JSON'
+              message: 'Expected body: JSON Schema provided, but it is not a parseable JSON'
               severity: 'error'
             }
             @validation.body.results.push message        
@@ -185,24 +198,26 @@ validatable =
       # TODO refactor to separate unit when adding more complicated logic
       # e.g. for application/hal+json or or application/vnd.apiary.something
       if !(@expected.headers == undefined) and !(@expected.headers['content-type']  == undefined)
-        isJsonContentType = @expected.headers['content-type'].split(';')[0] == 'application/json'
+        contentType = @expected.headers['content-type'].split(';')[0]
+        console.log "GAVEL: #{contentType}"
+        isJsonContentType = contentType == 'application/json'
 
       if isJsonContentType
-          try
-            JSON.parse @expected.body
-            @validation.body.expectedType = 'application/json'
-          catch error
-            message = {
-              message: 'Expected: Content-Type is application/json but body is not a parseable JSON '
-              severity: 'error'
-            }           
-            @validation.body.results.push message            
-        else
-          try        
-            JSON.parse @expected.body
-            @validation.body.expectedType = 'application/json'
-          catch error
-            @validation.body.expectedType = 'text/plain'       
+        try
+          JSON.parse @expected.body
+          @validation.body.expectedType = 'application/json'
+        catch error
+          message = {
+            message: 'Expected body: Content-Type is application/json but body is not a parseable JSON'
+            severity: 'error'
+          }           
+          @validation.body.results.push message            
+      else
+        try        
+          JSON.parse @expected.body
+          @validation.body.expectedType = 'application/json'
+        catch error
+          @validation.body.expectedType = 'text/plain'       
 
 
   setBodyValidator: () ->
@@ -229,7 +244,7 @@ validatable =
           @validation.body.validator = 'JsonSchema'
         else
           message =
-            message: "Expected data media type ('#{@validation.body.expectedType}') does not match real media type ('#{@validation.body.realType}'). Watchout for malformed JSON."
+            message: "Watchout for malformed JSON. Expected data media type ('#{@validation.body.expectedType}') does not match real media type ('#{@validation.body.realType}')."
             severity: 'error'
 
           @validation.body.results.push message
