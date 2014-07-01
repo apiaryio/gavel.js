@@ -67,9 +67,16 @@ describe 'JsonExample', ->
         describe 'and i run validate()', ->
           it "shouldn't return any errors", ->
             result = bodyValidator.validate()
-            console.error result
             assert.equal result.length, 0
-
+      
+      describe 'when key value is a null', ->
+        before ->
+          bodyValidator = new JsonExample '{"a": "a","b": null }' ,'{"a":"a", "b": null}'
+        describe 'and i run validate()', ->
+          it "shouldn't return any errors", ->
+            result = bodyValidator.validate()
+            assert.equal result.length, 0
+      
       describe 'when expected and real data are different on root level', ->
         describe 'when expected is object and real is array', ->
           before ->

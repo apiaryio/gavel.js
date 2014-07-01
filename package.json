@@ -1,6 +1,6 @@
 {
   "name": "gavel",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Gavel HTTP validator JavaScript library",
   "main": "lib/gavel.js",
   "directories": {
@@ -10,7 +10,7 @@
     "gavel": "bin/gavel"
   },
   "dependencies": {
-    "amanda": "",
+    "amanda": "0.5.1",
     "async": "~0.9.0",
     "commander": "~2.2.0",
     "curl-trace-parser": "0.0.8",
