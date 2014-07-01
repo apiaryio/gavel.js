@@ -9,7 +9,29 @@
 
 ```
 var gavel = require('gavel');
-gavel.isValid(response, expected, 'request', function(error,result){
+response = {
+  "statusCode": "200",
+  "headers": {
+    "content-type": "application/json",
+    "date": "Wed, 03 Jul 2013 13:30:53 GMT",
+    "server": "gunicorn/0.17.4",
+    "content-length": "30",
+    "connection": "keep-alive"
+  },
+  "body": "{\n  \"origin\": \"94.113.241.2\"\n}"
+};
+expected = {
+  "statusCode": "200",
+  "headers": {
+    "content-type": "application/json",
+    "date": "Wed, 03 Jul 2013 13:30:53 GMT",
+    "server": "gunicorn/0.17.4",
+    "content-length": "30",
+    "connection": "keep-alive"
+  },
+  "body": "{\n  \"origin\": \"94.113.241.2\"\n}"
+};
+gavel.isValid(response, expected, 'response', function(error,result){
   console.log result;
 });
 ```
