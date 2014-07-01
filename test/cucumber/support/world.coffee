@@ -2,6 +2,7 @@ gavel = require('../../../src/gavel')
 _ = require 'lodash'
 vm = require 'vm'
 util = require 'util'
+{assert} = require 'chai'
 
 # Function exported in this file is called before each 
 module.exports = () ->
@@ -51,7 +52,9 @@ module.exports = () ->
       realOutputInspect = util.inspect(realOutput)
       expectedOutputInspect = util.inspect(expectedOutput)
       
-      if not _.isEqual realOutput, expectedOutput
+      try 
+        assert.deepEqual realOutput, expectedOutput
+      catch error 
         callback.fail "Output of code buffer does not equal. Expected output:\n" \
                       + expectedOutputInspect \
                       + "\nbut got: \n" \
@@ -82,6 +85,7 @@ module.exports = () ->
                       + code \
                       + "\nWith error: " \
                       + error
+
 
     @isValid = (cb) ->
        gavel.isValid @real, @expected, 'response', (error,result) ->

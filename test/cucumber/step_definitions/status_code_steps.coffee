@@ -8,7 +8,7 @@ statusCodeStepDefs = () ->
     callback()
   
   When /^real status code is "([^"]*)"$/, (code, callback) ->
-    @expected.statusCode = code
+    @real.statusCode = code
     callback()
 
 module.exports = statusCodeStepDefs

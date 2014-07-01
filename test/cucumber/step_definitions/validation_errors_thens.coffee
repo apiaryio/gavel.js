@@ -23,6 +23,7 @@ validationErrorsThens = () ->
       if error
         callback.fail "Error during validation: " + error
 
+
       component = @toCamelCase(component)
       componentValidation = result[component]
       results = componentValidation['results']
