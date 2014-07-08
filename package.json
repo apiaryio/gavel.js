@@ -17,7 +17,7 @@
     "googlediff": "0.1.0",
     "http-string-parser": "0.0.4",
     "json-pointer": "~0.1.0",
-    "tv4": "^1.0.18"
+    "tv4": "~1.0.18"
   },
   "devDependencies": {
     "chai": "~1.9.0",
