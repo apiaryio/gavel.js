@@ -1,5 +1,4 @@
 #!/bin/sh
-cp src/meta-schema.json lib/meta-schema.json
 git submodule init
 git submodule update
 if [ -d "src/" ]; then
@@ -9,4 +8,5 @@ if [ -d "src/" ]; then
 	#cp -a -R src/* lib/
 fi
 cp test/cucumber/features/node_js/Readme.md ./
+cp src/meta-schema.json lib/meta-schema.json
 
