@@ -8,4 +8,5 @@ if [ -d "src/" ]; then
 	#cp -a -R src/* lib/
 fi
 cp test/cucumber/features/node_js/Readme.md ./
+cp src/meta-schema.json lib/meta-schema.json
 

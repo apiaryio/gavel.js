@@ -2,6 +2,7 @@
 fixtures = require '../../fixtures'
 {JsonSchema} = require '../../../src/validators/json-schema'
 {ValidationErrors}    = require '../../../src/validators/validation-errors'
+sinon = require 'sinon'
 shared = require '../support/amanda-to-gavel-shared'
 
 describe 'JsonSchema', ->
@@ -85,3 +86,30 @@ describe 'JsonSchema', ->
               assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
     
     shared.shouldBehaveLikeAmandaToGavel(new JsonSchema '{}','{}')
+
+  it 'should have validateSchema method', () ->
+    validator = new JsonSchema {},{}
+    assert.isDefined validator.validateSchema
+
+  describe 'when I create new instance', () ->
+    it 'should call validateSchema', () ->
+      sinon.spy JsonSchema.prototype, 'validateSchema'
+      validator = new JsonSchema {}, {}
+      assert.isTrue validator.validateSchema.called
+
+  describe 'validateSchema', () ->
+    describe 'when invalid schema provided', () ->
+      it 'should throw an error', () ->
+        invalidSchema = require '../../fixtures/invalid-schema'
+        fn = () -> 
+          validator = new JsonSchema {}, invalidSchema
+        assert.throw fn
+
+    describe 'when valid schema provided', () ->
+      it 'should not throw any error', () ->
+        validSchema = require '../../fixtures/valid-schema'
+        fn = () -> 
+          validator = new JsonSchema {}, validSchema
+        assert.doesNotThrow fn
+
+
