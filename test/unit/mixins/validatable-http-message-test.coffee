@@ -919,6 +919,29 @@ describe "Http validatable mixin", () ->
         it 'should let rawData null',() ->
           assert.isNull instance.validation.body.rawData
 
+      describe 'when a validator throws an error', () ->
+        before () ->
+          invalidSchema = require '../../fixtures/invalid-schema'
+          instance = new HttpResponse response
+          instance.body = '{}'
+          instance.expected =
+            bodySchema: invalidSchema
+          instance.validation = {}
+          instance.validation.body = 
+            validator: 'JsonSchema'
+        
+        it 'should not throw an error', () ->
+          fn = () ->
+            instance.runBodyValidator()
+          assert.doesNotThrow fn
+        
+        it 'should add thrown error to results as error', () ->
+          instance.runBodyValidator()
+          messages = []
+          for result in instance.validation.body.results
+            messages.push result.message
+          assert.include messages, 'JSON schema is not valid! invalid type: array (expected boolean) at path "/required"'
+
     describe "#runBodyValidator()", () ->
       before () ->
         instance = new HttpResponse response

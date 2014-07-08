@@ -1,6 +1,9 @@
 amanda = require 'amanda'
+tv4 = require 'tv4'
 crypto = require('crypto')
 jsonPointer = require 'json-pointer'
+
+metaSchema = require '../meta-schema'
 
 {ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
@@ -50,6 +53,13 @@ class JsonSchema
         outError['schema'] = @schema
         throw outError
 
+    @validateSchema()
+
+  # Validates given schema against metaschema
+  validateSchema: () ->
+    if not tv4.validate @schema, metaSchema
+      throw new errors.JsonSchemaNotValid 'JSON schema is not valid! ' + tv4.error.message + ' at path "' + tv4.error.dataPath + '"'  
+  
   # Validates given data against given schema
   #@return [ValidationErrors]
   validate: ->

@@ -1,0 +1,17 @@
+{
+    "description": "Any validation failures are shown in the right-hand Messages pane.", 
+    "type": "object", 
+    "properties": {
+        "foo": {
+            "type": "number"
+        }, 
+        "bar": {
+            "type": "string", 
+            "enum": [
+                "a", 
+                "b", 
+                "c"
+            ]
+        }
+    }
+}

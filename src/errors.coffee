@@ -30,6 +30,11 @@ class NotValidatableError extends Error
 #@private
 class NotEnoughDataError extends Error
 
+# JsonSchemaNotValid class
+#@private
+class JsonSchemaNotValid extends Error
+
+
 module.exports = {
   DataNotJsonParsableError,
   SchemaNotJsonParsableError,
@@ -39,4 +44,5 @@ module.exports = {
   DataNotStringError,
   NotValidatableError,
   NotEnoughDataError,
+  JsonSchemaNotValid
 }

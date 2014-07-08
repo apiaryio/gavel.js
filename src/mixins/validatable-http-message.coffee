@@ -270,15 +270,25 @@ validatable =
         real = @body
         expected = @expected.body
 
-      validator = new validatorClass real, expected
-      @validation.body.rawData = validator.validate()
+      if @validation.body.validator != null
+        if not Array.isArray @validation.body.results
+          @validation.body.results = [] 
 
-    if @validation.body.validator != null
-      if not Array.isArray @validation.body.results
-        @validation.body.results = [] 
+      try
+        validator = new validatorClass real, expected
+        @validation.body.rawData = validator.validate()
 
-      results = validator.evaluateOutputToResults()
-      @validation.body.results = results.concat @validation.body.results
+        results = validator.evaluateOutputToResults()
+        @validation.body.results = results.concat @validation.body.results
+  
+      catch error
+        message =
+          message: error.message
+          severity: 'error'
+
+        @validation.body.results.push message
+
+
   
   # Status code validation
   validateStatusCode: () ->
