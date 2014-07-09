@@ -1,26 +1,27 @@
-require '../mixins/validatable-http-message'
+{Validatable} = require '../mixins/validatable-http-message'
+clone = require 'clone'
 
 # HttpResponse class
 #
 # @author Peter Grilli <tully@apiary.io>
-#
-# @include validatable
-class HttpResponse
-  #adds validatable mixin ( {validatable} ) methods to the class
-  @actAsValidatable()
-
+class HttpResponse extends Validatable
+  resourcesKeys: ['statusCode', 'statusMessage', 'headers', 'body', 'expected']
   # Construct a HttpResponse
   #@option {} [Integer] statusCode
   #@option {} [String] statusMessage
   #@option {} [Object] headers
   #@option {} [String] body
   #@option {} [ExpectedHttpResponse] expected
-  constructor: ({@statusCode, @statusMessage, @headers, @body, @expected}) ->
+  constructor: (resources = {}) ->
+    for resourceKey in @resourcesKeys
+      @[resourceKey] = clone resources[resourceKey], false
+    super()
 
 # ExpectedHttpResponse class
 #
 # @author Peter Grilli <tully@apiary.io>
 class ExpectedHttpResponse
+  resourcesKeys: ['statusCode', 'statusMessage', 'headers', 'body', 'headersSchema', 'bodySchema']
   # Construct a HttpResponse
   #@option {} [Integer] statusCode
   #@option {} [String] statusMessage
@@ -28,7 +29,9 @@ class ExpectedHttpResponse
   #@option {} [String] body
   #@option {} [Object] headersSchema if schema is not defined, schema is generated from headers ( {SchemaGenerator} )
   #@option {} [Object] bodySchema if schema is not defined, schema is generated from body ( {SchemaGenerator} )
-  constructor: ({@statusCode, @statusMessage, @headers, @body, @headersSchema, @bodySchema}) ->
+  constructor: (resources = {}) ->
+    for resourceKey in @resourcesKeys
+      @[resourceKey] = clone resources[resourceKey], false
 
 module.exports = {
   HttpResponse,
