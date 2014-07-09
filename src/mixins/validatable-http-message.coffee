@@ -1,15 +1,10 @@
-async = require 'async'
-
-errors = require '../errors'
-{extendable} = require '../utils/extendable'
-
 validators = require '../validators'
 
 # validatable mixin.
 #
 # @mixin
 # @author Peter Grilli <tully@apiary.io>
-validatable =
+class Validatable
 
   validatableComponents: ['headers', 'body', 'statusCode']
 
@@ -22,7 +17,7 @@ validatable =
 
     @validateHeaders() unless @headers == undefined
     @validateBody() unless @body == undefined
-    @validateStatusCode() unless @statusCode == undefined    
+    @validateStatusCode() unless @statusCode == undefined
     @validation
 
   #returns true if object has any validatable entity
@@ -306,12 +301,8 @@ validatable =
     @validation.statusCode.results = []
     results = validator.evaluateOutputToResults()
     @validation.statusCode.results = results.concat @validation.statusCode.results
-  
 
 
-# adds validatable mixin to class where its called
-# @author Peter Grilli <tully@apiary.io>
-Function.prototype.actAsValidatable = () ->
-  extendable.include validatable, @
-
-
+module.exports = {
+  Validatable
+}
