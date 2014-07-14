@@ -13,8 +13,6 @@ class Validatable
   validate: () ->
     @validation = {}
 
-    @lowercaseHeaders()
-
     @validateHeaders() unless @headers == undefined
     @validateBody() unless @body == undefined
     @validateStatusCode() unless @statusCode == undefined
@@ -47,15 +45,12 @@ class Validatable
     @validate() if @validation == undefined
     @validation
 
-  lowercaseHeaders: () ->
-    for name, value of @headers
-      delete @headers[name]
-      @headers[name.toLowerCase()] = value
+  lowercaseHeaders: (headers) ->
+    outputHeaders = {}
+    for name, value of headers
+      outputHeaders[name.toLowerCase()] = value
 
-    for name, value of @expected.headers
-      delete @expected.headers[name]
-      @expected.headers[name.toLowerCase()] = value
-
+    outputHeaders
 
   # Headers validation
   validateHeaders: () ->
@@ -139,8 +134,9 @@ class Validatable
 
     # TODO refactor to separate unit when adding more complicated logic
     # e.g. for application/hal+json or or application/vnd.apiary.something
-    if !(@headers == undefined) and !(@headers['content-type']  == undefined)
-      isJsonContentType = @headers['content-type'].split(';')[0] == 'application/json'
+    headers = @lowercaseHeaders @headers
+    if !(headers == undefined) and !(headers['content-type']  == undefined)
+      isJsonContentType = headers['content-type'].split(';')[0] == 'application/json'
 
     if isJsonContentType
       try
@@ -148,7 +144,7 @@ class Validatable
         @validation.body.realType = 'application/json'
       catch error
         message = {
-          message: 'Unknown real body media type. Content-type header is "application/json" but body is not a parseble JSON.'
+          message: 'Real body: Not a parseble JSON but Content-type header is "application/json".'
           severity: 'error'
         }
         @validation.body.results.push message
@@ -192,8 +188,9 @@ class Validatable
       isJsonContentType = false
       # TODO refactor to separate unit when adding more complicated logic
       # e.g. for application/hal+json or or application/vnd.apiary.something
-      if !(@expected.headers == undefined) and !(@expected.headers['content-type']  == undefined)
-        contentType = @expected.headers['content-type'].split(';')[0]
+      headers = @lowercaseHeaders @expected.headers
+      if !(headers == undefined) and !(headers['content-type']  == undefined)
+        contentType = headers['content-type'].split(';')[0]
 
         isJsonContentType = contentType == 'application/json'
 

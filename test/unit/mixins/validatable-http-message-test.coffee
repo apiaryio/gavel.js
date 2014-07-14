@@ -86,12 +86,7 @@ describe "Http validatable mixin", () ->
       it "should create validation property", () ->
         assert.isDefined instance.validation   
       
-      # Headers
-      it 'should call lowercaseHeaders', () ->
-        instance = new HttpResponse response
-        sinon.spy instance, 'lowercaseHeaders'
-        instance.validate()
-        assert.isTrue instance.lowercaseHeaders.called       
+      # Headers  
 
       describe 'real headers are present', () ->
         before () ->
@@ -175,33 +170,21 @@ describe "Http validatable mixin", () ->
           assert.equal instance.validationResults(), validation
 
     describe "#lowercaseHeaders()", () ->
-      inst = null 
+      inst = null
+      output = null
       before () ->
-        inst = new HttpRequest {
-          headers:
-            'Content-Type': 'application/json; charset=utf-8'
-            'User-Agent': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
-
-          expected:
-            headers:
-              'Content-Type': 'application/json; charset=utf-8'
-              'User-Agent': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
-        }
-        inst.lowercaseHeaders()      
+        inst = new HttpRequest {}
+        headers =
+          'Content-Type': 'application/json; charset=utf-8'
+          'User-Agent': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
+        output = inst.lowercaseHeaders(headers)      
       
-      it 'should convert all keys in real headers object to lowercase', () ->
-        keys = Object.keys inst.headers
+      it 'should convert all keys in headers object to lowercase', () ->
+        keys = Object.keys output
         assert.include keys, 'content-type'
         assert.include keys, 'user-agent'
         assert.notInclude keys, 'Content-Type'
         assert.notInclude keys, 'User-Agebt'
-
-      it 'should convert all keys in expected headers object to lowercase', () ->
-        keys = Object.keys inst.expected.headers
-        assert.include keys, 'content-type'
-        assert.include keys, 'user-agent'
-        assert.notInclude keys, 'Content-Type'
-        assert.notInclude keys, 'User-Agent'
     
     # Headers validation tests
 
@@ -497,6 +480,14 @@ describe "Http validatable mixin", () ->
               
               assert.include results, 'error'
 
+            it 'should set a descriptive message to results', () ->
+              results = instance.validation.body.results
+              messages = []
+              results.forEach (result) ->
+                messages.push result.message
+              
+              assert.include messages, 'Real body: Not a parseble JSON but Content-type header is "application/json".'
+
             it 'should not overwrite exitsing errors', () ->
               instance.validation.body.results = [
                 {'message': 'Shit happen.', 'severity': 'error'}
@@ -641,7 +632,7 @@ describe "Http validatable mixin", () ->
                 instance = new HttpResponse {
                   expected:
                     headers:
-                      'content-type': contentType
+                      'Content-Type': contentType
                     body: "{}"
                 }
                 instance.validation = {}            
@@ -661,7 +652,7 @@ describe "Http validatable mixin", () ->
                 instance = new HttpResponse {
                   expected:
                     headers:
-                      'content-type': contentType                    
+                      'Content-Type': contentType                    
                     body: "{Boo{Boo"
                 }
 
