@@ -1,3 +1,4 @@
+jsonlint = require 'jsonlint'
 validators = require '../validators'
 
 # validatable mixin.
@@ -144,13 +145,14 @@ class Validatable
 
     if isJsonContentType
       try
-        JSON.parse @body
+        jsonlint.parse @body
         @validation.body.realType = 'application/json'
       catch error
         message = {
           message: 'Unknown real body media type. Content-type header is "application/json" but body is not a parseble JSON.'
           severity: 'error'
         }
+        message.message  = message.message + "\n" + error.message
         @validation.body.results.push message
     else
       try
@@ -199,13 +201,14 @@ class Validatable
 
       if isJsonContentType
         try
-          JSON.parse @expected.body
+          jsonlint.parse @expected.body
           @validation.body.expectedType = 'application/json'
         catch error
           message = {
             message: 'Expected body: Content-Type is application/json but body is not a parseable JSON'
             severity: 'error'
-          }           
+          }
+          message.message = message.message + error.message           
           @validation.body.results.push message            
       else
         try        

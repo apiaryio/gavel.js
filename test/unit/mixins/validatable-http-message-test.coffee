@@ -483,7 +483,7 @@ describe "Http validatable mixin", () ->
 
           describe 'body is not a parseable JSON', () ->
             before () ->
-              instance.body = 'Boobooo foo bar john doe'
+              instance.body = '{"creative?": false, \'creativ\': true }'
               instance.setBodyRealType()
 
             it 'should set realType to null', () ->
@@ -496,6 +496,14 @@ describe "Http validatable mixin", () ->
                 results.push result.severity
               
               assert.include results, 'error'
+            
+            it 'should add error message with lint result', () ->
+              expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
+              messages = []
+              for result in instance.validation.body.results
+                messages.push result.message
+
+              assert.include messages[0], expected
 
             it 'should not overwrite exitsing errors', () ->
               instance.validation.body.results = [
@@ -662,7 +670,7 @@ describe "Http validatable mixin", () ->
                   expected:
                     headers:
                       'content-type': contentType                    
-                    body: "{Boo{Boo"
+                    body: '{"creative?": false, \'creativ\': true }'
                 }
 
                 instance.validation = {}            
@@ -687,7 +695,15 @@ describe "Http validatable mixin", () ->
                 results.forEach (result) ->
                   messages.push result.message
                 
-                assert.include messages, 'Expected body: Content-Type is application/json but body is not a parseable JSON'   
+                assert.include messages[0], 'Expected body: Content-Type is application/json but body is not a parseable JSON'   
+          
+              it 'should add error message with lint result', () ->
+                expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
+                messages = []
+                for result in instance.validation.body.results
+                  messages.push result.message
+                
+                assert.include messages[0], expected
 
         describe 'expected headers have not content-type application/json', () ->
           describe 'expected body is a parseable JSON', () ->

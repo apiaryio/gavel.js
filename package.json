@@ -1,6 +1,6 @@
 {
   "name": "gavel",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Gavel HTTP validator JavaScript library",
   "main": "lib/gavel.js",
   "directories": {
@@ -18,6 +18,7 @@
     "googlediff": "0.1.0",
     "http-string-parser": "0.0.4",
     "json-pointer": "~0.1.0",
+    "jsonlint": "~1.6.0",
     "tv4": "~1.0.18"
   },
   "devDependencies": {
