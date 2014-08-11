@@ -142,10 +142,10 @@ class Validatable
     if @isJsonContentType contentType
       try
         jsonlint.parse @body
-        @validation.body.realType = @headers['content-type']
+        @validation.body.realType = contentType
       catch error
         message = {
-          message: 'Unknown real body media type. Content-type header is "' + @headers['content-type'] + '" but body is not a parseble JSON.'
+          message: 'Unknown real body media type. Content-type header is "' + contentType + '" but body is not a parseble JSON.'
           severity: 'error'
         }
         message.message  = message.message + "\n" + error.message
@@ -187,15 +187,15 @@ class Validatable
           @validation.body.expectedType = 'application/schema+json'          
     else
 
-      contentType = @expected.headers?['content-type']
+      expectedContentType = @expected.headers?['content-type']
 
-      if @isJsonContentType contentType
+      if @isJsonContentType expectedContentType
         try
           jsonlint.parse @expected.body
-          @validation.body.expectedType = @expected.headers['content-type']
+          @validation.body.expectedType = expectedContentType
         catch error
           message = {
-            message: 'Expected body: Content-Type is ' + @expected.headers['content-type'] + ' but body is not a parseable JSON'
+            message: 'Expected body: Content-Type is ' + expectedContentType + ' but body is not a parseable JSON'
             severity: 'error'
           }
           message.message = message.message + error.message           
@@ -297,9 +297,9 @@ class Validatable
 
   isJsonContentType: (contentType) ->
     result = false
-    contentType = String(contentType)
-    unless contentType == 'undefined' or contentType == 'null'
-      parsed = mediaTyper.parse contentType
+
+    if contentType?
+      parsed = mediaTyper.parse "#{contentType}"
 
       if parsed['type'] == 'application' and parsed['subtype'] == 'json'
         result = true

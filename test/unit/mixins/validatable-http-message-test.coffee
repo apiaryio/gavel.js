@@ -1067,6 +1067,7 @@ describe "Http validatable mixin", () ->
         'application/json'
         'application/json; charset=utf-8'
         'application/hal+json'
+        'application/vnd.something.internal.v1+json; charset=utf-8'
       ]
 
       nonJsonContentTypes = [
@@ -1092,4 +1093,3 @@ describe "Http validatable mixin", () ->
         describe 'when content type is \'' + contentType + '\'', () ->
           it 'should return false', () ->
             assert.isFalse instance.isJsonContentType(contentType)
-
