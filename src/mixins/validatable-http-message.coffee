@@ -136,20 +136,15 @@ class Validatable
     unless typeof @body == 'string'
       throw new Error "HTTP Body is not a String."
 
-    isJsonContentType = false
 
-    # TODO refactor to separate unit when adding more complicated logic
-    # e.g. for application/hal+json or or application/vnd.apiary.something
-    if !(@headers == undefined) and !(@headers['content-type']  == undefined)
-      isJsonContentType = @headers['content-type'].split(';')[0] == 'application/json'
-
-    if isJsonContentType
+    contentType = @headers?['content-type']
+    if @isJsonContentType contentType
       try
         jsonlint.parse @body
-        @validation.body.realType = 'application/json'
+        @validation.body.realType = @headers['content-type']
       catch error
         message = {
-          message: 'Unknown real body media type. Content-type header is "application/json" but body is not a parseble JSON.'
+          message: 'Unknown real body media type. Content-type header is "' + @headers['content-type'] + '" but body is not a parseble JSON.'
           severity: 'error'
         }
         message.message  = message.message + "\n" + error.message
@@ -191,21 +186,15 @@ class Validatable
           @validation.body.expectedType = 'application/schema+json'          
     else
 
-      isJsonContentType = false
-      # TODO refactor to separate unit when adding more complicated logic
-      # e.g. for application/hal+json or or application/vnd.apiary.something
-      if !(@expected.headers == undefined) and !(@expected.headers['content-type']  == undefined)
-        contentType = @expected.headers['content-type'].split(';')[0]
+      contentType = @expected.headers?['content-type']
 
-        isJsonContentType = contentType == 'application/json'
-
-      if isJsonContentType
+      if @isJsonContentType contentType
         try
           jsonlint.parse @expected.body
-          @validation.body.expectedType = 'application/json'
+          @validation.body.expectedType = @expected.headers['content-type']
         catch error
           message = {
-            message: 'Expected body: Content-Type is application/json but body is not a parseable JSON'
+            message: 'Expected body: Content-Type is ' + @expected.headers['content-type'] + ' but body is not a parseable JSON'
             severity: 'error'
           }
           message.message = message.message + error.message           
@@ -235,11 +224,11 @@ class Validatable
       }           
       @validation.body.results.push message
     else
-      if @validation.body.realType == 'application/json'
-        if @validation.body.expectedType == 'application/json'
-          @validation.body.validator = 'JsonExample'
-        else if @validation.body.expectedType == 'application/schema+json'
+      if @isJsonContentType @validation.body.realType
+        if @validation.body.expectedType == 'application/schema+json'
           @validation.body.validator = 'JsonSchema'
+        else if @isJsonContentType @validation.body.expectedType
+          @validation.body.validator = 'JsonExample' 
         else
           message =
             message: "Watchout for malformed JSON. Expected data media type ('#{@validation.body.expectedType}') does not match real media type ('#{@validation.body.realType}')."
@@ -305,6 +294,19 @@ class Validatable
     results = validator.evaluateOutputToResults()
     @validation.statusCode.results = results.concat @validation.statusCode.results
 
+  isJsonContentType: (contentType) ->
+    result = false
+    contentType = String(contentType)
+
+    withoutParam = contentType.split(';')[0]
+    if withoutParam == 'application/json'
+      result = true
+    
+    suffix = withoutParam.split('+')[1]    
+    if suffix == 'json'
+      result = true
+    
+    result
 
 module.exports = {
   Validatable

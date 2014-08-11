@@ -458,6 +458,7 @@ describe "Http validatable mixin", () ->
       jsonContentTypes = [
         'application/json', 
         'application/json; charset=utf-8'
+        'application/hal+json'
       ]
 
       jsonContentTypes.forEach (contentType) ->
@@ -476,9 +477,9 @@ describe "Http validatable mixin", () ->
               instance.body = '{"foo": "bar"}'
               instance.setBodyRealType()
                
-            it 'should set real type to application/json', () ->
+            it 'should set real type to ' + contentType + '\'', () ->
               assert.equal instance.validation.body.realType,
-                'application/json'
+                contentType
               
 
           describe 'body is not a parseable JSON', () ->
@@ -496,7 +497,7 @@ describe "Http validatable mixin", () ->
                 results.push result.severity
               
               assert.include results, 'error'
-            
+
             it 'should add error message with lint result', () ->
               expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
               messages = []
@@ -639,6 +640,7 @@ describe "Http validatable mixin", () ->
         jsonContentTypes = [
           'application/json', 
           'application/json; charset=utf-8'
+          'application/hal+json'
         ]
 
         jsonContentTypes.forEach (contentType) ->
@@ -656,9 +658,9 @@ describe "Http validatable mixin", () ->
                 instance.validation.body = {}
                 instance.setBodyExpectedType()
 
-              it 'should set expected type to application/json', () ->
+              it 'should set expected type to ' + contentType, () ->
                 assert.equal instance.validation.body.expectedType,
-                  'application/json'
+                  contentType
               
               it 'should set no error message to result', () ->
                 assert.equal instance.validation.body.results.length, 0
@@ -692,11 +694,12 @@ describe "Http validatable mixin", () ->
               it 'should set a descriptive message to results', () ->
                 results = instance.validation.body.results
                 messages = []
+
                 results.forEach (result) ->
                   messages.push result.message
                 
-                assert.include messages[0], 'Expected body: Content-Type is application/json but body is not a parseable JSON'   
-          
+                assert.include messages[0], 'Expected body: Content-Type is ' + contentType + ' but body is not a parseable JSON'   
+
               it 'should add error message with lint result', () ->
                 expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
                 messages = []
@@ -758,44 +761,51 @@ describe "Http validatable mixin", () ->
           
           assert.include results, 'error'            
 
-      describe 'real is application/json', () ->
-        describe 'expected is application/json', () ->
-          before () ->
-            instance = new HttpResponse {
-              expected:
-                body: "{}"
-            }
-            instance.validation = {}            
-            instance.validation.body = 
-              realType: 'application/json'
-              expectedType: 'application/json'          
-            instance.setBodyValidator()
+      jsonContentTypes = [
+        'application/json'
+        'application/json; charset=utf-8'
+        'application/hal+json'
+      ]
+      for realType in jsonContentTypes then do (realType) ->
+        describe 'real is ' + realType, () ->
+          for expectedType in jsonContentTypes
+            describe 'expected is ' + expectedType, () ->
+              before () ->
+                instance = new HttpResponse {
+                  expected:
+                    body: "{}"
+                }
+                instance.validation = {}            
+                instance.validation.body = 
+                  realType: realType
+                  expectedType: expectedType
+                instance.setBodyValidator()
 
-          it 'should set JsonExample validator', () ->
-            assert.equal instance.validation.body.validator,
-              'JsonExample'
+              it 'should set JsonExample validator', () ->
+                assert.equal instance.validation.body.validator,
+                  'JsonExample'
 
-          it 'should set no error message', () ->
-            assert.equal instance.validation.body.results.length, 0
-        
-        describe 'expected is application/schema+json', () ->
-          before () ->
-            instance = new HttpResponse {
-              expected:
-                body: "{}"
-            }
-            instance.validation = {}            
-            instance.validation.body =
-              realType: 'application/json'
-              expectedType: 'application/schema+json'          
-            instance.setBodyValidator()
+              it 'should set no error message', () ->
+                assert.equal instance.validation.body.results.length, 0
+          
+          describe 'expected is application/schema+json', () ->
+            before () ->
+              instance = new HttpResponse {
+                expected:
+                  body: "{}"
+              }
+              instance.validation = {}            
+              instance.validation.body =
+                realType: realType
+                expectedType: 'application/schema+json'          
+              instance.setBodyValidator()
 
-          it 'should set JsonSchema', () ->
-            assert.equal instance.validation.body.validator,
-              'JsonSchema'
+            it 'should set JsonSchema', () ->
+              assert.equal instance.validation.body.validator,
+                'JsonSchema'
 
-          it 'should set no error message', () ->
-            assert.equal instance.validation.body.results.length, 0
+            it 'should set no error message', () ->
+              assert.equal instance.validation.body.results.length, 0
 
         describe 'expected is text/plain', () ->
           before () ->
@@ -1050,3 +1060,36 @@ describe "Http validatable mixin", () ->
 
         it 'should return false boolean result', () ->
           assert.isFalse instance.isValid()
+
+    describe '#isJsonContentType',  () ->
+
+      jsonContentTypes = [
+        'application/json'
+        'application/json; charset=utf-8'
+        'application/hal+json'
+      ]
+
+      nonJsonContentTypes = [
+        'application/xml'
+        'text/plain'
+        'text/html'
+        'application/xhtml+xml'
+        'application/xml;q=0.9'
+        null
+        undefined
+      ]
+
+      before () ->
+        instance = new HttpResponse response
+        
+
+      for contentType in jsonContentTypes then do (contentType) ->
+        describe 'when content type is \'' + contentType + '\'', () ->
+          it 'should return true', () ->
+            assert.isTrue instance.isJsonContentType(contentType)
+
+      for contentType in nonJsonContentTypes then do (contentType) ->
+        describe 'when content type is \'' + contentType + '\'', () ->
+          it 'should return false', () ->
+            assert.isFalse instance.isJsonContentType(contentType)
+
