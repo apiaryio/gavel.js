@@ -1,4 +1,5 @@
 jsonlint = require 'jsonlint'
+mediaTyper = require 'media-typer'
 validators = require '../validators'
 
 # validatable mixin.
@@ -297,14 +298,14 @@ class Validatable
   isJsonContentType: (contentType) ->
     result = false
     contentType = String(contentType)
+    unless contentType == 'undefined' or contentType == 'null'
+      parsed = mediaTyper.parse contentType
 
-    withoutParam = contentType.split(';')[0]
-    if withoutParam == 'application/json'
-      result = true
-    
-    suffix = withoutParam.split('+')[1]    
-    if suffix == 'json'
-      result = true
+      if parsed['type'] == 'application' and parsed['subtype'] == 'json'
+        result = true
+      
+      if parsed['suffix'] == 'json'
+        result = true
     
     result
 
