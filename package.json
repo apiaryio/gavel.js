@@ -21,7 +21,7 @@
     "jsonlint": "~1.6.0",
     "media-typer": "~0.3.0",
     "tv4": "~1.0.18",
-    "update": "^0.1.0"
+    "update": "~0.1.0"
   },
   "devDependencies": {
     "chai": "~1.9.0",
