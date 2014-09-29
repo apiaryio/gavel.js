@@ -1,6 +1,6 @@
 {
   "name": "gavel",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Gavel HTTP validator JavaScript library",
   "main": "lib/gavel.js",
   "directories": {
@@ -13,19 +13,20 @@
     "amanda": "0.5.1",
     "async": "~0.9.0",
     "clone": "~0.1.17",
-    "commander": "~2.2.0",
+    "commander": "~2.3.0",
     "curl-trace-parser": "0.0.8",
     "googlediff": "0.1.0",
     "http-string-parser": "0.0.4",
-    "json-pointer": "~0.1.0",
+    "json-pointer": "~0.2.2",
     "jsonlint": "~1.6.0",
-    "media-typer": "~0.2.0",
-    "tv4": "~1.0.18"
+    "media-typer": "~0.3.0",
+    "tv4": "~1.0.18",
+    "update": "~0.1.0"
   },
   "devDependencies": {
     "chai": "~1.9.0",
-    "coffee-script": "~1.7.1",
-    "mocha": "~1.20.1",
+    "coffee-script": "~1.8.0",
+    "mocha": "~1.21.4",
     "cucumber": "~0.4.0",
     "lodash": "~2.4.1",
     "prettyjson": "~1.0.0",
@@ -33,7 +34,7 @@
     "sinon": "~1.10.2",
     "coffee-coverage": "~0.4.2",
     "jscoverage": "~0.5.4",
-    "coveralls": "~2.10.1",
+    "coveralls": "~2.11.2",
     "mocha-lcov-reporter": "0.0.1"
   },
   "scripts": {
