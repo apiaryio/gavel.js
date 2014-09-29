@@ -13,14 +13,15 @@
     "amanda": "0.5.1",
     "async": "~0.9.0",
     "clone": "~0.1.17",
-    "commander": "~2.2.0",
+    "commander": "^2.3.0",
     "curl-trace-parser": "0.0.8",
     "googlediff": "0.1.0",
     "http-string-parser": "0.0.4",
-    "json-pointer": "~0.1.0",
+    "json-pointer": "^0.2.2",
     "jsonlint": "~1.6.0",
-    "media-typer": "~0.2.0",
-    "tv4": "~1.0.18"
+    "media-typer": "^0.3.0",
+    "tv4": "^1.0.18",
+    "update": "^0.1.0"
   },
   "devDependencies": {
     "chai": "~1.9.0",
