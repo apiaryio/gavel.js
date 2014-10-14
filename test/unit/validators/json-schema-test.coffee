@@ -63,13 +63,12 @@ describe 'JsonSchema', ->
 
         describe 'when i change data', ->
           before ->
-            validator.data = fixtures.sampleJson
+            validator.data = JSON.parse fixtures.sampleJson
 
           describe 'and run validate again', ->
 
             before ->
               validatorReturnAfterDataChanged = validator.validate()
-
             it 'errors should change', ->
               assert.equal validatorReturnAfterDataChanged.length, 0
 
