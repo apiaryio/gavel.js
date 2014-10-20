@@ -1,13 +1,35 @@
+amanda = require 'amanda'
 tv4 = require 'tv4'
 crypto = require('crypto')
 jsonPointer = require 'json-pointer'
 
-metaSchema = require '../meta-schema'
+metaSchemaV3 = require '../meta-schema-v3'
+metaSchemaV4 = require '../meta-schema-v4'
+
+SCHEMA_V3 = "http://json-schema.org/draft-03/schema"
 
 {ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
 
 sylables = ['a','e','i','o','u']
+
+#options for {Amanda} json validator
+json_schema_options =
+  singleError: false
+  messages:
+    'minLength':   (prop, val, validator) -> "The #{prop} property must be at least #{validator} characters long (currently #{val.length} characters long)."
+    'maxLength':   (prop, val, validator) -> "The #{prop} property must not exceed #{validator} characters (currently #{val.length} characters long)."
+    'length':      (prop, val, validator) -> "The #{prop} property must be exactly #{validator} characters long (currently #{val.length} characters long)."
+    'format':      (prop, val, validator) -> "The #{prop} property must be #{if validator[0].toLowerCase() in sylables then 'an' else 'a'} #{validator} (current value is #{JSON.stringify val})."
+    'type':        (prop, val, validator) -> "The #{prop} property must be #{if validator[0].toLowerCase() in sylables then 'an' else 'a'} #{validator} (current value is #{JSON.stringify val})."
+    'except':      (prop, val, validator) -> "The #{prop} property must not be #{val}."
+    'minimum':     (prop, val, validator) -> "The minimum value of the #{prop} must be #{validator} (current value is #{JSON.stringify val})."
+    'maximum':     (prop, val, validator) -> "The maximum value of the #{prop} must be #{validator} (current value is #{JSON.stringify val})."
+    'pattern':     (prop, val, validator) -> "The #{prop} value (#{val}) does not match the #{validator} pattern."
+    'maxItems':    (prop, val, validator) -> "The #{prop} property must not contain more than #{validator} items (currently contains #{val.length} items)."
+    'minItems':    (prop, val, validator) -> "The #{prop} property must contain at least #{validator} items (currently contains #{val.length} items)."
+    'divisibleBy': (prop, val, validator) -> "The #{prop} property is not divisible by #{validator} (current value is #{JSON.stringify val})."
+    'uniqueItems': (prop, val, validator) -> "All items in the #{prop} property must be unique."
 
 # Validates given data against given schema
 # @author Peter Grilli <tully@apiary.io>
@@ -38,6 +60,8 @@ class JsonSchema
 
   # Validates given schema against metaschema
   validateSchema: () ->
+    metaSchema = if @schema.$schema == SCHEMA_V3 then metaSchemaV3 else metaSchemaV4
+
     if metaSchema.$schema
       tv4.addSchema "", metaSchema
       tv4.addSchema metaSchema.$schema, metaSchema
@@ -91,6 +115,10 @@ class JsonSchema
 
   #@private
   validatePrivate: =>
+    return if @schema.$schema == SCHEMA_V3 then @validateSchemaV3() else @validateSchemaV4()
+
+  #@private
+  validateSchemaV4: =>
     result = tv4.validateMultiple @data, @schema
     localError =
       property: []
@@ -105,6 +133,32 @@ class JsonSchema
         "validatorName":"error"
         "pointer": error.schemaPath
     return @errors = new ValidationErrors localError
+
+  #@private
+  validateSchemaV3: ->
+    try
+      return amanda.validate  @data, @schema, json_schema_options, (error) =>
+        if error?.length > 0
+          for i in [0..error.length-1]
+            if error[i].property == ''
+              error[i].property = []
+
+        return @errors = new ValidationErrors error
+
+    catch error
+      error = {
+        "0":{
+          "property":[],
+          "attributeValue":true,
+          "message":"Validator internal error: #{error.message}",
+          "validatorName":"error",
+        },
+        "length":1,
+        "errorMessages":{
+        }
+
+      }
+      return @errors = new ValidationErrors error
 
   #@private
   getHash: (data) ->
