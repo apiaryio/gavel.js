@@ -380,8 +380,8 @@ describe "Http validatable mixin", () ->
         it 'should set results to an array', () ->
           assert.isArray instance.validation.headers.results
 
-        it 'should have 2 results', () ->
-          assert.equal instance.validation.headers.results.length, 2
+        it 'should have 1 result', () ->
+          assert.equal instance.validation.headers.results.length, 1
 
       describe 'no rawData and validator available', () ->
         before () ->
@@ -966,7 +966,7 @@ describe "Http validatable mixin", () ->
           messages = []
           for result in instance.validation.body.results
             messages.push result.message
-          assert.include messages, 'JSON schema is not valid! invalid type: array (expected boolean) at path "/required"'
+          assert.include messages, 'JSON schema is not valid! Data does not match any schemas from "anyOf" at path "/type"'
 
     describe "#runBodyValidator()", () ->
       before () ->
