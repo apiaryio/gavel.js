@@ -9,7 +9,7 @@ describe 'JsonSchema', ->
   validator = null
 
   dataForTypes =
-    string: 
+    string:
       real: fixtures.sampleJsonComplexKeyMissing
       schema: fixtures.sampleJsonSchemaNonStrict
     object:
@@ -18,7 +18,7 @@ describe 'JsonSchema', ->
 
   types = Object.keys dataForTypes
   types.forEach (type) ->
-    
+
     data = dataForTypes[type]
 
     describe 'when i create new instance of validator with "' + type + '" type arguments', ->
@@ -84,8 +84,14 @@ describe 'JsonSchema', ->
 
             it 'errors should change', ->
               assert.notDeepEqual JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)), JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
-    
+
     shared.shouldBehaveLikeAmandaToGavel(new JsonSchema '{}','{}')
+
+  describe 'when validation performed on real empty object', () ->
+    it 'should return some errors', ->
+      validator = new JsonSchema {}, JSON.parse fixtures.sampleJsonSchemaNonStrict
+      result = validator.validate()
+      assert.notEqual validator.validate().length, 0
 
   it 'should have validateSchema method', () ->
     validator = new JsonSchema {},{}
@@ -101,14 +107,14 @@ describe 'JsonSchema', ->
     describe 'when invalid schema provided', () ->
       it 'should throw an error', () ->
         invalidSchema = require '../../fixtures/invalid-schema'
-        fn = () -> 
+        fn = () ->
           validator = new JsonSchema {}, invalidSchema
         assert.throw fn
 
     describe 'when valid schema provided', () ->
       it 'should not throw any error', () ->
         validSchema = require '../../fixtures/valid-schema'
-        fn = () -> 
+        fn = () ->
           validator = new JsonSchema {}, validSchema
         assert.doesNotThrow fn
 

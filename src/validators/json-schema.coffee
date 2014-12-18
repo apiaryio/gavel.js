@@ -63,7 +63,7 @@ class JsonSchema
   # Validates given data against given schema
   #@return [ValidationErrors]
   validate: ->
-    if ((@data instanceof Object) and Object.keys(@data).length == 0) or ((@data instanceof Object) and @schema['empty'])
+    if (@data instanceof Object) and @schema['empty']
       @output = {
         "length":0,
         "errorMessages":{

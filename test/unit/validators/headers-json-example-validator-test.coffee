@@ -11,13 +11,13 @@ describe 'HeadersJsonExample', ->
         fn = () ->
           headersValidator = new HeadersJsonExample "", {'header1': 'value1'}
         assert.throw fn, "is not an Object"
-    
+
     describe 'when I provede expected data as non obejct', () ->
       it 'should throw an exception', () ->
         fn = () ->
           headersValidator = new HeadersJsonExample {'header1': 'value1'}, ""
         assert.throw fn, "is not an Object"
-    
+
     describe 'when I provide correct data', ->
       it 'should not throw an exception', ->
         fn = () ->
@@ -56,6 +56,14 @@ describe 'HeadersJsonExample', ->
           result = headersValidator.validate()
           assert.equal result.length, 0
 
+    describe 'when real is empty object and expected is proper object', ->
+      before ->
+        headersValidator = new HeadersJsonExample {}, fixtures.sampleHeaders
+      describe 'and i run validate()', ->
+        it "shouldn't return 4 errors", ->
+          result = headersValidator.validate()
+          assert.equal result.length, 4
+
     describe 'when Date or Expires values header differs', ->
       before ->
         headersValidator = new HeadersJsonExample fixtures.sampleHeadersWithDateAndExpiresChanged,  fixtures.sampleHeadersWithDateAndExpires
@@ -63,14 +71,14 @@ describe 'HeadersJsonExample', ->
         it "shouldn't return any errors", ->
           result = headersValidator.validate()
           assert.equal result.length, 0
-  
+
   describe '#validate()', () ->
     output = null
     before () ->
-      headersValidator = new HeadersJsonExample fixtures.sampleHeadersMissing , fixtures.sampleHeaders    
+      headersValidator = new HeadersJsonExample fixtures.sampleHeadersMissing , fixtures.sampleHeaders
       output = headersValidator.validate()
 
     it 'should return an obejct', () ->
       assert.isObject output
-  
+
   shared.shouldBehaveLikeAmandaToGavel(new HeadersJsonExample {},{})

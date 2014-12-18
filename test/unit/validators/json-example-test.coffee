@@ -60,7 +60,7 @@ describe 'JsonExample', ->
           it "shouldn't return any errors", ->
             result = bodyValidator.validate()
             assert.equal result.length, 0
-  
+
       describe 'when key value is a empty string', ->
         before ->
           bodyValidator = new JsonExample fixtures.emptyStringJson ,fixtures.emptyStringJson
@@ -68,7 +68,7 @@ describe 'JsonExample', ->
           it "shouldn't return any errors", ->
             result = bodyValidator.validate()
             assert.equal result.length, 0
-      
+
       describe 'when key value is a null', ->
         before ->
           bodyValidator = new JsonExample '{"a": "a","b": null }' ,'{"a":"a", "b": null}'
@@ -76,7 +76,7 @@ describe 'JsonExample', ->
           it "shouldn't return any errors", ->
             result = bodyValidator.validate()
             assert.equal result.length, 0
-      
+
       describe 'when expected and real data are different on root level', ->
         describe 'when expected is object and real is array', ->
           before ->
@@ -105,5 +105,18 @@ describe 'JsonExample', ->
                 bodyValidator.validate()
               assert.doesNotThrow fn
 
-  
+        describe 'when reeal is empty object and expected is non-empty object', ->
+          before ->
+            bodyValidator = new JsonExample "{}", '{"a":1}'
+
+          describe 'and i run validate()', ->
+            it "should not throw exception", ->
+              fn = () ->
+                bodyValidator.validate()
+              assert.doesNotThrow fn
+
+          it "should return 1 errors", ->
+            result = bodyValidator.validate()
+            assert.equal result.length, 1
+
   shared.shouldBehaveLikeAmandaToGavel(new JsonExample '{}','{}')
