@@ -2,6 +2,7 @@ errors          = require '../errors'
 {JsonSchema}   = require './json-schema'
 {SchemaV4Generator, SchemaV4Properties} = require('../utils/schema-v4-generator')
 jsonPointer = require 'json-pointer'
+type        = require 'is-type'
 
 # Checks data, prepares validator and validates request or response headers against given expected headers or json schema
 # @author Peter Grilli <tully@apiary.io>
@@ -13,40 +14,29 @@ class HeadersJsonExample extends JsonSchema
   #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
   #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
   constructor: (@real, @expected) ->
-    if typeof @real != 'object'
+    if not type.object(@real)
       throw new errors.MalformedDataError "Real is not an Object"
 
-    if typeof @expected != 'object'
+    if not type.object(@expected)
       throw new errors.MalformedDataError "Expected is not an Object"
 
-    try
-      @expected = @prepareHeaders JSON.parse(JSON.stringify(@expected))
-    catch error
-      outError = new errors.MalformedDataError "Headers validator - Expected malformed:" + error.message
-      outError['data'] = @expected
-      throw outError
+    @expected = @prepareHeaders @expected
+    @real =     @prepareHeaders @real
 
-    try
-      @real = @prepareHeaders JSON.parse(JSON.stringify(@real))
-    catch error
-      outError = new errors.MalformedDataError "Headers validator - Real malformed:" + error.message
-      outError['data'] = @real
-      throw outError
-
-    @schema = @getSchema @prepareHeaders @expected
+    @schema = @getSchema @expected
 
     #headers to ignore their values
-    unless @schema == undefined
-      unless @schema['properties'] == undefined
-        ['date', 'expires'].forEach (header) =>
-          unless @schema['properties'][header] == undefined
+    if @schema?
+      if @schema['properties']?
+        for header in ['date', 'expires']
+          if @schema['properties'][header]?
             delete @schema['properties'][header]['enum']
 
     super @real, @schema
 
   #@private
   prepareHeaders: (headers) ->
-    if not (headers instanceof Object)
+    if not type.object(headers)
       return headers
 
     transformedHeaders = {}

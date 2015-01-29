@@ -1,6 +1,7 @@
 errors          = require '../errors'
 {JsonSchema}   = require './json-schema'
 jsonPointer = require 'json-pointer'
+type        = require 'is-type'
 
 {SchemaV4Generator, SchemaV4Properties} = require('../utils/schema-v4-generator')
 
@@ -17,13 +18,12 @@ class JsonExample extends JsonSchema
   #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
   #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
   constructor: (@real, @expected) ->
-
-    if typeof(@real) != 'string'
+    if not type.string(@real)
       outError = new errors.MalformedDataError 'JsonExample validator: provided real data is not string'
       outError['data'] = @real
       throw outError
 
-    if typeof(@expected) != 'string'
+    if not type.string(@expected)
       outError = new errors.MalformedDataError 'JsonExample validator: provided expected data is not string'
       outError['data'] = @expected
       throw outError
@@ -33,7 +33,7 @@ class JsonExample extends JsonSchema
     super @real, @schema
 
   #@private
-  getSchema: (data)->
+  getSchema: (data) ->
     properties = new SchemaV4Properties {}
     properties.set keysStrict: false, valuesStrict: false, typesStrict : false
 

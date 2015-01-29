@@ -1,5 +1,3 @@
-crypto = require('crypto')
-
 # Wrapper class for errors provided by {Amanda} json schema validator
 # @author Peter Grilli <tully@apiary.io>
 class ValidationErrors
