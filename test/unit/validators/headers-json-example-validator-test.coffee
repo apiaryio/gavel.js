@@ -36,9 +36,9 @@ describe 'HeadersJsonExample', ->
       before ->
         headersValidator = new HeadersJsonExample fixtures.sampleHeadersMissing , fixtures.sampleHeaders
       describe 'and i run validate()', ->
-        it "should return 2 errors", ->
+        it "should return 1 error", ->
           result = headersValidator.validate()
-          assert.equal result.length, 2
+          assert.equal result.length, 1
 
     describe 'when value in provided headers differs', ->
       before ->

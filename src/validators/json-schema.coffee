@@ -3,7 +3,10 @@ tv4 = require 'tv4'
 crypto = require('crypto')
 jsonPointer = require 'json-pointer'
 
-metaSchema = require '../meta-schema'
+metaSchemaV3 = require '../meta-schema-v3'
+metaSchemaV4 = require '../meta-schema-v4'
+
+SCHEMA_V3 = "http://json-schema.org/draft-03/schema"
 
 {ValidationErrors} = require('./validation-errors')
 errors          = require '../errors'
@@ -57,9 +60,15 @@ class JsonSchema
 
   # Validates given schema against metaschema
   validateSchema: () ->
+    metaSchema = if @schema.$schema == SCHEMA_V3 then metaSchemaV3 else metaSchemaV4
+
+    if metaSchema.$schema
+      tv4.addSchema "", metaSchema
+      tv4.addSchema metaSchema.$schema, metaSchema
+
     if not tv4.validate @schema, metaSchema
-      throw new errors.JsonSchemaNotValid 'JSON schema is not valid! ' + tv4.error.message + ' at path "' + tv4.error.dataPath + '"'  
-  
+      throw new errors.JsonSchemaNotValid 'JSON schema is not valid! ' + tv4.error.message + ' at path "' + tv4.error.dataPath + '"'
+
   # Validates given data against given schema
   #@return [ValidationErrors]
   validate: ->
@@ -90,7 +99,7 @@ class JsonSchema
 
     results = []
 
-    #amanda to gavel converter
+    #TV4 to gavel converter
     if data.length > 0
       indexes = [0..data.length - 1]
       indexes.forEach (index) ->
@@ -105,7 +114,28 @@ class JsonSchema
     return results
 
   #@private
-  validatePrivate: ->
+  validatePrivate: =>
+    return if @schema.$schema == SCHEMA_V3 then @validateSchemaV3() else @validateSchemaV4()
+
+  #@private
+  validateSchemaV4: =>
+    result = tv4.validateMultiple @data, @schema
+    localError =
+      property: []
+      length: result.errors.length
+      errorMessages: {}
+
+    for error, index in result?.errors
+      localError[index] =
+        "property":[ if error.params.key then error.params.key else error.dataPath ]
+        "attributeValue":true
+        "message": error.message
+        "validatorName":"error"
+        "pointer": error.schemaPath
+    return @errors = new ValidationErrors localError
+
+  #@private
+  validateSchemaV3: ->
     try
       return amanda.validate  @data, @schema, json_schema_options, (error) =>
         if error?.length > 0
@@ -129,7 +159,6 @@ class JsonSchema
 
       }
       return @errors = new ValidationErrors error
-
 
   #@private
   getHash: (data) ->

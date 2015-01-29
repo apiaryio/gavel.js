@@ -1,5 +1,5 @@
 assert = require('chai').assert
-amanda = require 'amanda'
+tv4 = require 'tv4'
 gavel = require '../../../src/gavel'
 {assert} = require 'chai'
 _ = require 'lodash'
@@ -50,7 +50,7 @@ validatorStepDefs = () ->
     callback()
   
   Then /^the validator output for the HTTP component is valid against "([^"]*)" model JSON schema:$/, (model, schema, callback) ->
-    amanda.validate @results[@component], JSON.parse(schema), (error) ->
+    tv4.validate @results[@component], JSON.parse(schema), (error) ->
       if error
         if not Object.keys(error).length == 0
           callback.fail "Expected no validation errors on schema but got:\n" +

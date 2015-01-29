@@ -1,5 +1,5 @@
 #@private
-SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
+SCHEMA_VERSION = "http://json-schema.org/draft-04/schema"
 
 # Configuration structure container for SchemaGenerator
 # @author Peter Grilli <tully@apiary.io>
@@ -21,7 +21,7 @@ class SchemaProperties
     @.valuesStrict = valuesStrict
     @.typesStrict  = typesStrict
 
-# From given JSON or object, construct JSON schema for Amanda
+# From given JSON or object, construct JSON schema for validation (using TV4)
 # @author Peter Grilli <tully@apiary.io>
 class SchemaGenerator
   # Construct a SchemaGenerator
@@ -80,8 +80,6 @@ class SchemaGenerator
 
     schemaType = @getSchemaTypeFor baseObject
 
-    schemaDict["required"] = true
-
     if schemaType is 'object'
       if properties.keysStrict
         schemaDict['additionalProperties'] = false
@@ -102,7 +100,7 @@ class SchemaGenerator
 
     if schemaType is 'object' and Object.keys(baseObject).length > 0
       schemaDict["properties"] = {}
-
+      schemaDict["required"] = []
       for prop, value of baseObject
         getSchemaForObjectProperties = {
           baseObject: value,
@@ -111,7 +109,7 @@ class SchemaGenerator
           properties: properties
         }
         schemaDict["properties"][prop] = @getSchemaForObject getSchemaForObjectProperties
-
+        schemaDict["required"].push prop
     else if schemaType is 'array' and baseObject.length > 0
 
       schemaDict['items'] = []
@@ -120,7 +118,7 @@ class SchemaGenerator
       for item in baseObject
         getSchemaForObjectProperties = {
           baseObject: item,
-          objectId: counter,
+          objectId: counter.toString(),
           firstLevel: false,
           properties: properties
         }
