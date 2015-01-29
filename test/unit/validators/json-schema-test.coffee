@@ -106,6 +106,23 @@ describe 'JsonSchema', ->
       validator = new JsonSchema {}, {}
       assert.isTrue validator.validateSchema.called
 
+  describe 'when invalid JSON-stringified-data are provided', ->
+    invalidStringifiedSchema = null
+    before ->
+      invalidStringifiedSchema = require '../../fixtures/invalid-stringified-schema'
+
+    it 'should throw an error for "data"', () ->
+      fn = () ->
+        validator = new JsonSchema invalidStringifiedSchema
+      assert.throw fn
+
+    it 'should throw an error for "schema"', () ->
+      invalidStringifiedSchema = require '../../fixtures/invalid-stringified-schema'
+      fn = () ->
+        validator = new JsonSchema {}, invalidStringifiedSchema
+      assert.throw fn
+
+
   describe 'validateSchema', () ->
     describe 'with schema v3', () ->
       describe 'when invalid schema provided', () ->
