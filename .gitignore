@@ -6,3 +6,5 @@
 /.vagrant
 /doc
 /lib
+/cov.html
+/src-cov
