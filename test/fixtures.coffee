@@ -883,7 +883,7 @@ sampleError = """
 """
 
 sampleHeaders = {
-  "Content-Type": "application/json",
+  "content-type": "application/json",
   "header2": "header2_value"
 }
 
@@ -893,12 +893,12 @@ sampleHeadersDiff = {
 }
 
 sampleHeadersMiss = {
-  "Content-Type": "application/json",
+  "CONTENT-type": "application/json",
 }
 
 sampleHeadersAdd = {
   "Content-Type": "application/json",
-  "header2": "header2_value",
+  "HEADER2": "header2_value",
   "header_added": "header_added_value",
 }
 

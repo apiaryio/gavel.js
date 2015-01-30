@@ -46,15 +46,23 @@ describe "Http validatable mixin", () ->
         instance = new HttpResponse {}
         assert.include instance.validatableComponents, item
 
-  describe "#isvalidatable()", () ->
+  describe "#isValidatable()", () ->
     describe 'when no validatable HTTP component in the object', () ->
       it 'should return false', () ->
         instance = new HttpResponse {foo: 'bar'}
         assert.isFalse instance.isValidatable()
 
-    describe 'whem any validatable HTTP component in the obejct', () ->
-      it 'should return true', () ->
+    describe 'when any validatable HTTP component is present in the object', ->
+      it 'should return true for some headers', ->
         instance = new HttpResponse {headers: {'content-type:': 'application/json'}}
+        assert.isTrue instance.isValidatable()
+
+      it 'should return true for some body', ->
+        instance = new HttpResponse {body: ''}
+        assert.isTrue instance.isValidatable()
+
+      it 'should return true for some statusCode', ->
+        instance = new HttpResponse {statusCode: 200}
         assert.isTrue instance.isValidatable()
 
   describe "any HTTP Message instance", () ->
@@ -80,7 +88,7 @@ describe "Http validatable mixin", () ->
       it 'should return an object', () ->
         assert.isObject result
 
-      ['headers', 'body', 'statusCode', 'version'].forEach (key) ->
+      ['headers', 'body', 'statusCode', 'version'].forEach (key) -> do (key) ->
         it 'should contain validatable Component key "' + key + '"', () ->
           assert.include Object.keys(result), key
 
@@ -225,8 +233,8 @@ describe "Http validatable mixin", () ->
 
           expected:
             headers:
-              'Content-Type': 'application/json; charset=utf-8'
-              'User-Agent': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
+              'CONTENT-TYPE': 'application/json; charset=utf-8'
+              'USER-AGENT': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
         }
         inst.lowercaseHeaders()
 
@@ -263,7 +271,7 @@ describe "Http validatable mixin", () ->
         'results'
       ]
 
-      fields.forEach (field) ->
+      fields.forEach (field) -> do (field) ->
         it "should set '" + field + "' property for the component", () ->
           assert.isDefined instance.validation.headers[field]
 
@@ -457,7 +465,7 @@ describe "Http validatable mixin", () ->
         'results'
       ]
 
-      fields.forEach (field) ->
+      fields.forEach (field) -> do (field) ->
         it "should set '" + field + "' property for the component", () ->
           assert.isDefined instance.validation.body[field]
 
@@ -497,14 +505,15 @@ describe "Http validatable mixin", () ->
 
 
       jsonContentTypes = [
-        'application/json',
+        'application/json'
         'application/json; charset=utf-8'
         'application/hal+json'
       ]
 
-      jsonContentTypes.forEach (contentType) ->
+      jsonContentTypes.forEach (contentType) -> do (contentType) ->
 
         describe "header content-type is '#{contentType}'", () ->
+          instance = null
           before () ->
             instance = new HttpResponse {
               headers: {'content-type': contentType}
@@ -547,7 +556,7 @@ describe "Http validatable mixin", () ->
 
               assert.include messages[0], expected
 
-            it 'should not overwrite exitsing errors', () ->
+            it 'should not overwrite existing errors', () ->
               instance.validation.body.results = [
                 {'message': 'Shit happen.', 'severity': 'error'}
               ]
