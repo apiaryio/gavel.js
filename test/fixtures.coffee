@@ -484,7 +484,7 @@ sampleJsonSchemaTestingAmandaMessages =
     check_pattern:
       required: true
       type: 'string'
-      pattern: /^[a]{2,4}$/g
+      pattern: '/^[a]{2,4}$/g'
     check_maxItems:
       required: true
       type: 'array'
@@ -954,7 +954,7 @@ sampleError = """
 """
 
 sampleHeaders = {
-  "content-type": "application/json",
+  "Content-Type": "application/json",
   "header2": "header2_value"
 }
 
@@ -971,6 +971,16 @@ sampleHeadersAdd = {
   "Content-Type": "application/json",
   "HEADER2": "header2_value",
   "header_added": "header_added_value",
+}
+
+sampleHeadersMixedCase = {
+  "CONTENT-TYPE": "application/json",
+  "HEADER2": "header2_value"
+}
+
+sampleHeadersMixedCaseDiff = {
+  "CONTENT-type": "application/json",
+  "HEADer2": "header2_value_changed"
 }
 
 sampleHeadersNonContentNegotiation = {
@@ -1372,6 +1382,8 @@ module.exports =
   sampleHeadersDiffers             : sampleHeadersDiff
   sampleHeadersMissing             : sampleHeadersMiss
   sampleHeadersAdded               : sampleHeadersAdd
+  sampleHeadersMixedCase           : sampleHeadersMixedCase
+  sampleHeadersMixedCaseDiffers    : sampleHeadersMixedCaseDiff
   sampleAmandaError                : sampleAmandaError
   sampleAmandaError2               : sampleAmandaError2
   sampleFormatedError              : sampleFormatedError

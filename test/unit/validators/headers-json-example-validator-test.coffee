@@ -6,6 +6,10 @@ shared = require '../support/amanda-to-gavel-shared'
 describe 'HeadersJsonExample', ->
   headersValidator = {}
   describe 'constructor', ->
+
+    afterEach ->
+      headersValidator = {}
+
     describe 'when I provede real data as non obejct', () ->
       it 'should throw an exception', () ->
         fn = () ->
@@ -31,6 +35,22 @@ describe 'HeadersJsonExample', ->
         it "shouldn't return any errors", ->
           result = headersValidator.validate()
           assert.equal result.length, 0
+
+    describe 'when provided real and expected headers differ in upper/lower-case state of keys', ->
+      before ->
+        headersValidator = new HeadersJsonExample fixtures.sampleHeadersMixedCase , fixtures.sampleHeaders
+      describe 'and I run validate()', ->
+        it 'shouldn\'t return any errors', ->
+          result = headersValidator.validate()
+          assert.equal result.length, 0
+
+    describe 'when provided real and expected headers differ in one value (real change) of a key different by upper/lower', ->
+      before ->
+        headersValidator = new HeadersJsonExample fixtures.sampleHeadersMixedCaseDiffers, fixtures.sampleHeaders
+      describe 'and I run validate()', ->
+        it 'should return 1 error', ->
+          result = headersValidator.validate()
+          assert.lengthOf result, 1
 
     describe 'when key is missing in provided headers', ->
       before ->
