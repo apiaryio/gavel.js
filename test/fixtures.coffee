@@ -445,6 +445,77 @@ sampleJsonSchema = '''
 }
 '''
 
+
+sampleJsonSchemaTestingAmandaMessages =
+  "$schema":"http://json-schema.org/draft-03/schema"
+  "id":"#"
+  "required": true
+  "additionalProperties": true
+  "type": "object"
+  "properties":
+    check_minLength:
+      required: true
+      type: 'string'
+      minLength: 20
+    check_maxLength:
+      required: true
+      type: 'string'
+      maxLength: 5
+    check_length:
+      required: true
+      type: 'string'
+      length: 2
+    check_format:
+      required: true
+      type: 'string'
+      format: 'decimal'
+    check_except:
+      required: true
+      type: 'string'
+      except: ['not_allowed', 'bad']
+    check_minimum:
+      required: true
+      type: 'number'
+      minimum: 5
+    check_maximum:
+      required: true
+      type: 'number'
+      maximum: 10
+    check_pattern:
+      required: true
+      type: 'string'
+      pattern: /^[a]{2,4}$/g
+    check_maxItems:
+      required: true
+      type: 'array'
+      maxItems: 2
+    check_minItems:
+      required: true
+      type: 'array'
+      minItems: 2
+    check_divisibleBy:
+      required: true
+      type: 'number'
+      divisibleBy: 2
+    check_uniqueItems:
+      required: true
+      type: 'array'
+      uniqueItems: true
+
+sampleJsonBodyTestingAmandaMessages =
+  check_minLength: 'very_short'
+  check_maxLength: 'just_another_length'
+  check_length: 'too_long'
+  check_format: 'non_email'
+  check_except: 'bad'
+  check_minimum: 1
+  check_maximum: 999
+  check_pattern: 'bad pattern text'
+  check_maxItems: ['too', 'many', 'things']
+  check_minItems: ['solo_item']
+  check_divisibleBy: 33
+  check_uniqueItems: ['copy', 'unique', 'copy']
+
 sampleJsonSchemaNonStrict = '''
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
@@ -1311,7 +1382,8 @@ module.exports =
   sampleHttpMessageSchema          : sampleHttpMessageSchema
   sampleHeadersWithNonContentNegotiationChanged  : sampleHeadersWithNonContentNegotiationChanged
   sampleHeadersNonContentNegotiation : sampleHeadersNonContentNegotiation
-
+  sampleJsonSchemaTestingAmandaMessages: sampleJsonSchemaTestingAmandaMessages
+  sampleJsonBodyTestingAmandaMessages: sampleJsonBodyTestingAmandaMessages
 
 
 

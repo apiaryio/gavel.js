@@ -123,6 +123,24 @@ describe 'JsonSchema', ->
       assert.throw fn
 
 
+  describe 'validate an object to check json_schema_options passed to Amanda', ->
+    results = null
+    error = null
+    messagesLength = null
+
+    before ->
+      messagesLength = Object.keys(fixtures.sampleJsonBodyTestingAmandaMessages).length
+      validator = new JsonSchema fixtures.sampleJsonBodyTestingAmandaMessages, fixtures.sampleJsonSchemaTestingAmandaMessages
+      results = validator.validate()
+
+    it "contains all those schema defined messages", ->
+      assert.isNull error
+      assert.isObject results
+      assert.lengthOf Object.keys(fixtures.sampleJsonSchemaTestingAmandaMessages.properties), messagesLength
+      assert.propertyVal results, 'length', messagesLength
+      assert.lengthOf results, messagesLength
+
+
   describe 'validateSchema', () ->
     describe 'with schema v3', () ->
       describe 'when invalid schema provided', () ->
