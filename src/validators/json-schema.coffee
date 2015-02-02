@@ -132,9 +132,20 @@ class JsonSchema
       indexes = [0..data.length - 1]
       indexes.forEach (index) ->
         item = data[index]
-        pointer = item['property'] or []
+
+        if item['property'] == undefined
+          pathArray = []
+        else if item['property'] == null
+          pathArray = []
+        else if item['property'] == [null]
+          pathArray = []
+        else if item['property'] == [undefined]
+          pathArray = []
+        else
+          pathArray = item['property']
+
         message =
-          pointer: jsonPointer.compile pointer
+          pointer: jsonPointer.compile pathArray
           severity: 'error'
           message: item.message
         results.push message
@@ -155,19 +166,25 @@ class JsonSchema
   #@private
   validateSchemaV4: =>
     result = tv4.validateMultiple @data, @schema
-    localError =
-      property: []
+
+    amandaCompatibleError =
       length: result.errors.length
       errorMessages: {}
 
     for error, index in result?.errors
-      localError[index] =
-        "property":[ if error.params.key then error.params.key else error.dataPath ]
+      pathArray = jsonPointer.parse error.dataPath
+      if error.params.key
+        pathArray.push error.params.key
+
+      pointer = jsonPointer.compile pathArray
+
+      amandaCompatibleError[index] =
+        "property": pathArray
         "attributeValue":true
-        "message": error.message
+        "message": "At '#{pointer}' #{error.message}"
         "validatorName":"error"
-        "pointer": error.schemaPath
-    return @errors = new ValidationErrors localError
+
+    return @errors = new ValidationErrors amandaCompatibleError
 
   #@private
   validateSchemaV3: ->

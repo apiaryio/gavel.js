@@ -51,6 +51,7 @@ describe 'JsonSchema', ->
 
         beforeEach ->
           validatorReturn = validator.validate()
+
         it 'should set @errors', ->
           assert.isTrue validator.errors instanceof ValidationErrors
 

@@ -105,7 +105,17 @@ describe 'JsonExample', ->
                 bodyValidator.validate()
               assert.doesNotThrow fn
 
-        describe 'when reeal is empty object and expected is non-empty object', ->
+        describe 'when expected array and real is object', ->
+          before ->
+            bodyValidator = new JsonExample '[0,1,2]', '{"a":1}'
+          describe 'and i run validate()', ->
+            it "should not throw exception", ->
+              fn = () ->
+                bodyValidator.validate()
+              assert.doesNotThrow fn
+
+
+        describe 'when real is empty object and expected is non-empty object', ->
           before ->
             bodyValidator = new JsonExample "{}", '{"a":1}'
 
