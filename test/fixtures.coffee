@@ -258,7 +258,7 @@ sampleJsonArrayItemMissing = '''
 
 sampleJsonSchema = '''
 {
-    "$schema": "http://json-schema.org/draft-04/schema",
+    "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "#",
     "required": [
         "simple_key_value_pair",
@@ -447,7 +447,7 @@ sampleJsonSchema = '''
 
 sampleJsonSchemaNonStrict = '''
 {
-    "$schema": "http://json-schema.org/draft-04/schema",
+    "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "#",
     "required": [
         "simple_key_value_pair",
@@ -576,7 +576,7 @@ sampleJsonSchemaNonStrict = '''
 
 sampleJsonSchemaNonStrict2 = '''
 {
-    "$schema": "http://json-schema.org/draft-04/schema",
+    "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "#",
     "required": [
         "simple_key_value_pairXXXXX",

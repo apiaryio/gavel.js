@@ -1,5 +1,5 @@
 #@private
-SCHEMA_VERSION = "http://json-schema.org/draft-04/schema"
+SCHEMA_VERSION = "http://json-schema.org/draft-04/schema#"
 
 # Configuration structure container for SchemaGenerator
 # @author Peter Grilli <tully@apiary.io>

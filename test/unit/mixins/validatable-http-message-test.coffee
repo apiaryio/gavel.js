@@ -9,7 +9,7 @@ fixtures = require '../../fixtures'
 validators = require '../../../src/validators'
 
 describe "Http validatable mixin", () ->
-  
+
   describe "when mixed in any HTTP Message class", () ->
 
     methods = [
@@ -34,39 +34,39 @@ describe "Http validatable mixin", () ->
 
       'validateStatusCode'
     ]
-    
+
     methods.forEach (method) ->
       it 'should have ' + method + ' method defined', () ->
         assert.isFunction HttpResponse.prototype[method]
 
   describe "validatableComponents", () ->
-    
-    ['headers','body', 'statusCode'].forEach (item) -> 
+
+    ['headers','body', 'statusCode'].forEach (item) ->
       it 'should contain "' + item + '"', () ->
         instance = new HttpResponse {}
         assert.include instance.validatableComponents, item
-  
+
   describe "#isvalidatable()", () ->
     describe 'when no validatable HTTP component in the object', () ->
       it 'should return false', () ->
         instance = new HttpResponse {foo: 'bar'}
         assert.isFalse instance.isValidatable()
-    
+
     describe 'whem any validatable HTTP component in the obejct', () ->
       it 'should return true', () ->
         instance = new HttpResponse {headers: {'content-type:': 'application/json'}}
         assert.isTrue instance.isValidatable()
-       
+
   describe "any HTTP Message instance", () ->
     instance = {}
-    response = 
+    response =
       body: '{"a": "b"}'
       headers:
         fixtures.sampleHeadersMissing
       statusCode: 200
       expected:
         headers: fixtures.sampleHeaders
-     
+
     before () ->
       instance = new HttpResponse response
 
@@ -75,7 +75,7 @@ describe "Http validatable mixin", () ->
       result = null
       before () ->
         result = instance.validate()
-      
+
       it 'should return an object', () ->
         assert.isObject result
 
@@ -84,31 +84,31 @@ describe "Http validatable mixin", () ->
           assert.include Object.keys(result), key
 
       it "should create validation property", () ->
-        assert.isDefined instance.validation   
-      
+        assert.isDefined instance.validation
+
       # Headers
       it 'should call lowercaseHeaders', () ->
         instance = new HttpResponse response
         sinon.spy instance, 'lowercaseHeaders'
         instance.validate()
-        assert.isTrue instance.lowercaseHeaders.called       
+        assert.isTrue instance.lowercaseHeaders.called
 
       describe 'real headers are present', () ->
         before () ->
           instance = new HttpResponse response
           sinon.spy instance, 'validateHeaders'
           instance.validate()
-      
+
         it "should call validateHeaders", () ->
           assert.isTrue instance.validateHeaders.called
-      
+
       describe 'when real headers not present', () ->
         before () ->
           instance = new HttpResponse response
           sinon.spy instance, 'validateHeaders'
           instance.headers = undefined
           instance.validate()
-        
+
         it 'should not run headers validation', () ->
           assert.isFalse instance.validateHeaders.called
 
@@ -118,17 +118,17 @@ describe "Http validatable mixin", () ->
           instance = new HttpResponse response
           sinon.spy instance, 'validateBody'
           instance.validate()
-      
+
         it "should call validateBody", () ->
           assert.isTrue instance.validateBody.called
-      
+
       describe 'when real is not present', () ->
         before () ->
           instance = new HttpResponse response
           sinon.spy instance, 'validateBody'
           instance.body = undefined
           instance.validate()
-        
+
         it 'should not run body validation', () ->
           assert.isFalse instance.validateBody.called
 
@@ -140,7 +140,7 @@ describe "Http validatable mixin", () ->
         it "should perform validation",() ->
           instance.isValid()
           assert.isTrue instance.validate.called
-      
+
       it 'should return boolean', () ->
         assert.isBoolean instance.isValid()
 
@@ -148,12 +148,12 @@ describe "Http validatable mixin", () ->
         i = null
         before () ->
           i = new HttpResponse {}
-          i.validation = 
-            headers: 
+          i.validation =
+            headers:
               results: [
                 { severity: 'error' }
               ]
-          
+
         it "should return false", () ->
           assert.isFalse i.isValid()
 
@@ -163,11 +163,11 @@ describe "Http validatable mixin", () ->
         before () ->
           instance = new HttpResponse response
           sinon.spy instance, 'validate'
-        
+
         it "should perform validation", () ->
           instance.validationResults()
           assert.isTrue instance.validate.called
-        
+
 
         it "should return content of validation property", () ->
           validation = {booboo: 'foobar'}
@@ -175,7 +175,7 @@ describe "Http validatable mixin", () ->
           assert.equal instance.validationResults(), validation
 
     describe "#lowercaseHeaders()", () ->
-      inst = null 
+      inst = null
       before () ->
         inst = new HttpRequest {
           headers:
@@ -187,8 +187,8 @@ describe "Http validatable mixin", () ->
               'Content-Type': 'application/json; charset=utf-8'
               'User-Agent': 'Dredd/0.3.5 (Darwin 13.2.0; x64)'
         }
-        inst.lowercaseHeaders()      
-      
+        inst.lowercaseHeaders()
+
       it 'should convert all keys in real headers object to lowercase', () ->
         keys = Object.keys inst.headers
         assert.include keys, 'content-type'
@@ -202,7 +202,7 @@ describe "Http validatable mixin", () ->
         assert.include keys, 'user-agent'
         assert.notInclude keys, 'Content-Type'
         assert.notInclude keys, 'User-Agent'
-    
+
     # Headers validation tests
 
     describe "#validateHeaders()", () ->
@@ -213,7 +213,7 @@ describe "Http validatable mixin", () ->
         sinon.spy instance, 'runHeadersValidator'
 
         instance.validateHeaders()
-  
+
       fields = [
         'realType'
         'expectedType'
@@ -225,16 +225,16 @@ describe "Http validatable mixin", () ->
       fields.forEach (field) ->
         it "should set '" + field + "' property for the component", () ->
           assert.isDefined instance.validation.headers[field]
-      
+
       it 'should call setHeadersRealType', () ->
         assert.isTrue instance.setHeadersRealType.called
-      
+
       it 'should call setHeadersExpectedType', () ->
         assert.isTrue instance.setHeadersExpectedType.called
-      
+
       it 'should call setHeadersValidator', () ->
         assert.isTrue instance.setHeadersValidator.called
-      
+
       it 'should call runHeadersValidator', () ->
         assert.isTrue instance.runHeadersValidator.called
 
@@ -248,7 +248,7 @@ describe "Http validatable mixin", () ->
 
         it "should set realType", () ->
           assert.equal instance.validation.headers.realType, "application/vnd.apiary.http-headers+json"
-  
+
       describe "real is not an Object", () ->
         before () ->
           instance.headers = "string"
@@ -256,13 +256,13 @@ describe "Http validatable mixin", () ->
 
         it "should set real type to null", () ->
           assert.equal instance.validation.headers.realType, null
-    
+
     describe "#setHeadersExpectedType()", () ->
-      describe 'expected headers property is an Object', () ->    
+      describe 'expected headers property is an Object', () ->
         before () ->
           instance.validation.headers = {}
           instance.setHeadersExpectedType()
-  
+
         it "should set expectedType", () ->
           assert.equal instance.validation.headers.expectedType, "application/vnd.apiary.http-headers+json"
 
@@ -274,7 +274,7 @@ describe "Http validatable mixin", () ->
         it "should let expected type empty", () ->
           assert.equal instance.validation.headers.expectedType, null
 
-    describe "#setHeadersValidator()", ->    
+    describe "#setHeadersValidator()", ->
       before () ->
         instance.validation = {}
         instance.validation.headers = {}
@@ -282,45 +282,45 @@ describe "Http validatable mixin", () ->
 
       it "should set validator property", () ->
         assert.isDefined instance.validation.headers.validator
-      
+
       describe "real and expected type is application/vnd.apiary.http-headers+json", () ->
         before () ->
-          instance.validation.headers = 
+          instance.validation.headers =
             realType: "application/vnd.apiary.http-headers+json"
             expectedType: "application/vnd.apiary.http-headers+json"
 
           instance.setHeadersValidator()
-          
+
         it "should set HeadersJsonExample validator", () ->
           assert.equal instance.validation.headers.validator, 'HeadersJsonExample'
-      
+
       describe "unknown media type combination", () ->
-        before () ->       
-          instance.validation.headers = 
+        before () ->
+          instance.validation.headers =
             realType: ""
             expectedType: ""
 
           instance.setHeadersValidator()
-        
+
         it "should set results to array", () ->
           assert.isArray instance.validation.headers.results
 
         it "should set validator to null", () ->
           assert.equal instance.validation.headers.validator, null
-        
+
         it 'should add some message to results', () ->
           assert.isTrue instance.validation.headers.results.length > 0
-        
+
         describe 'added message', () ->
           message = null
-          
-          before () -> 
+
+          before () ->
             index = instance.validation.headers.results.length - 1
             message = instance.validation.headers.results[index]
-          
+
           it 'should have error severity', () ->
             assert.equal message['severity'], 'error'
-          
+
 
     describe "#runHeadersValidator", () ->
       describe "if available validator" , () ->
@@ -332,13 +332,13 @@ describe "Http validatable mixin", () ->
           instance.expected.headers = fixtures.sampleHeaders
           instance.validation.headers.validator = 'HeadersJsonExample'
           instance.runHeadersValidator()
-      
+
         it 'should set rawData property', () ->
           assert.isDefined instance.validation.headers.rawData
-        
+
         it 'rawData should not be null', () ->
           assert.isNotNull instance.validation.headers.rawData
-      
+
       describe "if no validator available", () ->
         before () ->
           instance = new HttpResponse response
@@ -407,7 +407,7 @@ describe "Http validatable mixin", () ->
         sinon.spy instance, 'runBodyValidator'
 
         instance.validateBody()
-  
+
       fields = [
         'realType'
         'expectedType'
@@ -419,22 +419,22 @@ describe "Http validatable mixin", () ->
       fields.forEach (field) ->
         it "should set '" + field + "' property for the component", () ->
           assert.isDefined instance.validation.body[field]
-      
+
       it 'should call setBodyRealType', () ->
         assert.isTrue instance.setBodyRealType.called
-      
+
       it 'should call setBodyExpectedType', () ->
         assert.isTrue instance.setBodyExpectedType.called
-      
+
       it 'should call setBodyValidator', () ->
         assert.isTrue instance.setBodyValidator.called
-      
+
       it 'should call runBodyValidator', () ->
         assert.isTrue instance.runBodyValidator.called
 
 
     describe '#setBodyRealType()', () ->
-      
+
       describe 'body is not a string', () ->
         before () ->
           instance = new HttpResponse {
@@ -442,29 +442,29 @@ describe "Http validatable mixin", () ->
           }
           instance.validation = {}
           instance.validation.body = {}
-          instance.validation.body.results = []  
-          
-        
+          instance.validation.body.results = []
+
+
         it 'should throw an error', () ->
           message = ""
           try
             instance.setBodyRealType()
           catch error
             message = error.message
-          
+
           assert.include message, 'String'
 
-     
+
       jsonContentTypes = [
-        'application/json', 
+        'application/json',
         'application/json; charset=utf-8'
         'application/hal+json'
       ]
 
       jsonContentTypes.forEach (contentType) ->
-       
+
         describe "header content-type is '#{contentType}'", () ->
-          before () ->    
+          before () ->
             instance = new HttpResponse {
               headers: {'content-type': contentType}
             }
@@ -476,11 +476,11 @@ describe "Http validatable mixin", () ->
             before () ->
               instance.body = '{"foo": "bar"}'
               instance.setBodyRealType()
-               
+
             it 'should set real type to ' + contentType + '\'', () ->
               assert.equal instance.validation.body.realType,
                 contentType
-              
+
 
           describe 'body is not a parseable JSON', () ->
             before () ->
@@ -495,7 +495,7 @@ describe "Http validatable mixin", () ->
               results = instance.validation.body.results
               results.forEach (result) ->
                 results.push result.severity
-              
+
               assert.include results, 'error'
 
             it 'should add error message with lint result', () ->
@@ -513,11 +513,11 @@ describe "Http validatable mixin", () ->
               before = instance.validation.body.results.length
               instance.setBodyRealType()
               after = instance.validation.body.results.length
-              assert.equal before + 1, after 
+              assert.equal before + 1, after
 
 
       describe 'any or no content-type header', () ->
-          before () ->    
+          before () ->
             instance = new HttpResponse {}
             instance.headers = undefined
             instance.validation = {}
@@ -530,7 +530,7 @@ describe "Http validatable mixin", () ->
               instance.setBodyRealType()
             it 'should set real type to application/json', () ->
               assert.equal instance.validation.body.realType,
-                'application/json'              
+                'application/json'
 
           describe 'body is not a parseable json', () ->
             before () ->
@@ -539,17 +539,17 @@ describe "Http validatable mixin", () ->
 
             it 'should set real type to text/plain', () ->
               assert.equal instance.validation.body.realType,
-                'text/plain'              
+                'text/plain'
 
     describe "#setBodyExpectedType()", () ->
-      #describe 'expected headers property is an Object', () ->    
+      #describe 'expected headers property is an Object', () ->
         #before () ->
         #  instance.validation.headers = {}
         #  instance.setHeadersExpectedType()
 
       describe 'JSON Schema for expected body is provided', () ->
         instance = {}
-        
+
         describe 'schema is an object', () ->
           describe 'it is not a valid JSON schema', () ->
             it 'should set warrning'
@@ -562,11 +562,11 @@ describe "Http validatable mixin", () ->
               instance.validation = {}
               instance.validation.body = {}
               instance.setBodyExpectedType()
-              
+
             it 'should set expected type to application/schema+json', () ->
               assert.equal instance.validation.body.expectedType,
                 'application/schema+json'
-            
+
             it 'should set not error message to result', () ->
               assert.equal instance.validation.body.results.length, 0
 
@@ -585,27 +585,27 @@ describe "Http validatable mixin", () ->
             it 'should set expected type to application/schema+json', () ->
               assert.equal instance.validation.body.expectedType,
                 'application/schema+json'
-            
+
             it 'should set not error message to result', () ->
               assert.equal instance.validation.body.results.length, 0
 
           describe 'parsed JSON is not an object', () ->
             before () ->
               instance = new HttpResponse {
-                expected: 
+                expected:
                   bodySchema: "0"
               }
-              instance.validation = {}              
+              instance.validation = {}
               instance.validation.body = {}
               instance.setBodyExpectedType()
-            
+
             it 'should set an error message to result', () ->
               results = instance.validation.body.results
               results.forEach (result) ->
                 results.push result.severity
-              
+
               assert.include results, 'error'
-            
+
             it 'should set expected type to null', () ->
               assert.equal instance.validation.body.expectedType,
                 null
@@ -613,14 +613,14 @@ describe "Http validatable mixin", () ->
           describe 'parsed JSON is not a valid JSON Schema', () ->
             it 'should set an error message to results'
             it 'should set expected type to null'
-        
+
         describe 'schema is not a parseable JSON', () ->
           before () ->
             instance = new HttpResponse {
-              expected: 
+              expected:
                 bodySchema: "{()}}"
             }
-            instance.validation = {}            
+            instance.validation = {}
             instance.validation.body = {}
             instance.setBodyExpectedType()
 
@@ -628,7 +628,7 @@ describe "Http validatable mixin", () ->
             results = instance.validation.body.results
             results.forEach (result) ->
               results.push result.severity
-            
+
             assert.include results, 'error'
 
           it 'should set expceted type to null', () ->
@@ -636,15 +636,15 @@ describe "Http validatable mixin", () ->
               null
 
       describe 'JSON Schema for expected body is not provided', () ->
-        
+
         jsonContentTypes = [
-          'application/json', 
+          'application/json',
           'application/json; charset=utf-8'
           'application/hal+json'
         ]
 
         jsonContentTypes.forEach (contentType) ->
-                 
+
           describe "expected headers have content-type '#{contentType}'", () ->
             describe 'expected body is a parseable JSON', () ->
               before () ->
@@ -654,28 +654,28 @@ describe "Http validatable mixin", () ->
                       'content-type': contentType
                     body: "{}"
                 }
-                instance.validation = {}            
+                instance.validation = {}
                 instance.validation.body = {}
                 instance.setBodyExpectedType()
 
               it 'should set expected type to ' + contentType, () ->
                 assert.equal instance.validation.body.expectedType,
                   contentType
-              
+
               it 'should set no error message to result', () ->
                 assert.equal instance.validation.body.results.length, 0
 
-            
+
             describe 'expected body is not a parseable JSON', () ->
               before () ->
                 instance = new HttpResponse {
                   expected:
                     headers:
-                      'content-type': contentType                    
+                      'content-type': contentType
                     body: '{"creative?": false, \'creativ\': true }'
                 }
 
-                instance.validation = {}            
+                instance.validation = {}
                 instance.validation.body = {}
                 instance.setBodyExpectedType()
 
@@ -684,28 +684,28 @@ describe "Http validatable mixin", () ->
                 severities = []
                 results.forEach (result) ->
                   severities.push result.severity
-                
-                assert.include severities, 'error'            
+
+                assert.include severities, 'error'
 
               it 'should set expected type to null', () ->
                 assert.equal instance.validation.body.expectedType,
                   null
-              
+
               it 'should set a descriptive message to results', () ->
                 results = instance.validation.body.results
                 messages = []
 
                 results.forEach (result) ->
                   messages.push result.message
-                
-                assert.include messages[0], 'Expected body: Content-Type is ' + contentType + ' but body is not a parseable JSON'   
+
+                assert.include messages[0], 'Expected body: Content-Type is ' + contentType + ' but body is not a parseable JSON'
 
               it 'should add error message with lint result', () ->
                 expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
                 messages = []
                 for result in instance.validation.body.results
                   messages.push result.message
-                
+
                 assert.include messages[0], expected
 
         describe 'expected headers have not content-type application/json', () ->
@@ -715,7 +715,7 @@ describe "Http validatable mixin", () ->
                 expected:
                   body: "{}"
               }
-              instance.validation = {}            
+              instance.validation = {}
               instance.validation.body = {}
               instance.setBodyExpectedType()
 
@@ -729,7 +729,7 @@ describe "Http validatable mixin", () ->
                 expected:
                   body: "{Boo{Boo"
               }
-              instance.validation = {}            
+              instance.validation = {}
               instance.validation.body = {}
               instance.setBodyExpectedType()
 
@@ -744,7 +744,7 @@ describe "Http validatable mixin", () ->
             expected:
               body: "{}"
           }
-          instance.validation = {}            
+          instance.validation = {}
           instance.validation.body  =
             realType: null
             expectedType: null
@@ -758,8 +758,8 @@ describe "Http validatable mixin", () ->
           results = instance.validation.body.results
           results.forEach (result) ->
             results.push result.severity
-          
-          assert.include results, 'error'            
+
+          assert.include results, 'error'
 
       jsonContentTypes = [
         'application/json'
@@ -775,8 +775,8 @@ describe "Http validatable mixin", () ->
                   expected:
                     body: "{}"
                 }
-                instance.validation = {}            
-                instance.validation.body = 
+                instance.validation = {}
+                instance.validation.body =
                   realType: realType
                   expectedType: expectedType
                 instance.setBodyValidator()
@@ -787,17 +787,17 @@ describe "Http validatable mixin", () ->
 
               it 'should set no error message', () ->
                 assert.equal instance.validation.body.results.length, 0
-          
+
           describe 'expected is application/schema+json', () ->
             before () ->
               instance = new HttpResponse {
                 expected:
                   body: "{}"
               }
-              instance.validation = {}            
+              instance.validation = {}
               instance.validation.body =
                 realType: realType
-                expectedType: 'application/schema+json'          
+                expectedType: 'application/schema+json'
               instance.setBodyValidator()
 
             it 'should set JsonSchema', () ->
@@ -813,7 +813,7 @@ describe "Http validatable mixin", () ->
               expected:
                 body: "{}"
             }
-            instance.validation = {}            
+            instance.validation = {}
             instance.validation.body =
               realType: 'application/json'
               expectedType: 'text/plain'
@@ -823,9 +823,9 @@ describe "Http validatable mixin", () ->
             results = instance.validation.body.results
             results.forEach (result) ->
               results.push result.severity
-            
-            assert.include results, 'error'            
- 
+
+            assert.include results, 'error'
+
           it 'should not set any validator', () ->
             assert.equal instance.validation.body.validator,
               null
@@ -837,12 +837,12 @@ describe "Http validatable mixin", () ->
               expected:
                 body: "{}"
             }
-            instance.validation = {}            
+            instance.validation = {}
             instance.validation.body =
               realType: 'text/plain'
               expectedType: 'text/plain'
             instance.setBodyValidator()
-          
+
           it 'should set TextDiff validator', () ->
             assert.equal instance.validation.body.validator,
               'TextDiff'
@@ -856,23 +856,23 @@ describe "Http validatable mixin", () ->
               expected:
                 body: "{}"
             }
-            instance.validation = {}            
+            instance.validation = {}
             instance.validation.body =
               realType: 'text/plain'
               expectedType: 'application/json'
-            instance.setBodyValidator()         
-        
+            instance.setBodyValidator()
+
           it 'should not set any validator', () ->
             assert.equal instance.validation.body.validator,
               null
-        
+
           it 'should set no validator for combination errror message', () ->
             results = instance.validation.body.results
             results.forEach (result) ->
               results.push result.severity
-            
-            assert.include results, 'error'            
-       
+
+            assert.include results, 'error'
+
     describe '#runBodyValidator', () ->
       describe "if JsonExample validator" , () ->
         before () ->
@@ -882,16 +882,16 @@ describe "Http validatable mixin", () ->
             body: fixtures.sampleJson
 
           instance.validation = {}
-          instance.validation.body = 
+          instance.validation.body =
             validator: 'JsonExample'
           instance.runBodyValidator()
-      
+
         it 'should set rawData property', () ->
           assert.isDefined instance.validation.body.rawData
 
         it 'rawData should not be null', () ->
           assert.isNotNull instance.validation.body.rawData
-      
+
       describe "when JsonSchema validator" , () ->
         before () ->
           instance = new HttpResponse response
@@ -900,10 +900,10 @@ describe "Http validatable mixin", () ->
             bodySchema: fixtures.sampleJsonSchema
 
           instance.validation = {}
-          instance.validation.body = 
+          instance.validation.body =
             validator: 'JsonSchema'
           instance.runBodyValidator()
-      
+
         it 'should set rawData property', () ->
           assert.isDefined instance.validation.body.rawData
 
@@ -918,10 +918,10 @@ describe "Http validatable mixin", () ->
             body: fixtures.sampleText
 
           instance.validation = {}
-          instance.validation.body = 
+          instance.validation.body =
             validator: 'TextDiff'
           instance.runBodyValidator()
-      
+
         it 'should set rawData property', () ->
           assert.isDefined instance.validation.body.rawData
 
@@ -934,11 +934,11 @@ describe "Http validatable mixin", () ->
         before () ->
           instance = new HttpResponse response
           instance.body = fixtures.sampleJsonSimpleKeyMissing
-          instance.expected = 
+          instance.expected =
             body: fixtures.sampleJson
-          
+
           instance.validation = {}
-          instance.validation.body = 
+          instance.validation.body =
             validator: null
           instance.runBodyValidator()
 
@@ -947,26 +947,26 @@ describe "Http validatable mixin", () ->
 
       describe 'when a validator throws an error', () ->
         before () ->
-          invalidSchema = require '../../fixtures/invalid-schema'
+          invalidSchema = require '../../fixtures/invalid-schema-v4'
           instance = new HttpResponse response
           instance.body = '{}'
           instance.expected =
             bodySchema: invalidSchema
           instance.validation = {}
-          instance.validation.body = 
+          instance.validation.body =
             validator: 'JsonSchema'
-        
+
         it 'should not throw an error', () ->
           fn = () ->
             instance.runBodyValidator()
           assert.doesNotThrow fn
-        
+
         it 'should add thrown error to results as error', () ->
           instance.runBodyValidator()
           messages = []
           for result in instance.validation.body.results
             messages.push result.message
-          assert.include messages, 'JSON schema is not valid! Data does not match any schemas from "anyOf" at path "/type"'
+          assert.include messages, 'JSON schema is not valid draft v4! Data does not match any schemas from "anyOf" at path "/properties/foo/type"'
 
     describe "#runBodyValidator()", () ->
       before () ->
@@ -1015,11 +1015,11 @@ describe "Http validatable mixin", () ->
     # Status code validation
     describe '#validateStatusCode',  () ->
       #instance = {}
-       
+
       before () ->
-        response = 
+        response =
           statusCode: 200
-          expected: 
+          expected:
             statusCode: 200
 
         instance = new HttpResponse response
@@ -1038,16 +1038,16 @@ describe "Http validatable mixin", () ->
       fields.forEach (field) ->
         it "should set '" + field + "' property for the component", () ->
           assert.isDefined instance.validation.statusCode[field]
-      
+
       describe "expceted matches real", () ->
         it 'should set no errors to results', () ->
           assert.equal instance.validation.statusCode.results.length, 0
-      
+
       describe "expected does not match real", () ->
         before () ->
-          response = 
+          response =
             statusCode: 200
-            expected: 
+            expected:
               statusCode: 201
 
           instance = new HttpResponse response
@@ -1082,7 +1082,7 @@ describe "Http validatable mixin", () ->
 
       before () ->
         instance = new HttpResponse response
-        
+
 
       for contentType in jsonContentTypes then do (contentType) ->
         describe 'when content type is \'' + contentType + '\'', () ->
