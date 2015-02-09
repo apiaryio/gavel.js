@@ -80,7 +80,7 @@ describe "Http validatable mixin", () ->
       it 'should return an object', () ->
         assert.isObject result
 
-      ['headers', 'body', 'statusCode'].forEach (key) ->
+      ['headers', 'body', 'statusCode', 'version'].forEach (key) ->
         it 'should contain validatable Component key "' + key + '"', () ->
           assert.include Object.keys(result), key
 

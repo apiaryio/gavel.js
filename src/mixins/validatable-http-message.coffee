@@ -2,6 +2,8 @@ jsonlint = require 'jsonlint'
 mediaTyper = require 'media-typer'
 validators = require '../validators'
 
+packageInfo = require '../../package'
+
 # validatable mixin.
 #
 # @mixin
@@ -14,7 +16,7 @@ class Validatable
   #@return [Object] :headers {ValidationErrors}, :body {ValidationErrors}, :statusCode [Boolean]
   validate: () ->
     @validation = {}
-
+    @validation.version = '2'
     @lowercaseHeaders()
 
     @validateHeaders() unless @headers == undefined || @expected.headers == undefined
