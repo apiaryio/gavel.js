@@ -2,8 +2,6 @@ jsonlint = require 'jsonlint'
 mediaTyper = require 'media-typer'
 validators = require '../validators'
 
-packageInfo = require '../../package'
-
 # validatable mixin.
 #
 # @mixin
