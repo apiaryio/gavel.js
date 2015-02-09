@@ -133,13 +133,9 @@ class JsonSchema
       indexes.forEach (index) ->
         item = data[index]
 
-        if item['property'] == undefined
+        if not item['property']?
           pathArray = []
-        else if item['property'] == null
-          pathArray = []
-        else if item['property'] == [null]
-          pathArray = []
-        else if item['property'] == [undefined]
+        else if Array.isArray(item['property']) and item['property'].length is 1 and item['property'][0] in [null, undefined]
           pathArray = []
         else
           pathArray = item['property']
