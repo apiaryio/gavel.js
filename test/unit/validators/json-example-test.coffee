@@ -51,7 +51,6 @@ describe 'JsonExample', ->
         describe 'and i run validate()', ->
           it "should return 1 errors", ->
             result = bodyValidator.validate()
-            console.log result
             assert.equal result.length, 1
 
       describe 'when value in provided and expected data differs', ->

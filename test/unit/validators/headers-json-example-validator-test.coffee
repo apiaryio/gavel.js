@@ -62,7 +62,6 @@ describe 'HeadersJsonExample', ->
       describe 'and i run validate()', ->
         it "should return 2 errors", ->
           result = headersValidator.validate()
-          console.log result
           assert.equal result.length, 2
 
     describe 'when Date or Expires values header differs', ->
