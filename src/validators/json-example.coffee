@@ -41,7 +41,7 @@ class JsonExample extends JsonSchema
   #@private
   getSchema: (data)->
     properties = new SchemaV4Properties {}
-    properties.set keysStrict: false, valuesStrict: false, typesStrict : true
+    properties.set keysStrict: false, valuesStrict: false, typesStrict : false
 
     schemaGenerator = new SchemaV4Generator json: data, properties: properties
 

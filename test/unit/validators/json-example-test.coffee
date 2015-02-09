@@ -45,11 +45,11 @@ describe 'JsonExample', ->
             result = bodyValidator.validate()
             assert.equal result.length, 1
 
-      describe 'when value has different primitive type', ->
+      describe.skip 'when value has different primitive type', ->
         before ->
           bodyValidator = new JsonExample '{"a": "a"}', '{"a": 1}'
         describe 'and i run validate()', ->
-          it "should return 1 errors", ->
+          it "PROPOSAL: should return 1 errors", ->
             result = bodyValidator.validate()
             assert.equal result.length, 1
 
