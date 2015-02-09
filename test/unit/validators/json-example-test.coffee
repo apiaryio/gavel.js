@@ -45,6 +45,15 @@ describe 'JsonExample', ->
             result = bodyValidator.validate()
             assert.equal result.length, 1
 
+      describe 'when value has different primitive type', ->
+        before ->
+          bodyValidator = new JsonExample '{"a": "a"}', '{"a": 1}'
+        describe 'and i run validate()', ->
+          it "should return 1 errors", ->
+            result = bodyValidator.validate()
+            console.log result
+            assert.equal result.length, 1
+
       describe 'when value in provided and expected data differs', ->
         before ->
           bodyValidator = new JsonExample fixtures.sampleJsonSimpleKeyValueDiffers ,fixtures.sampleJson
@@ -113,7 +122,6 @@ describe 'JsonExample', ->
               fn = () ->
                 bodyValidator.validate()
               assert.doesNotThrow fn
-
 
         describe 'when real is empty object and expected is non-empty object', ->
           before ->
