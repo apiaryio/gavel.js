@@ -258,314 +258,315 @@ sampleJsonArrayItemMissing = '''
 
 sampleJsonSchema = '''
 {
-    "$schema":"http://json-schema.org/draft-03/schema",
-    "id":"#",
-    "required":true,
-    "additionalProperties":false,
-    "type":"object",
-    "properties":{
-        "simple_key_value_pair":{
-            "id":"simple_key_value_pair",
-            "required":true,
-            "enum":[
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "#",
+    "required": [
+        "simple_key_value_pair",
+        "complex_key_value_pair",
+        "array_of_hashes",
+        "array_of_mixed_simple_types",
+        "array_of_same_simple_types"
+    ],
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+        "simple_key_value_pair": {
+            "id": "simple_key_value_pair",
+            "enum": [
                 "simple_key_value_pair_value"
             ],
-            "type":"string"
+            "type": "string"
         },
-        "complex_key_value_pair":{
-            "id":"complex_key_value_pair",
-            "required":true,
-            "additionalProperties":false,
-            "type":"object",
-            "properties":{
-                "complex_key_value_pair_key1":{
-                    "id":"complex_key_value_pair_key1",
-                    "required":true,
-                    "enum":[
+        "complex_key_value_pair": {
+            "id": "complex_key_value_pair",
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "complex_key_value_pair_key1": {
+                    "id": "complex_key_value_pair_key1",
+                    "enum": [
                         "complex_key_value_pair_value1"
                     ],
-                    "type":"string"
+                    "type": "string"
                 },
-                "complex_key_value_pair_key2":{
-                    "id":"complex_key_value_pair_key2",
-                    "required":true,
-                    "enum":[
+                "complex_key_value_pair_key2": {
+                    "id": "complex_key_value_pair_key2",
+                    "enum": [
                         "complex_key_value_pair_value2"
                     ],
-                    "type":"string"
+                    "type": "string"
                 },
-                "complex_key_value_pair_key3":{
-                    "id":"complex_key_value_pair_key3",
-                    "required":true,
-                    "additionalProperties":false,
-                    "type":"object",
-                    "properties":{
-                        "complex_key_value_pair_key1_in_nested_hash":{
-                            "id":"complex_key_value_pair_key1_in_nested_hash",
-                            "required":true,
-                            "enum":[
+                "complex_key_value_pair_key3": {
+                    "id": "complex_key_value_pair_key3",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "properties": {
+                        "complex_key_value_pair_key1_in_nested_hash": {
+                            "id": "complex_key_value_pair_key1_in_nested_hash",
+                            "enum": [
                                 "complex_key_value_pair_value1_in_nested_hash"
                             ],
-                            "type":"string"
+                            "type": "string"
                         },
-                        "complex_key_value_pair_key2_in_nested_hash":{
-                            "id":"complex_key_value_pair_key2_in_nested_hash",
-                            "required":true,
-                            "enum":[
+                        "complex_key_value_pair_key2_in_nested_hash": {
+                            "id": "complex_key_value_pair_key2_in_nested_hash",
+                            "enum": [
                                 "complex_key_value_pair_value2_in_nested_hash"
                             ],
-                            "type":"string"
+                            "type": "string"
                         }
-                    }
+                    },
+                    "required": [
+                        "complex_key_value_pair_key1_in_nested_hash",
+                        "complex_key_value_pair_key2_in_nested_hash"
+                    ]
                 }
-            }
+            },
+            "required": [
+                "complex_key_value_pair_key1",
+                "complex_key_value_pair_key2",
+                "complex_key_value_pair_key3"
+            ]
         },
-        "array_of_hashes":{
-            "id":"array_of_hashes",
-            "required":true,
-            "additionalItems":false,
-            "type":"array",
-            "items":[
+        "array_of_hashes": {
+            "id": "array_of_hashes",
+            "additionalItems": false,
+            "type": "array",
+            "items": [
                 {
-                    "id":0,
-                    "required":true,
-                    "additionalProperties":false,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item1_key1":{
-                            "id":"array_of_hashes_item1_key1",
-                            "required":true,
-                            "enum":[
+                    "id": "0",
+                    "required": [
+                        "array_of_hashes_item1_key1",
+                        "array_of_hashes_item1_key2"
+                    ],
+                    "additionalProperties": false,
+                    "type": "object",
+                    "properties": {
+                        "array_of_hashes_item1_key1": {
+                            "id": "array_of_hashes_item1_key1",
+                            "enum": [
                                 "array_of_hashes_item1_value1"
                             ],
-                            "type":"string"
+                            "type": "string"
                         },
-                        "array_of_hashes_item1_key2":{
-                            "id":"array_of_hashes_item1_key2",
-                            "required":true,
-                            "enum":[
+                        "array_of_hashes_item1_key2": {
+                            "id": "array_of_hashes_item1_key2",
+                            "enum": [
                                 "array_of_hashes_item1_value2"
                             ],
-                            "type":"string"
+                            "type": "string"
                         }
                     }
                 },
                 {
-                    "id":1,
-                    "required":true,
-                    "additionalProperties":false,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item2_key1":{
-                            "id":"array_of_hashes_item2_key1",
-                            "required":true,
-                            "enum":[
+                    "id": "1",
+                    "required": [
+                        "array_of_hashes_item2_key1",
+                        "array_of_hashes_item2_key2"
+                    ],
+                    "additionalProperties": false,
+                    "type": "object",
+                    "properties": {
+                        "array_of_hashes_item2_key1": {
+                            "id": "array_of_hashes_item2_key1",
+                            "enum": [
                                 "array_of_hashes_item2_value1"
                             ],
-                            "type":"string"
+                            "type": "string"
                         },
-                        "array_of_hashes_item2_key2":{
-                            "id":"array_of_hashes_item2_key2",
-                            "required":true,
-                            "enum":[
+                        "array_of_hashes_item2_key2": {
+                            "id": "array_of_hashes_item2_key2",
+                            "enum": [
                                 "array_of_hashes_item2_value2"
                             ],
-                            "type":"string"
+                            "type": "string"
                         }
                     }
                 }
             ]
         },
-        "array_of_mixed_simple_types":{
-            "id":"array_of_mixed_simple_types",
-            "required":true,
-            "additionalItems":false,
-            "type":"array",
-            "items":[
+        "array_of_mixed_simple_types": {
+            "id": "array_of_mixed_simple_types",
+            "additionalItems": false,
+            "type": "array",
+            "items": [
                 {
-                    "id":0,
-                    "required":true,
-                    "enum":[
+                    "id": "0",
+                    "enum": [
                         1
                     ],
-                    "type":"integer"
+                    "type": "integer"
                 },
                 {
-                    "id":1,
-                    "required":true,
-                    "enum":[
+                    "id": "1",
+                    "enum": [
                         2
                     ],
-                    "type":"integer"
+                    "type": "integer"
                 },
                 {
-                    "id":2,
-                    "required":true,
-                    "enum":[
+                    "id": "2",
+                    "enum": [
                         "a"
                     ],
-                    "type":"string"
+                    "type": "string"
                 },
                 {
-                    "id":3,
-                    "required":true,
-                    "enum":[
+                    "id": "3",
+                    "enum": [
                         "b"
                     ],
-                    "type":"string"
+                    "type": "string"
                 }
             ]
         },
-        "array_of_same_simple_types":{
-            "id":"array_of_same_simple_types",
-            "required":true,
-            "additionalItems":false,
-            "type":"array",
-            "items":[
+        "array_of_same_simple_types": {
+            "id": "array_of_same_simple_types",
+            "additionalItems": false,
+            "type": "array",
+            "items": [
                 {
-                    "id":0,
-                    "required":true,
-                    "enum":[
+                    "id": "0",
+                    "enum": [
                         "a"
                     ],
-                    "type":"string"
+                    "type": "string"
                 },
                 {
-                    "id":1,
-                    "required":true,
-                    "enum":[
+                    "id": "1",
+                    "enum": [
                         "b"
                     ],
-                    "type":"string"
+                    "type": "string"
                 }
             ]
         }
     }
-
 }
 '''
 
 sampleJsonSchemaNonStrict = '''
 {
-    "$schema":"http://json-schema.org/draft-03/schema",
-    "id":"#",
-    "required":true,
-    "additionalProperties":true,
-    "type":"object",
-    "properties":{
-        "simple_key_value_pair":{
-            "id":"simple_key_value_pair",
-            "required":true
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "#",
+    "required": [
+        "simple_key_value_pair",
+        "complex_key_value_pair",
+        "array_of_hashes",
+        "array_of_mixed_simple_types",
+        "array_of_same_simple_types"
+    ],
+    "additionalProperties": true,
+    "type": "object",
+    "properties": {
+        "simple_key_value_pair": {
+            "id": "simple_key_value_pair"
         },
-        "complex_key_value_pair":{
-            "id":"complex_key_value_pair",
-            "required":true,
-            "additionalProperties":true,
-            "type":"object",
-            "properties":{
-                "complex_key_value_pair_key1":{
-                    "id":"complex_key_value_pair_key1",
-                    "required":true
+        "complex_key_value_pair": {
+            "id": "complex_key_value_pair",
+            "additionalProperties": true,
+            "type": "object",
+            "properties": {
+                "complex_key_value_pair_key1": {
+                    "id": "complex_key_value_pair_key1"
                 },
-                "complex_key_value_pair_key2":{
-                    "id":"complex_key_value_pair_key2",
-                    "required":true
+                "complex_key_value_pair_key2": {
+                    "id": "complex_key_value_pair_key2"
                 },
-                "complex_key_value_pair_key3":{
-                    "id":"complex_key_value_pair_key3",
-                    "required":true,
-                    "additionalProperties":true,
-                    "type":"object",
-                    "properties":{
-                        "complex_key_value_pair_key1_in_nested_hash":{
-                            "id":"complex_key_value_pair_key1_in_nested_hash",
-                            "required":true
+                "complex_key_value_pair_key3": {
+                    "id": "complex_key_value_pair_key3",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "properties": {
+                        "complex_key_value_pair_key1_in_nested_hash": {
+                            "id": "complex_key_value_pair_key1_in_nested_hash"
                         },
-                        "complex_key_value_pair_key2_in_nested_hash":{
-                            "id":"complex_key_value_pair_key2_in_nested_hash",
-                            "required":true
+                        "complex_key_value_pair_key2_in_nested_hash": {
+                            "id": "complex_key_value_pair_key2_in_nested_hash"
                         }
-                    }
+                    },
+                    "required": [
+                        "complex_key_value_pair_key1_in_nested_hash",
+                        "complex_key_value_pair_key2_in_nested_hash"
+                    ]
                 }
-            }
+            },
+            "required": [
+                "complex_key_value_pair_key1",
+                "complex_key_value_pair_key2",
+                "complex_key_value_pair_key3"
+            ]
         },
-        "array_of_hashes":{
-            "id":"array_of_hashes",
-            "required":true,
-            "additionalItems":true,
-            "type":"array",
-            "items":[
+        "array_of_hashes": {
+            "id": "array_of_hashes",
+            "additionalItems": true,
+            "type": "array",
+            "items": [
                 {
-                    "id":0,
-                    "required":true,
-                    "additionalProperties":true,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item1_key1":{
-                            "id":"array_of_hashes_item1_key1",
-                            "required":true
+                    "id": "0",
+                    "required": [
+                        "array_of_hashes_item1_key1",
+                        "array_of_hashes_item1_key2"
+                    ],
+                    "additionalProperties": true,
+                    "type": "object",
+                    "properties": {
+                        "array_of_hashes_item1_key1": {
+                            "id": "array_of_hashes_item1_key1"
                         },
-                        "array_of_hashes_item1_key2":{
-                            "id":"array_of_hashes_item1_key2",
-                            "required":true
+                        "array_of_hashes_item1_key2": {
+                            "id": "array_of_hashes_item1_key2"
                         }
                     }
                 },
                 {
-                    "id":1,
-                    "required":true,
-                    "additionalProperties":true,
-                    "type":"object",
-                    "properties":{
-                        "array_of_hashes_item2_key1":{
-                            "id":"array_of_hashes_item2_key1",
-                            "required":true
+                    "id": "1",
+                    "required": [
+                        "array_of_hashes_item2_key1",
+                        "array_of_hashes_item2_key2"
+                    ],
+                    "additionalProperties": true,
+                    "type": "object",
+                    "properties": {
+                        "array_of_hashes_item2_key1": {
+                            "id": "array_of_hashes_item2_key1"
                         },
-                        "array_of_hashes_item2_key2":{
-                            "id":"array_of_hashes_item2_key2",
-                            "required":true
+                        "array_of_hashes_item2_key2": {
+                            "id": "array_of_hashes_item2_key2"
                         }
                     }
                 }
             ]
         },
-        "array_of_mixed_simple_types":{
-            "id":"array_of_mixed_simple_types",
-            "required":true,
-            "additionalItems":true,
-            "type":"array",
-            "items":[
+        "array_of_mixed_simple_types": {
+            "id": "array_of_mixed_simple_types",
+            "additionalItems": true,
+            "type": "array",
+            "items": [
                 {
-                    "id":0,
-                    "required":true
+                    "id": "0"
                 },
                 {
-                    "id":1,
-                    "required":true
+                    "id": "1"
                 },
                 {
-                    "id":2,
-                    "required":true
+                    "id": "2"
                 },
                 {
-                    "id":3,
-                    "required":true
+                    "id": "3"
                 }
             ]
         },
-        "array_of_same_simple_types":{
-            "id":"array_of_same_simple_types",
-            "required":true,
-            "additionalItems":true,
-            "type":"array",
-            "items":[
+        "array_of_same_simple_types": {
+            "id": "array_of_same_simple_types",
+            "additionalItems": true,
+            "type": "array",
+            "items": [
                 {
-                    "id":0,
-                    "required":true
+                    "id": "0"
                 },
                 {
-                    "id":1,
-                    "required":true
+                    "id": "1"
                 }
             ]
         }
@@ -575,143 +576,151 @@ sampleJsonSchemaNonStrict = '''
 
 sampleJsonSchemaNonStrict2 = '''
 {
-  "$schema":"http://json-schema.org/draft-03/schema",
-  "id":"#",
-  "required":true,
-  "additionalProperties":true,
-  "type":"object",
-  "properties":{
-    "simple_key_value_pairXXXXX":{
-      "id":"simple_key_value_pair",
-      "required":true
-    },
-    "complex_key_value_pair":{
-      "id":"complex_key_value_pair",
-      "required":true,
-      "additionalProperties":true,
-      "type":"object",
-      "properties":{
-        "complex_key_value_pair_key1":{
-          "id":"complex_key_value_pair_key1",
-          "required":true
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "#",
+    "required": [
+        "simple_key_value_pairXXXXX",
+        "complex_key_value_pair",
+        "array_of_hashes",
+        "array_of_mixed_simple_types",
+        "array_of_same_simple_types"
+    ],
+    "additionalProperties": true,
+    "type": "object",
+    "properties": {
+        "simple_key_value_pairXXXXX": {
+            "id": "simple_key_value_pair"
         },
-        "complex_key_value_pair_key2":{
-          "id":"complex_key_value_pair_key2",
-          "required":true
-        },
-        "complex_key_value_pair_key3":{
-          "id":"complex_key_value_pair_key3",
-          "required":true,
-          "additionalProperties":true,
-          "type":"object",
-          "properties":{
-            "complex_key_value_pair_key1_in_nested_hash":{
-              "id":"complex_key_value_pair_key1_in_nested_hash",
-              "required":true
+        "complex_key_value_pair": {
+            "id": "complex_key_value_pair",
+            "additionalProperties": true,
+            "type": "object",
+            "properties": {
+                "complex_key_value_pair_key1": {
+                    "id": "complex_key_value_pair_key1"
+                },
+                "complex_key_value_pair_key2": {
+                    "id": "complex_key_value_pair_key2"
+                },
+                "complex_key_value_pair_key3": {
+                    "id": "complex_key_value_pair_key3",
+                    "additionalProperties": true,
+                    "type": "object",
+                    "properties": {
+                        "complex_key_value_pair_key1_in_nested_hash": {
+                            "id": "complex_key_value_pair_key1_in_nested_hash"
+                        },
+                        "complex_key_value_pair_key2_in_nested_hash": {
+                            "id": "complex_key_value_pair_key2_in_nested_hash"
+                        }
+                    },
+                    "required": [
+                        "complex_key_value_pair_key1_in_nested_hash",
+                        "complex_key_value_pair_key2_in_nested_hash"
+                    ]
+                }
             },
-            "complex_key_value_pair_key2_in_nested_hash":{
-              "id":"complex_key_value_pair_key2_in_nested_hash",
-              "required":true
-            }
-          }
+            "required": [
+                "complex_key_value_pair_key1",
+                "complex_key_value_pair_key2",
+                "complex_key_value_pair_key3"
+            ]
+        },
+        "array_of_hashes": {
+            "id": "array_of_hashes",
+            "additionalItems": true,
+            "type": "array",
+            "items": [
+                {
+                    "id": 0,
+                    "required": [
+                        "array_of_hashes_item1_key1",
+                        "array_of_hashes_item1_key2"
+                    ],
+                    "additionalProperties": true,
+                    "type": "object",
+                    "properties": {
+                        "array_of_hashes_item1_key1": {
+                            "id": "array_of_hashes_item1_key1"
+                        },
+                        "array_of_hashes_item1_key2": {
+                            "id": "array_of_hashes_item1_key2"
+                        }
+                    }
+                },
+                {
+                    "id": 1,
+                    "required": [
+                        "array_of_hashes_item2_key1",
+                        "array_of_hashes_item2_key2"
+                    ],
+                    "additionalProperties": true,
+                    "type": "object",
+                    "properties": {
+                        "array_of_hashes_item2_key1": {
+                            "id": "array_of_hashes_item2_key1"
+                        },
+                        "array_of_hashes_item2_key2": {
+                            "id": "array_of_hashes_item2_key2"
+                        }
+                    }
+                }
+            ]
+        },
+        "array_of_mixed_simple_types": {
+            "id": "array_of_mixed_simple_types",
+            "additionalItems": true,
+            "type": "array",
+            "items": [
+                {
+                    "id": 0,
+                    "required": true
+                },
+                {
+                    "id": 1,
+                    "required": true
+                },
+                {
+                    "id": 2,
+                    "required": true
+                },
+                {
+                    "id": 3,
+                    "required": true
+                }
+            ]
+        },
+        "array_of_same_simple_types": {
+            "id": "array_of_same_simple_types",
+            "additionalItems": true,
+            "type": "array",
+            "items": [
+                {
+                    "id": 0,
+                    "required": true
+                },
+                {
+                    "id": 1,
+                    "required": true
+                }
+            ]
         }
-      }
-    },
-    "array_of_hashes":{
-      "id":"array_of_hashes",
-      "required":true,
-      "additionalItems":true,
-      "type":"array",
-      "items":[
-      {
-        "id":0,
-        "required":true,
-        "additionalProperties":true,
-        "type":"object",
-        "properties":{
-          "array_of_hashes_item1_key1":{
-            "id":"array_of_hashes_item1_key1",
-            "required":true
-          },
-          "array_of_hashes_item1_key2":{
-            "id":"array_of_hashes_item1_key2",
-            "required":true
-          }
-        }
-      },
-      {
-        "id":1,
-        "required":true,
-        "additionalProperties":true,
-        "type":"object",
-        "properties":{
-          "array_of_hashes_item2_key1":{
-            "id":"array_of_hashes_item2_key1",
-            "required":true
-          },
-          "array_of_hashes_item2_key2":{
-            "id":"array_of_hashes_item2_key2",
-            "required":true
-          }
-        }
-      }
-      ]
-    },
-    "array_of_mixed_simple_types":{
-      "id":"array_of_mixed_simple_types",
-      "required":true,
-      "additionalItems":true,
-      "type":"array",
-      "items":[
-      {
-        "id":0,
-        "required":true
-      },
-      {
-        "id":1,
-        "required":true
-      },
-      {
-        "id":2,
-        "required":true
-      },
-      {
-        "id":3,
-        "required":true
-      }
-      ]
-    },
-    "array_of_same_simple_types":{
-      "id":"array_of_same_simple_types",
-      "required":true,
-      "additionalItems":true,
-      "type":"array",
-      "items":[
-      {
-        "id":0,
-        "required":true
-      },
-      {
-        "id":1,
-        "required":true
-      }
-      ]
     }
-  }
 }
 '''
 
 sampleJsonSchemaNonStrictCustom = '''
 {
-    "$schema":"http://json-schema.org/draft-03/schema",
-    "id":"#",
-    "required":true,
-    "additionalProperties":true,
-    "type":"object",
-    "properties":{
-        "simple_key_value_pair_custom":{
-            "id":"simple_key_value_pair",
-            "required":true
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "id": "#",
+    "required": [
+        "simple_key_value_pair_custom"
+    ],
+    "additionalProperties": true,
+    "type": "object",
+    "properties": {
+        "simple_key_value_pair_custom": {
+            "id": "simple_key_value_pair"
         }
     }
 }
@@ -874,365 +883,393 @@ sampleError = """
 """
 
 sampleHeaders = {
-"Content-Type": "application/json",
-"header2": "header2_value"
+  "Content-Type": "application/json",
+  "header2": "header2_value"
 }
 
 sampleHeadersDiff = {
-"Content-Type": "application/json",
-"header2": "header2_value_changed"
+  "Content-Type": "application/json",
+  "header2": "header2_value_changed"
 }
 
 sampleHeadersMiss = {
-"Content-Type": "application/json",
+  "Content-Type": "application/json",
 }
 
 sampleHeadersAdd = {
-"Content-Type": "application/json",
-"header2": "header2_value",
-"header_added": "header_added_value",
+  "Content-Type": "application/json",
+  "header2": "header2_value",
+  "header_added": "header_added_value",
 }
 
 sampleHeadersWithDateAndExpires = {
-"Content-Type": "application/json",
-"header2": "header2_value",
-"Date": "Fri, 30 Oct 1998 13:19:41 GMT",
-"Expires": "Fri, 30 Oct 1998 14:19:41 GMT",
+  "Content-Type": "application/json",
+  "header2": "header2_value",
+  "Date": "Fri, 30 Oct 1998 13:19:41 GMT",
+  "Expires": "Fri, 30 Oct 1998 14:19:41 GMT",
 }
 
 sampleHeadersWithDateAndExpiresChanged = {
-"Content-Type": "application/json",
-"header2": "header2_value",
-"Date": "Thu, 25 Jul 2013 23:59:59 GMT",
-"Expires": "Thu, 25 Jul 2013 23:59:59 GMT",
+  "Content-Type": "application/json",
+  "header2": "header2_value",
+  "Date": "Thu, 25 Jul 2013 23:59:59 GMT",
+  "Expires": "Thu, 25 Jul 2013 23:59:59 GMT",
 }
 
 sampleHeadersSchema = '''
 {
-  "$schema": "http://json-schema.org/draft-03/schema",
-  "id": "#",
-  "required": true,
-  "additionalProperties": true,
-  "type": "object",
-  "properties": {
-    "header1": {
-      "id": "header1",
-      "required": true,
-      "enum": [
-        "value1"
-      ]
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "id": "#",
+    "required": [
+        "header1"
+    ],
+    "additionalProperties": true,
+    "type": "object",
+    "properties": {
+        "header1": {
+            "id": "header1",
+            "enum": [
+                "value1"
+            ]
+        }
     }
-  }
 }
                       '''
 sampleHttpRequestSchema = {
-  "type":"object",
-  "$schema": "http://json-schema.org/draft-03/schema",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
   "id": "#",
-  "required":true,
-  "properties":{
+  "required": [
+    "body",
+    "expected",
+    "headers",
+    "method",
+    "uri"
+  ],
+  "properties": {
     "body": {
-      "type":"string",
-      "id": "#/body",
-      "required":true
+      "type": "string",
+      "id": "#/body"
     },
     "expected": {
-      "type":"object",
+      "type": "object",
       "id": "#/expected",
-      "required":true,
-      "properties":{
+      "properties": {
         "bodySchema": {
-          "type":"object",
-          "id": "#/expected/bodySchema",
-          "required":true
+          "type": "object",
+          "id": "#/expected/bodySchema"
         },
         "body": {
-          "type":"string",
-          "id": "#/expected/body",
-          "required":true
+          "type": "string",
+          "id": "#/expected/body"
         },
         "headersSchema": {
-          "type":"object",
-          "id": "#/expected/headersSchema",
-          "required":true
+          "type": "object",
+          "id": "#/expected/headersSchema"
         },
         "headers": {
-          "type":"string",
-          "id": "#/expected/headers",
-          "required":true
+          "type": "string",
+          "id": "#/expected/headers"
         },
         "method": {
-          "type":"string",
-          "id": "#/expected/method",
-          "required":true
+          "type": "string",
+          "id": "#/expected/method"
         },
         "uri": {
-          "type":"string",
-          "id": "#/expected/uri",
-          "required":true
+          "type": "string",
+          "id": "#/expected/uri"
         }
-      }
+      },
+      "required": [
+        "bodySchema",
+        "body",
+        "headersSchema",
+        "headers",
+        "method",
+        "uri"
+      ]
     },
     "headers": {
-      "type":"string",
-      "id": "#/headers",
-      "required":true
+      "type": "string",
+      "id": "#/headers"
     },
     "method": {
-      "type":"string",
-      "id": "#/method",
-      "required":true
+      "type": "string",
+      "id": "#/method"
     },
     "uri": {
-      "type":"string",
-      "id": "#/uri",
-      "required":true
+      "type": "string",
+      "id": "#/uri"
     }
   }
 }
 
 sampleHttpResponseSchema = {
-  "type":"object",
-  "$schema": "http://json-schema.org/draft-03/schema",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
   "id": "#",
-  "required":true,
-  "properties":{
+  "required": [
+    "body",
+    "expected",
+    "headers",
+    "statusCode",
+    "statusMessage"
+  ],
+  "properties": {
     "body": {
-      "type":"string",
-      "id": "#/body",
-      "required":true
+      "type": "string",
+      "id": "#/body"
     },
     "expected": {
-      "type":"object",
+      "type": "object",
       "id": "#/expected",
-      "required":true,
-      "properties":{
+      "properties": {
         "bodySchema": {
-          "type":"object",
+          "type": "object",
           "id": "#/expected/bodySchema",
-          "required":true,
-          "properties":{
+          "properties": {
             "type": {
-              "type":"string",
-              "id": "#/expected/bodySchema/type",
-              "required":true
+              "type": "string",
+              "id": "#/expected/bodySchema/type"
             }
-          }
+          },
+          "required": [
+            "type"
+          ]
         },
         "body": {
-          "type":"string",
-          "id": "#/expected/body",
-          "required":true
+          "type": "string",
+          "id": "#/expected/body"
         },
         "headersSchema": {
-          "type":"object",
+          "type": "object",
           "id": "#/expected/headersSchema",
-          "required":true,
-          "properties":{
+          "properties": {
             "type": {
-              "type":"string",
-              "id": "#/expected/headersSchema/type",
-              "required":true
+              "type": "string",
+              "id": "#/expected/headersSchema/type"
             }
-          }
+          },
+          "required": [
+            "type"
+          ]
         },
         "headers": {
-          "type":"string",
-          "id": "#/expected/headers",
-          "required":true
+          "type": "string",
+          "id": "#/expected/headers"
         },
         "statusCode": {
-          "type":"string",
-          "id": "#/expected/statusCode",
-          "required":true
+          "type": "string",
+          "id": "#/expected/statusCode"
         },
         "statusMessage": {
-          "type":"string",
-          "id": "#/expected/statusMessage",
-          "required":true
+          "type": "string",
+          "id": "#/expected/statusMessage"
         }
-      }
+      },
+      "required": [
+        "bodySchema",
+        "body",
+        "headersSchema",
+        "headers",
+        "statusCode",
+        "statusMessage"
+      ]
     },
     "headers": {
-      "type":"string",
-      "id": "#/headers",
-      "required":true
+      "type": "string",
+      "id": "#/headers"
     },
     "statusCode": {
-      "type":"string",
-      "id": "#/statusCode",
-      "required":true
+      "type": "string",
+      "id": "#/statusCode"
     },
     "statusMessage": {
-      "type":"string",
-      "id": "#/statusMessage",
-      "required":true
+      "type": "string",
+      "id": "#/statusMessage"
     }
   }
 }
 
 sampleHttpMessageSchema =
 {
-  "type":"object",
-  "$schema": "http://json-schema.org/draft-03/schema",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
   "id": "http://jsonschema.net",
-  "required":true,
-  "properties":{
+  "required": [
+    "httpRequest",
+    "httpResponse"
+  ],
+  "properties": {
     "httpRequest": {
-      "type":"object",
+      "type": "object",
       "id": "httpRequest",
-      "required":true,
-      "properties":{
+      "properties": {
         "body": {
-          "type":"string",
-          "id": "httpRequest/body",
-          "required":true
+          "type": "string",
+          "id": "httpRequest/body"
         },
         "expected": {
-          "type":"object",
+          "type": "object",
           "id": "httpRequest/expected",
-          "required":true,
-          "properties":{
+          "properties": {
             "bodySchema": {
-              "type":"object",
+              "type": "object",
               "id": "httpRequest/expected/bodySchema",
-              "required":true,
-              "properties":{
+              "properties": {
                 "type": {
-                  "type":"string",
-                  "id": "httpRequest/expected/bodySchema/type",
-                  "required":true
+                  "type": "string",
+                  "id": "httpRequest/expected/bodySchema/type"
                 }
-              }
+              },
+              "required": [
+                "type"
+              ]
             },
             "body": {
-              "type":"string",
-              "id": "httpRequest/expected/body",
-              "required":true
+              "type": "string",
+              "id": "httpRequest/expected/body"
             },
             "headersSchema": {
-              "type":"object",
+              "type": "object",
               "id": "httpRequest/expected/headersSchema",
-              "required":true,
-              "properties":{
+              "properties": {
                 "type": {
-                  "type":"string",
-                  "id": "httpRequest/expected/headersSchema/type",
-                  "required":true
+                  "type": "string",
+                  "id": "httpRequest/expected/headersSchema/type"
                 }
-              }
+              },
+              "required": [
+                "type"
+              ]
             },
             "headers": {
-              "type":"string",
-              "id": "httpRequest/expected/headers",
-              "required":true
+              "type": "string",
+              "id": "httpRequest/expected/headers"
             },
             "method": {
-              "type":"string",
-              "id": "httpRequest/expected/method",
-              "required":true
+              "type": "string",
+              "id": "httpRequest/expected/method"
             },
             "uri": {
-              "type":"string",
-              "id": "httpRequest/expected/uri",
-              "required":true
+              "type": "string",
+              "id": "httpRequest/expected/uri"
             }
-          }
+          },
+          "required": [
+            "bodySchema",
+            "body",
+            "headersSchema",
+            "headers",
+            "method",
+            "uri"
+          ]
         },
         "headers": {
-          "type":"string",
-          "id": "httpRequest/headers",
-          "required":true
+          "type": "string",
+          "id": "httpRequest/headers"
         },
         "method": {
-          "type":"string",
-          "id": "httpRequest/method",
-          "required":true
+          "type": "string",
+          "id": "httpRequest/method"
         },
         "uri": {
-          "type":"string",
-          "id": "httpRequest/uri",
-          "required":true
+          "type": "string",
+          "id": "httpRequest/uri"
         }
-      }
+      },
+      "required": [
+        "body",
+        "expected",
+        "headers",
+        "method",
+        "uri"
+      ]
     },
     "httpResponse": {
-      "type":"object",
+      "type": "object",
       "id": "httpResponse",
-      "required":true,
-      "properties":{
+      "properties": {
         "body": {
-          "type":"string",
-          "id": "httpResponse/body",
-          "required":true
+          "type": "string",
+          "id": "httpResponse/body"
         },
         "expected": {
-          "type":"object",
+          "type": "object",
           "id": "httpResponse/expected",
-          "required":true,
-          "properties":{
+          "properties": {
             "bodySchema": {
-              "type":"object",
+              "type": "object",
               "id": "httpResponse/expected/bodySchema",
-              "required":true,
-              "properties":{
+              "properties": {
                 "type": {
-                  "type":"string",
-                  "id": "httpResponse/expected/bodySchema/type",
-                  "required":true
+                  "type": "string",
+                  "id": "httpResponse/expected/bodySchema/type"
                 }
-              }
+              },
+              "required": [
+                "type"
+              ]
             },
             "body": {
-              "type":"string",
-              "id": "httpResponse/expected/body",
-              "required":true
+              "type": "string",
+              "id": "httpResponse/expected/body"
             },
             "headersSchema": {
-              "type":"object",
+              "type": "object",
               "id": "httpResponse/expected/headersSchema",
-              "required":true,
-              "properties":{
+              "properties": {
                 "type": {
-                  "type":"string",
-                  "id": "httpResponse/expected/headersSchema/type",
-                  "required":true
+                  "type": "string",
+                  "id": "httpResponse/expected/headersSchema/type"
                 }
-              }
+              },
+              "required": [
+                "type"
+              ]
             },
             "headers": {
-              "type":"string",
-              "id": "httpResponse/expected/headers",
-              "required":true
+              "type": "string",
+              "id": "httpResponse/expected/headers"
             },
             "statusCode": {
-              "type":"string",
-              "id": "httpResponse/expected/statusCode",
-              "required":true
+              "type": "string",
+              "id": "httpResponse/expected/statusCode"
             },
             "statusMessage": {
-              "type":"string",
-              "id": "httpResponse/expected/statusMessage",
-              "required":true
+              "type": "string",
+              "id": "httpResponse/expected/statusMessage"
             }
-          }
+          },
+          "required": [
+            "bodySchema",
+            "body",
+            "headersSchema",
+            "headers",
+            "statusCode",
+            "statusMessage"
+          ]
         },
         "headers": {
-          "type":"string",
-          "id": "httpResponse/headers",
-          "required":true
+          "type": "string",
+          "id": "httpResponse/headers"
         },
         "statusCode": {
-          "type":"string",
-          "id": "httpResponse/statusCode",
-          "required":true
+          "type": "string",
+          "id": "httpResponse/statusCode"
         },
         "statusMessage": {
-          "type":"string",
-          "id": "httpResponse/statusMessage",
-          "required":true
+          "type": "string",
+          "id": "httpResponse/statusMessage"
         }
-      }
+      },
+      "required": [
+        "body",
+        "expected",
+        "headers",
+        "statusCode",
+        "statusMessage"
+      ]
     }
   }
 }

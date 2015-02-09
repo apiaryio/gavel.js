@@ -1,6 +1,6 @@
 errors          = require '../errors'
 {JsonSchema}   = require './json-schema'
-{SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
+{SchemaV4Generator, SchemaV4Properties} = require('../utils/schema-v4-generator')
 jsonPointer = require 'json-pointer'
 
 # Checks data, prepares validator and validates request or response headers against given expected headers or json schema
@@ -13,12 +13,12 @@ class HeadersJsonExample extends JsonSchema
   #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
   #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
   constructor: (@real, @expected) ->
-    if typeof @real != 'object' 
+    if typeof @real != 'object'
       throw new errors.MalformedDataError "Real is not an Object"
 
     if typeof @expected != 'object'
       throw new errors.MalformedDataError "Expected is not an Object"
-    
+
     try
       @expected = @prepareHeaders JSON.parse(JSON.stringify(@expected))
     catch error
@@ -28,17 +28,17 @@ class HeadersJsonExample extends JsonSchema
 
     try
       @real = @prepareHeaders JSON.parse(JSON.stringify(@real))
-    catch error  
+    catch error
       outError = new errors.MalformedDataError "Headers validator - Real malformed:" + error.message
       outError['data'] = @real
       throw outError
 
     @schema = @getSchema @prepareHeaders @expected
-    
-    #headers to ignore their values  
+
+    #headers to ignore their values
     unless @schema == undefined
       unless @schema['properties'] == undefined
-        ['date', 'expires'].forEach (header) =>  
+        ['date', 'expires'].forEach (header) =>
           unless @schema['properties'][header] == undefined
             delete @schema['properties'][header]['enum']
 
@@ -58,10 +58,10 @@ class HeadersJsonExample extends JsonSchema
 
   #@private
   getSchema: (data)->
-    properties = new SchemaProperties {}
+    properties = new SchemaV4Properties {}
     properties.set keysStrict: false, valuesStrict: true, typesStrict : false
 
-    schemaGenerator = new SchemaGenerator json: data, properties: properties
+    schemaGenerator = new SchemaV4Generator json: data, properties: properties
 
     return schemaGenerator.generate()
 

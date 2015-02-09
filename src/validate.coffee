@@ -46,7 +46,7 @@ validate = (real, expected, type, cb) ->
     when 'response'
       validatableObject = new HttpResponse real
       validatableObject['expected']= new ExpectedHttpResponse expected
-    
+
   proxy validatableObject, 'validate', cb
 
 module.exports = {

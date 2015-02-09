@@ -24,9 +24,12 @@ describe 'JsonSchema', ->
     describe 'when i create new instance of validator with "' + type + '" type arguments', ->
       validator = null
 
+      beforeEach () ->
+        validator = new JsonSchema data['real'], data['schema']
+
       it 'should not throw an exception', ->
         fn = () ->
-          validator = new JsonSchema data['real'], data['schema']
+          new JsonSchema data['real'], data['schema']
         assert.doesNotThrow fn
 
       it 'should set data to object', ->
@@ -41,11 +44,12 @@ describe 'JsonSchema', ->
       it 'should parse schema to object which is json parsable', ->
         assert.doesNotThrow () -> JSON.stringify validator.schema
 
-      describe 'when I run validate', ->
+      describe 'when I run validate()', ->
         validatorReturn = null
         validatorReturnAgain = null
         validatorReturnAfterDataChanged = null
-        before ->
+
+        beforeEach ->
           validatorReturn = validator.validate()
 
         it 'should set @errors', ->
@@ -63,13 +67,12 @@ describe 'JsonSchema', ->
 
         describe 'when i change data', ->
           before ->
-            validator.data = fixtures.sampleJson
+            validator.data = JSON.parse fixtures.sampleJson
 
           describe 'and run validate again', ->
 
             before ->
               validatorReturnAfterDataChanged = validator.validate()
-
             it 'errors should change', ->
               assert.equal validatorReturnAfterDataChanged.length, 0
 
@@ -104,18 +107,188 @@ describe 'JsonSchema', ->
       assert.isTrue validator.validateSchema.called
 
   describe 'validateSchema', () ->
-    describe 'when invalid schema provided', () ->
-      it 'should throw an error', () ->
-        invalidSchema = require '../../fixtures/invalid-schema'
-        fn = () ->
-          validator = new JsonSchema {}, invalidSchema
-        assert.throw fn
+    describe 'with schema v3', () ->
+      describe 'when invalid schema provided', () ->
+        fn = null
+        before () ->
+          invalidSchema = require '../../fixtures/invalid-schema-v3'
+          fn = () ->
+            validator = new JsonSchema {}, invalidSchema
 
-    describe 'when valid schema provided', () ->
-      it 'should not throw any error', () ->
-        validSchema = require '../../fixtures/valid-schema'
-        fn = () ->
-          validator = new JsonSchema {}, validSchema
-        assert.doesNotThrow fn
+        it 'should throw an error', () ->
+          assert.throw fn
+
+        it 'should mention schema v3 in the message', () ->
+          try
+            fn()
+          catch e
+            assert.include e.message, 'v3'
+
+      describe 'when valid v3 schema provided', () ->
+        fn = null
+        before () ->
+          validSchema = require '../../fixtures/valid-schema-v3'
+          fn = () ->
+            validator = new JsonSchema {}, validSchema
+
+        it 'should not throw any error', () ->
+          assert.doesNotThrow fn
+
+        it 'should set @jsonSchemaVersion to v3', () ->
+          fn()
+          assert.equal validator.jsonSchemaVersion, 'v3'
+
+    describe 'with schema v4', () ->
+      describe 'when invalid v4 schema provided', () ->
+        fn = null
+        before () ->
+          invalidSchema = require '../../fixtures/invalid-schema-v4'
+          fn = () ->
+            validator = new JsonSchema {}, invalidSchema
+
+        it 'should throw an error', () ->
+          assert.throw fn
+
+        it 'should mention v4 in the error message', () ->
+          try
+            fn()
+          catch e
+            assert.include e.message, 'v4'
+
+      describe 'when valid v4 schema provided', () ->
+        fn = null
+        before () ->
+          validSchema = require '../../fixtures/valid-schema-v4'
+          fn = () ->
+            validator = new JsonSchema {}, validSchema
+
+        it 'should not throw any error', () ->
+          assert.doesNotThrow fn
+
+        it 'should set @jsonSchemaVersion to v4', () ->
+          fn()
+          assert.equal validator.jsonSchemaVersion, 'v4'
+
+      describe 'with not identified version of schema', () ->
+        describe 'valid against v3 metaschema', () ->
+          fn = null
+          before () ->
+            validSchema = require '../../fixtures/valid-schema-v3'
+            delete validSchema['$schema']
+            fn = () ->
+              validator = new JsonSchema {}, validSchema
+
+          it 'should not throw any error', () ->
+            assert.doesNotThrow fn
+
+          it 'should set @jsonSchemaVersion to v3', () ->
+            fn()
+            assert.equal validator.jsonSchemaVersion, 'v3'
+
+        describe 'valid against v4 metaschema', () ->
+          fn = null
+          before () ->
+            validSchema = require '../../fixtures/valid-schema-v4'
+            delete validSchema['$schema']
+            fn = () ->
+              validator = new JsonSchema {}, validSchema
+
+          it 'should not throw any error', () ->
+            assert.doesNotThrow fn
+
+          it 'should set @jsonSchemaVersion to v4', () ->
+            fn()
+            assert.equal validator.jsonSchemaVersion, 'v4'
 
 
+        describe 'not valid against any metaschema', () ->
+          fn = null
+          before () ->
+            validSchema = require '../../fixtures/invalid-schema-v3-v4'
+            delete validSchema['$schema']
+            fn = () ->
+              validator = new JsonSchema {}, validSchema
+
+          it 'should throw an error', () ->
+            assert.throw fn
+
+          it 'should metion both v3 and v4 in the error message', () ->
+            try
+              fn()
+            catch e
+              assert.include e.message, 'v3'
+              assert.include e.message, 'v4'
+
+
+describe 'validatePrivate()', () ->
+  describe 'when @jsonSchemaVersion is set to v3', () ->
+    validator = null
+
+    before () ->
+      validSchema = require '../../fixtures/valid-schema-v3'
+      delete validSchema['$schema']
+      validator = new JsonSchema {}, validSchema
+
+      sinon.stub validator, 'validateSchemaV3'
+      sinon.stub validator, 'validateSchemaV4'
+      validator.jsonSchemaVersion = 'v3'
+
+      validator.validatePrivate()
+
+    after () ->
+      validator.validateSchemaV3.restore()
+      validator.validateSchemaV4.restore()
+
+    it 'should validate using Amanda', () ->
+
+      assert.ok validator.validateSchemaV3.called
+
+    it 'should not valiate using tv4', () ->
+      assert.notOk validator.validateSchemaV4.called
+
+
+  describe 'when @jsonSchemaVersion is set to v4', () ->
+    validator = null
+
+    before () ->
+      validSchema = require '../../fixtures/valid-schema-v4'
+      delete validSchema['$schema']
+      validator = new JsonSchema {}, validSchema
+
+      sinon.stub validator, 'validateSchemaV3'
+      sinon.stub validator, 'validateSchemaV4'
+
+      validator.jsonSchemaVersion = 'v4'
+
+      validator.validatePrivate()
+
+    after () ->
+      validator.validateSchemaV3.restore()
+      validator.validateSchemaV4.restore()
+
+    it 'should validate using tv4', () ->
+      assert.ok validator.validateSchemaV4.called
+
+    it 'should not validate using amanda', () ->
+      assert.notOk validator.validateSchemaV3.called
+
+  describe 'when @jsonSchemaVersion is null', () ->
+    fn = null
+    validator = null
+
+    beforeEach () ->
+      validSchema = require '../../fixtures/valid-schema-v3'
+      delete validSchema['$schema']
+      fn = () ->
+        validator = new JsonSchema {}, validSchema
+        validator.jsonSchemaVersion = null
+        validator.validatePrivate()
+
+    it 'shuold throw an error', () ->
+      assert.throw fn
+
+    it 'should let know in the error message that it should not happen', () ->
+      try
+        fn()
+      catch e
+        assert.include e.message, "JSON schema version not identified, can't validate!"

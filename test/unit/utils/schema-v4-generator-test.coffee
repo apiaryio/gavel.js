@@ -2,18 +2,18 @@
 amanda = require 'amanda'
 {sampleJson, sampleJsonSchema, sampleJsonSchemaNonStrict} = require '../../fixtures'
 
-{SchemaGenerator, SchemaProperties} = require('../../../src/utils/schema-generator')
+{SchemaV4Generator, SchemaV4Properties} = require('../../../src/utils/schema-v4-generator')
 
-describe 'SchemaGenerator', ->
+describe 'SchemaV4Generator', ->
   sg = {}
   before ->
-    sg = new SchemaGenerator json: sampleJson
+    sg = new SchemaV4Generator json: sampleJson
 
   describe '#constructor', ->
     it 'should assign and parse @json', ->
       assert.deepEqual sg.json, JSON.parse sampleJson
     it 'should initiate @properties', ->
-      assert.isTrue sg.properties instanceof SchemaProperties
+      assert.isTrue sg.properties instanceof SchemaV4Properties
 
   describe 'set properties', ->
     before ->

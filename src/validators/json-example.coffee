@@ -2,7 +2,7 @@ errors          = require '../errors'
 {JsonSchema}   = require './json-schema'
 jsonPointer = require 'json-pointer'
 
-{SchemaGenerator, SchemaProperties} = require('../utils/schema-generator')
+{SchemaV4Generator, SchemaV4Properties} = require('../utils/schema-v4-generator')
 
 # Checks data, prepares validator and validates request or response body against given expected data or json schema
 # @author Peter Grilli <tully@apiary.io>
@@ -17,7 +17,7 @@ class JsonExample extends JsonSchema
   #@throw {SchemaNotJsonParsableError} when given schema is not a json parsable string or valid json
   #@throw {NotEnoughDataError} when at least one of expected data and json schema is not given
   constructor: (@real, @expected) ->
-    
+
     if typeof(@real) != 'string'
       outError = new errors.MalformedDataError 'JsonExample validator: provided real data is not string'
       outError['data'] = @real
@@ -30,7 +30,7 @@ class JsonExample extends JsonSchema
 
     @expected = JSON.parse(@expected)
     @schema = @getSchema @expected
-    
+
     try
       @real = JSON.parse(real)
     catch error
@@ -40,10 +40,10 @@ class JsonExample extends JsonSchema
 
   #@private
   getSchema: (data)->
-    properties = new SchemaProperties {}
+    properties = new SchemaV4Properties {}
     properties.set keysStrict: false, valuesStrict: false, typesStrict : false
 
-    schemaGenerator = new SchemaGenerator json: data, properties: properties
+    schemaGenerator = new SchemaV4Generator json: data, properties: properties
 
     return schemaGenerator.generate()
 

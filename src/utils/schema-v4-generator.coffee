@@ -1,9 +1,9 @@
 #@private
-SCHEMA_VERSION = "http://json-schema.org/draft-03/schema"
+SCHEMA_VERSION = "http://json-schema.org/draft-04/schema#"
 
 # Configuration structure container for SchemaGenerator
 # @author Peter Grilli <tully@apiary.io>
-class SchemaProperties
+class SchemaV4Properties
 
   # Construct a SchemaProperties
   #@option {} [Boolean] keysStrict if true - no additional properties are allowed
@@ -21,9 +21,9 @@ class SchemaProperties
     @.valuesStrict = valuesStrict
     @.typesStrict  = typesStrict
 
-# From given JSON or object, construct JSON schema for Amanda
+# From given JSON or object, construct JSON schema for validation (using TV4)
 # @author Peter Grilli <tully@apiary.io>
-class SchemaGenerator
+class SchemaV4Generator
   # Construct a SchemaGenerator
   #@option {} [Object] json source json from which the schema will be generated
   #@option {} [SchemaProperties] properties see {SchemaProperties}
@@ -34,7 +34,7 @@ class SchemaGenerator
       @json = json
 
     @schema = undefined
-    @properties = properties || new SchemaProperties {}
+    @properties = properties || new SchemaV4Properties {}
 
   #generates json schema
   #@return [Object] generated json schema
@@ -80,8 +80,6 @@ class SchemaGenerator
 
     schemaType = @getSchemaTypeFor baseObject
 
-    schemaDict["required"] = true
-
     if schemaType is 'object'
       if properties.keysStrict
         schemaDict['additionalProperties'] = false
@@ -102,7 +100,7 @@ class SchemaGenerator
 
     if schemaType is 'object' and Object.keys(baseObject).length > 0
       schemaDict["properties"] = {}
-
+      schemaDict["required"] = []
       for prop, value of baseObject
         getSchemaForObjectProperties = {
           baseObject: value,
@@ -111,7 +109,7 @@ class SchemaGenerator
           properties: properties
         }
         schemaDict["properties"][prop] = @getSchemaForObject getSchemaForObjectProperties
-
+        schemaDict["required"].push prop
     else if schemaType is 'array' and baseObject.length > 0
 
       schemaDict['items'] = []
@@ -120,7 +118,7 @@ class SchemaGenerator
       for item in baseObject
         getSchemaForObjectProperties = {
           baseObject: item,
-          objectId: counter,
+          objectId: counter.toString(),
           firstLevel: false,
           properties: properties
         }
@@ -134,6 +132,6 @@ class SchemaGenerator
     return object instanceof Array
 
 module.exports = {
-  SchemaProperties,
-  SchemaGenerator
+  SchemaV4Properties,
+  SchemaV4Generator
 }
