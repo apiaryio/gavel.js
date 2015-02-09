@@ -66,6 +66,7 @@ describe "Http validatable mixin", () ->
       statusCode: 200
       expected:
         headers: fixtures.sampleHeaders
+        body: '{"b": "c"}'
 
     before () ->
       instance = new HttpResponse response
@@ -102,6 +103,25 @@ describe "Http validatable mixin", () ->
         it "should call validateHeaders", () ->
           assert.isTrue instance.validateHeaders.called
 
+      describe 'when expected headers not present', () ->
+        before () ->
+          instance = new HttpResponse response
+          sinon.spy instance, 'validateHeaders'
+          instance.expected.headers = undefined
+          instance.validate()
+
+        it 'should not run headers validation', () ->
+          assert.isFalse instance.validateHeaders.called
+
+      describe 'when expected headers are present', () ->
+        before () ->
+          instance = new HttpResponse response
+          sinon.spy instance, 'validateHeaders'
+          instance.validate()
+
+        it "should call validateHeaders", () ->
+          assert.isTrue instance.validateHeaders.called
+
       describe 'when real headers not present', () ->
         before () ->
           instance = new HttpResponse response
@@ -112,8 +132,9 @@ describe "Http validatable mixin", () ->
         it 'should not run headers validation', () ->
           assert.isFalse instance.validateHeaders.called
 
+
       # Body
-      describe 'real body is present', () ->
+      describe 'when real body is present', () ->
         before () ->
           instance = new HttpResponse response
           sinon.spy instance, 'validateBody'
@@ -127,6 +148,26 @@ describe "Http validatable mixin", () ->
           instance = new HttpResponse response
           sinon.spy instance, 'validateBody'
           instance.body = undefined
+          instance.validate()
+
+        it 'should not run body validation', () ->
+          assert.isFalse instance.validateBody.called
+
+      describe 'when expected body is present', () ->
+        before () ->
+          instance = new HttpResponse response
+          instance.expected.body = '{"b": "c"}'
+          sinon.spy instance, 'validateBody'
+          instance.validate()
+
+        it "should call validateBody", () ->
+          assert.isTrue instance.validateBody.called
+
+      describe 'when expected body is not present', () ->
+        before () ->
+          instance = new HttpResponse response
+          sinon.spy instance, 'validateBody'
+          instance.expected.body = undefined
           instance.validate()
 
         it 'should not run body validation', () ->
