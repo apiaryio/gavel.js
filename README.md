@@ -9,7 +9,7 @@
 
 ## Usage
 
-```
+```JavaScript
 var gavel = require('gavel');
 response = {
   "statusCode": "200",
