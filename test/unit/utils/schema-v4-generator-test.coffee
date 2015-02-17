@@ -1,7 +1,8 @@
 {assert} = require('chai')
 amanda = require 'amanda'
-{sampleJson, sampleJsonSchema, sampleJsonSchemaNonStrict} = require '../../fixtures'
+tv4 = require 'tv4'
 
+{sampleJson, sampleJsonSchema, sampleJsonSchemaNonStrict} = require '../../fixtures'
 {SchemaV4Generator, SchemaV4Properties} = require('../../../src/utils/schema-v4-generator')
 
 describe 'SchemaV4Generator', ->
@@ -57,6 +58,39 @@ describe 'SchemaV4Generator', ->
 
     it 'should be expected non strict schema', ->
       assert.deepEqual JSON.parse(sampleJsonSchemaNonStrict),  sg.generate()
+
+  describe 'generate strict schema only for some caseless keys', ->
+
+    before ->
+      expected =
+        "content-type": "application/json"
+        "location": "/here"
+      sg = new SchemaV4Generator json: expected
+      sg.properties =
+        keysStrict: true
+        typesStrict: false
+        valuesStrict: ['content-type']
+      sg.generate()
+
+    describe 'when missing key and its value completely', () ->
+      it 'should fail the validation against generated schema', () ->
+        realMissingKey =
+          "content-type": "application/json"
+        assert.notOk tv4.validateResult(realMissingKey, sg.schema).valid
+
+    describe 'when different value of strict', () ->
+      it 'should fail the validation against generated schema', () ->
+        realDifferentValueOfStrict =
+          "content-type": "application/hal+json"
+          "location": "/here"
+        assert.notOk tv4.validateResult(realDifferentValueOfStrict, sg.schema).valid
+
+    describe 'when different value of non strict', () ->
+      it 'should pass the validation against generated schema', () ->
+        realDifferentValueOfNonStrict =
+          "content-type": "application/json"
+          "location": "/there"
+        assert.ok tv4.validateResult(realDifferentValueOfNonStrict, sg.schema).valid
 
 
 

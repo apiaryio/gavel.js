@@ -36,6 +36,13 @@ class SchemaV4Generator
     @schema = undefined
     @properties = properties || new SchemaV4Properties {}
 
+    # for handling strict values array as caseless
+    if Array.isArray @properties.valuesStrict
+      lowercased = []
+      for val in @properties.valuesStrict
+        lowercased.push val.toLowerCase()
+      @properties.valuesStrict = lowercased
+
   #generates json schema
   #@return [Object] generated json schema
   generate: () ->
@@ -92,8 +99,12 @@ class SchemaV4Generator
       else
         schemaDict['additionalItems'] = true
 
-    if properties.valuesStrict and @isBaseType schemaType
+    if properties.valuesStrict is true and @isBaseType schemaType
       schemaDict['enum'] = [baseObject]
+
+    else if Array.isArray(properties.valuesStrict) and @isBaseType schemaType
+      if properties.valuesStrict.indexOf(objectId?.toLowerCase()) > -1
+        schemaDict['enum'] = [baseObject]
 
     if (properties.typesStrict and @isBaseType schemaType) or not @isBaseType schemaType
       schemaDict["type"] = schemaType
