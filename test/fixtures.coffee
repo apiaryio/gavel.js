@@ -888,8 +888,8 @@ sampleHeaders = {
 }
 
 sampleHeadersDiff = {
-  "Content-Type": "application/json",
-  "header2": "header2_value_changed"
+  "Content-Type": "application/fancy-madiatype",
+  "header2": "header2_value"
 }
 
 sampleHeadersMiss = {
@@ -902,18 +902,22 @@ sampleHeadersAdd = {
   "header_added": "header_added_value",
 }
 
-sampleHeadersWithDateAndExpires = {
+sampleHeadersNonContentNegotiation = {
   "Content-Type": "application/json",
   "header2": "header2_value",
   "Date": "Fri, 30 Oct 1998 13:19:41 GMT",
   "Expires": "Fri, 30 Oct 1998 14:19:41 GMT",
+  "ETag": "123456789",
+  "Location": "/here"
 }
 
-sampleHeadersWithDateAndExpiresChanged = {
+sampleHeadersWithNonContentNegotiationChanged = {
   "Content-Type": "application/json",
   "header2": "header2_value",
   "Date": "Thu, 25 Jul 2013 23:59:59 GMT",
   "Expires": "Thu, 25 Jul 2013 23:59:59 GMT",
+  "ETag": "asdfghjk",
+  "Location": "/there"
 }
 
 sampleHeadersSchema = '''
@@ -1305,8 +1309,8 @@ module.exports =
   sampleHttpResponseSchema         : sampleHttpResponseSchema
   sampleHeadersSchema              : sampleHeadersSchema
   sampleHttpMessageSchema          : sampleHttpMessageSchema
-  sampleHeadersWithDateAndExpires  : sampleHeadersWithDateAndExpires
-  sampleHeadersWithDateAndExpiresChanged : sampleHeadersWithDateAndExpiresChanged
+  sampleHeadersWithNonContentNegotiationChanged  : sampleHeadersWithNonContentNegotiationChanged
+  sampleHeadersNonContentNegotiation : sampleHeadersNonContentNegotiation
 
 
 

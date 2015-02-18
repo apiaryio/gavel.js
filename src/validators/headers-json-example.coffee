@@ -59,7 +59,16 @@ class HeadersJsonExample extends JsonSchema
   #@private
   getSchema: (data)->
     properties = new SchemaV4Properties {}
-    properties.set keysStrict: false, valuesStrict: true, typesStrict : false
+    properties.set
+      keysStrict: false
+      typesStrict : false
+      valuesStrict: [
+        'content-type'
+        'accept'
+        'accept-charset'
+        'accept-encoding'
+        'accept-language'
+      ]
 
     schemaGenerator = new SchemaV4Generator json: data, properties: properties
 

@@ -40,7 +40,7 @@ describe 'HeadersJsonExample', ->
           result = headersValidator.validate()
           assert.equal result.length, 1
 
-    describe 'when value in provided headers differs', ->
+    describe 'when value of content negotiation header in provided headers differs', ->
       before ->
         headersValidator = new HeadersJsonExample fixtures.sampleHeadersDiffers , fixtures.sampleHeaders
       describe 'and i run validate()', ->
@@ -64,9 +64,9 @@ describe 'HeadersJsonExample', ->
           result = headersValidator.validate()
           assert.equal result.length, 2
 
-    describe 'when Date or Expires values header differs', ->
+    describe 'when non content negotiation header heeader values differs', ->
       before ->
-        headersValidator = new HeadersJsonExample fixtures.sampleHeadersWithDateAndExpiresChanged,  fixtures.sampleHeadersWithDateAndExpires
+        headersValidator = new HeadersJsonExample fixtures.sampleHeadersWithNonContentNegotiationChanged,  fixtures.sampleHeadersNonContentNegotiation
       describe 'and i run validate()', ->
         it "shouldn't return any errors", ->
           result = headersValidator.validate()
