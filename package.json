@@ -27,7 +27,7 @@
     "chai": "^2.1.0",
     "codo": "~2.0.6",
     "coffee-coverage": "~0.4.2",
-    "coffee-script": "~1.8.0",
+    "coffee-script": "^1.9.1",
     "coveralls": "~2.11.2",
     "cucumber": "~0.4.0",
     "jscoverage": "~0.5.4",
