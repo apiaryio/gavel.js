@@ -24,18 +24,18 @@
     "update": "^0.2.0"
   },
   "devDependencies": {
-    "chai": "~1.9.0",
-    "coffee-script": "~1.8.0",
-    "mocha": "~1.21.4",
-    "cucumber": "~0.4.0",
-    "lodash": "~2.4.1",
-    "prettyjson": "~1.0.0",
+    "chai": "^2.1.0",
     "codo": "~2.0.6",
-    "sinon": "~1.10.2",
     "coffee-coverage": "~0.4.2",
-    "jscoverage": "~0.5.4",
+    "coffee-script": "~1.8.0",
     "coveralls": "~2.11.2",
-    "mocha-lcov-reporter": "0.0.1"
+    "cucumber": "~0.4.0",
+    "jscoverage": "~0.5.4",
+    "lodash": "^3.3.0",
+    "mocha": "^2.1.0",
+    "mocha-lcov-reporter": "0.0.1",
+    "prettyjson": "^1.1.0",
+    "sinon": "^1.12.2"
   },
   "scripts": {
     "test": "scripts/test",
