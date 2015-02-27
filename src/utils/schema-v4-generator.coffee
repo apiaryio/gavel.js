@@ -106,7 +106,7 @@ class SchemaV4Generator
       if properties.valuesStrict.indexOf(objectId?.toLowerCase()) > -1
         schemaDict['enum'] = [baseObject]
 
-    if (properties.typesStrict and @isBaseType schemaType) or not @isBaseType schemaType
+    if (properties.typesStrict and @isBaseType schemaType) or (not @isBaseType schemaType) or firstLevel == true
       schemaDict["type"] = schemaType
 
     if schemaType is 'object' and Object.keys(baseObject).length > 0

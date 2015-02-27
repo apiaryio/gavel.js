@@ -28,13 +28,7 @@ class JsonExample extends JsonSchema
       outError['data'] = @expected
       throw outError
 
-    @expected = JSON.parse(@expected)
     @schema = @getSchema @expected
-
-    try
-      @real = JSON.parse(real)
-    catch error
-      validatorType = 'string'
 
     super @real, @schema
 
