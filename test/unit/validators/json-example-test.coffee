@@ -13,6 +13,25 @@ describe 'JsonExample', ->
           bodyValidator = new JsonExample ('malformed':'malformed '),"{'header1': 'value1'}"
         assert.throws fn
 
+    describe 'when I provide string as real with JSONized string', () ->
+      it 'should not throw exception', ->
+        fn = () ->
+          bodyValidator = new JsonExample '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"', '{"header1": "value1"}'
+        assert.doesNotThrow fn
+
+    describe 'when I provide string as expected with JSONized string', () ->
+      it 'should not throw exception', ->
+        fn = () ->
+          bodyValidator = new JsonExample '{"header1": "value1"}', '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"'
+        fn()
+
+    describe 'when I provide string as expected and real with JSONized string', () ->
+      it 'should not throw exception', ->
+        fn = () ->
+          bodyValidator = new JsonExample '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"'
+          , '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"'
+        fn()
+
     describe 'when I provide non string expected data', ->
       it 'should throw exception', ->
         fn = () ->

@@ -51,7 +51,7 @@ class JsonSchema
 
     if typeof @schema == 'string'
       try
-        @schema = JSON.parse(schema)
+        @schema = JSON.parse(@schema)
       catch error
         outError = new errors.SchemaNotJsonParsableError 'JSON validator: schema: ' + error.message
         outError['schema'] = @schema

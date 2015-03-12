@@ -13,7 +13,7 @@ validatorStepDefs = () ->
   When /^you perform a failing validation on any validatable HTTP component$/, (callback) ->
     json1 = '{"a": "b"}'
     json2 = '{"c": "d"}'
-    
+
     @component = 'body'
 
     @real =
@@ -29,38 +29,40 @@ validatorStepDefs = () ->
     @validate (error, result) =>
       callback.fail "Got error during validation:\n" + error if error
       @results = JSON.parse JSON.stringify result
-      
+
       @isValid (error, result) ->
         callback.fail error if error
         @booleanResult = result
         callback()
 
-  Then /^the validator output for the HTTP component looks like the following JSON:$/, (expectedJson, callback) ->    
+  Then /^the validator output for the HTTP component looks like the following JSON:$/, (expectedJson, callback) ->
     expected = JSON.parse expectedJson
     real = @results[@component]
     if not _.isEqual real, expected
-      callback.fail "Not matched! Expected:" + "\n" + \
+      return callback.fail "Not matched! Expected:" + "\n" + \
                     JSON.stringify(expected, null, 2) + "\n" + \
                     "But got:" + "\n" + \
                     JSON.stringify(real, null, 2)
-    callback()
+
+    else
+      return callback()
 
   Then /^validated HTTP component is considered invalid$/, (callback) ->
     assert.isFalse @booleanResult
     callback()
-  
+
   Then /^the validator output for the HTTP component is valid against "([^"]*)" model JSON schema:$/, (model, schema, callback) ->
-    tv4.validate @results[@component], JSON.parse(schema), (error) ->
-      if error
-        if not Object.keys(error).length == 0
-          callback.fail "Expected no validation errors on schema but got:\n" +
-                    JSON.stringify(error, null, 2)
-      callback()
+    valid = tv4.validate @results[@component], JSON.parse(schema)
+    if not valid
+      return callback.fail "Expected no validation errors on schema but got:\n" +
+                JSON.stringify(tv4.error, null, 2)
+    else
+      return callback()
 
   Then /^each result entry under "([^"]*)" key must contain "([^"]*)" key$/, (key1, key2, callback) ->
     error = @results[@component]
     if error == undefined
-      callback.fail 'Validation result for "' + \ 
+      callback.fail 'Validation result for "' + \
         @component + \
         '" is undefined. Validations: ' + \
         JSON.stringify @results, null, 2
@@ -71,9 +73,9 @@ validatorStepDefs = () ->
 
   Then /^the output JSON contains key "([^"]*)" with one of the following values:$/, (key, table, callback) ->
     error = @results[@component]
-    
+
     validators = [].concat.apply [], table.raw()
-    
+
     assert.include validators, error[key]
     callback()
 
@@ -86,9 +88,9 @@ validatorStepDefs = () ->
       @expected['bodySchema'] = data
     else if type == 'application/vnd.apiary.http-headers+json'
       @expected[@component] = JSON.parse data
-    else      
+    else
       @expected[@component] = data
-    
+
     @expectedType = type
     callback()
 
@@ -99,7 +101,7 @@ validatorStepDefs = () ->
       @real[@component] = data
 
     @realType = type
-    callback()  
+    callback()
 
   When /^you perform validation on the HTTP component$/, (callback) ->
     @validate (error, result) =>
@@ -109,7 +111,7 @@ validatorStepDefs = () ->
       @results = result
       @componentResults = @results[@component]
       callback()
-  
+
   Then /^validator "([^"]*)" is used for validation$/, (validator, callback) ->
     usedValidator = @componentResults['validator']
     if validator != usedValidator
@@ -117,13 +119,13 @@ validatorStepDefs = () ->
         " instead of '" + validator + "'. Got validation results: " + \
         JSON.stringify(@results, null, 2)
     callback()
-  
+
   Then /^validation key "([^"]*)" looks like the following "([^"]*)":$/, (key, type, expected, callback) ->
     real = @componentResults[key]
     if type == "JSON"
       expected = JSON.parse expected
     else if type == "text"
-      # FIXME investigate how does cucumber docstrings handle 
+      # FIXME investigate how does cucumber docstrings handle
       # newlines and remove trim and remove this hack
       expected = expected + "\n"
 
@@ -135,9 +137,9 @@ validatorStepDefs = () ->
                       @inspect(real) + "\n" + \
                       "End"
     else if type == "text"
-      assert.equal expected, real    
+      assert.equal expected, real
     callback()
-  
+
   Then /^each result entry must contain "([^"]*)" key$/, (key, callback) ->
     @componentResults['results'].forEach (error) ->
       assert.include Object.keys(error), key

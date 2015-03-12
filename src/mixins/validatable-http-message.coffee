@@ -20,7 +20,7 @@ class Validatable
     @lowercaseHeaders()
 
     @validateHeaders() unless @headers == undefined || @expected.headers == undefined
-    @validateBody() unless @body == undefined || @expected.body == undefined
+    @validateBody() unless @body == undefined || (@expected.body == undefined && @expected.bodySchema == undefined)
     @validateStatusCode() unless @statusCode == undefined
     @validation
 
