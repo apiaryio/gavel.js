@@ -18,7 +18,7 @@ class Validatable
     @lowercaseHeaders()
 
     @validateHeaders()    if @headers? and @expected?.headers?
-    @validateBody()       if @body? and @expected?.body? and @expected.bodySchema?
+    @validateBody()       if @body? and (@expected.body? or @expected.bodySchema?)
     @validateStatusCode() if @statusCode?
     @validation
 
@@ -27,7 +27,7 @@ class Validatable
   isValidatable: ->
     result = false
     for component in @validatableComponents
-      unless @[component] == undefined
+      if @[component]?
         result = true
     return result
 
@@ -157,11 +157,10 @@ class Validatable
 
   setBodyExpectedType: () ->
     @validation.body.expectedType = null
-    if @validation.body.results == undefined
-      @validation.body.results = []
+    @validation.body.results ?= []
 
-    if !(@expected.bodySchema == undefined) and
-      !(@expected.bodySchema == null)
+    if @expected.bodySchema? and
+      @expected.bodySchema?
         if typeof @expected.bodySchema == 'string'
           try
             parsed = JSON.parse @expected.bodySchema
@@ -208,8 +207,7 @@ class Validatable
   setBodyValidator: () ->
     @validation.body.validator = null
 
-    if @validation.body.results == undefined
-      @validation.body.results = []
+    @validation.body.results ?= []
 
     message =
       message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."

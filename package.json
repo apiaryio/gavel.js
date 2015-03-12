@@ -22,20 +22,19 @@
     "json-pointer": "^0.3.0",
     "jsonlint": "~1.6.0",
     "media-typer": "~0.3.0",
-    "tv4": "~1.1.4",
-    "update": "^0.2.0"
+    "tv4": "~1.1.4"
   },
   "devDependencies": {
     "chai": "^2.1.0",
     "codo": "~2.0.6",
-    "coffee-coverage": "~0.4.2",
+    "coffee-coverage": "~0.4.5",
     "coffee-script": "^1.9.1",
     "coveralls": "~2.11.2",
-    "cucumber": "~0.4.0",
+    "cucumber": "~0.4.8",
     "jscoverage": "~0.5.4",
     "lodash": "^3.3.0",
     "mocha": "^2.1.0",
-    "mocha-lcov-reporter": "0.0.1",
+    "mocha-lcov-reporter": "0.0.2",
     "prettyjson": "^1.1.0",
     "sinon": "^1.12.2"
   },

@@ -165,9 +165,9 @@ describe 'Gavel proxies to functions with callbacks', ->
 
           it 'should call the callback without any errors', -> assert.isNull error
           it 'should results be an object', -> assert.isObject results
-          it 'should results contain 4 different headers messages', ->
+          it 'should results contain 2 different headers messages (missing content-length, different content-type)', ->
             assert.isObject results
             assert.property results, 'headers'
             assert.isObject results.headers
             assert.isArray results.headers.results
-            assert.lengthOf results.headers.results, 4
+            assert.lengthOf results.headers.results, 2
