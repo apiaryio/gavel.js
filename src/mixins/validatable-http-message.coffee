@@ -159,28 +159,27 @@ class Validatable
     @validation.body.expectedType = null
     @validation.body.results ?= []
 
-    if @expected.bodySchema? and
-      @expected.bodySchema?
-        if typeof @expected.bodySchema == 'string'
-          try
-            parsed = JSON.parse @expected.bodySchema
-            if typeof parsed != 'object' or Array.isArray parsed
-              message = {
-                message: 'Expected body: JSON Schema provided, but it is not an Object'
-                severity: 'error'
-              }
-              @validation.body.results.push message
-            else
-              @validation.body.expectedType = 'application/schema+json'
-          catch error
+    if @expected.bodySchema?
+      if typeof @expected.bodySchema == 'string'
+        try
+          parsed = JSON.parse @expected.bodySchema
+          if typeof parsed != 'object' or Array.isArray parsed
             message = {
-              message: 'Expected body: JSON Schema provided, but it is not a parseable JSON'
+              message: 'Expected body: JSON Schema provided, but it is not an Object'
               severity: 'error'
             }
             @validation.body.results.push message
-            return
-        else
-          @validation.body.expectedType = 'application/schema+json'
+          else
+            @validation.body.expectedType = 'application/schema+json'
+        catch error
+          message = {
+            message: 'Expected body: JSON Schema provided, but it is not a parseable JSON'
+            severity: 'error'
+          }
+          @validation.body.results.push message
+          return
+      else
+        @validation.body.expectedType = 'application/schema+json'
     else
 
       expectedContentType = @expected.headers?['content-type']
