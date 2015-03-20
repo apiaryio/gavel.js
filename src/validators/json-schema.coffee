@@ -158,6 +158,9 @@ class JsonSchema
 
   #@private
   validatePrivate: =>
+    @_dataUsed   = @data
+    @_schemaUsed = @schema
+
     if @jsonSchemaVersion == 'v3'
       @validateSchemaV3()
     else if @jsonSchemaVersion == 'v4'
@@ -191,9 +194,6 @@ class JsonSchema
 
   #@private
   validateSchemaV3: ->
-    @_dataUsed   = @data
-    @_schemaUsed = @schema
-
     try
       return amanda.validate @data, @schema, json_schema_options, (error) =>
         if error?.length > 0
