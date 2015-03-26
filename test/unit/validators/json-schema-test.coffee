@@ -106,6 +106,41 @@ describe 'JsonSchema', ->
       validator = new JsonSchema {}, {}
       assert.isTrue validator.validateSchema.called
 
+  describe 'when invalid JSON-stringified-data are provided', ->
+    invalidStringifiedSchema = null
+    before ->
+      invalidStringifiedSchema = require '../../fixtures/invalid-stringified-schema'
+
+    it 'should throw an error for "data"', () ->
+      fn = () ->
+        validator = new JsonSchema invalidStringifiedSchema
+      assert.throw fn
+
+    it 'should throw an error for "schema"', () ->
+      invalidStringifiedSchema = require '../../fixtures/invalid-stringified-schema'
+      fn = () ->
+        validator = new JsonSchema {}, invalidStringifiedSchema
+      assert.throw fn
+
+
+  describe 'validate an object to check json_schema_options passed to Amanda', ->
+    results = null
+    error = null
+    messagesLength = null
+
+    before ->
+      messagesLength = Object.keys(fixtures.sampleJsonBodyTestingAmandaMessages).length
+      validator = new JsonSchema fixtures.sampleJsonBodyTestingAmandaMessages, fixtures.sampleJsonSchemaTestingAmandaMessages
+      results = validator.validate()
+
+    it "contains all those schema defined messages", ->
+      assert.isNull error
+      assert.isObject results
+      assert.lengthOf Object.keys(fixtures.sampleJsonSchemaTestingAmandaMessages.properties), messagesLength
+      assert.propertyVal results, 'length', messagesLength
+      assert.lengthOf results, messagesLength
+
+
   describe 'validateSchema', () ->
     describe 'with schema v3', () ->
       describe 'when invalid schema provided', () ->

@@ -2,8 +2,6 @@ jsonlint = require 'jsonlint'
 mediaTyper = require 'media-typer'
 validators = require '../validators'
 
-packageInfo = require '../../package'
-
 # validatable mixin.
 #
 # @mixin
@@ -14,55 +12,56 @@ class Validatable
 
   #Validates all HTTP components available in the message
   #@return [Object] :headers {ValidationErrors}, :body {ValidationErrors}, :statusCode [Boolean]
-  validate: () ->
+  validate: ->
     @validation = {}
     @validation.version = '2'
     @lowercaseHeaders()
 
-    @validateHeaders() unless @headers == undefined || @expected.headers == undefined
-    @validateBody() unless @body == undefined || (@expected.body == undefined && @expected.bodySchema == undefined)
-    @validateStatusCode() unless @statusCode == undefined
+    @validateHeaders()    if @headers? and @expected?.headers?
+    @validateBody()       if @body? and (@expected.body? or @expected.bodySchema?)
+    @validateStatusCode() if @statusCode?
     @validation
 
   #returns true if object has any validatable entity
   #@return [Boolean]
-  isValidatable: () ->
+  isValidatable: ->
     result = false
-    @validatableComponents.forEach (component) =>
-      unless @[component] == undefined
+    for component in @validatableComponents
+      if @[component]?
         result = true
-    result
+    return result
 
   # returns false if any validatable HTTP component has validation
   # property with any result messages with the error severity
   # @return [Boolean]
-  isValid: () ->
-    output = true
-    @validate() if @validation == undefined
-    @validatableComponents.forEach (component) =>
-      unless @validation[component] == undefined
-        if Array.isArray this.validation[component].results
-          @validation[component].results.forEach (result) =>
-            if result['severity'] == 'error'
-              output = false
-    output
+  isValid: ->
+    @validate() unless @validation?
+    for component in @validatableComponents
+      if Array.isArray @validation[component]?.results
+        for result in @validation[component].results when result.severity is 'error'
+          return false
+    return true
 
-  validationResults: () ->
-    @validate() if @validation == undefined
+  validationResults: ->
+    @validate() unless @validation?
     @validation
 
-  lowercaseHeaders: () ->
-    for name, value of @headers
-      delete @headers[name]
-      @headers[name.toLowerCase()] = value
+  lowercaseHeaders: ->
+    if @headers?
+      headers = {}
+      for name, value of @headers
+        headers[name.toLowerCase()] = value
+      @headers = headers
 
-    for name, value of @expected.headers
-      delete @expected.headers[name]
-      @expected.headers[name.toLowerCase()] = value
+    if @expected?.headers?
+      expectedHeaders = {}
+      for name, value of @expected.headers
+        expectedHeaders[name.toLowerCase()] = value
+      @expected.headers = expectedHeaders
 
 
   # Headers validation
-  validateHeaders: () ->
+  validateHeaders: ->
     @validation.headers = {}
     @validation.headers.results = []
     @setHeadersRealType()
@@ -85,23 +84,21 @@ class Validatable
       @validation.headers.expectedType = null
 
   setHeadersValidator: () ->
-    if @validation.headers.realType ==
-         "application/vnd.apiary.http-headers+json" and
-       @validation.headers.expectedType ==
-         "application/vnd.apiary.http-headers+json"
-      @validation.headers.validator = "HeadersJsonExample"
+    if @validation.headers.realType is @validation.headers.expectedType is
+      "application/vnd.apiary.http-headers+json"
+        @validation.headers.validator = "HeadersJsonExample"
     else
       @validation.headers.validator = null
-      if @validation.headers.results == undefined
-        @validation.headers.results = []
+      @validation.headers.results ?= []
 
       entry =
         severity: 'error'
-        message: 'No validator found for real data media type "' +
-          + JSON.stringify(@validation.headers.realType) +
-          '" and expected data media type "' +
-          + JSON.stringify(@validation.headers.expectedType) +
-          '".'
+        message: """
+          No validator found for real data media type \
+          "#{JSON.stringify(@validation.headers.realType)}" \
+          and expected data media type \
+          "#{JSON.stringify(@validation.headers.expectedType)}".
+        """
 
       @validation.headers.results.push entry
 
@@ -122,7 +119,6 @@ class Validatable
       @validation.headers.results = results.concat @validation.headers.results
 
 
-
   # Body validation
   validateBody: () ->
     @validation.body = {}
@@ -138,7 +134,6 @@ class Validatable
 
     unless typeof @body == 'string'
       throw new Error "HTTP Body is not a String."
-
 
     contentType = @headers?['content-type']
     if @isJsonContentType contentType
@@ -162,31 +157,29 @@ class Validatable
 
   setBodyExpectedType: () ->
     @validation.body.expectedType = null
-    if @validation.body.results == undefined
-      @validation.body.results = []
+    @validation.body.results ?= []
 
-    if !(@expected.bodySchema == undefined) and
-      !(@expected.bodySchema == null)
-        if typeof @expected.bodySchema == 'string'
-          try
-            parsed = JSON.parse @expected.bodySchema
-            if typeof parsed != 'object' or Array.isArray parsed
-              message = {
-                message: 'Expected body: JSON Schema provided, but it is not an Object'
-                severity: 'error'
-              }
-              @validation.body.results.push message
-            else
-              @validation.body.expectedType = 'application/schema+json'
-          catch error
+    if @expected.bodySchema?
+      if typeof @expected.bodySchema == 'string'
+        try
+          parsed = JSON.parse @expected.bodySchema
+          if typeof parsed != 'object' or Array.isArray parsed
             message = {
-              message: 'Expected body: JSON Schema provided, but it is not a parseable JSON'
+              message: 'Expected body: JSON Schema provided, but it is not an Object'
               severity: 'error'
             }
             @validation.body.results.push message
-            return
-        else
-          @validation.body.expectedType = 'application/schema+json'
+          else
+            @validation.body.expectedType = 'application/schema+json'
+        catch error
+          message = {
+            message: 'Expected body: JSON Schema provided, but it is not a parseable JSON'
+            severity: 'error'
+          }
+          @validation.body.results.push message
+          return
+      else
+        @validation.body.expectedType = 'application/schema+json'
     else
 
       expectedContentType = @expected.headers?['content-type']
@@ -213,8 +206,7 @@ class Validatable
   setBodyValidator: () ->
     @validation.body.validator = null
 
-    if @validation.body.results == undefined
-      @validation.body.results = []
+    @validation.body.results ?= []
 
     message =
       message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
@@ -277,7 +269,6 @@ class Validatable
           severity: 'error'
 
         @validation.body.results.push message
-
 
 
   # Status code validation

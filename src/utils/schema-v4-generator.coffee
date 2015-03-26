@@ -1,3 +1,6 @@
+type       = require 'is-type'
+stringType = require './get-type'
+
 #@private
 SCHEMA_VERSION = "http://json-schema.org/draft-04/schema#"
 
@@ -10,16 +13,17 @@ class SchemaV4Properties
   #@option {} [Boolean] valuesStrict if true - values will be presented as enums in schema
   #@option {} [Boolean] typesStrict if true - "type" property according to the value in source json will be generated in schema
   constructor: ({keysStrict, valuesStrict, typesStrict}) ->
-    @set {keysStrict: keysStrict || false, valuesStrict: valuesStrict || false, typesStrict: typesStrict || false}
+    @set {keysStrict, valuesStrict, typesStrict}
 
   # Sets a SchemaProperties instance attributes
   #@option {} [Boolean] keysStrict if true - no additional properties are allowed
   #@option {} [Boolean] valuesStrict if true - values will be presented as enums in schema
   #@option {} [Boolean] typesStrict if true - "type" property according to the value in source json will be generated in schema
   set: ({keysStrict, valuesStrict, typesStrict}) ->
-    @.keysStrict   = keysStrict
-    @.valuesStrict = valuesStrict
-    @.typesStrict  = typesStrict
+    @keysStrict   = keysStrict   ? false
+    @valuesStrict = valuesStrict ? false
+    @typesStrict  = typesStrict  ? false
+
 
 # From given JSON or object, construct JSON schema for validation (using TV4)
 # @author Peter Grilli <tully@apiary.io>
@@ -28,7 +32,7 @@ class SchemaV4Generator
   #@option {} [Object] json source json from which the schema will be generated
   #@option {} [SchemaProperties] properties see {SchemaProperties}
   constructor: ( {json, properties} ) ->
-    if typeof json == 'string'
+    if type.string(json)
       @json = JSON.parse json
     else
       @json = json
@@ -46,32 +50,34 @@ class SchemaV4Generator
   #generates json schema
   #@return [Object] generated json schema
   generate: () ->
-    getSchemaForObjectProperties = {
-      baseObject: @json,
-      objectId: undefined,
-      firstLevel: true,
+    @schema = @getSchemaForObject
+      baseObject: @json
+      objectId: undefined
+      firstLevel: true
       properties: @properties
-    }
-    return @schema = @getSchemaForObject getSchemaForObjectProperties
+    return @schema
 
   #@private
   getSchemaTypeFor: (val) ->
-    if @isArray val then return 'array'
+    _type = stringType(val)
 
-    type = typeof val
+    if not val?
+      return 'null'
+    if _type is 'array'
+      return 'array'
+    if _type is 'number' and val % 1 == 0
+      return 'integer'
 
-    if ((type is 'undefined') or not val?) then return 'null'
-    if type is 'number' and val % 1 == 0 then return 'integer'
-
-    return type
+    return _type
 
   #@private
-  isBaseType: (type) ->
-    return !(type in ["array", "object"])
+  isBaseType: (_type) ->
+    return _type not in ["array", "object"]
 
   #@private
   getSchemaForObject: ({baseObject, objectId, firstLevel, properties}) ->
-    if firstLevel is undefined then firstLevel = true
+    firstLevel ?= true
+    hasKeys = false
 
     properties ||= new SchemaProperties
     schemaDict = {}
@@ -79,13 +85,18 @@ class SchemaV4Generator
     if firstLevel
       schemaDict["$schema"] = SCHEMA_VERSION
       schemaDict["id"] = "#"
-      if (baseObject instanceof Object) and Object.keys(baseObject).length == 0
-        schemaDict["empty"] = true
 
-    if objectId isnt undefined
+    if objectId?
       schemaDict["id"] = objectId
 
     schemaType = @getSchemaTypeFor baseObject
+
+    if type.object(baseObject)
+      for own k,v of baseObject
+        hasKeys = true
+        break
+      if not hasKeys
+        schemaDict["empty"] = true
 
     if schemaType is 'object'
       if properties.keysStrict
@@ -93,7 +104,7 @@ class SchemaV4Generator
       else
         schemaDict['additionalProperties'] = true
 
-    if schemaType is 'array'
+    else if schemaType is 'array'
       if properties.keysStrict
         schemaDict['additionalItems'] = false
       else
@@ -109,38 +120,31 @@ class SchemaV4Generator
     if (properties.typesStrict and @isBaseType schemaType) or (not @isBaseType schemaType) or firstLevel == true
       schemaDict["type"] = schemaType
 
-    if schemaType is 'object' and Object.keys(baseObject).length > 0
-      schemaDict["properties"] = {}
+    if schemaType is 'object' and hasKeys
       schemaDict["required"] = []
-      for prop, value of baseObject
-        getSchemaForObjectProperties = {
-          baseObject: value,
-          objectId: prop,
-          firstLevel: false,
+      schemaDict["properties"] = {}
+      for own prop, value of baseObject
+        getSchemaForObjectProperties =
+          baseObject: value
+          objectId: prop
+          firstLevel: false
           properties: properties
-        }
         schemaDict["properties"][prop] = @getSchemaForObject getSchemaForObjectProperties
         schemaDict["required"].push prop
+
     else if schemaType is 'array' and baseObject.length > 0
 
       schemaDict['items'] = []
-      counter = 0
 
-      for item in baseObject
-        getSchemaForObjectProperties = {
-          baseObject: item,
-          objectId: counter.toString(),
-          firstLevel: false,
+      for item, itemIndex in baseObject
+        getSchemaForObjectProperties =
+          baseObject: item
+          objectId: itemIndex.toString()
+          firstLevel: false
           properties: properties
-        }
         schemaDict['items'].push(@getSchemaForObject getSchemaForObjectProperties)
-        counter += 1
 
     return schemaDict
-
-  #@private
-  isArray: (object) ->
-    return object instanceof Array
 
 module.exports = {
   SchemaV4Properties,

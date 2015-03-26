@@ -8,13 +8,36 @@ DiffMatchPatch = require 'googlediff'
 describe 'TextDiff', ->
   validator = null
 
-  describe 'when i create new instance of validator with incorrect data', ->
+  describe 'when i create new instance of validator with incorrect "data" (first argument)', ->
     validator = null
 
     it 'should throw exception', ->
       fn = () ->
-        validator = new TextDiff {}, {}
+        validator = new TextDiff null, ''
       assert.throws fn
+
+  describe 'when i create new instance of validator with incorrect "expected" (second argument)', ->
+    validator = null
+
+    it 'should throw exception', ->
+      fn = () ->
+        validator = new TextDiff '', null
+      assert.throws fn
+
+  describe 'when i create new instance of validator with "Iñtërnâtiônàlizætiøn☃" string as "data"', ->
+    validator = null
+
+    it "should not throw exception", ->
+      fn = () ->
+        validator = new TextDiff 'Iñtërnâtiônàlizætiøn☃', ""
+      assert.doesNotThrow fn
+
+    describe 'when I run validate', ->
+      it "should not throw exception", ->
+        fn = () ->
+          validator.validate()
+        assert.doesNotThrow fn
+
 
   describe 'when i create new instance of validator with surrogate pair in data', ->
     validator = null
