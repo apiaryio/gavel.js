@@ -142,7 +142,8 @@ class Validatable
         @validation.body.realType = contentType
       catch error
         message = {
-          message: 'Unknown real body media type. Content-type header is "' + contentType + '" but body is not a parseble JSON.'
+          message: 'Real body "Content-Type" header is "' +
+            contentType + '" but body is not a parseble JSON.'
           severity: 'error'
         }
         message.message  = message.message + "\n" + error.message
@@ -165,7 +166,7 @@ class Validatable
           parsed = JSON.parse @expected.bodySchema
           if typeof parsed != 'object' or Array.isArray parsed
             message = {
-              message: 'Expected body: JSON Schema provided, but it is not an Object'
+              message: 'Cant\'t validate. Expected body JSON Schema is not an Object'
               severity: 'error'
             }
             @validation.body.results.push message
@@ -173,7 +174,7 @@ class Validatable
             @validation.body.expectedType = 'application/schema+json'
         catch error
           message = {
-            message: 'Expected body: JSON Schema provided, but it is not a parseable JSON'
+            message: 'Can\'t validate. Expected body JSON Schema is not a parseable JSON'
             severity: 'error'
           }
           @validation.body.results.push message
@@ -190,7 +191,7 @@ class Validatable
           @validation.body.expectedType = expectedContentType
         catch error
           message = {
-            message: 'Expected body: Content-Type is ' + expectedContentType + ' but body is not a parseable JSON'
+            message: 'Can\'t validate. Expected body Content-Type is ' + expectedContentType + ' but body is not a parseable JSON'
             severity: 'error'
           }
           message.message = message.message + ": " +error.message
@@ -208,17 +209,11 @@ class Validatable
 
     @validation.body.results ?= []
 
-    message =
-      message: "No validator found for real data media type '#{@validation.body.realType}' and expected data media type '#{@validation.body.expectedType}'."
-      severity: 'error'
+    errorsLength = @validation.body.results.reduce (prev, result, index, array) ->
+      prev += 1 if result['severity'] == 'error'
+    , 0
 
-    if @validation.body.realType == null and @validation.body.expectedType == null
-      message = {
-        message: 'Unknown real and expected type. No validator found.'
-        severity: 'error'
-      }
-      @validation.body.results.push message
-    else
+    if errorsLength == 0
       if @isJsonContentType @validation.body.realType
         if @validation.body.expectedType == 'application/schema+json'
           @validation.body.validator = 'JsonSchema'
@@ -226,7 +221,7 @@ class Validatable
           @validation.body.validator = 'JsonExample'
         else
           message =
-            message: "Watchout for malformed JSON. Expected data media type ('#{@validation.body.expectedType}') does not match real media type ('#{@validation.body.realType}')."
+            message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.realType}'."
             severity: 'error'
 
           @validation.body.results.push message
@@ -235,9 +230,17 @@ class Validatable
         if @validation.body.expectedType == 'text/plain'
           @validation.body.validator = 'TextDiff'
         else
+          message =
+            message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.realType}'."
+            severity: 'error'
+
           @validation.body.results.push message
 
       else
+        message =
+          message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.realType}'."
+          severity: 'error'
+
         @validation.body.results.push message
 
   runBodyValidator: () ->
