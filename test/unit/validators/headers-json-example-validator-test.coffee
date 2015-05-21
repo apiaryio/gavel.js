@@ -1,5 +1,5 @@
 {assert} = require('chai')
-{HeadersJsonExample} = require('../../../src/validators/headers-json-example')
+{HeadersJsonExample} = require '../../../src/validators/headers-json-example'
 fixtures = require '../../fixtures'
 shared = require '../support/amanda-to-gavel-shared'
 
@@ -53,24 +53,35 @@ describe 'HeadersJsonExample', ->
           assert.lengthOf result, 0
 
     describe 'when key is missing in provided headers', ->
-      before ->
+      beforeEach ->
         headersValidator = new HeadersJsonExample fixtures.sampleHeadersMissing , fixtures.sampleHeaders
       describe 'and i run validate()', ->
         it "should return 1 error", ->
           result = headersValidator.validate()
           assert.equal result.length, 1
 
+        it 'should have beautiful error message', ->
+          result = headersValidator.validate()
+          assert.equal result[0].message, "Header 'header2' is missing"
+
     describe 'when value of content negotiation header in provided headers differs', ->
-      before ->
+      beforeEach ->
         headersValidator = new HeadersJsonExample fixtures.sampleHeadersDiffers , fixtures.sampleHeaders
+
       describe 'and i run validate()', ->
         it "should return 1 errors", ->
           result = headersValidator.validate()
           assert.equal result.length, 1
 
+        it 'should have beautiful error message', ->
+          result = headersValidator.validate()
+          console.log result
+          assert.equal result[0].message, "Header 'content-type' doesn't have value 'application/fancy-madiatype'"
+
     describe 'when key is added to provided headers', ->
       before ->
         headersValidator = new HeadersJsonExample fixtures.sampleHeadersAdded , fixtures.sampleHeaders
+
       describe 'and i run validate()', ->
         it "shouldn't return any errors", ->
           result = headersValidator.validate()
@@ -84,13 +95,15 @@ describe 'HeadersJsonExample', ->
           result = headersValidator.validate()
           assert.equal result.length, 2
 
-    describe 'when non content negotiation header heeader values differs', ->
+    describe 'when non content negotiation header header values differs', ->
       before ->
         headersValidator = new HeadersJsonExample fixtures.sampleHeadersWithNonContentNegotiationChanged,  fixtures.sampleHeadersNonContentNegotiation
+
       describe 'and i run validate()', ->
         it "shouldn't return any errors", ->
           result = headersValidator.validate()
           assert.equal result.length, 0
+
 
   describe '#validate()', () ->
     output = null

@@ -123,7 +123,6 @@ class JsonSchema
 
     unless dataIsTheSame and schemaIsTheSame
       @output = @validatePrivate()
-
     return @output
 
   evaluateOutputToResults: (data) ->
