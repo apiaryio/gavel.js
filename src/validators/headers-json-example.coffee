@@ -1,8 +1,11 @@
 errors          = require '../errors'
 {JsonSchema}   = require './json-schema'
-{SchemaV4Generator, SchemaV4Properties} = require('../utils/schema-v4-generator')
+{SchemaV4Generator, SchemaV4Properties} = require '../utils/schema-v4-generator'
+tv4ToHeadersMessage = require '../utils/tv4-to-headers-message'
+
 jsonPointer = require 'json-pointer'
-type        = require 'is-type'
+type = require 'is-type'
+
 
 # Checks data, prepares validator and validates request or response headers against given expected headers or json schema
 # @author Peter Grilli <tully@apiary.io>
@@ -34,6 +37,14 @@ class HeadersJsonExample extends JsonSchema
 
     super @real, @schema
 
+  validate: ->
+
+    result = super()
+    if result.length > 0
+      for i in [0..(result.length - 1)]
+        result[i]['message'] = tv4ToHeadersMessage result[i]['message']
+
+    result
   #@private
   prepareHeaders: (headers) ->
     if not type.object(headers)

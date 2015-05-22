@@ -748,7 +748,7 @@ describe "Http validatable mixin", () ->
                 results.forEach (result) ->
                   messages.push result.message
 
-                assert.include messages[0], 'Expected body: Content-Type is ' + contentType + ' but body is not a parseable JSON'
+                assert.include messages[0], 'is not a parseable JSON'
 
               it 'should add error message with lint result', () ->
                 expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
@@ -788,6 +788,33 @@ describe "Http validatable mixin", () ->
                 'text/plain'
 
     describe "#setBodyValidator()", () ->
+      describe 'when there is an error prior its execution', () ->
+        before () ->
+          instance = new HttpResponse {
+            expected:
+              body: "{}"
+          }
+          instance.validation = {}
+          instance.validation.body  =
+            realType: null
+            expectedType: null
+          instance.validation.body.results = [
+            {
+              message: "I can't even"
+              severity: "error"
+            }
+          ]
+          instance.setBodyValidator()
+
+        it 'should not set any validator', () ->
+          assert.equal instance.validation.body.validator, null
+
+        it 'it should not add any error to results', () ->
+          results = instance.validation.body.results
+          console.log results
+          assert.equal results.length, 1
+
+
       describe 'real or expected type is null', () ->
         before () ->
           instance = new HttpResponse {
@@ -1106,10 +1133,13 @@ describe "Http validatable mixin", () ->
           instance.validate()
 
         it 'should set error message to results', () ->
-          assert.notEqual instance.validation.statusCode.results.length, 0
+          assert.equal instance.validation.statusCode.results.length, 1
 
         it 'should return false boolean result', () ->
           assert.isFalse instance.isValid()
+
+        it 'should set beutiful error message', () ->
+          assert.equal instance.validation.statusCode.results[0].message, "Status code is not '201'"
 
     describe '#isJsonContentType',  () ->
 
