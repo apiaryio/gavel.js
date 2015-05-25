@@ -12,6 +12,7 @@
   "dependencies": {
     "amanda": "^0.5.1",
     "async": "^1.0.0",
+    "caseless": "^0.10.0",
     "clone": "^1.0.0",
     "commander": "^2.6.0",
     "curl-trace-parser": "0.0.8",
