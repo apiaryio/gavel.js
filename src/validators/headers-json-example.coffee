@@ -42,7 +42,7 @@ class HeadersJsonExample extends JsonSchema
     result = super()
     if result.length > 0
       for i in [0..(result.length - 1)]
-        result[i]['message'] = tv4ToHeadersMessage result[i]['message']
+        result[i]['message'] = tv4ToHeadersMessage result[i]['message'], @expected
 
     result
   #@private

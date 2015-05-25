@@ -221,7 +221,7 @@ class Validatable
           @validation.body.validator = 'JsonExample'
         else
           message =
-            message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.realType}'."
+            message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.expectedType}'."
             severity: 'error'
 
           @validation.body.results.push message
@@ -231,14 +231,14 @@ class Validatable
           @validation.body.validator = 'TextDiff'
         else
           message =
-            message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.realType}'."
+            message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.expectedType}'."
             severity: 'error'
 
           @validation.body.results.push message
 
       else
         message =
-          message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.realType}'."
+          message: "Can't validate real media type '#{@validation.body.realType}' against expected media type '#{@validation.body.expectedType}'."
           severity: 'error'
 
         @validation.body.results.push message

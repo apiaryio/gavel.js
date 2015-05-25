@@ -75,8 +75,7 @@ describe 'HeadersJsonExample', ->
 
         it 'should have beautiful error message', ->
           result = headersValidator.validate()
-          console.log result
-          assert.equal result[0].message, "Header 'content-type' doesn't have value 'application/fancy-madiatype'"
+          assert.equal result[0].message, "Header 'content-type' has value 'application/fancy-madiatype' instead of 'application/json'"
 
     describe 'when key is added to provided headers', ->
       before ->
