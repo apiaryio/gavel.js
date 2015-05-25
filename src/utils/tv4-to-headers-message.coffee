@@ -1,11 +1,11 @@
 caseless = require 'caseless'
 
 module.exports = (message, expectedHeaders) ->
-  if message.indexOf("Missing required property:") > 1
+  if message.indexOf("Missing required property:") > -1
     headerName = message.split("Missing required property: ")[1]
     newMessage = "Header '#{headerName}' is missing"
 
-  else if message.indexOf("No enum match for: ") > 1
+  else if message.indexOf("No enum match for: ") > -1
     splitted = message.split '\' No enum match for: "'
 
     headerName = splitted[0]
