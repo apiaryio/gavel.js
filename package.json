@@ -21,7 +21,7 @@
     "http-string-parser": "0.0.5",
     "is-type": "",
     "json-pointer": "^0.3.0",
-    "jsonlint": "~1.6.0",
+    "jsonlint": "git://github.com/josdejong/jsonlint.git",
     "media-typer": "~0.3.0",
     "tv4": "~1.1.4"
   },
@@ -36,11 +36,12 @@
     "lodash": "^3.3.0",
     "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.2",
+    "mochify": "^2.18.0",
     "prettyjson": "^1.1.0",
     "sinon": "^1.12.2"
   },
   "scripts": {
-    "test": "scripts/test",
+    "test": "scripts/test && ./scripts/mochify",
     "prepublish": "scripts/build"
   },
   "repository": {
