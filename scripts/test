@@ -2,9 +2,9 @@
 git submodule init
 git submodule update
 ./scripts/build
-cd $(dirname $0)
-./cucumber 2>&1 \
-&& ./mocha 2>&1 \
-&& ./mochify
+# cd $(dirname $0)
+./scripts/cucumber 2>&1 \
+&& ./scripts/mocha 2>&1 \
+&& ./scripts/mochify
 
 
