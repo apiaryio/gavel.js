@@ -5,6 +5,6 @@ git submodule update
 cd $(dirname $0)
 ./cucumber 2>&1 \
 && ./mocha 2>&1 \
-&& ./scripts/mochify
+&& ./mochify
 
 
