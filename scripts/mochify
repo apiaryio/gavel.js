@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Test browserified bundle
+
+rm -rf mochify
+./scripts/build
+
+mkdir mochify
+
+cp -r lib mochify/src
+cp -r test mochify/test
+cp package.json mochify
+node_modules/.bin/coffee -b -c ./mochify/test
+find mochify/test | grep .coffee | xargs rm
+cd ./mochify
+find ./test -name '*-test.js' | xargs ../node_modules/.bin/mochify
+STATUS=$?
+cd ..
+rm -rf mochify
+exit $STATUS
+
+
+
+
+
