@@ -1,18 +1,14 @@
-language: node_js
 sudo: false
+language: "node_js"
 node_js:
   - "0.10"
   - "0.12"
   - "4"
   - "5"
   - "6"
-notifications:
-  email:
-    recipients:
-      - adam@apiary.io
-    on_success: change
-    on_failure: always
+
+before_install:
+  - "npm -g install npm@latest"
+
 after_success:
   - ./scripts/coveralls
-before_install:
-  - npm install -g npm@1.4.28
