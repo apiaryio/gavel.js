@@ -1,9 +1,9 @@
 # GAVEL—JavaScript library for HTTP validation
 
-[![Build Status](https://travis-ci.org/apiaryio/gavel.js.png?branch=master)](https://travis-ci.org/apiaryio/gavel.js)
-[![Dependency Status](https://david-dm.org/apiaryio/gavel.js.png)](https://david-dm.org/apiaryio/gavel.js)
-[![devDependency Status](https://david-dm.org/apiaryio/gavel.js/dev-status.png)](https://david-dm.org/apiaryio/gavel.js#info=devDependencies)
-[![Coverage Status](https://coveralls.io/repos/apiaryio/gavel.js/badge.png)](https://coveralls.io/r/apiaryio/gavel.js)
+[![Build Status](https://travis-ci.org/apiaryio/gavel.js.svg?branch=master)](https://travis-ci.org/apiaryio/gavel.js)
+[![Dependency Status](https://david-dm.org/apiaryio/gavel.js.svg)](https://david-dm.org/apiaryio/gavel.js)
+[![devDependency Status](https://david-dm.org/apiaryio/gavel.js/dev-status.svg)](https://david-dm.org/apiaryio/gavel.js#info=devDependencies)
+[![Coverage Status](https://coveralls.io/repos/apiaryio/gavel.js/badge.svg)](https://coveralls.io/r/apiaryio/gavel.js)
 
 
 ![Gavel logo](https://raw.github.com/apiaryio/gavel/master/img/gavel.png)
