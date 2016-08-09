@@ -1,8 +1,0 @@
-#!/bin/bash
-git submodule init
-git submodule update
-./scripts/build
-cd $(dirname $0)
-./cucumber 2>&1 \
-&& ./mocha 2>&1 \
-&& ./mochify 2>&1

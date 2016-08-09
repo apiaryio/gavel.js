@@ -5,13 +5,23 @@
 # Example:
 # ./scripts/cov html-cov > cov.html
 
+
 COV=./node_modules/coffee-coverage/bin/coffeecoverage
-MOCHA=./node_modules/mocha/bin/mocha
-
+MOCHA=./node_modules/.bin/mocha
 REPORTER=$1
-echo "Using Mocha reporter: $REPORTER" 1>&2
-$COV --exclude node_modules,.git,test --path relative . ./src-cov 1>&2
-cp -r ./test ./src-cov/test
-find ./src-cov/test/unit | grep "\-test" | xargs $MOCHA --require ./src-cov/src/gavel.js --reporter $REPORTER --compilers 'coffee:coffee-script/register'
 
+
+# Cleanup & preparation
+rm -rf ./src-cov ./lcov ./cov.info
+mkdir ./src-cov ./lcov
+
+# Creating directory with instrumented JS code
+$COV --exclude=node_modules,.git,test --path=relative . ./src-cov 1>&2
+cp ./package.json ./src-cov
+cp -r ./test ./src-cov/test
+
+# Testing
+$MOCHA ./src-cov/test/unit/**/*-test.coffee --reporter="$REPORTER"
+
+# Output & cleanup
 rm -rf ./src-cov

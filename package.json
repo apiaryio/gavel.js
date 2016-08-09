@@ -7,8 +7,15 @@
     "gavel": "bin/gavel"
   },
   "scripts": {
-    "test": "scripts/test",
-    "prepublish": "scripts/build"
+    "build": "coffee -b -c -o lib/ src/",
+    "lint": "coffeelint src",
+    "test": "npm run test:server && npm run test:browser && npm run test:features",
+    "test:server": "mocha test/unit/**/*-test.coffee",
+    "test:browser": "mochify test/unit/**/*.coffee --transform=coffeeify --extension=.coffee",
+    "test:features": "cucumberjs --compiler=coffee:coffee-script/register -f pretty -t @nodejs -t ~@proposal -t ~@draft -t ~@nodejs-pending -r test/cucumber/support/ -r test/cucumber/step_definitions/ node_modules/gavel-spec/features/",
+    "prepublish": "npm run build",
+    "coverage": "./scripts/cov",
+    "coveralls": "npm run coverage mocha-lcov-reporter | coveralls"
   },
   "dependencies": {
     "amanda": "^0.5.1",

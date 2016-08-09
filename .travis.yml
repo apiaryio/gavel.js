@@ -8,4 +8,4 @@ node_js:
 before_install:
   - "npm -g install npm@latest"
 after_success:
-  - ./scripts/coveralls
+  - "npm run coveralls"

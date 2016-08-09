@@ -1,3 +1,0 @@
-#!/bin/sh
-cd $(dirname $0)/..
-find ./test/unit -name '*-test.coffee' | xargs ./node_modules/.bin/mocha --reporter spec --compilers 'coffee:coffee-script/register' 

@@ -1,3 +1,0 @@
-#!/bin/sh
-cd $(dirname $0)/..
-./node_modules/.bin/mochify ./test/**/*.coffee --transform=coffeeify --extension=.coffee
