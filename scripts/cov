@@ -6,7 +6,7 @@
 # ./scripts/cov html-cov > cov.html
 
 
-COV=./node_modules/coffee-coverage/bin/coffeecoverage
+COV=./node_modules/.bin/coffeeCoverage
 MOCHA=./node_modules/.bin/mocha
 REPORTER=$1
 
