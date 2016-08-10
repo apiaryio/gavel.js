@@ -1,7 +1,6 @@
-bodyStepDefs = () ->
-  Given = When = Then = @.defineStep
-  
-  Given /^you define expected HTTP body using the following "([^"]*)":$/, (type, body, callback) ->
+
+module.exports = ->
+  @Given /^you define expected HTTP body using the following "([^"]*)":$/, (type, body, callback) ->
     if type == "textual example"
       @expected.body = body
     else if type == "JSON example"
@@ -10,9 +9,7 @@ bodyStepDefs = () ->
       @expected.bodySchema = JSON.parse body
 
     callback()
-  
-  When /^real HTTP body is following:$/, (body, callback) ->
+
+  @When /^real HTTP body is following:$/, (body, callback) ->
     @real.body = body
     callback()
-
-module.exports = bodyStepDefs
