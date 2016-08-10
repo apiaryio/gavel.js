@@ -1,3 +1,0 @@
-#!/bin/sh
-cd $(dirname $0)/..
-./node_modules/cucumber/bin/cucumber.js -f pretty -t @nodejs -t ~@proposal -t ~@draft -t ~@nodejs-pending -r test/cucumber/support/ -r test/cucumber/step_definitions/ ./test/cucumber/features

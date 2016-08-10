@@ -1,14 +1,12 @@
+
 util = require('util')
 
-statusCodeStepDefs = () ->
-  Given = When = Then = @.defineStep
-  
-  Given /^you expect HTTP status code "([^"]*)"$/, (code, callback) ->
+
+module.exports = ->
+  @Given /^you expect HTTP status code "([^"]*)"$/, (code, callback) ->
     @expected.statusCode = code
     callback()
-  
-  When /^real status code is "([^"]*)"$/, (code, callback) ->
+
+  @When /^real status code is "([^"]*)"$/, (code, callback) ->
     @real.statusCode = code
     callback()
-
-module.exports = statusCodeStepDefs

@@ -1,10 +1,14 @@
-/node_modules
-/.idea
-/npm-debug.log
-/nbproject/
-*.sublime-workspace
-/.vagrant
-/doc
+# Distributed code (source code lives in /src)
 /lib
-/cov.html
-/src-cov
+
+# Common for .gitignore and .npmignore
+src-cov/
+lcov/
+site/
+cov.*
+.vagrant
+*.log
+
+# List specific to .gitignore
+node_modules
+.idea/

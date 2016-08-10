@@ -1,16 +1,12 @@
-assert = require('chai').assert
-tv4 = require 'tv4'
-gavel = require '../../../src/gavel'
-{assert} = require 'chai'
-_ = require 'lodash'
 
-json_schema_options =
-  singleError: false
+tv4 = require('tv4')
+gavel = require('../../../src/gavel')
+{assert} = require('chai')
+_ = require('lodash')
 
-validatorStepDefs = () ->
-  Given = When = Then = @.defineStep
 
-  When /^you perform a failing validation on any validatable HTTP component$/, (callback) ->
+module.exports = ->
+  @When /^you perform a failing validation on any validatable HTTP component$/, (callback) ->
     json1 = '{"a": "b"}'
     json2 = '{"c": "d"}'
 
@@ -27,19 +23,19 @@ validatorStepDefs = () ->
       body: json2
 
     @validate (error, result) =>
-      callback.fail "Got error during validation:\n" + error if error
+      callback new Error "Got error during validation:\n" + error if error
       @results = JSON.parse JSON.stringify result
 
-      @isValid (error, result) ->
-        callback.fail error if error
+      @isValid (error, result) =>
+        callback new Error error if error
         @booleanResult = result
         callback()
 
-  Then /^the validator output for the HTTP component looks like the following JSON:$/, (expectedJson, callback) ->
+  @Then /^the validator output for the HTTP component looks like the following JSON:$/, (expectedJson, callback) ->
     expected = JSON.parse expectedJson
     real = @results[@component]
     if not _.isEqual real, expected
-      return callback.fail "Not matched! Expected:" + "\n" + \
+      return callback new Error "Not matched! Expected:" + "\n" + \
                     JSON.stringify(expected, null, 2) + "\n" + \
                     "But got:" + "\n" + \
                     JSON.stringify(real, null, 2)
@@ -47,22 +43,22 @@ validatorStepDefs = () ->
     else
       return callback()
 
-  Then /^validated HTTP component is considered invalid$/, (callback) ->
+  @Then /^validated HTTP component is considered invalid$/, (callback) ->
     assert.isFalse @booleanResult
     callback()
 
-  Then /^the validator output for the HTTP component is valid against "([^"]*)" model JSON schema:$/, (model, schema, callback) ->
+  @Then /^the validator output for the HTTP component is valid against "([^"]*)" model JSON schema:$/, (model, schema, callback) ->
     valid = tv4.validate @results[@component], JSON.parse(schema)
     if not valid
-      return callback.fail "Expected no validation errors on schema but got:\n" +
+      return callback new Error "Expected no validation errors on schema but got:\n" +
                 JSON.stringify(tv4.error, null, 2)
     else
       return callback()
 
-  Then /^each result entry under "([^"]*)" key must contain "([^"]*)" key$/, (key1, key2, callback) ->
+  @Then /^each result entry under "([^"]*)" key must contain "([^"]*)" key$/, (key1, key2, callback) ->
     error = @results[@component]
     if error == undefined
-      callback.fail 'Validation result for "' + \
+      callback new Error 'Validation result for "' + \
         @component + \
         '" is undefined. Validations: ' + \
         JSON.stringify @results, null, 2
@@ -71,7 +67,7 @@ validatorStepDefs = () ->
       assert.include Object.keys(error), key2
     callback()
 
-  Then /^the output JSON contains key "([^"]*)" with one of the following values:$/, (key, table, callback) ->
+  @Then /^the output JSON contains key "([^"]*)" with one of the following values:$/, (key, table, callback) ->
     error = @results[@component]
 
     validators = [].concat.apply [], table.raw()
@@ -79,11 +75,11 @@ validatorStepDefs = () ->
     assert.include validators, error[key]
     callback()
 
-  Given /^you want validate "([^"]*)" HTTP component$/, (component, callback) ->
+  @Given /^you want validate "([^"]*)" HTTP component$/, (component, callback) ->
     @component = component
     callback()
 
-  Given /^you express expected data by the following "([^"]*)" example:$/, (type, data, callback) ->
+  @Given /^you express expected data by the following "([^"]*)" example:$/, (type, data, callback) ->
     if type == 'application/schema+json'
       @expected['bodySchema'] = data
     else if type == 'application/vnd.apiary.http-headers+json'
@@ -94,7 +90,7 @@ validatorStepDefs = () ->
     @expectedType = type
     callback()
 
-  Given /^you have the following "([^"]*)" real data:$/, (type, data, callback) ->
+  @Given /^you have the following "([^"]*)" real data:$/, (type, data, callback) ->
     if type == 'application/vnd.apiary.http-headers+json'
       @real[@component] = JSON.parse data
     else
@@ -103,24 +99,24 @@ validatorStepDefs = () ->
     @realType = type
     callback()
 
-  When /^you perform validation on the HTTP component$/, (callback) ->
+  @When /^you perform validation on the HTTP component$/, (callback) ->
     @validate (error, result) =>
       if error
-        callback.fail "Error during validation: " + error
+        callback new Error "Error during validation: " + error
 
       @results = result
       @componentResults = @results[@component]
       callback()
 
-  Then /^validator "([^"]*)" is used for validation$/, (validator, callback) ->
+  @Then /^validator "([^"]*)" is used for validation$/, (validator, callback) ->
     usedValidator = @componentResults['validator']
     if validator != usedValidator
-      callback.fail "Used validator '" + usedValidator + "'" + \
+      callback new Error "Used validator '" + usedValidator + "'" + \
         " instead of '" + validator + "'. Got validation results: " + \
         JSON.stringify(@results, null, 2)
     callback()
 
-  Then /^validation key "([^"]*)" looks like the following "([^"]*)":$/, (key, type, expected, callback) ->
+  @Then /^validation key "([^"]*)" looks like the following "([^"]*)":$/, (key, type, expected, callback) ->
     real = @componentResults[key]
     if type == "JSON"
       expected = JSON.parse expected
@@ -131,7 +127,7 @@ validatorStepDefs = () ->
 
     if type == "JSON"
       if not _.isEqual expected, real
-        callback.fail "Not matched! Expected:" + "\n" + \
+        callback new Error "Not matched! Expected:" + "\n" + \
                       @inspect(expected) + "\n" + \
                       "But got:" + "\n" + \
                       @inspect(real) + "\n" + \
@@ -140,9 +136,7 @@ validatorStepDefs = () ->
       assert.equal expected, real
     callback()
 
-  Then /^each result entry must contain "([^"]*)" key$/, (key, callback) ->
+  @Then /^each result entry must contain "([^"]*)" key$/, (key, callback) ->
     @componentResults['results'].forEach (error) ->
       assert.include Object.keys(error), key
     callback()
-
-module.exports = validatorStepDefs

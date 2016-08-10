@@ -1,8 +1,0 @@
---name       "Gavel"
---readme     README.md
---title      "Gavel Documentation"
---private=false
---output-dir ./doc
-./src
--
-CHANGELOG.md

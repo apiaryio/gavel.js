@@ -1,3 +1,0 @@
-[submodule "test/cucumber/features"]
-	path = test/cucumber/features
-	url = https://github.com/apiaryio/gavel.git
