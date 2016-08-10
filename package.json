@@ -1,6 +1,6 @@
 {
   "name": "gavel",
-  "version": "0.5.3",
+  "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
   "main": "lib/gavel.js",
   "bin": {
@@ -15,7 +15,8 @@
     "test:features": "cucumber-js --compiler=coffee:coffee-script/register -f pretty -t @nodejs -t ~@proposal -t ~@draft -t ~@nodejs-pending -r test/cucumber/support/ -r test/cucumber/step_definitions/ node_modules/gavel-spec/features/",
     "prepublish": "npm run build",
     "coverage": "./scripts/cov",
-    "coveralls": "npm run coverage mocha-lcov-reporter | coveralls"
+    "coveralls": "npm run coverage mocha-lcov-reporter | coveralls",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "dependencies": {
     "amanda": "^0.5.1",
