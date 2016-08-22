@@ -7,7 +7,7 @@ IS_WINDOWS = process.platform.match(/^win/)
 
 # Removing '@cli' behavior from tests due to
 # https://github.com/apiaryio/gavel-spec/issues/24
-tags = ['@nodejs', '~@proposal', '~@draft', '~@nodejs-pending']
+tags = ['@javascript', '~@proposal', '~@draft', '~@javascript-pending']
 tags.push('~@cli') if process.platform.match(/^win/)
 
 

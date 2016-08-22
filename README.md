@@ -22,5 +22,5 @@ $ npm install gavel
 
 Gavel.js is a JavaScript implementation of the [Gavel behavior specification](https://www.relishapp.com/apiary/gavel/) ([repository](https://github.com/apiaryio/gavel-spec)):
 
-- [Gavel.js-specific documentation](https://www.relishapp.com/apiary/gavel/docs/node-js/)
+- [Gavel.js-specific documentation](https://www.relishapp.com/apiary/gavel/docs/javascript/)
 - [CLI documentation](https://www.relishapp.com/apiary/gavel/docs/command-line-interface/)
