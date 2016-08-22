@@ -47,7 +47,7 @@
     "gavel-spec": "^1.1.0",
     "jscoverage": "^0.6.0",
     "lodash": "^4.13.1",
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.2",
     "mocha-lcov-reporter": "^1.2.0",
     "mochify": "^2.18.1",
     "prettyjson": "^1.1.3",
