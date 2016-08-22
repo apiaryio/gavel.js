@@ -20,7 +20,7 @@ module.exports = ->
     callback()
 
   @Then /^exit status is (\d+)$/, (expectedExitStatus, callback) ->
-    cmd = "PATH=$PATH:" + process.cwd() + "/bin; cd /tmp/gavel-* " + @commandBuffer
+    cmd = "PATH=$PATH:" + process.cwd() + "/bin:" + process.cwd() + "/node_modules/.bin; cd /tmp/gavel-* " + @commandBuffer
     child = exec cmd, (error, stdout, stderr) ->
       if error
         unless parseInt(error.code) == parseInt(expectedExitStatus)
@@ -31,5 +31,5 @@ module.exports = ->
 
     child.on 'exit', (code) ->
       unless parseInt(code) == parseInt(expectedExitStatus)
-       callback new Error 'Expected exit status ' + expectedExitStatus + ' but got ' + code + '.'
+        callback new Error 'Expected exit status ' + expectedExitStatus + ' but got ' + code + '.'
       callback()

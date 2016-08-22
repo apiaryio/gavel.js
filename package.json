@@ -10,11 +10,11 @@
     "build": "coffee -b -c -o lib/ src/",
     "lint": "coffeelint src",
     "test": "npm run test:server && npm run test:browser && npm run test:features",
-    "test:server": "mocha test/unit/**/*-test.coffee",
-    "test:browser": "mochify test/unit/**/*.coffee --transform=coffeeify --extension=.coffee",
-    "test:features": "cucumber-js --compiler=coffee:coffee-script/register -f pretty -t @nodejs -t ~@proposal -t ~@draft -t ~@nodejs-pending -r test/cucumber/support/ -r test/cucumber/step_definitions/ node_modules/gavel-spec/features/",
+    "test:server": "mocha \"test/unit/**/*-test.coffee\"",
+    "test:browser": "mochify \"test/unit/**/*.coffee\" --transform=coffeeify --extension=.coffee",
+    "test:features": "coffee scripts/cucumber.coffee",
     "prepublish": "npm run build",
-    "coverage": "./scripts/cov",
+    "coverage": "scripts/cov",
     "coveralls": "npm run coverage mocha-lcov-reporter | coveralls",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -41,7 +41,8 @@
     "coffeeify": "^2.0.1",
     "coffeelint": "^1.15.7",
     "coveralls": "^2.11.9",
-    "cucumber": "1.0.0",
+    "cross-spawn": "^4.0.0",
+    "cucumber": "^1.2.2",
     "cz-conventional-changelog": "^1.1.6",
     "gavel-spec": "^1.1.0",
     "jscoverage": "^0.6.0",
@@ -50,8 +51,8 @@
     "mocha-lcov-reporter": "^1.2.0",
     "mochify": "^2.18.1",
     "prettyjson": "^1.1.3",
-    "sinon": "^1.17.4",
-    "semantic-release": "^4.3.5"
+    "semantic-release": "^4.3.5",
+    "sinon": "^1.17.4"
   },
   "repository": {
     "type": "git",

@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/gavel.svg)](https://badge.fury.io/js/gavel)
 [![Build Status](https://travis-ci.org/apiaryio/gavel.js.svg?branch=master)](https://travis-ci.org/apiaryio/gavel.js)
+[![Build status](https://ci.appveyor.com/api/projects/status/0cpnaoakhs8q58tn/branch/master?svg=true)](https://ci.appveyor.com/project/Apiary/gavel-js/branch/master)
 [![Dependency Status](https://david-dm.org/apiaryio/gavel.js.svg)](https://david-dm.org/apiaryio/gavel.js)
 [![devDependency Status](https://david-dm.org/apiaryio/gavel.js/dev-status.svg)](https://david-dm.org/apiaryio/gavel.js#info=devDependencies)
 [![Coverage Status](https://coveralls.io/repos/apiaryio/gavel.js/badge.svg?branch=master)](https://coveralls.io/r/apiaryio/gavel.js?branch=master)
