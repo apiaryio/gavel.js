@@ -44,7 +44,7 @@
     "cross-spawn": "^4.0.0",
     "cucumber": "^1.2.2",
     "cz-conventional-changelog": "^1.1.6",
-    "gavel-spec": "^1.1.0",
+    "gavel-spec": "^1.2.0",
     "jscoverage": "^0.6.0",
     "lodash": "^4.13.1",
     "mocha": "^3.0.2",
