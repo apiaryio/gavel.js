@@ -143,7 +143,7 @@ class Validatable
       catch error
         message = {
           message: 'Real body "Content-Type" header is "' +
-            contentType + '" but body is not a parseble JSON.'
+            contentType + '" but body is not a parsable JSON.'
           severity: 'error'
         }
         message.message  = message.message + "\n" + error.message
