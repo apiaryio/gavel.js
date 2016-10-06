@@ -190,10 +190,11 @@ class Validatable
           @validation.body.expectedType = expectedContentType
         catch error
           message = {
-            message: 'Can\'t validate. Expected body Content-Type is ' + expectedContentType + ' but body is not a parseable JSON'
+            message: 'Can\'t validate. Expected body "Content-Type" is "' +
+              expectedContentType + '" but body is not a parseable JSON.'
             severity: 'error'
           }
-          message.message = message.message + ": " +error.message
+          message.message = message.message + "\n" + error.message
           @validation.body.results.push message
       else
         try
