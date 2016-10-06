@@ -1,4 +1,3 @@
-jsonlint = require 'jsonlint'
 mediaTyper = require 'media-typer'
 validators = require '../validators'
 
@@ -138,7 +137,7 @@ class Validatable
     contentType = @headers?['content-type']
     if @isJsonContentType contentType
       try
-        jsonlint.parse @body
+        JSON.parse @body
         @validation.body.realType = contentType
       catch error
         message = {
@@ -187,7 +186,7 @@ class Validatable
 
       if @isJsonContentType expectedContentType
         try
-          jsonlint.parse @expected.body
+          JSON.parse @expected.body
           @validation.body.expectedType = expectedContentType
         catch error
           message = {
