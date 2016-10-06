@@ -30,7 +30,6 @@
     "http-string-parser": "0.0.5",
     "is-type": "0.0.1",
     "json-pointer": "^0.5.0",
-    "jsonlint": "josdejong/jsonlint",
     "media-typer": "^0.3.0",
     "tv4": "^1.2.7"
   },
