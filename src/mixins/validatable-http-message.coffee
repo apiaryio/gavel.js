@@ -1,3 +1,4 @@
+parseJson = require 'parse-json'
 mediaTyper = require 'media-typer'
 validators = require '../validators'
 
@@ -137,7 +138,7 @@ class Validatable
     contentType = @headers?['content-type']
     if @isJsonContentType contentType
       try
-        JSON.parse @body
+        parseJson @body
         @validation.body.realType = contentType
       catch error
         message = {
@@ -186,7 +187,7 @@ class Validatable
 
       if @isJsonContentType expectedContentType
         try
-          JSON.parse @expected.body
+          parseJson @expected.body
           @validation.body.expectedType = expectedContentType
         catch error
           message = {
