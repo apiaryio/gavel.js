@@ -142,11 +142,12 @@ class Validatable
         @validation.body.realType = contentType
       catch error
         message = {
-          message: 'Real body "Content-Type" header is "' +
-            contentType + '" but body is not a parseble JSON.'
+          message: """\
+            Real body 'Content-Type' header is '#{contentType}' \
+            but body is not a parseable JSON:\n#{error.message}\
+          """
           severity: 'error'
         }
-        message.message  = message.message + "\n" + error.message
         @validation.body.results.push message
     else
       try
@@ -163,7 +164,7 @@ class Validatable
     if @expected.bodySchema?
       if typeof @expected.bodySchema == 'string'
         try
-          parsed = JSON.parse @expected.bodySchema
+          parsed = parseJson @expected.bodySchema
           if typeof parsed != 'object' or Array.isArray parsed
             message = {
               message: 'Cant\'t validate. Expected body JSON Schema is not an Object'
@@ -174,7 +175,10 @@ class Validatable
             @validation.body.expectedType = 'application/schema+json'
         catch error
           message = {
-            message: 'Can\'t validate. Expected body JSON Schema is not a parseable JSON'
+            message: """\
+              Can't validate. Expected body JSON Schema 'Content-Type' is
+              not a parseable JSON:\n#{error.message}\
+            """
             severity: 'error'
           }
           @validation.body.results.push message
@@ -191,11 +195,12 @@ class Validatable
           @validation.body.expectedType = expectedContentType
         catch error
           message = {
-            message: 'Can\'t validate. Expected body "Content-Type" is "' +
-              expectedContentType + '" but body is not a parseable JSON.'
+            message: """\
+              Can't validate. Expected body 'Content-Type' is '#{expectedContentType}' \
+              but body is not a parseable JSON:\n#{error.message}\
+            """
             severity: 'error'
           }
-          message.message = message.message + "\n" + error.message
           @validation.body.results.push message
       else
         try
