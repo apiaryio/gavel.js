@@ -3,6 +3,9 @@
   "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
   "main": "lib/gavel.js",
+  "engines": {
+    "node": ">= 4"
+  },
   "bin": {
     "gavel": "bin/gavel"
   },
