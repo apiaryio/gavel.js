@@ -1,8 +1,6 @@
 sudo: false
 language: "node_js"
 node_js:
-  - "0.10"
-  - "0.12"
   - "4"
   - "6"
 env:
@@ -15,8 +13,6 @@ cache:
 before_install:
   - "npm -g install npm@latest"
   - "curl -Lo travis_after_all.py https://raw.githubusercontent.com/dmakhno/travis_after_all/master/travis_after_all.py"
-before_script:  # https://github.com/cucumber/cucumber-js/issues/602
-  - "if [[ $TRAVIS_NODE_VERSION = '0.10' ]]; then npm install cucumber@1.0.0; fi"
 after_success:  # travis_after_all.py is needed due to travis-ci/travis-ci#1548 & travis-ci/travis-ci#929
   - "npm run coveralls"
   - "python travis_after_all.py"
