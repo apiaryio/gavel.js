@@ -171,12 +171,23 @@ class JsonSchema
   #@private
   validateSchemaV4: =>
     result = tv4.validateMultiple @data, @schema
+    validationErrors = result.errors.concat result.missing
 
     amandaCompatibleError =
-      length: result.errors.length
+      length: validationErrors.length
       errorMessages: {}
 
-    for error, index in result?.errors
+    for err, index in validationErrors
+      # Need to create the error in case of missing schema errors.
+      # If tv4 meets $ref to a missing schema, it provides an array that contains the schema's domain.
+      # In case we a local $ref, as there's no domain name, it will look like this: ['', '': '']
+      if err instanceof Error
+        error = err
+      else
+        error = new Error('Missing schema')
+        error.params = { key: err }
+        error.dataPath = ''
+
       pathArray = jsonPointer.parse error.dataPath
       if error.params.key
         pathArray.push error.params.key

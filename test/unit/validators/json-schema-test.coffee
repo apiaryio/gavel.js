@@ -281,7 +281,6 @@ describe 'validatePrivate()', () ->
     it 'should not valiate using tv4', () ->
       assert.notOk validator.validateSchemaV4.called
 
-
   describe 'when @jsonSchemaVersion is set to v4', () ->
     validator = null
 
@@ -306,6 +305,62 @@ describe 'validatePrivate()', () ->
 
     it 'should not validate using amanda', () ->
       assert.notOk validator.validateSchemaV3.called
+
+  describe 'when valid v4 $ref schema provided with valid data', () ->
+    fn = null
+    validator = null
+
+    before () ->
+      validSchema = require '../../fixtures/valid-schema-v4-with-refs'
+      real = JSON.parse '''
+      { "foo": "bar" }
+      '''
+      fn = () ->
+        validator = new JsonSchema real, validSchema
+        validator.validatePrivate()
+
+    it 'should not return a validation error', () ->
+      assert.lengthOf fn(), 0
+
+  describe 'when valid v4 $ref schema provided with invalid data', () ->
+    fn = null
+    validator = null
+
+    before () ->
+      validSchema = require '../../fixtures/valid-schema-v4-with-refs'
+      real = JSON.parse '''
+      { "foo": 1 }
+      '''
+      fn = () ->
+        validator = new JsonSchema real, validSchema
+        validator.validatePrivate()
+
+    it 'should return a validation error', () ->
+      assert.lengthOf fn(), 1
+
+    it 'should mention an invalid type error', () ->
+      e = fn()[0]
+      assert.include e.message, "Invalid type"
+
+  describe 'when invalid v4 $ref schema provided with valid data', () ->
+    fn = null
+    validator = null
+
+    before () ->
+      invalidSchema = require '../../fixtures/invalid-schema-v4-with-refs'
+      real = JSON.parse '''
+      { "foo": "bar" }
+      '''
+      fn = () ->
+        validator = new JsonSchema real, invalidSchema
+        validator.validatePrivate()
+
+    it 'should return a validation error', () ->
+      assert.lengthOf fn(), 1
+
+    it 'should mention a missing schema error', () ->
+      e = fn()[0]
+      assert.include e.message, "Missing schema"
 
   describe 'when @jsonSchemaVersion is null', () ->
     fn = null
