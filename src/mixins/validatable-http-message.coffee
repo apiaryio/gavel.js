@@ -1,4 +1,4 @@
-jsonlint = require 'jsonlint'
+parseJson = require 'parse-json'
 mediaTyper = require 'media-typer'
 validators = require '../validators'
 
@@ -138,7 +138,7 @@ class Validatable
     contentType = @headers?['content-type']
     if @isJsonContentType contentType
       try
-        jsonlint.parse @body
+        parseJson @body
         @validation.body.realType = contentType
       catch error
         message = {
@@ -187,14 +187,15 @@ class Validatable
 
       if @isJsonContentType expectedContentType
         try
-          jsonlint.parse @expected.body
+          parseJson @expected.body
           @validation.body.expectedType = expectedContentType
         catch error
           message = {
-            message: 'Can\'t validate. Expected body Content-Type is ' + expectedContentType + ' but body is not a parseable JSON'
+            message: 'Can\'t validate. Expected body "Content-Type" is "' +
+              expectedContentType + '" but body is not a parseable JSON.'
             severity: 'error'
           }
-          message.message = message.message + ": " +error.message
+          message.message = message.message + "\n" + error.message
           @validation.body.results.push message
       else
         try
