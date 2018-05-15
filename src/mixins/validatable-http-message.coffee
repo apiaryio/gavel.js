@@ -293,7 +293,7 @@ class Validatable
 
     @validation.statusCode.results = @validation.statusCode.results.map (current, index, arr) ->
       if current.message = 'Real and expected data does not match.'
-        current.message = "Status code is not '#{expected}'"
+        current.message = "Status code is '#{real}' instead of '#{expected}'"
       current
 
 
