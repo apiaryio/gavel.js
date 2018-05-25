@@ -1139,7 +1139,7 @@ describe "Http validatable mixin", () ->
           assert.isFalse instance.isValid()
 
         it 'should set beutiful error message', () ->
-          assert.equal instance.validation.statusCode.results[0].message, "Status code is not '201'"
+          assert.equal instance.validation.statusCode.results[0].message, "Status code is '200' instead of '201'"
 
     describe '#isJsonContentType',  () ->
 
