@@ -15,8 +15,6 @@ cache:
     - "node_modules"
 before_install:
   - "npm -g install npm@latest"
-script:
-  - npm test -- --allow-chrome-as-root
 after_success:
   - "npm run coveralls || true"
   - "npm run semantic-release || true"
