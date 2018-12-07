@@ -549,12 +549,17 @@ describe "Http validatable mixin", () ->
               assert.include results, 'error'
 
             it 'should add error message with lint result', () ->
-              expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
+              expected = """\
+                Real body 'Content-Type' header is '#{contentType}' but body is not a parseable JSON:
+                Unexpected token '\\'' at 1:22
+                {"creative?": false, 'creativ': true }
+                                     ^
+              """
               messages = []
               for result in instance.validation.body.results
                 messages.push result.message
 
-              assert.include messages[0], expected
+              assert.equal messages[0], expected
 
             it 'should not overwrite existing errors', () ->
               instance.validation.body.results = [
@@ -751,12 +756,17 @@ describe "Http validatable mixin", () ->
                 assert.include messages[0], 'is not a parseable JSON'
 
               it 'should add error message with lint result', () ->
-                expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
+                expected = """\
+                  Can't validate. Expected body 'Content-Type' is '#{contentType}' but body is not a parseable JSON:
+                  Unexpected token '\\'' at 1:22
+                  {"creative?": false, 'creativ': true }
+                                       ^
+                """
                 messages = []
                 for result in instance.validation.body.results
                   messages.push result.message
 
-                assert.include messages[0], expected
+                assert.equal messages[0], expected
 
         describe 'expected headers have not content-type application/json', () ->
           describe 'expected body is a parseable JSON', () ->
