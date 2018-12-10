@@ -10,6 +10,8 @@ cache:
     - "node_modules"
 before_install:
   - "npm -g install npm@6"
+install:
+  - "npm install --no-save"
 script:
   - "npm run ci:lint || true"  # TODO fix all lint errors
   - "npm run ci:test"
