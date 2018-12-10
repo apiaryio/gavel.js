@@ -1,10 +1,10 @@
 environment:
-  nodejs_version: "6"
+  nodejs_version: "10"
 cache:
   - "node_modules"
 install:
-  - ps: Install-Product node 6
-  - "npm -g install npm@latest"
+  - ps: Install-Product node 10
+  - "npm -g install npm@6"
   - "set PATH=%APPDATA%\\npm;%PATH%"
   - "npm install"
 build: off

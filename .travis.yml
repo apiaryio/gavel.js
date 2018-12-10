@@ -1,18 +1,17 @@
-sudo: false
+# GH_TOKEN and NPM_TOKEN are expected to be set
+# in https://travis-ci.org/apiaryio/gavel.js/settings
 language: "node_js"
 node_js:
   - "6"
   - "8"
   - "10"
-env:
-  global:
-    # GH_TOKEN and NPM_TOKEN encrypted by 'travis encrypt' utility
-    - secure: "aLqvApCqqaLWbbNhuCdDL02g9j5O1R00rTBo3h7Lb0LnS302Gl4XIFdjcehwOSFWJkd3Rv25A6weiOqEKo9zgGknHjY73ao1BxBaPFFhwMRY4qEVZ3oqhpf5oBuO66tf8l3cHhNkrhXgDtu9J+XU/FetM7PfGyCqhxzLdVMPcXI="
 cache:
   directories:
     - "node_modules"
 before_install:
-  - "npm -g install npm@latest"
+  - "npm -g install npm@6"
+script:
+  - "npm run ci:lint || true"  # TODO fix all lint errors
+  - "npm run ci:test"
 after_success:
-  - "npm run coveralls || true"
-  - "npm run semantic-release || true"
+  - "npm run ci:release"
