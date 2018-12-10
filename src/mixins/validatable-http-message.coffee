@@ -1,4 +1,4 @@
-jsonlint = require 'jsonlint'
+jph = require 'json-parse-helpfulerror'
 mediaTyper = require 'media-typer'
 validators = require '../validators'
 
@@ -138,19 +138,20 @@ class Validatable
     contentType = @headers?['content-type']
     if @isJsonContentType contentType
       try
-        jsonlint.parse @body
+        jph.parse @body
         @validation.body.realType = contentType
       catch error
         message = {
-          message: 'Real body "Content-Type" header is "' +
-            contentType + '" but body is not a parsable JSON.'
+          message: """\
+            Real body 'Content-Type' header is '#{contentType}' \
+            but body is not a parseable JSON:\n#{error.message}\
+          """
           severity: 'error'
         }
-        message.message  = message.message + "\n" + error.message
         @validation.body.results.push message
     else
       try
-        JSON.parse @body
+        jph.parse @body
         @validation.body.realType = 'application/json'
       catch error
         @validation.body.realType = 'text/plain'
@@ -163,10 +164,13 @@ class Validatable
     if @expected.bodySchema?
       if typeof @expected.bodySchema == 'string'
         try
-          parsed = JSON.parse @expected.bodySchema
+          parsed = jph.parse @expected.bodySchema
           if typeof parsed != 'object' or Array.isArray parsed
             message = {
-              message: 'Cant\'t validate. Expected body JSON Schema is not an Object'
+              message: """\
+                Can't validate. Expected body JSON Schema 'Content-Type' is
+                not a parseable JSON:\n#{error.message}\
+              """
               severity: 'error'
             }
             @validation.body.results.push message
@@ -187,18 +191,20 @@ class Validatable
 
       if @isJsonContentType expectedContentType
         try
-          jsonlint.parse @expected.body
+          jph.parse @expected.body
           @validation.body.expectedType = expectedContentType
         catch error
           message = {
-            message: 'Can\'t validate. Expected body Content-Type is ' + expectedContentType + ' but body is not a parseable JSON'
+            message: """\
+              Can't validate. Expected body 'Content-Type' is '#{expectedContentType}' \
+              but body is not a parseable JSON:\n#{error.message}\
+            """
             severity: 'error'
           }
-          message.message = message.message + ": " +error.message
           @validation.body.results.push message
       else
         try
-          JSON.parse @expected.body
+          jph.parse @expected.body
           @validation.body.expectedType = 'application/json'
         catch error
           @validation.body.expectedType = 'text/plain'
