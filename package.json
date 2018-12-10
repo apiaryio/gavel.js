@@ -19,7 +19,9 @@
     "prepublish": "npm run build",
     "coverage": "scripts/cov",
     "coveralls": "npm run coverage mocha-lcov-reporter | coveralls",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "ci:lint": "npm run lint",
+    "ci:test": "npm run test && npm run coveralls",
+    "ci:release": "semantic-release pre && npm publish && semantic-release post"
   },
   "dependencies": {
     "amanda": "1.0.1",

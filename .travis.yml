@@ -10,6 +10,8 @@ cache:
     - "node_modules"
 before_install:
   - "npm -g install npm@6"
+script:
+  - "npm run ci:lint || true"  # TODO fix all lint errors
+  - "npm run ci:test"
 after_success:
-  - "npm run coveralls || true"
-  - "npm run semantic-release || true"
+  - "npm run ci:release"
