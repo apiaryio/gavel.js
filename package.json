@@ -56,7 +56,7 @@
     "mochify": "6.1.1",
     "prettyjson": "1.2.1",
     "semantic-release": "15.12.4",
-    "sinon": "7.2.6"
+    "sinon": "7.3.0"
   },
   "repository": {
     "type": "git",
