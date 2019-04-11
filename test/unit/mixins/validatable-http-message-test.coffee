@@ -821,7 +821,6 @@ describe "Http validatable mixin", () ->
 
         it 'it should not add any error to results', () ->
           results = instance.validation.body.results
-          console.log results
           assert.equal results.length, 1
 
 
@@ -842,11 +841,8 @@ describe "Http validatable mixin", () ->
             null
 
         it 'should set unknown validator error message to results', () ->
-          results = instance.validation.body.results
-          results.forEach (result) ->
-            results.push result.severity
-
-          assert.include results, 'error'
+          resultsSeverities = instance.validation.body.results.map (result) -> result.severity
+          assert.include resultsSeverities, 'error'
 
       jsonContentTypes = [
         'application/json'
