@@ -25,9 +25,9 @@ const extendable = {
     }
 
     return this
-  },
+  }
 }
 
 module.exports = {
-  extendable,
+  extendable
 }

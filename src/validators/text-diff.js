@@ -6,7 +6,7 @@ class TextDiff {
   constructor(real, expected) {
     if (typeof real !== 'string') {
       const outError = new errors.DataNotStringError(
-        'String validator real: input data is not string',
+        'String validator real: input data is not string'
       )
       outError.data = real
       throw outError
@@ -14,7 +14,7 @@ class TextDiff {
 
     if (typeof expected !== 'string') {
       outError = new errors.DataNotStringError(
-        'String validator expected: input data is not string',
+        'String validator expected: input data is not string'
       )
       outError.data = expected
       throw outError
@@ -42,7 +42,7 @@ class TextDiff {
       if (error instanceof URIError) {
         const patch = dmp.patch_make(
           sanitizeSurrogatePairs(this.real),
-          sanitizeSurrogatePairs(this.expected),
+          sanitizeSurrogatePairs(this.expected)
         )
         this.output = dmp.patch_toText(patch)
         return this.output
@@ -64,8 +64,8 @@ class TextDiff {
     return [
       {
         message: 'Real and expected data does not match.',
-        severity: 'error',
-      },
+        severity: 'error'
+      }
     ]
   }
 }

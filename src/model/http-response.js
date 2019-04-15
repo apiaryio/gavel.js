@@ -15,7 +15,7 @@ HttpResponse.resourceKeys = [
   'statusMessage',
   'headers',
   'body',
-  'expected',
+  'expected'
 ]
 
 class ExpectedHttpResponse {
@@ -32,10 +32,10 @@ ExpectedHttpResponse.resourceKeys = [
   'headers',
   'body',
   'headersSchema',
-  'bodySchema',
+  'bodySchema'
 ]
 
 module.exports = {
   HttpResponse,
-  ExpectedHttpResponse,
+  ExpectedHttpResponse
 }

@@ -11,5 +11,5 @@ class ValidationErrors {
 }
 
 module.exports = {
-  ValidationErrors,
+  ValidationErrors
 }

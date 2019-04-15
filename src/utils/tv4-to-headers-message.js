@@ -20,7 +20,7 @@ module.exports = (message, expectedHeaders) => {
     newMessage = `Header '${headerName}' has value '${headerValue}' instead of '${expected}'`
   } else {
     throw new Error(
-      "Unknown tv4 error message can't convert to headers message.",
+      "Unknown tv4 error message can't convert to headers message."
     )
   }
 

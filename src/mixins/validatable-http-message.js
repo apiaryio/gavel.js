@@ -6,7 +6,7 @@ const validators = require('../validators')
 class Validatable {
   validate() {
     this.validation = {
-      version: '2',
+      version: '2'
     }
     this.lowercaseHeaders()
 
@@ -29,9 +29,9 @@ class Validatable {
   }
 
   isValidatable() {
-    return Validatable.validatableComponents.some(
-      (component) => typeof this[component] !== 'undefined',
-    )
+    return Validatable.validatableComponents.some((component) => {
+      return typeof this[component] !== 'undefined'
+    })
   }
 
   isValid() {
@@ -51,7 +51,7 @@ class Validatable {
             return result.severity === 'error'
           })
         )
-      },
+      }
     )
 
     return !hasInvalidComponent
@@ -90,8 +90,8 @@ class Validatable {
     if (!existingValidation || !existingValidation.headers) {
       this.validation = Object.assign({}, existingValidation, {
         headers: {
-          results: [],
-        },
+          results: []
+        }
       })
     }
   }
@@ -147,7 +147,7 @@ No validator found for real data media type \
 and expected data media type \
 "${JSON.stringify(this.validation.headers.expectedType)}".\
         `,
-        severity: 'error',
+        severity: 'error'
       }
 
       this.validation.headers.results.push(entry)
@@ -173,7 +173,7 @@ and expected data media type \
     if (this.validation.headers.rawData !== null) {
       const results = validator.evaluateOutputToResults()
       this.validation.headers.results = results.concat(
-        this.validation.headers.results,
+        this.validation.headers.results
       )
     }
   }
@@ -210,7 +210,7 @@ and expected data media type \
 Real body 'Content-Type' header is '${contentType}' \
 but body is not a parseable JSON:\n${error.message}\
 `,
-          severity: 'error',
+          severity: 'error'
         }
 
         this.validation.body.results.push(message)
@@ -245,7 +245,7 @@ but body is not a parseable JSON:\n${error.message}\
 Can't validate. Expected body JSON Schema 'Content-Type' is
 not a parseable JSON:\n${error.message}\
 `,
-              severity: 'error',
+              severity: 'error'
             }
             return this.validation.body.results.push(message)
           } else {
@@ -257,7 +257,7 @@ not a parseable JSON:\n${error.message}\
           message = {
             message:
               "Can't validate. Expected body JSON Schema is not a parseable JSON",
-            severity: 'error',
+            severity: 'error'
           }
           this.validation.body.results.push(message)
           return
@@ -283,7 +283,7 @@ not a parseable JSON:\n${error.message}\
 Can't validate. Expected body 'Content-Type' is '${expectedContentType}' \
 but body is not a parseable JSON:\n${error.message}\
 `,
-            severity: 'error',
+            severity: 'error'
           }
 
           this.validation.body.results.push(message)
@@ -308,7 +308,7 @@ but body is not a parseable JSON:\n${error.message}\
     }
 
     const validationErrors = this.validation.body.results.filter((result) =>
-      ['error'].includes(result.severity),
+      ['error'].includes(result.severity)
     )
     const errorsLength = validationErrors.length
 
@@ -325,7 +325,7 @@ but body is not a parseable JSON:\n${error.message}\
             }' against expected media type '${
               this.validation.body.expectedType
             }'.`,
-            severity: 'error',
+            severity: 'error'
           })
         }
       } else if (this.validation.body.realType === 'text/plain') {
@@ -338,7 +338,7 @@ but body is not a parseable JSON:\n${error.message}\
             }' against expected media type '${
               this.validation.body.expectedType
             }'.`,
-            severity: 'error',
+            severity: 'error'
           })
         }
       } else {
@@ -348,7 +348,7 @@ but body is not a parseable JSON:\n${error.message}\
           }' against expected media type '${
             this.validation.body.expectedType
           }'.`,
-          severity: 'error',
+          severity: 'error'
         })
       }
     }
@@ -386,12 +386,12 @@ but body is not a parseable JSON:\n${error.message}\
 
         results = validator.evaluateOutputToResults()
         this.validation.body.results = results.concat(
-          this.validation.body.results,
+          this.validation.body.results
         )
       } catch (error) {
         const message = {
           message: error.message,
-          severity: 'error',
+          severity: 'error'
         }
 
         this.validation.body.results.push(message)
@@ -414,7 +414,7 @@ but body is not a parseable JSON:\n${error.message}\
     this.validation.statusCode.results = []
     const results = validator.evaluateOutputToResults()
     this.validation.statusCode.results = results.concat(
-      this.validation.statusCode.results,
+      this.validation.statusCode.results
     )
 
     return (this.validation.statusCode.results = this.validation.statusCode.results.map(
@@ -423,7 +423,7 @@ but body is not a parseable JSON:\n${error.message}\
           current.message = `Status code is '${real}' instead of '${expected}'`
         }
         return current
-      },
+      }
     ))
   }
 
@@ -444,5 +444,5 @@ but body is not a parseable JSON:\n${error.message}\
 Validatable.validatableComponents = ['headers', 'body', 'statusCode']
 
 module.exports = {
-  Validatable,
+  Validatable
 }

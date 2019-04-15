@@ -4,14 +4,14 @@ const errors = require('../errors')
 const { JsonSchema } = require('./json-schema')
 const {
   SchemaV4Generator,
-  SchemaV4Properties,
+  SchemaV4Properties
 } = require('../utils/schema-v4-generator')
 
 function getSchema(json) {
   const properties = new SchemaV4Properties({
     keysStrict: false,
     valuesStrict: false,
-    typesStrict: false,
+    typesStrict: false
   })
   const schemaGenerator = new SchemaV4Generator({ json, properties })
   return schemaGenerator.generate()
@@ -28,7 +28,7 @@ class JsonExample extends JsonSchema {
   constructor(real, expected) {
     if (!type.string(real)) {
       outError = new errors.MalformedDataError(
-        'JsonExample validator: provided real data is not string',
+        'JsonExample validator: provided real data is not string'
       )
       outError.data = real
       throw outError
@@ -36,7 +36,7 @@ class JsonExample extends JsonSchema {
 
     if (!type.string(expected)) {
       outError = new errors.MalformedDataError(
-        'JsonExample validator: provided expected data is not string',
+        'JsonExample validator: provided expected data is not string'
       )
       outError.data = expected
       throw outError
@@ -50,5 +50,5 @@ class JsonExample extends JsonSchema {
 }
 
 module.exports = {
-  JsonExample,
+  JsonExample
 }
