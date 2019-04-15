@@ -27,7 +27,7 @@ class SchemaV4Generator {
       this.properties.valuesStrict = this.properties.valuesStrict.map(
         (value) => {
           return value.toLowerCase()
-        },
+        }
       )
     }
   }
@@ -37,7 +37,7 @@ class SchemaV4Generator {
       baseObject: this.json,
       objectId: undefined,
       firstLevel: true,
-      properties: this.properties,
+      properties: this.properties
     })
 
     return this.schema
@@ -119,7 +119,7 @@ class SchemaV4Generator {
     ) {
       if (
         properties.valuesStrict.indexOf(
-          objectId != null ? objectId.toLowerCase() : undefined,
+          objectId != null ? objectId.toLowerCase() : undefined
         ) > -1
       ) {
         schemaDict.enum = [baseObject]
@@ -143,10 +143,10 @@ class SchemaV4Generator {
           baseObject: value,
           objectId: prop,
           firstLevel: false,
-          properties,
+          properties
         }
         schemaDict.properties[prop] = this.getSchemaForObject(
-          getSchemaForObjectProperties,
+          getSchemaForObjectProperties
         )
         schemaDict.required.push(prop)
       }
@@ -159,10 +159,10 @@ class SchemaV4Generator {
           baseObject: item,
           objectId: itemIndex.toString(),
           firstLevel: false,
-          properties,
+          properties
         }
         schemaDict.items.push(
-          this.getSchemaForObject(getSchemaForObjectProperties),
+          this.getSchemaForObject(getSchemaForObjectProperties)
         )
       }
     }
@@ -173,5 +173,5 @@ class SchemaV4Generator {
 
 module.exports = {
   SchemaV4Properties,
-  SchemaV4Generator,
+  SchemaV4Generator
 }

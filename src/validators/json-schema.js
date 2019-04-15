@@ -45,21 +45,21 @@ const jsonSchemaOptions = {
       } characters long).`,
     format: (prop, val, validator) =>
       `The ${prop} property must be ${getArticle(
-        validator[0],
+        validator[0]
       )} ${validator} (current value is ${JSON.stringify(val)}).`,
     type: (prop, val, validator) =>
       `The ${prop} property must be ${getArticle(
-        validator[0],
+        validator[0]
       )} ${validator} (current value is ${JSON.stringify(val)})."`,
     except: (prop, val, validator) =>
       `The ${prop} property must not be ${val}.`,
     minimum: (prop, val, validator) =>
       `The minimum value of the ${prop} must be ${validator} (current value is ${JSON.stringify(
-        val,
+        val
       )}).`,
     maximum: (prop, val, validator) =>
       `The maximum value of the ${prop} must be ${validator} (current value is ${JSON.stringify(
-        val,
+        val
       )}).`,
     pattern: (prop, val, validator) =>
       `The ${prop} value (${val}) does not match the ${validator} pattern.`,
@@ -73,11 +73,11 @@ const jsonSchemaOptions = {
       } items).`,
     divisibleBy: (prop, val, validator) =>
       `The ${prop} property is not divisible by ${validator} (current value is ${JSON.stringify(
-        val,
+        val
       )}).`,
     uniqueItems: (prop, val, validator) =>
-      `All items in the ${prop} property must be unique.`,
-  },
+      `All items in the ${prop} property must be unique.`
+  }
 }
 
 class JsonSchema {
@@ -90,7 +90,7 @@ class JsonSchema {
         this.data = JSON.parse(this.data)
       } catch (error) {
         outError = new errors.DataNotJsonParsableError(
-          'JSON validator: body: ' + error.message,
+          'JSON validator: body: ' + error.message
         )
         outError.data = this.data
         throw outError
@@ -102,7 +102,7 @@ class JsonSchema {
         this.schema = JSON.parse(this.schema)
       } catch (error) {
         outError = new errors.SchemaNotJsonParsableError(
-          'JSON validator: schema: ' + error.message,
+          'JSON validator: schema: ' + error.message
         )
         outError.schema = this.schema
         throw outError
@@ -128,7 +128,7 @@ class JsonSchema {
           throw new errors.JsonSchemaNotValid(
             `JSON schema is not valid draft ${this.jsonSchemaVersion}! ${
               validationResult.error.message
-            } at path "${validationResult.error.dataPath}"`,
+            } at path "${validationResult.error.dataPath}"`
           )
         }
       }
@@ -161,7 +161,7 @@ class JsonSchema {
 
       if (this.jsonSchemaVersion === null) {
         throw new errors.JsonSchemaNotValid(
-          'JSON schema is not valid draft v3 or draft v4!',
+          'JSON schema is not valid draft v3 or draft v4!'
         )
       }
     }
@@ -171,7 +171,7 @@ class JsonSchema {
     if (type.object(this.data) && this.schema.empty) {
       this.output = {
         length: 0,
-        errorMessages: {},
+        errorMessages: {}
       }
       return new ValidationErrors(this.output)
     }
@@ -233,7 +233,7 @@ class JsonSchema {
       return {
         pointer: jsonPointer.compile(pathArray),
         message: item.message,
-        severity: 'error',
+        severity: 'error'
       }
     })
 
@@ -256,7 +256,7 @@ class JsonSchema {
             this.errors = new ValidationErrors(error)
             return this.errors
           }
-        },
+        }
       )
     } catch (error) {
       this.errors = new ValidationErrors({
@@ -264,10 +264,10 @@ class JsonSchema {
           property: [],
           attributeValue: true,
           message: `Validator internal error: ${error.message}`,
-          validatorName: 'error',
+          validatorName: 'error'
         },
         length: 1,
-        errorMessages: {},
+        errorMessages: {}
       })
 
       return this.errors
@@ -280,7 +280,7 @@ class JsonSchema {
 
     const amandaCompatibleError = {
       length: validationErrors.length,
-      errorMessages: {},
+      errorMessages: {}
     }
 
     for (let index = 0; index < validationErrors.length; index++) {
@@ -304,7 +304,7 @@ class JsonSchema {
         property: pathArray,
         attributeValue: true,
         message: `At '${pointer}' ${error.message}`,
-        validatorName: 'error',
+        validatorName: 'error'
       }
     }
 
@@ -314,5 +314,5 @@ class JsonSchema {
 }
 
 module.exports = {
-  JsonSchema,
+  JsonSchema
 }

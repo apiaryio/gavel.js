@@ -27,10 +27,10 @@ ExpectedHttpRequest.resourceKeys = [
   'headers',
   'body',
   'headersSchema',
-  'bodySchema',
+  'bodySchema'
 ]
 
 module.exports = {
   HttpRequest,
-  ExpectedHttpRequest,
+  ExpectedHttpRequest
 }

@@ -5,7 +5,7 @@ const errors = require('../errors')
 const { JsonSchema } = require('./json-schema')
 const {
   SchemaV4Generator,
-  SchemaV4Properties,
+  SchemaV4Properties
 } = require('../utils/schema-v4-generator')
 const tv4ToHeadersMessage = require('../utils/tv4-to-headers-message')
 
@@ -30,8 +30,8 @@ const getSchema = (json) => {
       'accept',
       'accept-charset',
       'accept-encoding',
-      'accept-language',
-    ],
+      'accept-language'
+    ]
   })
 
   const schemaGenerator = new SchemaV4Generator({ json, properties })
@@ -77,7 +77,7 @@ class HeadersJsonExample extends JsonSchema {
       for (let i = 0; i < result.length; i++) {
         resultCopy[i].message = tv4ToHeadersMessage(
           resultCopy[i].message,
-          this.expected,
+          this.expected
         )
       }
 
@@ -89,5 +89,5 @@ class HeadersJsonExample extends JsonSchema {
 }
 
 module.exports = {
-  HeadersJsonExample,
+  HeadersJsonExample
 }

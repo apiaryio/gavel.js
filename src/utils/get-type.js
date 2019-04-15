@@ -8,7 +8,7 @@ const nativeJsObjects = {
   '[object String]': 'string',
   '[object Null]': 'null',
   '[object Undefined]': 'undefined',
-  '[object Object]': 'object',
+  '[object Object]': 'object'
 }
 
 objectToString = Object.prototype.toString
