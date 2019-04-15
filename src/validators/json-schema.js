@@ -168,7 +168,7 @@ class JsonSchema {
   }
 
   validate() {
-    if (type.object(this.data) && this.schema && this.schema.empty) {
+    if (type.object(this.data) && this.schema.empty) {
       this.output = {
         length: 0,
         errorMessages: {},
