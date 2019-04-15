@@ -9,18 +9,18 @@ const nativeJsObjects = {
   '[object Null]': 'null',
   '[object Undefined]': 'undefined',
   '[object Object]': 'object'
-}
+};
 
-objectToString = Object.prototype.toString
+objectToString = Object.prototype.toString;
 
-const stringifyType = (any) => Object.prototype.toString.call(any)
+const stringifyType = (any) => Object.prototype.toString.call(any);
 
 const getType = (any) => {
-  const type = stringifyType(any)
+  const type = stringifyType(any);
 
   return nativeJsObjects.hasOwnProperty(type)
     ? nativeJsObjects[type]
-    : typeof any
-}
+    : typeof any;
+};
 
-module.exports = getType
+module.exports = getType;

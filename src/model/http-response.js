@@ -1,12 +1,12 @@
-const { Validatable } = require('../mixins/validatable-http-message')
-const clone = require('clone')
+const { Validatable } = require('../mixins/validatable-http-message');
+const clone = require('clone');
 
 class HttpResponse extends Validatable {
   constructor(resources = {}) {
-    super()
+    super();
     HttpResponse.resourceKeys.forEach((resourceKey) => {
-      this[resourceKey] = clone(resources[resourceKey], false)
-    })
+      this[resourceKey] = clone(resources[resourceKey], false);
+    });
   }
 }
 
@@ -16,13 +16,13 @@ HttpResponse.resourceKeys = [
   'headers',
   'body',
   'expected'
-]
+];
 
 class ExpectedHttpResponse {
   constructor(resources = {}) {
     ExpectedHttpResponse.resourceKeys.forEach((resourceKey) => {
-      this[resourceKey] = clone(resources[resourceKey], false)
-    })
+      this[resourceKey] = clone(resources[resourceKey], false);
+    });
   }
 }
 
@@ -33,9 +33,9 @@ ExpectedHttpResponse.resourceKeys = [
   'body',
   'headersSchema',
   'bodySchema'
-]
+];
 
 module.exports = {
   HttpResponse,
   ExpectedHttpResponse
-}
+};
