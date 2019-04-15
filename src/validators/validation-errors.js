@@ -1,10 +1,10 @@
 class ValidationErrors {
   constructor(jsonErrors) {
-    this.length = jsonErrors ? jsonErrors.length : 0
+    this.length = jsonErrors ? jsonErrors.length : 0;
 
     if (this.length > 0) {
       for (let i = 0; i < this.length; i++) {
-        this[i] = jsonErrors[i]
+        this[i] = jsonErrors[i];
       }
     }
   }
@@ -12,4 +12,4 @@ class ValidationErrors {
 
 module.exports = {
   ValidationErrors
-}
+};

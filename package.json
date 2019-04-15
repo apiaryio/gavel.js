@@ -2,7 +2,7 @@
   "name": "gavel",
   "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
-  "main": "lib/gavel.js",
+  "main": "src/gavel.js",
   "engines": {
     "node": ">= 4"
   },
@@ -10,17 +10,15 @@
     "gavel": "bin/gavel"
   },
   "scripts": {
-    "build": "coffee -b -c -o lib/ src/",
     "lint": "coffeelint src",
     "test": "npm run test:server && npm run test:browser && npm run test:features",
     "test:server": "mocha \"test/unit/**/*-test.coffee\"",
     "test:browser": "mochify \"test/unit/**/*.coffee\" --transform=coffeeify --extension=.coffee",
     "test:features": "coffee scripts/cucumber.coffee",
-    "prepublish": "npm run build",
     "coverage": "scripts/cov",
     "coveralls": "npm run coverage mocha-lcov-reporter | coveralls",
     "ci:lint": "npm run lint",
-    "ci:test": "npm run test && npm run coveralls",
+    "ci:test": "npm run test",
     "ci:release": "semantic-release"
   },
   "dependencies": {

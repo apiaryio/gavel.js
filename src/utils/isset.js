@@ -1,5 +1,5 @@
 const isset = (value) => {
-  return typeof value !== 'undefined' && value !== null
-}
+  return typeof value !== 'undefined' && value !== null;
+};
 
-module.exports = isset
+module.exports = isset;

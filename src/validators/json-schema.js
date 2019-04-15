@@ -1,34 +1,34 @@
-const amanda = require('amanda')
-const clone = require('clone')
-const deepEqual = require('deep-equal')
-const tv4 = require('tv4')
-const type = require('is-type')
-const jsonPointer = require('json-pointer')
+const amanda = require('amanda');
+const clone = require('clone');
+const deepEqual = require('deep-equal');
+const tv4 = require('tv4');
+const type = require('is-type');
+const jsonPointer = require('json-pointer');
 
-const metaSchemaV3 = require('../meta-schema-v3')
-const metaSchemaV4 = require('../meta-schema-v4')
-const errors = require('../errors')
-const { ValidationErrors } = require('./validation-errors')
+const metaSchemaV3 = require('../meta-schema-v3');
+const metaSchemaV4 = require('../meta-schema-v4');
+const errors = require('../errors');
+const { ValidationErrors } = require('./validation-errors');
 
-const SCHEMA_V3 = 'http://json-schema.org/draft-03/schema'
-const SCHEMA_V4 = 'http://json-schema.org/draft-04/schema'
+const SCHEMA_V3 = 'http://json-schema.org/draft-03/schema';
+const SCHEMA_V4 = 'http://json-schema.org/draft-04/schema';
 
 const getSchemaMeta = (schema) => {
   if (schema && schema.$schema && schema.$schema.includes(SCHEMA_V3)) {
-    return [metaSchemaV3, 'v3']
+    return [metaSchemaV3, 'v3'];
   }
 
   if (schema && schema.$schema && schema.$schema.includes(SCHEMA_V4)) {
-    return [metaSchemaV4, 'v4']
+    return [metaSchemaV4, 'v4'];
   }
 
-  return null
-}
+  return null;
+};
 
 const getArticle = (str) => {
-  const vowels = ['a', 'e', 'i', 'o', 'u']
-  return vowels.includes(str.toLowerCase()) ? 'an' : 'a'
-}
+  const vowels = ['a', 'e', 'i', 'o', 'u'];
+  return vowels.includes(str.toLowerCase()) ? 'an' : 'a';
+};
 
 const jsonSchemaOptions = {
   singleError: false,
@@ -78,91 +78,91 @@ const jsonSchemaOptions = {
     uniqueItems: (prop, val, validator) =>
       `All items in the ${prop} property must be unique.`
   }
-}
+};
 
 class JsonSchema {
   constructor(data, schema) {
-    this.data = data
-    this.schema = schema
+    this.data = data;
+    this.schema = schema;
 
     if (type.string(this.data)) {
       try {
-        this.data = JSON.parse(this.data)
+        this.data = JSON.parse(this.data);
       } catch (error) {
         outError = new errors.DataNotJsonParsableError(
           'JSON validator: body: ' + error.message
-        )
-        outError.data = this.data
-        throw outError
+        );
+        outError.data = this.data;
+        throw outError;
       }
     }
 
     if (type.string(this.schema)) {
       try {
-        this.schema = JSON.parse(this.schema)
+        this.schema = JSON.parse(this.schema);
       } catch (error) {
         outError = new errors.SchemaNotJsonParsableError(
           'JSON validator: schema: ' + error.message
-        )
-        outError.schema = this.schema
-        throw outError
+        );
+        outError.schema = this.schema;
+        throw outError;
       }
     }
 
-    this.jsonSchemaVersion = null
-    this.validateSchema()
+    this.jsonSchemaVersion = null;
+    this.validateSchema();
   }
 
   validateSchema() {
-    const [metaSchema, schemaVersion] = getSchemaMeta(this.schema) || []
+    const [metaSchema, schemaVersion] = getSchemaMeta(this.schema) || [];
 
     if (metaSchema) {
-      this.jsonSchemaVersion = schemaVersion
+      this.jsonSchemaVersion = schemaVersion;
 
       if (metaSchema.$schema) {
-        tv4.reset()
-        tv4.addSchema('', metaSchema)
-        tv4.addSchema(metaSchema.$schema, metaSchema)
-        const validationResult = tv4.validateResult(this.schema, metaSchema)
+        tv4.reset();
+        tv4.addSchema('', metaSchema);
+        tv4.addSchema(metaSchema.$schema, metaSchema);
+        const validationResult = tv4.validateResult(this.schema, metaSchema);
         if (!validationResult.valid) {
           throw new errors.JsonSchemaNotValid(
             `JSON schema is not valid draft ${this.jsonSchemaVersion}! ${
               validationResult.error.message
             } at path "${validationResult.error.dataPath}"`
-          )
+          );
         }
       }
     } else {
       if (metaSchemaV3.$schema) {
-        tv4.reset()
-        tv4.addSchema('', metaSchemaV3)
-        tv4.addSchema(metaSchemaV3.$schema, metaSchemaV3)
-        const validationResult = tv4.validateResult(this.schema, metaSchemaV3)
+        tv4.reset();
+        tv4.addSchema('', metaSchemaV3);
+        tv4.addSchema(metaSchemaV3.$schema, metaSchemaV3);
+        const validationResult = tv4.validateResult(this.schema, metaSchemaV3);
 
         if (validationResult && validationResult.valid) {
-          this.jsonSchemaVersion = 'v3'
-          return
+          this.jsonSchemaVersion = 'v3';
+          return;
         }
 
-        tv4.reset()
+        tv4.reset();
       }
 
       if (metaSchemaV4.$schema) {
-        tv4.reset()
-        tv4.addSchema('', metaSchemaV4)
-        tv4.addSchema(metaSchemaV4.$schema, metaSchemaV4)
-        const validationResult = tv4.validateResult(this.schema, metaSchemaV4)
+        tv4.reset();
+        tv4.addSchema('', metaSchemaV4);
+        tv4.addSchema(metaSchemaV4.$schema, metaSchemaV4);
+        const validationResult = tv4.validateResult(this.schema, metaSchemaV4);
 
         if (validationResult && validationResult.valid) {
-          this.jsonSchemaVersion = 'v4'
-          return
+          this.jsonSchemaVersion = 'v4';
+          return;
         }
       }
 
       if (this.jsonSchemaVersion === null) {
         throw new errors.JsonSchemaNotValid(
           'JSON schema is not valid draft v3 or draft v4!'
-        )
+        );
       }
     }
   }
@@ -172,33 +172,33 @@ class JsonSchema {
       this.output = {
         length: 0,
         errorMessages: {}
-      }
-      return new ValidationErrors(this.output)
+      };
+      return new ValidationErrors(this.output);
     }
 
-    const hasSameData = deepEqual(this.data, this._dataUsed, { strict: true })
+    const hasSameData = deepEqual(this.data, this._dataUsed, { strict: true });
     const hasSameSchema = hasSameData
       ? deepEqual(this.schema, this._schemaUsed, { strict: true })
-      : true
+      : true;
 
     if (!hasSameData || !hasSameSchema) {
-      this.output = this.validatePrivate()
+      this.output = this.validatePrivate();
     }
 
-    return this.output
+    return this.output;
   }
 
   validatePrivate() {
-    this._dataUsed = this.data
-    this._schemaUsed = this.schema
+    this._dataUsed = this.data;
+    this._schemaUsed = this.schema;
 
     switch (this.jsonSchemaVersion) {
       case 'v3':
-        return this.validateSchemaV3()
+        return this.validateSchemaV3();
       case 'v4':
-        return this.validateSchemaV4()
+        return this.validateSchemaV4();
       default:
-        throw new Error("JSON schema version not identified, can't validate!")
+        throw new Error("JSON schema version not identified, can't validate!");
     }
   }
 
@@ -207,37 +207,37 @@ class JsonSchema {
    */
   evaluateOutputToResults(data) {
     if (!data) {
-      data = this.output
+      data = this.output;
     }
 
     if (!data) {
-      return []
+      return [];
     }
 
     const results = Array.from({ length: data.length }, (_, index) => {
-      const item = data[index]
-      let pathArray = []
+      const item = data[index];
+      let pathArray = [];
 
       if (item.property === null) {
-        pathArray = []
+        pathArray = [];
       } else if (
         Array.isArray(item.property) &&
         item.property.length === 1 &&
         [null, undefined].includes(item.property[0])
       ) {
-        pathArray = []
+        pathArray = [];
       } else {
-        pathArray = item.property
+        pathArray = item.property;
       }
 
       return {
         pointer: jsonPointer.compile(pathArray),
         message: item.message,
         severity: 'error'
-      }
-    })
+      };
+    });
 
-    return results
+    return results;
   }
 
   validateSchemaV3() {
@@ -250,14 +250,14 @@ class JsonSchema {
           if (error && error.length > 0) {
             for (let i = 0; i < error.length; i++) {
               if (error[i].property === '') {
-                error[i].property = []
+                error[i].property = [];
               }
             }
-            this.errors = new ValidationErrors(error)
-            return this.errors
+            this.errors = new ValidationErrors(error);
+            return this.errors;
           }
         }
-      )
+      );
     } catch (error) {
       this.errors = new ValidationErrors({
         '0': {
@@ -268,51 +268,51 @@ class JsonSchema {
         },
         length: 1,
         errorMessages: {}
-      })
+      });
 
-      return this.errors
+      return this.errors;
     }
   }
 
   validateSchemaV4() {
-    const result = tv4.validateMultiple(this.data, this.schema)
-    const validationErrors = result.errors.concat(result.missing)
+    const result = tv4.validateMultiple(this.data, this.schema);
+    const validationErrors = result.errors.concat(result.missing);
 
     const amandaCompatibleError = {
       length: validationErrors.length,
       errorMessages: {}
-    }
+    };
 
     for (let index = 0; index < validationErrors.length; index++) {
-      const validationError = validationErrors[index]
-      let error
+      const validationError = validationErrors[index];
+      let error;
 
       if (validationError instanceof Error) {
-        error = validationError
+        error = validationError;
       } else {
-        error = new Error('Missing schema')
-        error.params = { key: validationError }
-        error.dataPath = ''
+        error = new Error('Missing schema');
+        error.params = { key: validationError };
+        error.dataPath = '';
       }
 
       const pathArray = jsonPointer
         .parse(error.dataPath)
-        .concat(error.params.key || [])
-      const pointer = jsonPointer.compile(pathArray)
+        .concat(error.params.key || []);
+      const pointer = jsonPointer.compile(pathArray);
 
       amandaCompatibleError[index] = {
         property: pathArray,
         attributeValue: true,
         message: `At '${pointer}' ${error.message}`,
         validatorName: 'error'
-      }
+      };
     }
 
-    this.errors = new ValidationErrors(amandaCompatibleError)
-    return this.errors
+    this.errors = new ValidationErrors(amandaCompatibleError);
+    return this.errors;
   }
 }
 
 module.exports = {
   JsonSchema
-}
+};

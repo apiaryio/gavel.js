@@ -1,25 +1,25 @@
-const type = require('is-type')
-const clone = require('clone')
+const type = require('is-type');
+const clone = require('clone');
 
-const errors = require('../errors')
-const { JsonSchema } = require('./json-schema')
+const errors = require('../errors');
+const { JsonSchema } = require('./json-schema');
 const {
   SchemaV4Generator,
   SchemaV4Properties
-} = require('../utils/schema-v4-generator')
-const tv4ToHeadersMessage = require('../utils/tv4-to-headers-message')
+} = require('../utils/schema-v4-generator');
+const tv4ToHeadersMessage = require('../utils/tv4-to-headers-message');
 
 const prepareHeaders = (headers) => {
   if (!type.object(headers)) {
-    return headers
+    return headers;
   }
 
   const transformedHeaders = Object.keys(headers).reduce((acc, key) => {
-    return Object.assign({}, acc, { [key.toLowerCase()]: headers[key] })
-  }, {})
+    return Object.assign({}, acc, { [key.toLowerCase()]: headers[key] });
+  }, {});
 
-  return transformedHeaders
-}
+  return transformedHeaders;
+};
 
 const getSchema = (json) => {
   const properties = new SchemaV4Properties({
@@ -32,62 +32,62 @@ const getSchema = (json) => {
       'accept-encoding',
       'accept-language'
     ]
-  })
+  });
 
-  const schemaGenerator = new SchemaV4Generator({ json, properties })
-  return schemaGenerator.generate()
-}
+  const schemaGenerator = new SchemaV4Generator({ json, properties });
+  return schemaGenerator.generate();
+};
 
 class HeadersJsonExample extends JsonSchema {
   constructor(real, expected) {
     if (!type.object(real)) {
-      throw new errors.MalformedDataError('Real is not an Object')
+      throw new errors.MalformedDataError('Real is not an Object');
     }
 
     if (!type.object(expected)) {
-      throw new errors.MalformedDataError('Expected is not an Object')
+      throw new errors.MalformedDataError('Expected is not an Object');
     }
 
-    const preparedExpected = prepareHeaders(expected)
-    const preparedReal = prepareHeaders(real)
-    const preparedSchema = getSchema(preparedExpected)
+    const preparedExpected = prepareHeaders(expected);
+    const preparedReal = prepareHeaders(real);
+    const preparedSchema = getSchema(preparedExpected);
 
     if (preparedSchema && preparedSchema.properties) {
-      const skippedHeaders = ['date', 'expires']
+      const skippedHeaders = ['date', 'expires'];
       skippedHeaders.forEach((headerName) => {
         if (preparedSchema.properties[headerName]) {
-          delete preparedSchema.properties[headerName].enum
+          delete preparedSchema.properties[headerName].enum;
         }
-      })
+      });
     }
 
-    super(preparedReal, preparedSchema)
+    super(preparedReal, preparedSchema);
 
-    this.expected = preparedExpected
-    this.real = preparedReal
-    this.schema = preparedSchema
+    this.expected = preparedExpected;
+    this.real = preparedReal;
+    this.schema = preparedSchema;
   }
 
   validate() {
-    const result = super.validate()
+    const result = super.validate();
 
     if (result.length > 0) {
-      const resultCopy = clone(result, false)
+      const resultCopy = clone(result, false);
 
       for (let i = 0; i < result.length; i++) {
         resultCopy[i].message = tv4ToHeadersMessage(
           resultCopy[i].message,
           this.expected
-        )
+        );
       }
 
-      return resultCopy
+      return resultCopy;
     }
 
-    return result
+    return result;
   }
 }
 
 module.exports = {
   HeadersJsonExample
-}
+};
