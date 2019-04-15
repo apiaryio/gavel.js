@@ -1,19 +1,23 @@
 const jph = require('json-parse-helpfulerror')
 const mediaTyper = require('media-typer')
+const isset = require('../utils/isset')
 const validators = require('../validators')
 
 class Validatable {
   validate() {
     this.validation = {
-      version: 2,
+      version: '2',
     }
     this.lowercaseHeaders()
 
-    if (this.headers && this.expected.headers) {
+    if (this.headers && this.expected && this.expected.headers) {
       this.validateHeaders()
     }
 
-    if (this.body && (this.expected.body || this.expected.bodySchema)) {
+    if (
+      isset(this.body) &&
+      (isset(this.expected.body) || isset(this.expected.bodySchema))
+    ) {
       this.validateBody()
     }
 
@@ -189,10 +193,7 @@ and expected data media type \
     const bodyType = typeof this.body
 
     if (bodyType !== 'string') {
-      throw new Error(
-        'Expected HTTP body to be a String, but got: %s',
-        bodyType,
-      )
+      throw new Error(`Expected HTTP body to be a String, but got: ${bodyType}`)
     }
 
     let error

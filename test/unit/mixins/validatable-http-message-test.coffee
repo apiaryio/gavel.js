@@ -43,8 +43,7 @@ describe "Http validatable mixin", () ->
 
     ['headers','body', 'statusCode'].forEach (item) ->
       it 'should contain "' + item + '"', () ->
-        instance = new HttpResponse {}
-        assert.include instance.validatableComponents, item
+        assert.include HttpResponse.validatableComponents, item
 
   describe "#isValidatable()", () ->
     describe 'when no validatable HTTP component in the object', () ->

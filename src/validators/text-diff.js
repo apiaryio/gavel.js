@@ -1,7 +1,6 @@
 const type = require('is-type')
 const errors = require('../errors')
 const DiffMatchPatch = require('googlediff')
-// const { ValidationErrors } = require('./validation-errors')
 
 class TextDiff {
   constructor(real, expected) {
