@@ -64,11 +64,8 @@ class TextDiff {
 
     return [
       {
+        message: 'Real and expected data does not match.',
         severity: 'error',
-        /**
-         * @todo Include the diff?
-         */
-        message: 'Real and expected data do not match.',
       },
     ]
   }

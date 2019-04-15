@@ -139,13 +139,13 @@ class Validatable {
       }
 
       const entry = {
-        severity: 'error',
         message: `\
 No validator found for real data media type \
 "${JSON.stringify(this.validation.headers.realType)}" \
 and expected data media type \
 "${JSON.stringify(this.validation.headers.expectedType)}".\
-`,
+        `,
+        severity: 'error',
       }
 
       this.validation.headers.results.push(entry)
@@ -206,11 +206,11 @@ and expected data media type \
       } catch (error1) {
         error = error1
         const message = {
-          severity: 'error',
           message: `\
 Real body 'Content-Type' header is '${contentType}' \
 but body is not a parseable JSON:\n${error.message}\
 `,
+          severity: 'error',
         }
 
         this.validation.body.results.push(message)
