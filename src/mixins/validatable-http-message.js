@@ -3,10 +3,6 @@ const mediaTyper = require('media-typer')
 const validators = require('../validators')
 
 class Validatable {
-  constructor() {
-    this.validatableComponents = ['headers', 'body', 'statusCode']
-  }
-
   validate() {
     this.validation = {
       version: 2,
@@ -29,7 +25,7 @@ class Validatable {
   }
 
   isValidatable() {
-    return this.validatableComponents.some(
+    return Validatable.validatableComponents.some(
       (component) => typeof this[component] !== 'undefined',
     )
   }
@@ -39,18 +35,20 @@ class Validatable {
       this.validate()
     }
 
-    const hasInvalidComponent = this.validatableComponents.some((component) => {
-      const validationCounterpart = this.validation[component]
-      const componentResults =
-        validationCounterpart && validationCounterpart.results
+    const hasInvalidComponent = Validatable.validatableComponents.some(
+      (component) => {
+        const validationCounterpart = this.validation[component]
+        const componentResults =
+          validationCounterpart && validationCounterpart.results
 
-      return (
-        componentResults &&
-        componentResults.some((result) => {
-          return result.severity === 'error'
-        })
-      )
-    })
+        return (
+          componentResults &&
+          componentResults.some((result) => {
+            return result.severity === 'error'
+          })
+        )
+      },
+    )
 
     return !hasInvalidComponent
   }
@@ -155,11 +153,12 @@ and expected data media type \
   runHeadersValidator() {
     // throw new Error JSON.stringify @validation.headers.validator, null, 2
     let validator
+
     if (this.validation.headers.validator == null) {
       this.validation.headers.rawData = null
     } else {
-      const validatorClass = validators[this.validation.headers.validator]
-      validator = new validatorClass(this.headers, this.expected.headers)
+      const ValidatorClass = validators[this.validation.headers.validator]
+      validator = new ValidatorClass(this.headers, this.expected.headers)
       this.validation.headers.rawData = validator.validate()
     }
 
@@ -440,6 +439,8 @@ but body is not a parseable JSON:\n${error.message}\
     return isJson
   }
 }
+
+Validatable.validatableComponents = ['headers', 'body', 'statusCode']
 
 module.exports = {
   Validatable,
