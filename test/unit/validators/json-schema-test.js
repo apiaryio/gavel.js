@@ -38,7 +38,7 @@ describe('JsonSchema', () => {
 
         it('should not throw an exception', () => {
           const fn = () => {
-            new JsonSchema(data['real'], data['schema']);
+            new JsonSchema(data.real, data.schema);
           };
           assert.doesNotThrow(fn);
         });
@@ -163,22 +163,19 @@ describe('JsonSchema', () => {
     });
 
     describe('when invalid JSON-stringified-data are provided', () => {
-      let invalidStringifiedSchema = null;
-      before(() => {
-        invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
-      });
+      const invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
 
       it('should throw an error for "data"', () => {
         const fn = () => {
-          validator = new JsonSchema(invalidStringifiedSchema);
+          new JsonSchema(invalidStringifiedSchema);
         };
         assert.throw(fn);
       });
 
       it('should throw an error for "schema"', () => {
-        invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
+        const invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
         const fn = () => {
-          validator = new JsonSchema({}, invalidStringifiedSchema);
+          new JsonSchema({}, invalidStringifiedSchema);
         };
         assert.throw(fn);
       });
