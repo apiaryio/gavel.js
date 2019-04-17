@@ -3,10 +3,10 @@ sinon = require('sinon')
 
 assert = chai.assert
 
-{HttpResponse} = require('../../../src/model/http-response')
-{HttpRequest} = require('../../../src/model/http-request')
+{HttpResponse} = require('../../../lib/model/http-response')
+{HttpRequest} = require('../../../lib/model/http-request')
 fixtures = require '../../fixtures'
-validators = require '../../../src/validators'
+validators = require '../../../lib/validators'
 
 describe "Http validatable mixin", () ->
 

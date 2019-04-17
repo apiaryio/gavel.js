@@ -1,6 +1,6 @@
 {assert} = require('chai')
-{JsonExample} = require('../../../src/validators/json-example')
-{JsonSchema}   = require '../../../src/validators/json-schema'
+{JsonExample} = require('../../../lib/validators/json-example')
+{JsonSchema}   = require '../../../lib/validators/json-schema'
 shared = require '../support/amanda-to-gavel-shared'
 fixtures = require '../../fixtures'
 

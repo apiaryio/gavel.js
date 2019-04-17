@@ -1,6 +1,6 @@
 {assert} = require('chai')
 clone    = require 'clone'
-{validate, isValid, isValidatable} = require('../../src/validate')
+{validate, isValid, isValidatable} = require('../../lib/validate')
 fixtures = require '../fixtures'
 
 describe 'Gavel proxies to functions with callbacks', ->

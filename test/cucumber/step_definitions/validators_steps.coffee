@@ -1,6 +1,6 @@
 
 tv4 = require('tv4')
-gavel = require('../../../src/gavel')
+gavel = require('../../../lib/gavel')
 {assert} = require('chai')
 _ = require('lodash')
 

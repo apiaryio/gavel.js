@@ -1,8 +1,8 @@
 {assert}       = require('chai')
 
 fixtures       = require '../../fixtures'
-{TextDiff}    = require '../../../src/validators/text-diff'
-{ValidationErrors}    = require('../../../src/validators/validation-errors')
+{TextDiff}    = require '../../../lib/validators/text-diff'
+{ValidationErrors}    = require('../../../lib/validators/validation-errors')
 DiffMatchPatch = require 'googlediff'
 
 describe 'TextDiff', ->

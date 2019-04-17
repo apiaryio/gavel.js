@@ -1,4 +1,4 @@
-gavel = require('../../../src/gavel')
+gavel = require('../../../lib/gavel')
 _ = require('lodash')
 vm = require('vm')
 util = require('util')
@@ -78,7 +78,7 @@ class World
     # further reading on node.js load paths:
     # http://nodejs.org/docs/v0.8.23/api/all.html#all_all_together
 
-    code = code.replace("require('", "require('../../../src/")
+    code = code.replace("require('", "require('../../../lib/")
 
     try
       return eval(code)

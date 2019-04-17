@@ -1,6 +1,6 @@
 {assert} = require 'chai'
 
-tv4ToHeadersMessage = require '../../../src/utils/tv4-to-headers-message'
+tv4ToHeadersMessage = require '../../../lib/utils/tv4-to-headers-message'
 fixtures = require '../../fixtures'
 
 describe 'tv4ToHeadersMessages()', ->

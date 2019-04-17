@@ -1,5 +1,5 @@
 {assert} = require('chai')
-{HttpRequest, ExpectedHttpRequest} = require('../../../src/model/http-request')
+{HttpRequest, ExpectedHttpRequest} = require('../../../lib/model/http-request')
 {sampleHttpRequestSchema} = require '../../fixtures'
 
 amanda = require 'amanda'

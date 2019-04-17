@@ -1,7 +1,7 @@
 {assert} = require 'chai'
 fixtures = require '../../fixtures'
-{JsonSchema} = require '../../../src/validators/json-schema'
-{ValidationErrors}    = require '../../../src/validators/validation-errors'
+{JsonSchema} = require '../../../lib/validators/json-schema'
+{ValidationErrors}    = require '../../../lib/validators/validation-errors'
 sinon = require 'sinon'
 shared = require '../support/amanda-to-gavel-shared'
 
