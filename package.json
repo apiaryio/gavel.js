@@ -2,7 +2,7 @@
   "name": "gavel",
   "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
-  "main": "src/gavel.js",
+  "main": "lib/gavel.js",
   "engines": {
     "node": ">= 4"
   },
@@ -10,7 +10,6 @@
     "gavel": "bin/gavel"
   },
   "scripts": {
-    "lint": "coffeelint src",
     "test": "npm run test:server && npm run test:browser && npm run test:features",
     "test:server": "mocha \"test/unit/**/*-test.coffee\"",
     "test:browser": "mochify \"test/unit/**/*.coffee\" --transform=coffeeify --extension=.coffee",

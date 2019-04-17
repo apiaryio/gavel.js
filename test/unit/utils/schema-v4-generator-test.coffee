@@ -3,7 +3,7 @@ amanda = require 'amanda'
 tv4 = require 'tv4'
 
 {sampleJson, sampleJsonSchema, sampleJsonSchemaNonStrict} = require '../../fixtures'
-{SchemaV4Generator, SchemaV4Properties} = require('../../../src/utils/schema-v4-generator')
+{SchemaV4Generator, SchemaV4Properties} = require('../../../lib/utils/schema-v4-generator')
 
 describe 'SchemaV4Generator', ->
   sg = {}

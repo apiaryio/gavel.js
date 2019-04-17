@@ -1,4 +1,4 @@
-validators = require '../../../src/validators'
+validators = require '../../../lib/validators'
 fixtures = require '../../fixtures'
 jsonPointer = require 'json-pointer'
 {assert} = require('chai')

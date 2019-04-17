@@ -1,5 +1,5 @@
 
-gavel = require('../../../src/gavel')
+gavel = require('../../../lib/gavel')
 prettyjson = require('prettyjson')
 _ = require('lodash')
 

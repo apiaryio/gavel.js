@@ -1,5 +1,5 @@
 {assert} = require 'chai'
-getType = require '../../../src/utils/get-type.js'
+getType = require '../../../lib/utils/get-type.js'
 
 describe 'getType', ->
   describe 'can handle native javascript object types', ->

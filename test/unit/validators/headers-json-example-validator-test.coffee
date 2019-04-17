@@ -1,5 +1,5 @@
 {assert} = require('chai')
-{HeadersJsonExample} = require '../../../src/validators/headers-json-example'
+{HeadersJsonExample} = require '../../../lib/validators/headers-json-example'
 fixtures = require '../../fixtures'
 shared = require '../support/amanda-to-gavel-shared'
 
