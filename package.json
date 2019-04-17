@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "npm run test:server && npm run test:browser && npm run test:features",
-    "test:server": "mocha \"test/unit/**/*-test.coffee\"",
+    "test:server": "mocha \"test/unit/**/*-test.js\"",
     "test:browser": "mochify \"test/unit/**/*.coffee\" --transform=coffeeify --extension=.coffee",
     "test:features": "coffee scripts/cucumber.coffee",
     "coverage": "scripts/cov",
