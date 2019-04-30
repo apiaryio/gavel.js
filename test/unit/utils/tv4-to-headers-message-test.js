@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 
-const tv4ToHeadersMessage = require('../../../src/utils/tv4-to-headers-message');
+const tv4ToHeadersMessage = require('../../../lib/utils/tv4-to-headers-message');
 const fixtures = require('../../fixtures');
 
 describe('tv4ToHeadersMessages()', () => {

@@ -1,4 +1,4 @@
-const validators = require('../../../src/validators');
+const validators = require('../../../lib/validators');
 const fixtures = require('../../fixtures');
 const jsonPointer = require('json-pointer');
 const { assert } = require('chai');

@@ -1,9 +1,9 @@
 const { assert } = require('chai');
 const fixtures = require('../../fixtures');
-const { JsonSchema } = require('../../../src/validators/json-schema');
+const { JsonSchema } = require('../../../lib/validators/json-schema');
 const {
   ValidationErrors
-} = require('../../../src/validators/validation-errors');
+} = require('../../../lib/validators/validation-errors');
 const sinon = require('sinon');
 const shared = require('../support/amanda-to-gavel-shared');
 

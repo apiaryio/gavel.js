@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const {
   HeadersJsonExample
-} = require('../../../src/validators/headers-json-example');
+} = require('../../../lib/validators/headers-json-example');
 const fixtures = require('../../fixtures');
 const shared = require('../support/amanda-to-gavel-shared');
 

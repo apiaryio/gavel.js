@@ -1,7 +1,7 @@
 const fixtures = require('../../fixtures');
 const {
   ValidationErrors
-} = require('../../../src/validators/validation-errors');
+} = require('../../../lib/validators/validation-errors');
 
 describe('ValidationErrors', () => {
   errors = {};

@@ -4,7 +4,7 @@ const amanda = require('amanda');
 const {
   HttpResponse,
   ExpectedHttpResponse
-} = require('../../../src/model/http-response');
+} = require('../../../lib/model/http-response');
 const { sampleHttpResponseSchema } = require('../../fixtures');
 
 const validate = (data, schema) => {

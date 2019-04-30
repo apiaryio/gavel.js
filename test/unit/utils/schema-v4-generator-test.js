@@ -10,7 +10,7 @@ const {
 const {
   SchemaV4Generator,
   SchemaV4Properties
-} = require('../../../src/utils/schema-v4-generator');
+} = require('../../../lib/utils/schema-v4-generator');
 
 describe('SchemaV4Generator', () => {
   sg = {};

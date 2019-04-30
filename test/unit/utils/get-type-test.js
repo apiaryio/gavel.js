@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const getType = require('../../../src/utils/get-type.js');
+const getType = require('../../../lib/utils/get-type.js');
 
 describe('getType', () => {
   describe('can handle native javascript object types', () => {

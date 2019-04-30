@@ -1,8 +1,8 @@
 const assert = require('chai').assert;
 const sinon = require('sinon');
 
-const { HttpResponse } = require('../../../src/model/http-response');
-const { HttpRequest } = require('../../../src/model/http-request');
+const { HttpResponse } = require('../../../lib/model/http-response');
+const { HttpRequest } = require('../../../lib/model/http-request');
 const fixtures = require('../../fixtures');
 
 describe('Http validatable mixin', () => {

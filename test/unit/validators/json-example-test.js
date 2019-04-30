@@ -1,6 +1,6 @@
 const { assert } = require('chai');
-const { JsonExample } = require('../../../src/validators/json-example');
-const { JsonSchema } = require('../../../src/validators/json-schema');
+const { JsonExample } = require('../../../lib/validators/json-example');
+const { JsonSchema } = require('../../../lib/validators/json-schema');
 const shared = require('../support/amanda-to-gavel-shared');
 const fixtures = require('../../fixtures');
 

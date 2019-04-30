@@ -2,10 +2,10 @@ const { assert } = require('chai');
 const DiffMatchPatch = require('googlediff');
 
 const fixtures = require('../../fixtures');
-const { TextDiff } = require('../../../src/validators/text-diff');
+const { TextDiff } = require('../../../lib/validators/text-diff');
 const {
   ValidationErrors
-} = require('../../../src/validators/validation-errors');
+} = require('../../../lib/validators/validation-errors');
 
 describe('TextDiff', () => {
   validator = null;
