@@ -1,10 +1,10 @@
-emptyStringJson = '''
+const emptyStringJson = `
 {
   "issue": ""
 }
-'''
+`;
 
-sampleJson = '''
+const sampleJson = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
   "complex_key_value_pair": {
@@ -30,9 +30,9 @@ sampleJson = '''
   "array_of_mixed_simple_types": [1,2,"a","b"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonSimpleKeyMissing = '''
+const sampleJsonSimpleKeyMissing = `
 {
   "complex_key_value_pair": {
     "complex_key_value_pair_key1" : "complex_key_value_pair_value1",
@@ -57,9 +57,9 @@ sampleJsonSimpleKeyMissing = '''
   "array_of_mixed_simple_types": [1,2,"a","b"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonSimpleKeyAdded = '''
+const sampleJsonSimpleKeyAdded = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
   "simple_key_value_pair_added": "simple_key_value_pair_value",
@@ -86,9 +86,9 @@ sampleJsonSimpleKeyAdded = '''
   "array_of_mixed_simple_types": [1,2,"a","b"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonSimpleKeyValueDiffers = '''
+const sampleJsonSimpleKeyValueDiffers = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value_diff",
   "complex_key_value_pair": {
@@ -114,9 +114,9 @@ sampleJsonSimpleKeyValueDiffers = '''
   "array_of_mixed_simple_types": [1,2,"a","b"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonComplexKeyMissing = '''
+const sampleJsonComplexKeyMissing = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
   "complex_key_value_pair": {
@@ -141,9 +141,9 @@ sampleJsonComplexKeyMissing = '''
   "array_of_mixed_simple_types": [1,2,"a","b"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonComplexKeyAdded = '''
+const sampleJsonComplexKeyAdded = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
   "complex_key_value_pair": {
@@ -170,9 +170,9 @@ sampleJsonComplexKeyAdded = '''
   "array_of_mixed_simple_types": [1,2,"a","b"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonComplexKeyValueDiffers = '''
+const sampleJsonComplexKeyValueDiffers = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
   "complex_key_value_pair": {
@@ -198,9 +198,9 @@ sampleJsonComplexKeyValueDiffers = '''
   "array_of_mixed_simple_types": [1,2,"a","b"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonArrayItemAdded = '''
+const sampleJsonArrayItemAdded = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
   "complex_key_value_pair": {
@@ -226,9 +226,9 @@ sampleJsonArrayItemAdded = '''
   "array_of_mixed_simple_types": [1,2,"a","b", "added"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonArrayItemMissing = '''
+const sampleJsonArrayItemMissing = `
 {
   "simple_key_value_pair": "simple_key_value_pair_value",
   "complex_key_value_pair": {
@@ -254,9 +254,9 @@ sampleJsonArrayItemMissing = '''
   "array_of_mixed_simple_types": [1,2,"a"],
   "array_of_same_simple_types": ["a","b"]
 }
-'''
+`;
 
-sampleJsonSchema = '''
+const sampleJsonSchema = `
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "#",
@@ -443,80 +443,94 @@ sampleJsonSchema = '''
         }
     }
 }
-'''
+`;
 
-
-sampleJsonSchemaTestingAmandaMessages =
-  "$schema":"http://json-schema.org/draft-03/schema"
-  "id":"#"
-  "required": true
-  "additionalProperties": true
-  "type": "object"
-  "properties":
-    check_minLength:
-      required: true
-      type: 'string'
+const sampleJsonSchemaTestingAmandaMessages = {
+  $schema: 'http://json-schema.org/draft-03/schema',
+  id: '#',
+  required: true,
+  additionalProperties: true,
+  type: 'object',
+  properties: {
+    check_minLength: {
+      required: true,
+      type: 'string',
       minLength: 20
-    check_maxLength:
-      required: true
-      type: 'string'
+    },
+    check_maxLength: {
+      required: true,
+      type: 'string',
       maxLength: 5
-    check_length:
-      required: true
-      type: 'string'
+    },
+    check_length: {
+      required: true,
+      type: 'string',
       length: 2
-    check_format:
-      required: true
-      type: 'string'
+    },
+    check_format: {
+      required: true,
+      type: 'string',
       format: 'decimal'
-    check_except:
-      required: true
-      type: 'string'
+    },
+    check_except: {
+      required: true,
+      type: 'string',
       except: ['not_allowed', 'bad']
-    check_minimum:
-      required: true
-      type: 'number'
+    },
+    check_minimum: {
+      required: true,
+      type: 'number',
       minimum: 5
-    check_maximum:
-      required: true
-      type: 'number'
+    },
+    check_maximum: {
+      required: true,
+      type: 'number',
       maximum: 10
-    check_pattern:
-      required: true
-      type: 'string'
+    },
+    check_pattern: {
+      required: true,
+      type: 'string',
       pattern: '/^[a]{2,4}$/g'
-    check_maxItems:
-      required: true
-      type: 'array'
+    },
+    check_maxItems: {
+      required: true,
+      type: 'array',
       maxItems: 2
-    check_minItems:
-      required: true
-      type: 'array'
+    },
+    check_minItems: {
+      required: true,
+      type: 'array',
       minItems: 2
-    check_divisibleBy:
-      required: true
-      type: 'number'
+    },
+    check_divisibleBy: {
+      required: true,
+      type: 'number',
       divisibleBy: 2
-    check_uniqueItems:
-      required: true
-      type: 'array'
+    },
+    check_uniqueItems: {
+      required: true,
+      type: 'array',
       uniqueItems: true
+    }
+  }
+};
 
-sampleJsonBodyTestingAmandaMessages =
-  check_minLength: 'very_short'
-  check_maxLength: 'just_another_length'
-  check_length: 'too_long'
-  check_format: 'non_email'
-  check_except: 'bad'
-  check_minimum: 1
-  check_maximum: 999
-  check_pattern: 'bad pattern text'
-  check_maxItems: ['too', 'many', 'things']
-  check_minItems: ['solo_item']
-  check_divisibleBy: 33
+const sampleJsonBodyTestingAmandaMessages = {
+  check_minLength: 'very_short',
+  check_maxLength: 'just_another_length',
+  check_length: 'too_long',
+  check_format: 'non_email',
+  check_except: 'bad',
+  check_minimum: 1,
+  check_maximum: 999,
+  check_pattern: 'bad pattern text',
+  check_maxItems: ['too', 'many', 'things'],
+  check_minItems: ['solo_item'],
+  check_divisibleBy: 33,
   check_uniqueItems: ['copy', 'unique', 'copy']
+};
 
-sampleJsonSchemaNonStrict = '''
+const sampleJsonSchemaNonStrict = `
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "#",
@@ -643,9 +657,9 @@ sampleJsonSchemaNonStrict = '''
         }
     }
 }
-'''
+`;
 
-sampleJsonSchemaNonStrict2 = '''
+const sampleJsonSchemaNonStrict2 = `
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "#",
@@ -778,9 +792,9 @@ sampleJsonSchemaNonStrict2 = '''
         }
     }
 }
-'''
+`;
 
-sampleJsonSchemaNonStrictCustom = '''
+const sampleJsonSchemaNonStrictCustom = `
 {
     "$schema": "http://json-schema.org/draft-04/schema",
     "id": "#",
@@ -795,29 +809,29 @@ sampleJsonSchemaNonStrictCustom = '''
         }
     }
 }
-'''
+`;
 
-sampleText =  """
+const sampleText = `
 "Lorem ipsum dolor sit amet,
 consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud
 exercitation ullamco laboris nisi ut aliquip
 ex ea commodo consequat. Duis aute irure dolor
-in reprehenderit in voluptate velit esse cillum
-"""
+in reprehenderit in voluptate velit esse cillum\
+`;
 
-sampleTextLineDiffers =  """
+const sampleTextLineDiffers = `
 "Lorem ipsum dolor sit amet,
 consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. DIFF DIFF
 Ut enim ad minim veniam, quis nostrud
 exercitation ullamco laboris nisi ut aliquip
 ex ea commodo consequat. Duis aute irure dolor
-in reprehenderit in voluptate velit esse cillum
-"""
+in reprehenderit in voluptate velit esse cillum\
+`;
 
-sampleTextLineAdded =  """
+const sampleTextLineAdded = `
 "Lorem ipsum dolor sit amet,
 consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua.
@@ -825,19 +839,19 @@ tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud
 exercitation ullamco laboris nisi ut aliquip
 ex ea commodo consequat. Duis aute irure dolor
-in reprehenderit in voluptate velit esse cillum
-"""
+in reprehenderit in voluptate velit esse cillum\
+`;
 
-sampleTextLineMissing =  """
+const sampleTextLineMissing = `
 "Lorem ipsum dolor sit amet,
 tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud
 exercitation ullamco laboris nisi ut aliquip
 ex ea commodo consequat. Duis aute irure dolor
-in reprehenderit in voluptate velit esse cillum
-"""
+in reprehenderit in voluptate velit esse cillum\
+`;
 
-sampleAmandaError = """
+const sampleAmandaError = `
 {
 "0":{
   "property":[
@@ -870,9 +884,9 @@ sampleAmandaError = """
 }
 
 }
-"""
+`;
 
-sampleAmandaError2 = """
+const sampleAmandaError2 = `
 {
   "0": {
     "property": [
@@ -892,9 +906,9 @@ sampleAmandaError2 = """
 
   }
 }
-                     """
+`;
 
-sampleFormatedError = '''
+const sampleFormatedError = `
 {
   "complex_key_value_pair,complex_key_value_pair_key3,complex_key_value_pair_key1_in_nested_hash": [
     {
@@ -912,9 +926,9 @@ sampleFormatedError = '''
     }
   ]
 }
-                      '''
+`;
 
-sampleError = """
+const sampleError = `
 {
   "0": {
     "property": [
@@ -951,57 +965,57 @@ sampleError = """
   },
   "now": "1372330856889"
 }
-"""
+`;
 
-sampleHeaders = {
-  "Content-Type": "application/json",
-  "header2": "header2_value"
-}
+const sampleHeaders = {
+  'Content-Type': 'application/json',
+  header2: 'header2_value'
+};
 
-sampleHeadersDiff = {
-  "Content-Type": "application/fancy-madiatype",
-  "header2": "header2_value"
-}
+const sampleHeadersDiff = {
+  'Content-Type': 'application/fancy-madiatype',
+  header2: 'header2_value'
+};
 
-sampleHeadersMiss = {
-  "CONTENT-type": "application/json",
-}
+const sampleHeadersMiss = {
+  'CONTENT-type': 'application/json'
+};
 
-sampleHeadersAdd = {
-  "Content-Type": "application/json",
-  "HEADER2": "header2_value",
-  "header_added": "header_added_value",
-}
+const sampleHeadersAdd = {
+  'Content-Type': 'application/json',
+  HEADER2: 'header2_value',
+  header_added: 'header_added_value'
+};
 
-sampleHeadersMixedCase = {
-  "CONTENT-TYPE": "application/json",
-  "HEADER2": "header2_value"
-}
+const sampleHeadersMixedCase = {
+  'CONTENT-TYPE': 'application/json',
+  HEADER2: 'header2_value'
+};
 
-sampleHeadersMixedCaseDiff = {
-  "CONTENT-type": "application/json",
-  "HEADer2": "header2_value_changed"
-}
+const sampleHeadersMixedCaseDiff = {
+  'CONTENT-type': 'application/json',
+  HEADer2: 'header2_value_changed'
+};
 
-sampleHeadersNonContentNegotiation = {
-  "Content-Type": "application/json",
-  "header2": "header2_value",
-  "Date": "Fri, 30 Oct 1998 13:19:41 GMT",
-  "Expires": "Fri, 30 Oct 1998 14:19:41 GMT",
-  "ETag": "123456789",
-  "Location": "/here"
-}
+const sampleHeadersNonContentNegotiation = {
+  'Content-Type': 'application/json',
+  header2: 'header2_value',
+  Date: 'Fri, 30 Oct 1998 13:19:41 GMT',
+  Expires: 'Fri, 30 Oct 1998 14:19:41 GMT',
+  ETag: '123456789',
+  Location: '/here'
+};
 
-sampleHeadersWithNonContentNegotiationChanged = {
-  "Content-Type": "application/json",
-  "header2": "header2_value",
-  "Date": "Thu, 25 Jul 2013 23:59:59 GMT",
-  "Expires": "Thu, 25 Jul 2013 23:59:59 GMT",
-  "ETag": "asdfghjk",
-  "Location": "/there"
-}
+const sampleHeadersWithNonContentNegotiationChanged = {
+  'Content-Type': 'application/json',
+  header2: 'header2_value',
+  Date: 'Thu, 25 Jul 2013 23:59:59 GMT',
+  Expires: 'Thu, 25 Jul 2013 23:59:59 GMT',
+  ETag: 'asdfghjk',
+  Location: '/there'
+};
 
-sampleHeadersSchema = '''
+const sampleHeadersSchema = `
 {
     "$schema": "http://json-schema.org/draft-04/schema",
     "id": "#",
@@ -1019,383 +1033,341 @@ sampleHeadersSchema = '''
         }
     }
 }
-                      '''
-sampleHttpRequestSchema = {
-  "type": "object",
-  "$schema": "http://json-schema.org/draft-04/schema",
-  "id": "#",
-  "required": [
-    "body",
-    "expected",
-    "headers",
-    "method",
-    "uri"
-  ],
-  "properties": {
-    "body": {
-      "type": "string",
-      "id": "#/body"
+`;
+const sampleHttpRequestSchema = {
+  type: 'object',
+  $schema: 'http://json-schema.org/draft-04/schema',
+  id: '#',
+  required: ['body', 'expected', 'headers', 'method', 'uri'],
+  properties: {
+    body: {
+      type: 'string',
+      id: '#/body'
     },
-    "expected": {
-      "type": "object",
-      "id": "#/expected",
-      "properties": {
-        "bodySchema": {
-          "type": "object",
-          "id": "#/expected/bodySchema"
+    expected: {
+      type: 'object',
+      id: '#/expected',
+      properties: {
+        bodySchema: {
+          type: 'object',
+          id: '#/expected/bodySchema'
         },
-        "body": {
-          "type": "string",
-          "id": "#/expected/body"
+        body: {
+          type: 'string',
+          id: '#/expected/body'
         },
-        "headersSchema": {
-          "type": "object",
-          "id": "#/expected/headersSchema"
+        headersSchema: {
+          type: 'object',
+          id: '#/expected/headersSchema'
         },
-        "headers": {
-          "type": "string",
-          "id": "#/expected/headers"
+        headers: {
+          type: 'string',
+          id: '#/expected/headers'
         },
-        "method": {
-          "type": "string",
-          "id": "#/expected/method"
+        method: {
+          type: 'string',
+          id: '#/expected/method'
         },
-        "uri": {
-          "type": "string",
-          "id": "#/expected/uri"
+        uri: {
+          type: 'string',
+          id: '#/expected/uri'
         }
       },
-      "required": [
-        "bodySchema",
-        "body",
-        "headersSchema",
-        "headers",
-        "method",
-        "uri"
+      required: [
+        'bodySchema',
+        'body',
+        'headersSchema',
+        'headers',
+        'method',
+        'uri'
       ]
     },
-    "headers": {
-      "type": "string",
-      "id": "#/headers"
+    headers: {
+      type: 'string',
+      id: '#/headers'
     },
-    "method": {
-      "type": "string",
-      "id": "#/method"
+    method: {
+      type: 'string',
+      id: '#/method'
     },
-    "uri": {
-      "type": "string",
-      "id": "#/uri"
+    uri: {
+      type: 'string',
+      id: '#/uri'
     }
   }
-}
+};
 
-sampleHttpResponseSchema = {
-  "type": "object",
-  "$schema": "http://json-schema.org/draft-04/schema",
-  "id": "#",
-  "required": [
-    "body",
-    "expected",
-    "headers",
-    "statusCode",
-    "statusMessage"
-  ],
-  "properties": {
-    "body": {
-      "type": "string",
-      "id": "#/body"
+const sampleHttpResponseSchema = {
+  type: 'object',
+  $schema: 'http://json-schema.org/draft-04/schema',
+  id: '#',
+  required: ['body', 'expected', 'headers', 'statusCode', 'statusMessage'],
+  properties: {
+    body: {
+      type: 'string',
+      id: '#/body'
     },
-    "expected": {
-      "type": "object",
-      "id": "#/expected",
-      "properties": {
-        "bodySchema": {
-          "type": "object",
-          "id": "#/expected/bodySchema",
-          "properties": {
-            "type": {
-              "type": "string",
-              "id": "#/expected/bodySchema/type"
+    expected: {
+      type: 'object',
+      id: '#/expected',
+      properties: {
+        bodySchema: {
+          type: 'object',
+          id: '#/expected/bodySchema',
+          properties: {
+            type: {
+              type: 'string',
+              id: '#/expected/bodySchema/type'
             }
           },
-          "required": [
-            "type"
-          ]
+          required: ['type']
         },
-        "body": {
-          "type": "string",
-          "id": "#/expected/body"
+        body: {
+          type: 'string',
+          id: '#/expected/body'
         },
-        "headersSchema": {
-          "type": "object",
-          "id": "#/expected/headersSchema",
-          "properties": {
-            "type": {
-              "type": "string",
-              "id": "#/expected/headersSchema/type"
+        headersSchema: {
+          type: 'object',
+          id: '#/expected/headersSchema',
+          properties: {
+            type: {
+              type: 'string',
+              id: '#/expected/headersSchema/type'
             }
           },
-          "required": [
-            "type"
-          ]
+          required: ['type']
         },
-        "headers": {
-          "type": "string",
-          "id": "#/expected/headers"
+        headers: {
+          type: 'string',
+          id: '#/expected/headers'
         },
-        "statusCode": {
-          "type": "string",
-          "id": "#/expected/statusCode"
+        statusCode: {
+          type: 'string',
+          id: '#/expected/statusCode'
         },
-        "statusMessage": {
-          "type": "string",
-          "id": "#/expected/statusMessage"
+        statusMessage: {
+          type: 'string',
+          id: '#/expected/statusMessage'
         }
       },
-      "required": [
-        "bodySchema",
-        "body",
-        "headersSchema",
-        "headers",
-        "statusCode",
-        "statusMessage"
+      required: [
+        'bodySchema',
+        'body',
+        'headersSchema',
+        'headers',
+        'statusCode',
+        'statusMessage'
       ]
     },
-    "headers": {
-      "type": "string",
-      "id": "#/headers"
+    headers: {
+      type: 'string',
+      id: '#/headers'
     },
-    "statusCode": {
-      "type": "string",
-      "id": "#/statusCode"
+    statusCode: {
+      type: 'string',
+      id: '#/statusCode'
     },
-    "statusMessage": {
-      "type": "string",
-      "id": "#/statusMessage"
+    statusMessage: {
+      type: 'string',
+      id: '#/statusMessage'
     }
   }
-}
+};
 
-sampleHttpMessageSchema =
-{
-  "type": "object",
-  "$schema": "http://json-schema.org/draft-04/schema",
-  "id": "http://jsonschema.net",
-  "required": [
-    "httpRequest",
-    "httpResponse"
-  ],
-  "properties": {
-    "httpRequest": {
-      "type": "object",
-      "id": "httpRequest",
-      "properties": {
-        "body": {
-          "type": "string",
-          "id": "httpRequest/body"
+const sampleHttpMessageSchema = {
+  type: 'object',
+  $schema: 'http://json-schema.org/draft-04/schema',
+  id: 'http://jsonschema.net',
+  required: ['httpRequest', 'httpResponse'],
+  properties: {
+    httpRequest: {
+      type: 'object',
+      id: 'httpRequest',
+      properties: {
+        body: {
+          type: 'string',
+          id: 'httpRequest/body'
         },
-        "expected": {
-          "type": "object",
-          "id": "httpRequest/expected",
-          "properties": {
-            "bodySchema": {
-              "type": "object",
-              "id": "httpRequest/expected/bodySchema",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "id": "httpRequest/expected/bodySchema/type"
+        expected: {
+          type: 'object',
+          id: 'httpRequest/expected',
+          properties: {
+            bodySchema: {
+              type: 'object',
+              id: 'httpRequest/expected/bodySchema',
+              properties: {
+                type: {
+                  type: 'string',
+                  id: 'httpRequest/expected/bodySchema/type'
                 }
               },
-              "required": [
-                "type"
-              ]
+              required: ['type']
             },
-            "body": {
-              "type": "string",
-              "id": "httpRequest/expected/body"
+            body: {
+              type: 'string',
+              id: 'httpRequest/expected/body'
             },
-            "headersSchema": {
-              "type": "object",
-              "id": "httpRequest/expected/headersSchema",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "id": "httpRequest/expected/headersSchema/type"
+            headersSchema: {
+              type: 'object',
+              id: 'httpRequest/expected/headersSchema',
+              properties: {
+                type: {
+                  type: 'string',
+                  id: 'httpRequest/expected/headersSchema/type'
                 }
               },
-              "required": [
-                "type"
-              ]
+              required: ['type']
             },
-            "headers": {
-              "type": "string",
-              "id": "httpRequest/expected/headers"
+            headers: {
+              type: 'string',
+              id: 'httpRequest/expected/headers'
             },
-            "method": {
-              "type": "string",
-              "id": "httpRequest/expected/method"
+            method: {
+              type: 'string',
+              id: 'httpRequest/expected/method'
             },
-            "uri": {
-              "type": "string",
-              "id": "httpRequest/expected/uri"
+            uri: {
+              type: 'string',
+              id: 'httpRequest/expected/uri'
             }
           },
-          "required": [
-            "bodySchema",
-            "body",
-            "headersSchema",
-            "headers",
-            "method",
-            "uri"
+          required: [
+            'bodySchema',
+            'body',
+            'headersSchema',
+            'headers',
+            'method',
+            'uri'
           ]
         },
-        "headers": {
-          "type": "string",
-          "id": "httpRequest/headers"
+        headers: {
+          type: 'string',
+          id: 'httpRequest/headers'
         },
-        "method": {
-          "type": "string",
-          "id": "httpRequest/method"
+        method: {
+          type: 'string',
+          id: 'httpRequest/method'
         },
-        "uri": {
-          "type": "string",
-          "id": "httpRequest/uri"
+        uri: {
+          type: 'string',
+          id: 'httpRequest/uri'
         }
       },
-      "required": [
-        "body",
-        "expected",
-        "headers",
-        "method",
-        "uri"
-      ]
+      required: ['body', 'expected', 'headers', 'method', 'uri']
     },
-    "httpResponse": {
-      "type": "object",
-      "id": "httpResponse",
-      "properties": {
-        "body": {
-          "type": "string",
-          "id": "httpResponse/body"
+    httpResponse: {
+      type: 'object',
+      id: 'httpResponse',
+      properties: {
+        body: {
+          type: 'string',
+          id: 'httpResponse/body'
         },
-        "expected": {
-          "type": "object",
-          "id": "httpResponse/expected",
-          "properties": {
-            "bodySchema": {
-              "type": "object",
-              "id": "httpResponse/expected/bodySchema",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "id": "httpResponse/expected/bodySchema/type"
+        expected: {
+          type: 'object',
+          id: 'httpResponse/expected',
+          properties: {
+            bodySchema: {
+              type: 'object',
+              id: 'httpResponse/expected/bodySchema',
+              properties: {
+                type: {
+                  type: 'string',
+                  id: 'httpResponse/expected/bodySchema/type'
                 }
               },
-              "required": [
-                "type"
-              ]
+              required: ['type']
             },
-            "body": {
-              "type": "string",
-              "id": "httpResponse/expected/body"
+            body: {
+              type: 'string',
+              id: 'httpResponse/expected/body'
             },
-            "headersSchema": {
-              "type": "object",
-              "id": "httpResponse/expected/headersSchema",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "id": "httpResponse/expected/headersSchema/type"
+            headersSchema: {
+              type: 'object',
+              id: 'httpResponse/expected/headersSchema',
+              properties: {
+                type: {
+                  type: 'string',
+                  id: 'httpResponse/expected/headersSchema/type'
                 }
               },
-              "required": [
-                "type"
-              ]
+              required: ['type']
             },
-            "headers": {
-              "type": "string",
-              "id": "httpResponse/expected/headers"
+            headers: {
+              type: 'string',
+              id: 'httpResponse/expected/headers'
             },
-            "statusCode": {
-              "type": "string",
-              "id": "httpResponse/expected/statusCode"
+            statusCode: {
+              type: 'string',
+              id: 'httpResponse/expected/statusCode'
             },
-            "statusMessage": {
-              "type": "string",
-              "id": "httpResponse/expected/statusMessage"
+            statusMessage: {
+              type: 'string',
+              id: 'httpResponse/expected/statusMessage'
             }
           },
-          "required": [
-            "bodySchema",
-            "body",
-            "headersSchema",
-            "headers",
-            "statusCode",
-            "statusMessage"
+          required: [
+            'bodySchema',
+            'body',
+            'headersSchema',
+            'headers',
+            'statusCode',
+            'statusMessage'
           ]
         },
-        "headers": {
-          "type": "string",
-          "id": "httpResponse/headers"
+        headers: {
+          type: 'string',
+          id: 'httpResponse/headers'
         },
-        "statusCode": {
-          "type": "string",
-          "id": "httpResponse/statusCode"
+        statusCode: {
+          type: 'string',
+          id: 'httpResponse/statusCode'
         },
-        "statusMessage": {
-          "type": "string",
-          "id": "httpResponse/statusMessage"
+        statusMessage: {
+          type: 'string',
+          id: 'httpResponse/statusMessage'
         }
       },
-      "required": [
-        "body",
-        "expected",
-        "headers",
-        "statusCode",
-        "statusMessage"
-      ]
+      required: ['body', 'expected', 'headers', 'statusCode', 'statusMessage']
     }
   }
-}
+};
 
-module.exports =
-  emptyStringJson: emptyStringJson
-  sampleJson                       : sampleJson
-  sampleJsonSchema                 : sampleJsonSchema
-  sampleJsonSchemaNonStrict        : sampleJsonSchemaNonStrict
-  sampleJsonSchemaNonStrict2        : sampleJsonSchemaNonStrict2
-  sampleJsonSchemaNonStrictCustom  : sampleJsonSchemaNonStrictCustom
-  sampleJsonSimpleKeyMissing       : sampleJsonSimpleKeyMissing
-  sampleJsonSimpleKeyAdded         : sampleJsonSimpleKeyAdded
-  sampleJsonSimpleKeyValueDiffers  : sampleJsonSimpleKeyValueDiffers
-  sampleJsonComplexKeyMissing      : sampleJsonComplexKeyMissing
-  sampleJsonComplexKeyAdded        : sampleJsonComplexKeyAdded
-  sampleJsonComplexKeyValueDiffers : sampleJsonComplexKeyValueDiffers
-  sampleJsonArrayItemAdded         : sampleJsonArrayItemAdded
-  sampleJsonArrayItemMissing       : sampleJsonArrayItemMissing
-  sampleText                       : sampleText
-  sampleTextLineAdded              : sampleTextLineAdded
-  sampleTextLineMissing            : sampleTextLineMissing
-  sampleTextLineDiffers            : sampleTextLineDiffers
-  sampleHeaders                    : sampleHeaders
-  sampleHeadersDiffers             : sampleHeadersDiff
-  sampleHeadersMissing             : sampleHeadersMiss
-  sampleHeadersAdded               : sampleHeadersAdd
-  sampleHeadersMixedCase           : sampleHeadersMixedCase
-  sampleHeadersMixedCaseDiffers    : sampleHeadersMixedCaseDiff
-  sampleAmandaError                : sampleAmandaError
-  sampleAmandaError2               : sampleAmandaError2
-  sampleFormatedError              : sampleFormatedError
-  sampleError                      : sampleError
-  sampleHttpRequestSchema          : sampleHttpRequestSchema
-  sampleHttpResponseSchema         : sampleHttpResponseSchema
-  sampleHeadersSchema              : sampleHeadersSchema
-  sampleHttpMessageSchema          : sampleHttpMessageSchema
-  sampleHeadersWithNonContentNegotiationChanged  : sampleHeadersWithNonContentNegotiationChanged
-  sampleHeadersNonContentNegotiation : sampleHeadersNonContentNegotiation
-  sampleJsonSchemaTestingAmandaMessages: sampleJsonSchemaTestingAmandaMessages
-  sampleJsonBodyTestingAmandaMessages: sampleJsonBodyTestingAmandaMessages
-
-
-
+module.exports = {
+  emptyStringJson,
+  sampleJson,
+  sampleJsonSchema,
+  sampleJsonSchemaNonStrict,
+  sampleJsonSchemaNonStrict2,
+  sampleJsonSchemaNonStrictCustom,
+  sampleJsonSimpleKeyMissing,
+  sampleJsonSimpleKeyAdded,
+  sampleJsonSimpleKeyValueDiffers,
+  sampleJsonComplexKeyMissing,
+  sampleJsonComplexKeyAdded,
+  sampleJsonComplexKeyValueDiffers,
+  sampleJsonArrayItemAdded,
+  sampleJsonArrayItemMissing,
+  sampleText,
+  sampleTextLineAdded,
+  sampleTextLineMissing,
+  sampleTextLineDiffers,
+  sampleHeaders,
+  sampleHeadersDiffers: sampleHeadersDiff,
+  sampleHeadersMissing: sampleHeadersMiss,
+  sampleHeadersAdded: sampleHeadersAdd,
+  sampleHeadersMixedCase,
+  sampleHeadersMixedCaseDiffers: sampleHeadersMixedCaseDiff,
+  sampleAmandaError,
+  sampleAmandaError2,
+  sampleFormatedError,
+  sampleError,
+  sampleHttpRequestSchema,
+  sampleHttpResponseSchema,
+  sampleHeadersSchema,
+  sampleHttpMessageSchema,
+  sampleHeadersWithNonContentNegotiationChanged,
+  sampleHeadersNonContentNegotiation,
+  sampleJsonSchemaTestingAmandaMessages,
+  sampleJsonBodyTestingAmandaMessages
+};
