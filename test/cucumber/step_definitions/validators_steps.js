@@ -1,6 +1,6 @@
 const tv4 = require('tv4');
 const { assert } = require('chai');
-const _ = require('lodash');
+const deepEqual = require('deep-equal');
 
 module.exports = function() {
   this.When(
@@ -47,7 +47,7 @@ module.exports = function() {
     function(expectedJson, callback) {
       const expected = JSON.parse(expectedJson);
       const real = this.results[this.component];
-      if (!_.isEqual(real, expected)) {
+      if (!deepEqual(real, expected, { strict: true })) {
         return callback(
           new Error(
             'Not matched! Expected:\n' +
@@ -208,7 +208,7 @@ module.exports = function() {
       }
 
       if (type === 'JSON') {
-        if (!_.isEqual(expected, real)) {
+        if (!deepEqual(expected, real, { strict: true })) {
           callback(
             new Error(
               'Not matched! Expected:\n' +

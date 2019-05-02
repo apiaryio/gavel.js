@@ -1,5 +1,5 @@
 const gavel = require('../../../lib/gavel');
-const _ = require('lodash');
+const deepEqual = require('deep-equal');
 
 module.exports = function() {
   // TODO consider refactoring for for better acceptace testing to separated steps
@@ -44,7 +44,7 @@ module.exports = function() {
 
       const jsonizedInstance = JSON.parse(JSON.stringify(instance));
 
-      if (!_.isEqual(expectedObject, jsonizedInstance)) {
+      if (!deepEqual(expectedObject, jsonizedInstance, { strict: true })) {
         callback(
           new Error(
             'Objects are not equal: ' +
