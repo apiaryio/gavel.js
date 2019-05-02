@@ -5,7 +5,7 @@ const fixtures = require('../fixtures');
 
 describe('Gavel proxies to functions with callbacks', () => {
   // Examples from README.md
-  baseHttpMessage = {
+  const baseHttpMessage = {
     statusCode: '200',
     headers: {
       'content-type': 'application/json',
@@ -17,9 +17,9 @@ describe('Gavel proxies to functions with callbacks', () => {
     body: '{\n  "origin": "94.113.241.2"\n}'
   };
 
-  cloneHttpMessage = clone(baseHttpMessage, false);
+  const cloneHttpMessage = clone(baseHttpMessage, false);
 
-  differentHttpMessage = {
+  const differentHttpMessage = {
     statusCode: '404',
     headers: {
       'content-type': 'application/vnd.gavel.vX+json', // different from baseHttpMessage
@@ -31,7 +31,7 @@ describe('Gavel proxies to functions with callbacks', () => {
     body: '{"r2":"d2"}'
   };
 
-  similarHttpMessage = {
+  const similarHttpMessage = {
     statusCode: '200',
     headers: {
       'CONTENT-TYPE': 'application/json',
@@ -47,8 +47,8 @@ describe('Gavel proxies to functions with callbacks', () => {
     describe('when I provide data from README (good objects)', () => {
       ['response', 'request'].forEach((variant) => {
         describe('for two cloned #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             isValidatable(
@@ -70,8 +70,8 @@ describe('Gavel proxies to functions with callbacks', () => {
         });
 
         describe('for similar #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             isValidatable(
@@ -93,8 +93,8 @@ describe('Gavel proxies to functions with callbacks', () => {
         });
 
         describe('for different #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             isValidatable(
@@ -122,8 +122,8 @@ describe('Gavel proxies to functions with callbacks', () => {
     describe('when I provide data', () => {
       ['response', 'request'].forEach((variant) => {
         describe('for two cloned #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             isValid(
@@ -145,8 +145,8 @@ describe('Gavel proxies to functions with callbacks', () => {
         });
 
         describe('for similar #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             isValid(
@@ -168,8 +168,8 @@ describe('Gavel proxies to functions with callbacks', () => {
         });
 
         describe('for different #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             isValid(
@@ -197,8 +197,8 @@ describe('Gavel proxies to functions with callbacks', () => {
     describe('when I provide data', () => {
       ['response', 'request'].forEach((variant) => {
         describe('for two cloned #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             validate(
@@ -219,8 +219,8 @@ describe('Gavel proxies to functions with callbacks', () => {
         });
 
         describe('for similar #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             validate(
@@ -241,8 +241,8 @@ describe('Gavel proxies to functions with callbacks', () => {
         });
 
         describe('for different #{variant}s', () => {
-          results = null;
-          error = null;
+          let results = null;
+          let error = null;
 
           before((done) => {
             validate(
