@@ -5,7 +5,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const gavel = require('../../../lib/gavel');
-const _ = require('lodash');
 const vm = require('vm');
 const util = require('util');
 const { assert } = require('chai');
@@ -193,7 +192,7 @@ class World {
 
   // Debugging helper
   inspect(data) {
-    if (typeof data === 'object') {
+    if (data !== null && typeof data === 'object') {
       return JSON.stringify(data, null, 2);
     } else {
       return data;

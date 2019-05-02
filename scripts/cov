@@ -22,7 +22,7 @@ cp -r ./test ./src-cov/test
 cp -r ./lib ./src-cov/lib
 
 # Testing
-$MOCHA ./src-cov/test/unit/**/*-test.coffee --reporter="$REPORTER"
+$MOCHA ./src-cov/test/unit/**/*-test.js --reporter="$REPORTER"
 
 # Output & cleanup
 rm -rf ./src-cov
