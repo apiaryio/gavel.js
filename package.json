@@ -30,7 +30,6 @@
     "deep-equal": "1.0.1",
     "googlediff": "0.1.0",
     "http-string-parser": "0.0.6",
-    "is-type": "0.0.1",
     "json-parse-helpfulerror": "1.0.3",
     "json-pointer": "0.6.0",
     "media-typer": "0.3.0",

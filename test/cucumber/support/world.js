@@ -193,7 +193,7 @@ class World {
 
   // Debugging helper
   inspect(data) {
-    if (typeof data === 'object') {
+    if (data !== null && typeof data === 'object') {
       return JSON.stringify(data, null, 2);
     } else {
       return data;
