@@ -1,19 +1,18 @@
 # GH_TOKEN and NPM_TOKEN are expected to be set
 # in https://travis-ci.org/apiaryio/gavel.js/settings
-language: "node_js"
+language: 'node_js'
 node_js:
-  - "6"
-  - "8"
-  - "10"
+  - '8'
+  - '10'
 cache:
   directories:
-    - "node_modules"
+    - 'node_modules'
 before_install:
-  - "npm -g install npm@6"
+  - 'npm -g install npm@6'
 install:
-  - "npm install --no-save"
+  - 'npm install --no-save'
 script:
-  - "npm run ci:lint || true"  # TODO fix all lint errors
-  - "npm run ci:test"
+  - 'npm run ci:lint || true' # TODO fix all lint errors
+  - 'npm run ci:test'
 after_success:
-  - "npm run ci:release"
+  - 'npm run ci:release'
