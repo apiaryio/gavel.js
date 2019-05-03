@@ -4,7 +4,7 @@
   "description": "Validator of HTTP transactions (JavaScript implementation)",
   "main": "lib/gavel.js",
   "engines": {
-    "node": ">= 4"
+    "node": ">= 8"
   },
   "bin": {
     "gavel": "bin/gavel"
