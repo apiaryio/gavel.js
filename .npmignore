@@ -5,6 +5,7 @@ site/
 cov.*
 .vagrant
 *.log
+.nyc_output
 
 # List specific to .npmignore
 .travis.yml

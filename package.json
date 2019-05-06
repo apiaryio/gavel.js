@@ -12,12 +12,12 @@
   "scripts": {
     "test": "npm run test:server && npm run test:browser && npm run test:features",
     "test:server": "mocha \"test/unit/**/*-test.js\"",
+    "test:server:coverage": "nyc npm run test:server",
     "test:browser": "mochify \"test/unit/**/*.js\"",
     "test:features": "node scripts/cucumber.js",
-    "coverage": "scripts/cov",
-    "coveralls": "npm run coverage mocha-lcov-reporter | coveralls",
+    "coveralls": "nyc --reporter=text-lcov npm run test:server | coveralls",
     "ci:lint": "npm run lint",
-    "ci:test": "npm run test",
+    "ci:test": "npm run coveralls && npm run test:browser && npm run test:features",
     "ci:release": "semantic-release"
   },
   "dependencies": {
