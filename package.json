@@ -10,7 +10,7 @@
     "gavel": "bin/gavel"
   },
   "scripts": {
-    "lint": "eslint lib/**/*.js",
+    "lint": "eslint lib/**/*.js test/**/*.js",
     "test": "npm run test:server && npm run test:browser && npm run test:features",
     "test:server": "mocha \"test/unit/**/*-test.js\"",
     "test:server:coverage": "nyc npm run test:server",
@@ -19,7 +19,14 @@
     "coveralls": "nyc --reporter=text-lcov npm run test:server | coveralls",
     "ci:lint": "npm run lint",
     "ci:test": "npm run coveralls && npm run test:browser && npm run test:features",
-    "ci:release": "semantic-release"
+    "ci:release": "semantic-release",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
   },
   "dependencies": {
     "amanda": "1.0.1",
