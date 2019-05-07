@@ -10,6 +10,7 @@
     "gavel": "bin/gavel"
   },
   "scripts": {
+    "lint": "eslint lib/**/*.js",
     "test": "npm run test:server && npm run test:browser && npm run test:features",
     "test:server": "mocha \"test/unit/**/*-test.js\"",
     "test:server:coverage": "nyc npm run test:server",
