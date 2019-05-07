@@ -47,9 +47,12 @@
     "eslint-config-prettier": "4.2.0",
     "eslint-plugin-import": "2.17.2",
     "gavel-spec": "1.2.1",
+    "husky": "2.2.0",
+    "lint-staged": "8.1.6",
     "mocha": "6.1.4",
     "mochify": "6.2.0",
     "nyc": "13.3.0",
+    "prettier": "1.17.0",
     "prettyjson": "1.2.1",
     "semantic-release": "15.12.4",
     "sinon": "7.3.2"
