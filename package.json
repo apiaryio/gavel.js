@@ -51,7 +51,7 @@
     "lint-staged": "8.1.6",
     "mocha": "6.1.4",
     "mochify": "6.2.0",
-    "nyc": "13.3.0",
+    "nyc": "14.1.1",
     "prettier": "1.17.0",
     "prettyjson": "1.2.1",
     "semantic-release": "15.12.4",
