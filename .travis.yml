@@ -12,7 +12,7 @@ before_install:
 install:
   - 'npm install --no-save'
 script:
-  - 'npm run ci:lint || true' # TODO https://github.com/apiaryio/gavel.js/issues/146
+  - 'npm run ci:lint'
   - 'npm run ci:test'
 after_success:
   - 'npm run ci:release'
