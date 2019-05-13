@@ -6,6 +6,7 @@ module.exports = {
     node: true
   },
   rules: {
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'consistent-return': 'off',
     'class-methods-use-this': 'off',
     'no-plusplus': 'off',
