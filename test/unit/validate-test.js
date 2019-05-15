@@ -45,7 +45,7 @@ describe('Gavel proxies to functions with callbacks', () => {
   describe('isValidatable', () => {
     describe('when I provide data from README (good objects)', () => {
       ['response', 'request'].forEach((variant) => {
-        describe('for two cloned #{variant}s', () => {
+        describe(`for two cloned ${variant}s`, () => {
           let results = null;
           let error = null;
 
@@ -195,7 +195,7 @@ describe('Gavel proxies to functions with callbacks', () => {
   describe('validate', () => {
     describe('when I provide data', () => {
       ['response', 'request'].forEach((variant) => {
-        describe('for two cloned #{variant}s', () => {
+        describe(`for two cloned ${variant}s`, () => {
           let results = null;
           let error = null;
 
@@ -217,7 +217,7 @@ describe('Gavel proxies to functions with callbacks', () => {
           it('should results be an object', () => assert.isObject(results));
         });
 
-        describe('for similar #{variant}s', () => {
+        describe(`for similar ${variant}s`, () => {
           let results = null;
           let error = null;
 
@@ -239,7 +239,7 @@ describe('Gavel proxies to functions with callbacks', () => {
           it('should results be an object', () => assert.isObject(results));
         });
 
-        describe('for different #{variant}s', () => {
+        describe(`for different ${variant}s`, () => {
           let results = null;
           let error = null;
 
