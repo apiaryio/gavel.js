@@ -11,7 +11,7 @@
   },
   "scripts": {
     "lint": "eslint lib/**/*.js test/**/*.js",
-    "test": "npm run test:server && npm run test:browser && npm run test:features",
+    "test": "npm run test:new && npm run test:server && npm run test:browser && npm run test:features",
     "test:new": "mocha \"lib/api/test/**/*.test.js\"",
     "test:server": "mocha \"test/unit/**/*-test.js\"",
     "test:server:coverage": "nyc npm run test:server",
