@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 const clone = require('clone');
-const { validate, isValid, isValidatable } = require('../../lib/gavel');
+const { validate, isValid } = require('../../lib/gavel');
 
 describe('Gavel proxies to functions with callbacks', () => {
   // Examples from README.md
@@ -41,81 +41,6 @@ describe('Gavel proxies to functions with callbacks', () => {
     },
     body: '{"origin":"1.2.3.4"}'
   };
-
-  describe('isValidatable', () => {
-    describe('when I provide data from README (good objects)', () => {
-      ['response', 'request'].forEach((variant) => {
-        describe(`for two cloned ${variant}s`, () => {
-          let results = null;
-          let error = null;
-
-          before((done) => {
-            isValidatable(
-              cloneHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
-          it('should be ok as a result of isValidatable', () =>
-            assert.isTrue(results));
-        });
-
-        describe(`for similar ${variant}s`, () => {
-          let results = null;
-          let error = null;
-
-          before((done) => {
-            isValidatable(
-              similarHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
-          it('should be ok as a result of isValidatable', () =>
-            assert.isTrue(results));
-        });
-
-        describe(`for different ${variant}s`, () => {
-          let results = null;
-          let error = null;
-
-          before((done) => {
-            isValidatable(
-              differentHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
-          it('should be ok as a result of isValidatable', () =>
-            assert.isTrue(results));
-        });
-      });
-    });
-  });
 
   describe('isValid', () => {
     describe('when I provide data', () => {

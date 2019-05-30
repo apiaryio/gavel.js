@@ -10,7 +10,6 @@ const INVALID_SCHEMA = require('../../fixtures/invalid-schema-v4');
 describe('Http validatable mixin', () => {
   describe('when mixed in any HTTP Message class', () => {
     const methods = [
-      'isValidatable',
       'validate',
       'isValid',
       'validationResults',
@@ -43,34 +42,6 @@ describe('Http validatable mixin', () => {
       items.forEach((item) => {
         it(`should contain '${item}'`, () => {
           assert.include(HttpResponse.validatableComponents, item);
-        });
-      });
-
-      describe('#isValidatable()', () => {
-        describe('when no validatable HTTP component in the object', () => {
-          it('should return false', () => {
-            const instance = new HttpResponse({ foo: 'bar' });
-            assert.isFalse(instance.isValidatable());
-          });
-        });
-
-        describe('when any validatable HTTP component is present in the object', () => {
-          it('should return true for some headers', () => {
-            const instance = new HttpResponse({
-              headers: { 'content-type:': 'application/json' }
-            });
-            assert.isTrue(instance.isValidatable());
-          });
-
-          it('should return true for some body', () => {
-            const instance = new HttpResponse({ body: '' });
-            assert.isTrue(instance.isValidatable());
-          });
-
-          it('should return true for some statusCode', () => {
-            const instance = new HttpResponse({ statusCode: 200 });
-            assert.isTrue(instance.isValidatable());
-          });
         });
       });
 
