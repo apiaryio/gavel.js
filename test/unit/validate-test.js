@@ -68,7 +68,7 @@ describe('Gavel proxies to functions with callbacks', () => {
             assert.isTrue(results));
         });
 
-        describe('for similar #{variant}s', () => {
+        describe(`for similar ${variant}s`, () => {
           let results = null;
           let error = null;
 
@@ -91,7 +91,7 @@ describe('Gavel proxies to functions with callbacks', () => {
             assert.isTrue(results));
         });
 
-        describe('for different #{variant}s', () => {
+        describe(`for different ${variant}s`, () => {
           let results = null;
           let error = null;
 
@@ -120,7 +120,7 @@ describe('Gavel proxies to functions with callbacks', () => {
   describe('isValid', () => {
     describe('when I provide data', () => {
       ['response', 'request'].forEach((variant) => {
-        describe('for two cloned #{variant}s', () => {
+        describe(`for two cloned ${variant}s`, () => {
           let results = null;
           let error = null;
 
@@ -143,7 +143,7 @@ describe('Gavel proxies to functions with callbacks', () => {
             assert.isTrue(results));
         });
 
-        describe('for similar #{variant}s', () => {
+        describe(`for similar ${variant}s`, () => {
           let results = null;
           let error = null;
 
@@ -166,7 +166,7 @@ describe('Gavel proxies to functions with callbacks', () => {
             assert.isTrue(results));
         });
 
-        describe('for different #{variant}s', () => {
+        describe(`for different ${variant}s`, () => {
           let results = null;
           let error = null;
 

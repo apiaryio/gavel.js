@@ -1,9 +1,11 @@
-const assert = require('chai').assert;
+/* eslint-disable no-shadow */
+const { assert } = require('chai');
 const sinon = require('sinon');
 
 const { HttpResponse } = require('../../../lib/model/http-response');
 const { HttpRequest } = require('../../../lib/model/http-request');
 const fixtures = require('../../fixtures');
+const INVALID_SCHEMA = require('../../fixtures/invalid-schema-v4');
 
 describe('Http validatable mixin', () => {
   describe('when mixed in any HTTP Message class', () => {
@@ -31,7 +33,7 @@ describe('Http validatable mixin', () => {
     ];
 
     methods.forEach((method) => {
-      it('should have ' + method + ' method defined', () => {
+      it(`should have '${method}' method defined`, () => {
         assert.isFunction(HttpResponse.prototype[method]);
       });
     });
@@ -39,7 +41,7 @@ describe('Http validatable mixin', () => {
     describe('validatableComponents', () => {
       const items = ['headers', 'body', 'statusCode'];
       items.forEach((item) => {
-        it('should contain "' + item + '"', () => {
+        it(`should contain '${item}'`, () => {
           assert.include(HttpResponse.validatableComponents, item);
         });
       });
@@ -89,7 +91,7 @@ describe('Http validatable mixin', () => {
         });
 
         describe('#validate()', () => {
-          result = null;
+          let result = null;
           before(() => {
             result = instance.validate();
           });
@@ -100,7 +102,7 @@ describe('Http validatable mixin', () => {
 
           const keys = ['headers', 'body', 'statusCode', 'version'];
           keys.forEach((key) => {
-            it('should contain validatable Component key "' + key + '"', () => {
+            it(`should contain validatable Component key '${key}'`, () => {
               assert.include(Object.keys(result), key);
             });
           });
@@ -242,10 +244,10 @@ describe('Http validatable mixin', () => {
             });
 
             describe('when any HTTP component contains error message', () => {
-              i = null;
+              let instance = null;
               before(() => {
-                i = new HttpResponse({});
-                i.validation = {
+                instance = new HttpResponse({});
+                instance.validation = {
                   headers: {
                     results: [{ severity: 'error' }]
                   }
@@ -253,7 +255,7 @@ describe('Http validatable mixin', () => {
               });
 
               it('should return false', () => {
-                assert.isFalse(i.isValid());
+                assert.isFalse(instance.isValid());
               });
             });
           });
@@ -271,7 +273,7 @@ describe('Http validatable mixin', () => {
               });
 
               it('should return content of validation property', () => {
-                validation = { booboo: 'foobar' };
+                const validation = { booboo: 'foobar' };
                 instance.validation = validation;
                 assert.equal(instance.validationResults(), validation);
               });
@@ -279,7 +281,7 @@ describe('Http validatable mixin', () => {
           });
 
           describe('#lowercaseHeaders()', () => {
-            inst = null;
+            let inst = null;
             before(() => {
               inst = new HttpRequest({
                 headers: {
@@ -333,12 +335,9 @@ describe('Http validatable mixin', () => {
             ];
 
             fields.forEach((field) => {
-              it(
-                "should set '" + field + "' property for the component",
-                () => {
-                  assert.isDefined(instance.validation.headers[field]);
-                }
-              );
+              it(`should set '${field}' property for the component`, () => {
+                assert.isDefined(instance.validation.headers[field]);
+              });
             });
 
             it('should call setHeadersRealType', () => {
@@ -464,15 +463,15 @@ describe('Http validatable mixin', () => {
               });
 
               describe('added message', () => {
-                message = null;
+                let message = null;
 
                 before(() => {
-                  index = instance.validation.headers.results.length - 1;
+                  const index = instance.validation.headers.results.length - 1;
                   message = instance.validation.headers.results[index];
                 });
 
                 it('should have error severity', () => {
-                  assert.equal(message['severity'], 'error');
+                  assert.equal(message.severity, 'error');
                 });
               });
             });
@@ -576,8 +575,8 @@ describe('Http validatable mixin', () => {
           });
 
           // Body validation tests
-          describe('#validateBody()', function() {
-            before(function() {
+          describe('#validateBody()', () => {
+            before(() => {
               sinon.spy(instance, 'setBodyRealType');
               sinon.spy(instance, 'setBodyExpectedType');
               sinon.spy(instance, 'setBodyValidator');
@@ -629,6 +628,7 @@ describe('Http validatable mixin', () => {
                 try {
                   instance.setBodyRealType();
                 } catch (error) {
+                  // eslint-disable-next-line
                   message = error.message;
                 }
 
@@ -636,14 +636,14 @@ describe('Http validatable mixin', () => {
               });
             });
 
-            jsonContentTypes = [
+            const jsonContentTypes = [
               'application/json',
               'application/json; charset=utf-8',
               'application/hal+json'
             ];
 
             jsonContentTypes.forEach((contentType) => {
-              describe("header content-type is '#{contentType}'", () => {
+              describe(`header content-type is '${contentType}'`, () => {
                 let instance = null;
 
                 before(() => {
@@ -661,7 +661,7 @@ describe('Http validatable mixin', () => {
                     instance.setBodyRealType();
                   });
 
-                  it('should set real type to ' + contentType + "'", () => {
+                  it(`should set real type to '${contentType}'`, () => {
                     assert.equal(
                       instance.validation.body.realType,
                       contentType
@@ -877,7 +877,7 @@ Unexpected token '\\'' at 1:22
             ];
 
             jsonContentTypes.forEach((contentType) => {
-              describe("expected headers have content-type '#{contentType}'", () => {
+              describe(`expected headers have content-type '${contentType}'`, () => {
                 describe('expected body is a parseable JSON', () => {
                   before(() => {
                     instance = new HttpResponse({
@@ -893,7 +893,7 @@ Unexpected token '\\'' at 1:22
                     instance.setBodyExpectedType();
                   });
 
-                  it('should set expected type to ' + contentType, () => {
+                  it(`should set expected type to ${contentType}`, () => {
                     assert.equal(
                       instance.validation.body.expectedType,
                       contentType
@@ -1025,7 +1025,7 @@ Unexpected token '\\'' at 1:22
             });
 
             it('it should not add any error to results', () => {
-              results = instance.validation.body.results;
+              const { results } = instance.validation.body;
               assert.equal(results.length, 1);
             });
           });
@@ -1050,7 +1050,7 @@ Unexpected token '\\'' at 1:22
             });
 
             it('should set unknown validator error message to results', () => {
-              severities = instance.validation.body.results.map(
+              const severities = instance.validation.body.results.map(
                 (result) => result.severity
               );
               assert.include(severities, 'error');
@@ -1064,9 +1064,9 @@ Unexpected token '\\'' at 1:22
           ];
 
           jsonContentTypes.forEach((realType) => {
-            describe('real is ' + realType, () => {
+            describe(`real is ${realType}`, () => {
               jsonContentTypes.forEach((expectedType) => {
-                describe('expected is ' + expectedType, () => {
+                describe(`expected is ${expectedType}`, () => {
                   before(() => {
                     instance = new HttpResponse({
                       expected: {
@@ -1075,8 +1075,8 @@ Unexpected token '\\'' at 1:22
                     });
                     instance.validation = {};
                     instance.validation.body = {
-                      realType: realType,
-                      expectedType: expectedType
+                      realType,
+                      expectedType
                     };
                     instance.setBodyValidator();
                   });
@@ -1102,7 +1102,7 @@ Unexpected token '\\'' at 1:22
                     });
                     instance.validation = {};
                     instance.validation.body = {
-                      realType: realType,
+                      realType,
                       expectedType: 'application/schema+json'
                     };
                     instance.setBodyValidator();
@@ -1193,12 +1193,10 @@ Unexpected token '\\'' at 1:22
                 });
 
                 it('should set no validator for combination errror message', () => {
-                  results = instance.validation.body.results;
-                  results.forEach((result) => {
-                    results.push(result.severity);
-                  });
-
-                  assert.include(results, 'error');
+                  const severities = instance.validation.body.results.map(
+                    (result) => result.severity
+                  );
+                  assert.include(severities, 'error');
                 });
               });
             });
@@ -1299,11 +1297,10 @@ Unexpected token '\\'' at 1:22
 
             describe('when a validator throws an error', () => {
               before(() => {
-                invalidSchema = require('../../fixtures/invalid-schema-v4');
                 instance = new HttpResponse(response);
                 instance.body = '{}';
                 instance.expected = {
-                  bodySchema: invalidSchema
+                  bodySchema: INVALID_SCHEMA
                 };
                 instance.validation = {};
                 instance.validation.body = {
@@ -1381,7 +1378,7 @@ Unexpected token '\\'' at 1:22
               });
 
               it('should not throw', () => {
-                fn = () => {
+                const fn = () => {
                   instance.runBodyValidator();
                 };
                 assert.doesNotThrow(fn);
@@ -1416,12 +1413,9 @@ Unexpected token '\\'' at 1:22
             ];
 
             fields.forEach((field) => {
-              it(
-                "should set '" + field + "' property for the component",
-                () => {
-                  assert.isDefined(instance.validation.statusCode[field]);
-                }
-              );
+              it(`should set '${field}' property for the component`, () => {
+                assert.isDefined(instance.validation.statusCode[field]);
+              });
             });
 
             describe('expceted matches real', () => {
@@ -1485,7 +1479,7 @@ Unexpected token '\\'' at 1:22
             });
 
             jsonContentTypes.forEach((contentType) => {
-              describe("when content type is '" + contentType + "'", () => {
+              describe(`when content type is '${contentType}'`, () => {
                 it('should return true', () => {
                   assert.isTrue(instance.isJsonContentType(contentType));
                 });
@@ -1493,7 +1487,7 @@ Unexpected token '\\'' at 1:22
             });
 
             nonJsonContentTypes.forEach((contentType) => {
-              describe("when content type is '" + contentType + "'", () => {
+              describe(`when content type is '${contentType}'`, () => {
                 it('should return false', () => {
                   assert.isFalse(instance.isJsonContentType(contentType));
                 });
