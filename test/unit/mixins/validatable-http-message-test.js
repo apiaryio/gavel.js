@@ -5,6 +5,7 @@ const sinon = require('sinon');
 const { HttpResponse } = require('../../../lib/model/http-response');
 const { HttpRequest } = require('../../../lib/model/http-request');
 const fixtures = require('../../fixtures');
+const INVALID_SCHEMA = require('../../fixtures/invalid-schema-v4');
 
 describe('Http validatable mixin', () => {
   describe('when mixed in any HTTP Message class', () => {
@@ -1193,9 +1194,7 @@ Unexpected token '\\'' at 1:22
 
                 it('should set no validator for combination errror message', () => {
                   const severities = instance.validation.body.results.map(
-                    (result) => {
-                      return result.severity;
-                    }
+                    (result) => result.severity
                   );
                   assert.include(severities, 'error');
                 });
@@ -1298,12 +1297,10 @@ Unexpected token '\\'' at 1:22
 
             describe('when a validator throws an error', () => {
               before(() => {
-                // eslint-disable-next-line global-require
-                const invalidSchema = require('../../fixtures/invalid-schema-v4');
                 instance = new HttpResponse(response);
                 instance.body = '{}';
                 instance.expected = {
-                  bodySchema: invalidSchema
+                  bodySchema: INVALID_SCHEMA
                 };
                 instance.validation = {};
                 instance.validation.body = {
