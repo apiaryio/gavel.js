@@ -1,3 +1,4 @@
+/* eslint-disable */
 const tv4 = require('tv4');
 const { assert } = require('chai');
 const deepEqual = require('deep-equal');
@@ -31,7 +32,7 @@ module.exports = function() {
         }
         this.results = JSON.parse(JSON.stringify(result));
 
-        return this.isValid((error, result) => {
+        return this.validate((error, result) => {
           if (error) {
             callback(new Error(error));
           }

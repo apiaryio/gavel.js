@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable */
 
 var cmd = require('commander');
 var httpParser = require('http-string-parser');
@@ -32,12 +33,13 @@ process.stdin.on('end', function() {
     var requestResult = false;
     var responseResult = false;
 
-    gavel.isValid(realRequest, expectedRequest, 'request', function(
+    gavel.validate(realRequest, expectedRequest, 'request', function(
       err,
       result
     ) {
       requestResult = result;
-      gavel.isValid(realResponse, expectedResponse, 'response', function(
+
+      gavel.validate(realResponse, expectedResponse, 'response', function(
         err,
         result
       ) {
@@ -45,7 +47,7 @@ process.stdin.on('end', function() {
       });
     });
 
-    if (requestResult && responseResult) {
+    if (requestResult.isValid && responseResult.isValid) {
       process.exit(0);
     } else {
       process.exit(1);

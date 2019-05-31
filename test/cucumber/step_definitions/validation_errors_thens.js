@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = function() {
   this.Then(/^Gavel will set some error for "([^"]*)"$/, function(
     component,
@@ -56,7 +57,7 @@ module.exports = function() {
   });
 
   this.Then(/^Request or Response is NOT valid$/, function(callback) {
-    return this.isValid((error, result) => {
+    return this.validate((error, result) => {
       if (result) {
         callback(
           new Error('Request or Response is valid and should NOT be valid.')
@@ -67,7 +68,7 @@ module.exports = function() {
   });
 
   return this.Then(/^Request or Response is valid$/, function(callback) {
-    return this.isValid((error, result) => {
+    return this.validate((error, result) => {
       if (!result) {
         callback(
           new Error('Request or Response is NOT valid and should be valid.')

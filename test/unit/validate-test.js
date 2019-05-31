@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 const clone = require('clone');
-const { validate, isValid } = require('../../lib/gavel');
+const { validate } = require('../../lib/gavel');
 
 describe('Gavel proxies to functions with callbacks', () => {
   // Examples from README.md
@@ -41,81 +41,6 @@ describe('Gavel proxies to functions with callbacks', () => {
     },
     body: '{"origin":"1.2.3.4"}'
   };
-
-  describe('isValid', () => {
-    describe('when I provide data', () => {
-      ['response', 'request'].forEach((variant) => {
-        describe(`for two cloned ${variant}s`, () => {
-          let results = null;
-          let error = null;
-
-          before((done) => {
-            isValid(
-              cloneHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
-          it('should be true as a result of isValid', () =>
-            assert.isTrue(results));
-        });
-
-        describe(`for similar ${variant}s`, () => {
-          let results = null;
-          let error = null;
-
-          before((done) => {
-            isValid(
-              similarHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
-          it('should be ok as a result of isValid', () =>
-            assert.isTrue(results));
-        });
-
-        describe(`for different ${variant}s`, () => {
-          let results = null;
-          let error = null;
-
-          before((done) => {
-            isValid(
-              differentHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
-          it('should be false as a result of isValid', () =>
-            assert.isFalse(results));
-        });
-      });
-    });
-  });
 
   describe('validate', () => {
     describe('when I provide data', () => {

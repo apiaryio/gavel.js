@@ -198,39 +198,6 @@ describe('Http validatable mixin', () => {
             });
           });
 
-          describe('#isValid()', () => {
-            before(() => {
-              instance = new HttpResponse(response);
-              sinon.spy(instance, 'validate');
-            });
-            describe('validation property is empty', () => {
-              it('should perform validation', () => {
-                instance.isValid();
-                assert.isTrue(instance.validate.called);
-              });
-            });
-
-            it('should return boolean', () => {
-              assert.isBoolean(instance.isValid());
-            });
-
-            describe('when any HTTP component contains error message', () => {
-              let instance = null;
-              before(() => {
-                instance = new HttpResponse({});
-                instance.validation = {
-                  headers: {
-                    results: [{ severity: 'error' }]
-                  }
-                };
-              });
-
-              it('should return false', () => {
-                assert.isFalse(instance.isValid());
-              });
-            });
-          });
-
           describe('#validationResults()', () => {
             describe('when HTTP message validation property is empty', () => {
               before(() => {
@@ -1415,6 +1382,9 @@ Unexpected token '\\'' at 1:22
               });
 
               it('should return false boolean result', () => {
+                // TODO Remove/rewrite this.
+                // I am not sure what exactly is being asserted.
+                // There is a high chance this entire functionality has been deprecated.
                 assert.isFalse(instance.isValid());
               });
 

@@ -4,6 +4,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
+/* eslint-disable */
 const gavel = require('../../../lib/gavel');
 const vm = require('vm');
 const util = require('util');
@@ -105,10 +106,6 @@ class World {
         )
       );
     }
-  }
-
-  isValid(callback) {
-    return gavel.isValid(this.real, this.expected, 'response', callback);
   }
 
   validate(callback) {
