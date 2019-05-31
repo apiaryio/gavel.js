@@ -50,16 +50,11 @@ describe('Gavel proxies to functions with callbacks', () => {
           let error = null;
 
           before((done) => {
-            validate(
-              cloneHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
+            validate(cloneHttpMessage, baseHttpMessage, (err, result) => {
+              error = err;
+              results = result;
+              done();
+            });
           });
 
           it('should call the callback without any errors', () =>
@@ -72,16 +67,11 @@ describe('Gavel proxies to functions with callbacks', () => {
           let error = null;
 
           before((done) => {
-            validate(
-              similarHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
+            validate(similarHttpMessage, baseHttpMessage, (err, result) => {
+              error = err;
+              results = result;
+              done();
+            });
           });
 
           it('should call the callback without any errors', () =>
@@ -94,16 +84,11 @@ describe('Gavel proxies to functions with callbacks', () => {
           let error = null;
 
           before((done) => {
-            validate(
-              differentHttpMessage,
-              baseHttpMessage,
-              variant,
-              (err, result) => {
-                error = err;
-                results = result;
-                done();
-              }
-            );
+            validate(differentHttpMessage, baseHttpMessage, (err, result) => {
+              error = err;
+              results = result;
+              done();
+            });
           });
 
           it('should call the callback without any errors', () =>

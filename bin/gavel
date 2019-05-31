@@ -24,25 +24,19 @@ process.stdin.on('end', function() {
 
     var realHttp = curlParser.parseBack(stdin);
 
-    var realRequest = httpParser.parseRequest(realHttp['request']);
-    var realResponse = httpParser.parseResponse(realHttp['response']);
+    var realRequest = httpParser.parseRequest(realHttp.request);
+    var realResponse = httpParser.parseResponse(realHttp.response);
 
-    var expectedRequest = httpParser.parseRequest(expectedHttp['request']);
-    var expectedResponse = httpParser.parseResponse(expectedHttp['response']);
+    var expectedRequest = httpParser.parseRequest(expectedHttp.request);
+    var expectedResponse = httpParser.parseResponse(expectedHttp.response);
 
     var requestResult = false;
     var responseResult = false;
 
-    gavel.validate(realRequest, expectedRequest, 'request', function(
-      err,
-      result
-    ) {
+    gavel.validate(realRequest, expectedRequest, function(err, result) {
       requestResult = result;
 
-      gavel.validate(realResponse, expectedResponse, 'response', function(
-        err,
-        result
-      ) {
+      gavel.validate(realResponse, expectedResponse, function(err, result) {
         responseResult = result;
       });
     });
