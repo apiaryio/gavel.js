@@ -1,15 +1,16 @@
+/* eslint-disable */
 module.exports = function() {
+  this.Given(
+    /^you define following( expected)? HTTP (request|response) object:/,
+    function(isExpected, messageType, string, callback) {
+      this.codeBuffer += `${string}\n`;
+      return callback();
+    }
+  );
+
+  //
   this.Given(/^you define the following "([^"]*)" variable:$/, function(
     arg1,
-    string,
-    callback
-  ) {
-    this.codeBuffer += string + '\n';
-    return callback();
-  });
-
-  this.Given(/^you define following "([^"]*)" object:$/, function(
-    objectName,
     string,
     callback
   ) {

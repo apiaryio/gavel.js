@@ -172,6 +172,14 @@ class World {
     return parsed;
   }
 
+  // Hacky coercion function to parse expcected Boolean values
+  // from Gherkin feature suites.
+  toBoolean(string) {
+    if (string === 'true') return true;
+    if (string === 'false') return false;
+    return !!string;
+  }
+
   toCamelCase(input) {
     const result = input.replace(/\s([a-z])/g, (strings) =>
       strings[1].toUpperCase()

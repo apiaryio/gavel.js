@@ -1,5 +1,6 @@
-const gavel = require('../../../lib/gavel');
+/* eslint-disable */
 const deepEqual = require('deep-equal');
+const gavel = require('../../../lib/gavel');
 
 module.exports = function() {
   // TODO consider refactoring for for better acceptace testing to separated steps
