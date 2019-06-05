@@ -12,7 +12,7 @@ module.exports = function() {
       }
 
       component = this.toCamelCase(component);
-      const componentValidation = result.field[component];
+      const componentValidation = result.fields[component];
       const { errors } = componentValidation;
       const errorsCount = errors.length;
 
@@ -37,7 +37,7 @@ module.exports = function() {
         callback(new Error(`Error during validation: ${error}`));
       }
       component = this.toCamelCase(component);
-      const componentValidation = result.field[component];
+      const componentValidation = result.fields[component];
       const { errors } = componentValidation;
       const errorsCount = errors.length;
 
@@ -58,33 +58,57 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^Gavel will set "([^"]*)" to "([^"]*)" for "([^"]*)"$/, function(
-    propName,
-    expectedValue,
-    componentName,
+  this.Then(/^field "([^"]*)" is( NOT)? valid$/, function(
+    fieldName,
+    isNotValid,
     callback
   ) {
     return this.validate((error, result) => {
-      console.log({ componentName, propName, expectedValue });
-      console.log({ result });
-
       assert.property(
-        result.field,
-        componentName,
-        `Expected validation result to have property "${componentName}", but got "${Object.keys(
-          result
-        ).join('", "')}"`
+        result.fields,
+        fieldName,
+        `Expected to have "${fieldName}" field in the validation result, but got none.`
       );
 
       assert.propertyVal(
-        result.field[componentName],
-        propName,
-        this.toBoolean(expectedValue)
+        result.fields[fieldName],
+        'isValid',
+        !isNotValid,
+        `Expected "result.fields.${fieldName}" to be valid, but it's not.`
       );
 
       return callback();
     });
   });
+
+  // TODO REMOVE THIS, no longer in spec
+  // this.Then(/^Gavel will set "([^"]*)" to "([^"]*)" for "([^"]*)"$/, function(
+  //   propName,
+  //   expectedValue,
+  //   componentName,
+  //   callback
+  // ) {
+  //   return this.validate((error, result) => {
+  //     console.log({ componentName, propName, expectedValue });
+  //     console.log({ result });
+
+  //     assert.property(
+  //       result.field,
+  //       componentName,
+  //       `Expected validation result to have property "${componentName}", but got "${Object.keys(
+  //         result
+  //       ).join('", "')}"`
+  //     );
+
+  //     assert.propertyVal(
+  //       result.field[componentName],
+  //       propName,
+  //       this.toBoolean(expectedValue)
+  //     );
+
+  //     return callback();
+  //   });
+  // });
 
   this.Then(/^Request or Response is NOT valid$/, function(callback) {
     return this.validate((error, result) => {

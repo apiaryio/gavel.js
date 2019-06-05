@@ -47,7 +47,7 @@ module.exports = function() {
     /^the validator output for the HTTP component looks like the following JSON:$/,
     function(expectedJson, callback) {
       const expected = JSON.parse(expectedJson);
-      const real = this.results.field[this.component];
+      const real = this.results.fields[this.component];
       if (!deepEqual(real, expected, { strict: true })) {
         return callback(
           new Error(
@@ -76,7 +76,7 @@ module.exports = function() {
     /^the validator output for the HTTP component is valid against "([^"]*)" model JSON schema:$/,
     function(model, schema, callback) {
       const valid = tv4.validate(
-        this.results.field[this.component],
+        this.results.fields[this.component],
         JSON.parse(schema)
       );
       if (!valid) {
@@ -95,7 +95,7 @@ module.exports = function() {
   this.Then(
     /^each result entry under "([^"]*)" key must contain "([^"]*)" key$/,
     function(key1, key2, callback) {
-      const error = this.results.field[this.component];
+      const error = this.results.fields[this.component];
       if (error === undefined) {
         callback(
           new Error(
@@ -115,7 +115,7 @@ module.exports = function() {
   this.Then(
     /^the output JSON contains key "([^"]*)" with one of the following values:$/,
     function(key, table, callback) {
-      const error = this.results.field[this.component];
+      const error = this.results.fields[this.component];
 
       const validators = [].concat.apply([], table.raw());
 
@@ -172,7 +172,7 @@ module.exports = function() {
       }
 
       this.results = result;
-      this.componentResults = this.results.field[this.component];
+      this.componentResults = this.results.fields[this.component];
       return callback();
     });
   });

@@ -96,10 +96,10 @@ describe('Gavel proxies to functions with callbacks', () => {
           it('should results be an object', () => assert.isObject(results));
           it('should results contain 2 different headers messages (missing content-length, different content-type)', () => {
             assert.isObject(results);
-            assert.property(results.field, 'headers');
-            assert.isObject(results.field.headers);
-            assert.isArray(results.field.headers.errors);
-            assert.lengthOf(results.field.headers.errors, 2);
+            assert.property(results.fields, 'headers');
+            assert.isObject(results.fields.headers);
+            assert.isArray(results.fields.headers.errors);
+            assert.lengthOf(results.fields.headers.errors, 2);
           });
         });
       });
