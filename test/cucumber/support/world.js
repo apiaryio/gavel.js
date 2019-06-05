@@ -112,7 +112,7 @@ class World {
   }
 
   validate(callback) {
-    return gavel.validate(this.real, this.expected, callback);
+    return gavel.validate(this.expected, this.real, callback);
   }
 
   parseHeaders(headersString) {
