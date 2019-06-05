@@ -46,53 +46,20 @@ describe('Gavel proxies to functions with callbacks', () => {
     describe('when I provide data', () => {
       ['response', 'request'].forEach((variant) => {
         describe(`for two cloned ${variant}s`, () => {
-          let results = null;
-          let error = null;
+          const results = validate(baseHttpMessage, cloneHttpMessage);
 
-          before((done) => {
-            validate(baseHttpMessage, cloneHttpMessage, (err, result) => {
-              error = err;
-              results = result;
-              done();
-            });
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
           it('should results be an object', () => assert.isObject(results));
         });
 
         describe(`for similar ${variant}s`, () => {
-          let results = null;
-          let error = null;
+          const results = validate(baseHttpMessage, similarHttpMessage);
 
-          before((done) => {
-            validate(baseHttpMessage, similarHttpMessage, (err, result) => {
-              error = err;
-              results = result;
-              done();
-            });
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
           it('should results be an object', () => assert.isObject(results));
         });
 
         describe(`for different ${variant}s`, () => {
-          let results = null;
-          let error = null;
+          const results = validate(baseHttpMessage, differentHttpMessage);
 
-          before((done) => {
-            validate(baseHttpMessage, differentHttpMessage, (err, result) => {
-              error = err;
-              results = result;
-              done();
-            });
-          });
-
-          it('should call the callback without any errors', () =>
-            assert.isNull(error));
           it('should results be an object', () => assert.isObject(results));
           it('should results contain 2 different headers messages (missing content-length, different content-type)', () => {
             assert.isObject(results);

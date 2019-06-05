@@ -26,20 +26,14 @@ module.exports = function() {
         body: json2
       };
 
-      return this.validate((error, result) => {
-        if (error) {
-          callback(new Error(`Got error during validation:\n${error}`));
-        }
+      try {
+        const result = this.validate();
         this.results = JSON.parse(JSON.stringify(result));
-
-        return this.validate((error, result) => {
-          if (error) {
-            callback(new Error(error));
-          }
-          this.booleanResult = result.isValid;
-          return callback();
-        });
-      });
+        this.booleanResult = result.isValid;
+        return callback();
+      } catch (error) {
+        callback(new Error(`Got error during validation:\n${error}`));
+      }
     }
   );
 
@@ -166,15 +160,14 @@ module.exports = function() {
   this.When(/^you perform validation on the HTTP component$/, function(
     callback
   ) {
-    return this.validate((error, result) => {
-      if (error) {
-        callback(new Error(`Error during validation: ${error}`));
-      }
-
+    try {
+      const result = this.validate();
       this.results = result;
       this.componentResults = this.results.fields[this.component];
       return callback();
-    });
+    } catch (error) {
+      callback(new Error(`Error during validation: ${error}`));
+    }
   });
 
   this.Then(/^validator "([^"]*)" is used for validation$/, function(
