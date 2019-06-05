@@ -2,7 +2,7 @@
   "name": "gavel",
   "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
-  "main": "lib/gavel.js",
+  "main": "lib/index.js",
   "engines": {
     "node": ">= 8"
   },

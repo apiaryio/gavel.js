@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 const clone = require('clone');
-const { validate } = require('../../lib/gavel');
+const { validate } = require('../../lib');
 
 describe('Gavel proxies to functions with callbacks', () => {
   // Examples from README.md
