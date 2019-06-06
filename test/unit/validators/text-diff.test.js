@@ -9,7 +9,7 @@ const {
 } = require('../../../lib/validators/validation-errors');
 
 describe('TextDiff', () => {
-  validator = null;
+  let validator = null;
 
   describe('when i create new instance of validator with incorrect "data" (first argument)', () => {
     validator = null;

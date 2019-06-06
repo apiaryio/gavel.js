@@ -12,7 +12,7 @@ describe('getType', () => {
     });
 
     it('when given Function', () => {
-      func = () => 'foo';
+      const func = () => 'foo';
       assert.equal(getType(func), 'function');
     });
 
@@ -43,7 +43,7 @@ describe('getType', () => {
     });
 
     it('returns type as-is for unknown types', () => {
-      customInstance = Buffer.alloc(1);
+      const customInstance = Buffer.alloc(1);
       assert.equal(getType(customInstance), 'object');
     });
   });

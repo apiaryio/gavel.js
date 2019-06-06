@@ -1,10 +1,11 @@
+/* eslint-disable */
 const { assert } = require('chai');
+const sinon = require('sinon');
 const fixtures = require('../../fixtures');
 const { JsonSchema } = require('../../../lib/validators/json-schema');
 const {
   ValidationErrors
 } = require('../../../lib/validators/validation-errors');
-const sinon = require('sinon');
 const shared = require('../support/amanda-to-gavel-shared');
 
 describe('JsonSchema', () => {
@@ -30,7 +31,7 @@ describe('JsonSchema', () => {
         type +
         '" type arguments',
       () => {
-        let validator = null;
+        validator = null;
 
         beforeEach(() => {
           validator = new JsonSchema(data.real, data.schema);
@@ -111,7 +112,7 @@ describe('JsonSchema', () => {
               });
 
               describe('and run validate again', () => {
-                validatorReturnAfterDataChanged2 = null;
+                let validatorReturnAfterDataChanged2 = null;
                 before(() => {
                   validatorReturnAfterDataChanged2 = validator.validate();
                 });
@@ -139,7 +140,7 @@ describe('JsonSchema', () => {
           {},
           JSON.parse(fixtures.sampleJsonSchemaNonStrict)
         );
-        result = validator.validate();
+        const esult = validator.validate();
         assert.notEqual(validator.validate().length, 0);
       });
     });
@@ -183,7 +184,7 @@ describe('JsonSchema', () => {
 
     describe('validate an object to check json_schema_options passed to Amanda', () => {
       let results = null;
-      let error = null;
+      const error = null;
       let messagesLength = null;
 
       before(() => {

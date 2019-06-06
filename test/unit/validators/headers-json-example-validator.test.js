@@ -6,7 +6,7 @@ const fixtures = require('../../fixtures');
 const shared = require('../support/amanda-to-gavel-shared');
 
 describe('HeadersJsonExample', () => {
-  headersValidator = {};
+  let headersValidator = {};
   describe('constructor', () => {
     afterEach(() => {
       headersValidator = {};
@@ -52,7 +52,7 @@ describe('HeadersJsonExample', () => {
 
       describe('and i run validate()', () => {
         it("shouldn't return any errors", () => {
-          result = headersValidator.validate();
+          const result = headersValidator.validate();
           assert.equal(result.length, 0);
         });
       });
@@ -68,7 +68,7 @@ describe('HeadersJsonExample', () => {
 
       describe('and I run validate()', () => {
         it("shouldn't return any errors", () => {
-          result = headersValidator.validate();
+          const result = headersValidator.validate();
           assert.equal(result.length, 0);
         });
       });
@@ -83,7 +83,7 @@ describe('HeadersJsonExample', () => {
       });
       describe('and I run validate()', () => {
         it('should not return error', () => {
-          result = headersValidator.validate();
+          const result = headersValidator.validate();
           assert.lengthOf(result, 0);
         });
       });
@@ -98,12 +98,12 @@ describe('HeadersJsonExample', () => {
       });
       describe('and i run validate()', () => {
         it('should return 1 error', () => {
-          result = headersValidator.validate();
+          const result = headersValidator.validate();
           assert.equal(result.length, 1);
         });
 
         it('should have beautiful error message', () => {
-          result = headersValidator.validate();
+          const result = headersValidator.validate();
           assert.equal(result[0].message, "Header 'header2' is missing");
         });
       });
@@ -119,12 +119,12 @@ describe('HeadersJsonExample', () => {
 
       describe('and i run validate()', () => {
         it('should return 1 errors', () => {
-          result = headersValidator.validate();
+          const result = headersValidator.validate();
           assert.equal(result.length, 1);
         });
 
         it('should have beautiful error message', () => {
-          result = headersValidator.validate();
+          const result = headersValidator.validate();
           assert.equal(
             result[0].message,
             "Header 'content-type' has value 'application/fancy-madiatype' instead of 'application/json'"
@@ -144,7 +144,7 @@ describe('HeadersJsonExample', () => {
 
     describe('and i run validate()', () => {
       it("shouldn't return any errors", () => {
-        result = headersValidator.validate();
+        const result = headersValidator.validate();
         assert.equal(result.length, 0);
       });
     });
@@ -157,7 +157,7 @@ describe('HeadersJsonExample', () => {
 
     describe('and i run validate()', () => {
       it('should return 2 errors', () => {
-        result = headersValidator.validate();
+        const result = headersValidator.validate();
         assert.equal(result.length, 2);
       });
     });
@@ -173,14 +173,14 @@ describe('HeadersJsonExample', () => {
 
     describe('and i run validate()', () => {
       it("shouldn't return any errors", () => {
-        result = headersValidator.validate();
+        const result = headersValidator.validate();
         assert.equal(result.length, 0);
       });
     });
   });
 
   describe('#validate()', () => {
-    output = null;
+    let output = null;
     before(() => {
       headersValidator = new HeadersJsonExample(
         fixtures.sampleHeadersMissing,

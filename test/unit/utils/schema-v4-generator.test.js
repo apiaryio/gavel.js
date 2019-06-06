@@ -13,7 +13,7 @@ const {
 } = require('../../../lib/utils/schema-v4-generator');
 
 describe('SchemaV4Generator', () => {
-  sg = {};
+  let sg = {};
   before(() => {
     sg = new SchemaV4Generator({ json: sampleJson });
   });
@@ -44,7 +44,7 @@ describe('SchemaV4Generator', () => {
   });
 
   describe('generate', () => {
-    schema = undefined;
+    let schema;
     before(() => {
       sg.properties.keysStrict = true;
       sg.properties.valuesStrict = true;
@@ -66,7 +66,7 @@ describe('SchemaV4Generator', () => {
 
     it('which is valid json schema for amanda (doesNotThrow)', () => {
       assert.doesNotThrow(() =>
-        amanda.validate(JSON.parse(sampleJson), sg.schema, (error) => {})
+        amanda.validate(JSON.parse(sampleJson), sg.schema, () => {})
       );
     });
 
@@ -191,7 +191,7 @@ describe('SchemaV4Generator', () => {
 
   describe('generate strict schema only for some caseless keys', () => {
     before(() => {
-      expected = {
+      const expected = {
         'content-type': 'application/json',
         location: '/here'
       };
@@ -206,7 +206,7 @@ describe('SchemaV4Generator', () => {
 
     describe('when missing key and its value completely', () => {
       it('should fail the validation against generated schema', () => {
-        realMissingKey = {
+        const realMissingKey = {
           'content-type': 'application/json'
         };
         assert.notOk(tv4.validateResult(realMissingKey, sg.schema).valid);
@@ -216,7 +216,7 @@ describe('SchemaV4Generator', () => {
 
   describe('when different value of strict', () => {
     it('should fail the validation against generated schema', () => {
-      realDifferentValueOfStrict = {
+      const realDifferentValueOfStrict = {
         'content-type': 'application/hal+json',
         location: '/here'
       };
@@ -228,7 +228,7 @@ describe('SchemaV4Generator', () => {
 
   describe('when different value of non strict', () => {
     it('should pass the validation against generated schema', () => {
-      realDifferentValueOfNonStrict = {
+      const realDifferentValueOfNonStrict = {
         'content-type': 'application/json',
         location: '/there'
       };
