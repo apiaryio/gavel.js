@@ -30,16 +30,8 @@ process.stdin.on('end', function() {
     var expectedRequest = httpParser.parseRequest(expectedHttp.request);
     var expectedResponse = httpParser.parseResponse(expectedHttp.response);
 
-    var requestResult = false;
-    var responseResult = false;
-
-    gavel.validate(realRequest, expectedRequest, function(err, result) {
-      requestResult = result;
-
-      gavel.validate(realResponse, expectedResponse, function(err, result) {
-        responseResult = result;
-      });
-    });
+    const requestResult = gavel.validate(expectedRequest, realRequest);
+    const responseResult = gavel.validate(expectedResponse, realResponse);
 
     if (requestResult.isValid && responseResult.isValid) {
       process.exit(0);
