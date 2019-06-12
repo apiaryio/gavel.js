@@ -64,7 +64,7 @@
     "nyc": "14.1.1",
     "prettier": "1.17.1",
     "prettyjson": "1.2.1",
-    "semantic-release": "15.13.12",
+    "semantic-release": "15.13.16",
     "sinon": "7.3.2"
   },
   "repository": {
