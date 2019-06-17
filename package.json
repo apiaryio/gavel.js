@@ -60,7 +60,7 @@
     "husky": "2.4.0",
     "lint-staged": "8.2.1",
     "mocha": "6.1.4",
-    "mochify": "6.2.0",
+    "mochify": "6.3.0",
     "nyc": "14.1.1",
     "prettier": "1.17.1",
     "prettyjson": "1.2.1",
