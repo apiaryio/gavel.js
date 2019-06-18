@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { assert } = require('chai');
 const fixtures = require('../../fixtures');
 const { JsonSchema } = require('../../../lib/validators/json-schema');

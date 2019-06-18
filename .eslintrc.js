@@ -10,6 +10,7 @@ module.exports = {
     'consistent-return': 'off',
     'class-methods-use-this': 'off',
     'no-plusplus': 'off',
+    'func-names': 'off',
 
     // Temporary overrides. Logic to be rewritten.
     // TODO https://github.com/apiaryio/gavel.js/issues/150

@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { assert } = require('chai');
 const DiffMatchPatch = require('googlediff');
 
@@ -158,13 +159,8 @@ describe('TextDiff', () => {
         assert.isArray(results);
       });
 
-      it('should contain message with error severity', () => {
-        haystack = [];
-        results.forEach((result) => {
-          haystack.push(result.severity);
-        });
-
-        assert.include(haystack, 'error');
+      it('should contain one error', () => {
+        assert.lengthOf(results, 1);
       });
     });
   });

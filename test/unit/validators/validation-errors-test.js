@@ -1,3 +1,4 @@
+/* eslint-disable */
 const fixtures = require('../../fixtures');
 const {
   ValidationErrors

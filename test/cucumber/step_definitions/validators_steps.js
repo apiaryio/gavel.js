@@ -1,3 +1,4 @@
+/* eslint-disable */
 const tv4 = require('tv4');
 const { assert } = require('chai');
 const deepEqual = require('deep-equal');
@@ -25,20 +26,14 @@ module.exports = function() {
         body: json2
       };
 
-      return this.validate((error, result) => {
-        if (error) {
-          callback(new Error(`Got error during validation:\n${error}`));
-        }
+      try {
+        const result = this.validate();
         this.results = JSON.parse(JSON.stringify(result));
-
-        return this.isValid((error, result) => {
-          if (error) {
-            callback(new Error(error));
-          }
-          this.booleanResult = result;
-          return callback();
-        });
-      });
+        this.booleanResult = result.isValid;
+        return callback();
+      } catch (error) {
+        callback(new Error(`Got error during validation:\n${error}`));
+      }
     }
   );
 
@@ -46,7 +41,7 @@ module.exports = function() {
     /^the validator output for the HTTP component looks like the following JSON:$/,
     function(expectedJson, callback) {
       const expected = JSON.parse(expectedJson);
-      const real = this.results[this.component];
+      const real = this.results.fields[this.component];
       if (!deepEqual(real, expected, { strict: true })) {
         return callback(
           new Error(
@@ -75,7 +70,7 @@ module.exports = function() {
     /^the validator output for the HTTP component is valid against "([^"]*)" model JSON schema:$/,
     function(model, schema, callback) {
       const valid = tv4.validate(
-        this.results[this.component],
+        this.results.fields[this.component],
         JSON.parse(schema)
       );
       if (!valid) {
@@ -94,7 +89,7 @@ module.exports = function() {
   this.Then(
     /^each result entry under "([^"]*)" key must contain "([^"]*)" key$/,
     function(key1, key2, callback) {
-      const error = this.results[this.component];
+      const error = this.results.fields[this.component];
       if (error === undefined) {
         callback(
           new Error(
@@ -114,7 +109,7 @@ module.exports = function() {
   this.Then(
     /^the output JSON contains key "([^"]*)" with one of the following values:$/,
     function(key, table, callback) {
-      const error = this.results[this.component];
+      const error = this.results.fields[this.component];
 
       const validators = [].concat.apply([], table.raw());
 
@@ -165,22 +160,21 @@ module.exports = function() {
   this.When(/^you perform validation on the HTTP component$/, function(
     callback
   ) {
-    return this.validate((error, result) => {
-      if (error) {
-        callback(new Error(`Error during validation: ${error}`));
-      }
-
+    try {
+      const result = this.validate();
       this.results = result;
-      this.componentResults = this.results[this.component];
+      this.componentResults = this.results.fields[this.component];
       return callback();
-    });
+    } catch (error) {
+      callback(new Error(`Error during validation: ${error}`));
+    }
   });
 
   this.Then(/^validator "([^"]*)" is used for validation$/, function(
     validator,
     callback
   ) {
-    const usedValidator = this.componentResults['validator'];
+    const usedValidator = this.componentResults.validator;
     if (validator !== usedValidator) {
       callback(
         new Error(
@@ -233,7 +227,7 @@ module.exports = function() {
     key,
     callback
   ) {
-    this.componentResults['results'].forEach((error) =>
+    this.componentResults.errors.forEach((error) =>
       assert.include(Object.keys(error), key)
     );
     return callback();

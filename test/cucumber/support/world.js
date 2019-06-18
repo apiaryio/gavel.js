@@ -4,7 +4,8 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const gavel = require('../../../lib/gavel');
+/* eslint-disable */
+const gavel = require('../../../lib');
 const vm = require('vm');
 const util = require('util');
 const { assert } = require('chai');
@@ -91,7 +92,10 @@ class World {
     // further reading on node.js load paths:
     // http://nodejs.org/docs/v0.8.23/api/all.html#all_all_together
 
-    const formattedCode = code.replace("require('", "require('../../../lib/");
+    const formattedCode = code.replace(
+      "require('gavel",
+      "require('../../../lib"
+    );
 
     try {
       return eval(formattedCode);
@@ -107,12 +111,8 @@ class World {
     }
   }
 
-  isValid(callback) {
-    return gavel.isValid(this.real, this.expected, 'response', callback);
-  }
-
-  validate(callback) {
-    return gavel.validate(this.real, this.expected, 'response', callback);
+  validate() {
+    return gavel.validate(this.expected, this.real);
   }
 
   parseHeaders(headersString) {
@@ -173,6 +173,14 @@ class World {
     parsed.body = bodyLines.join(HTTP_LINE_DELIMITER);
 
     return parsed;
+  }
+
+  // Hacky coercion function to parse expcected Boolean values
+  // from Gherkin feature suites.
+  toBoolean(string) {
+    if (string === 'true') return true;
+    if (string === 'false') return false;
+    return !!string;
   }
 
   toCamelCase(input) {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 const validators = require('../../../lib/validators');
 const fixtures = require('../../fixtures');
 const jsonPointer = require('json-pointer');
@@ -44,7 +45,7 @@ exports.shouldBehaveLikeAmandaToGavel = (instance) => {
         assert.isObject(item);
       });
 
-      const props = ['message', 'severity', 'pointer'];
+      const props = ['message', 'pointer'];
       props.forEach((key) => {
         it('should have "' + key + '"', () => {
           assert.include(Object.keys(item), key);

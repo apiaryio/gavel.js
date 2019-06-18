@@ -2,7 +2,7 @@
   "name": "gavel",
   "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
-  "main": "lib/gavel.js",
+  "main": "lib/index.js",
   "engines": {
     "node": ">= 8"
   },
@@ -11,15 +11,14 @@
   },
   "scripts": {
     "lint": "eslint lib/**/*.js test/**/*.js",
-    "test": "npm run test:next && npm run test:server && npm run test:browser && npm run test:features",
-    "test:next": "mocha \"lib/next/test/**/*.test.js\"",
-    "test:server": "mocha \"test/unit/**/*-test.js\"",
+    "test": "npm run test:server && npm run test:browser && npm run test:features",
+    "test:server": "mocha \"test/**/*.test.js\"",
     "test:server:coverage": "nyc npm run test:server",
-    "test:browser": "mochify \"test/unit/**/*.js\"",
+    "test:browser": "mochify \"test/**/*.js\"",
     "test:features": "node scripts/cucumber.js",
     "coveralls": "nyc --reporter=text-lcov npm run test:server | coveralls",
     "ci:lint": "npm run lint",
-    "ci:test": "npm run coveralls && npm run test:next && npm run test:browser && npm run test:features",
+    "ci:test": "npm run coveralls && npm run test:browser && npm run test:features",
     "ci:release": "semantic-release",
     "precommit": "lint-staged"
   },
@@ -56,7 +55,7 @@
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-config-prettier": "5.0.0",
     "eslint-plugin-import": "2.17.3",
-    "gavel-spec": "2.0.0",
+    "gavel-spec": "3.0.0",
     "husky": "2.4.1",
     "lint-staged": "8.2.1",
     "mocha": "6.1.4",
