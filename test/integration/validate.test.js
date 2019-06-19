@@ -1,6 +1,12 @@
 const { assert } = require('chai');
 const { validate } = require('../../lib/validate');
 
+const isValid = (result, expectedValid = true) => {
+  it(`sets "isValid" to ${JSON.stringify(expectedValid)}`, () => {
+    assert.propertyVal(result, 'isValid', expectedValid);
+  });
+};
+
 const validator = (obj, expected) => {
   it(`has "${expected}" validator`, () => {
     assert.propertyVal(obj, 'validator', expected);
@@ -32,19 +38,14 @@ describe('validate', () => {
     };
     const result = validate(request, request);
 
-    it('returns validation result object', () => {
-      assert.isObject(result);
-    });
-
-    it('has "isValid" set to true', () => {
-      assert.propertyVal(result, 'isValid', true);
-    });
+    isValid(result);
 
     it('contains all validatable keys', () => {
       assert.hasAllKeys(result.fields, ['method', 'headers', 'body']);
     });
 
     describe('method', () => {
+      isValid(result.fields.method);
       validator(result.fields.method, null);
       expectedType(result.fields.method, 'text/vnd.apiary.method');
       realType(result.fields.method, 'text/vnd.apiary.method');
@@ -52,6 +53,7 @@ describe('validate', () => {
     });
 
     describe('headers', () => {
+      isValid(result.fields.headers);
       validator(result.fields.headers, 'HeadersJsonExample');
       expectedType(
         result.fields.headers,
@@ -65,6 +67,7 @@ describe('validate', () => {
     });
 
     describe('body', () => {
+      isValid(result.fields.body);
       validator(result.fields.body, 'JsonExample');
       expectedType(result.fields.body, 'application/json');
       realType(result.fields.body, 'application/json');
@@ -88,19 +91,14 @@ describe('validate', () => {
       }
     );
 
-    it('returns validation result object', () => {
-      assert.isObject(result);
-    });
-
-    it('has "isValid" set to false', () => {
-      assert.propertyVal(result, 'isValid', false);
-    });
+    isValid(result, false);
 
     it('contains all validatable keys', () => {
       assert.hasAllKeys(result.fields, ['method', 'headers', 'body']);
     });
 
     describe('method', () => {
+      isValid(result.fields.method, false);
       validator(result.fields.method, null);
       expectedType(result.fields.method, 'text/vnd.apiary.method');
       realType(result.fields.method, 'text/vnd.apiary.method');
@@ -121,6 +119,7 @@ describe('validate', () => {
     });
 
     describe('headers', () => {
+      isValid(result.fields.headers);
       validator(result.fields.headers, 'HeadersJsonExample');
       expectedType(
         result.fields.headers,
@@ -134,6 +133,7 @@ describe('validate', () => {
     });
 
     describe('body', () => {
+      isValid(result.fields.body, false);
       validator(result.fields.body, 'JsonExample');
       expectedType(result.fields.body, 'application/json');
       realType(result.fields.body, 'application/json');
@@ -177,6 +177,7 @@ describe('validate', () => {
     });
 
     describe('statusCode', () => {
+      isValid(result.fields.statusCode);
       validator(result.fields.statusCode, 'TextDiff');
       expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
       realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
@@ -184,6 +185,7 @@ describe('validate', () => {
     });
 
     describe('headers', () => {
+      isValid(result.fields.headers);
       validator(result.fields.headers, 'HeadersJsonExample');
       expectedType(
         result.fields.headers,
@@ -197,6 +199,7 @@ describe('validate', () => {
     });
 
     describe('body', () => {
+      isValid(result.fields.body);
       validator(result.fields.body, 'JsonExample');
       expectedType(result.fields.body, 'application/json');
       realType(result.fields.body, 'application/json');
@@ -219,19 +222,14 @@ describe('validate', () => {
     };
     const result = validate(expectedResponse, realResponse);
 
-    it('returns validation result object', () => {
-      assert.isObject(result);
-    });
-
-    it('has "isValid" as false', () => {
-      assert.propertyVal(result, 'isValid', false);
-    });
+    isValid(result, false);
 
     it('contains all validatable keys', () => {
       assert.hasAllKeys(result.fields, ['statusCode', 'headers']);
     });
 
     describe('statusCode', () => {
+      isValid(result.fields.statusCode, false);
       validator(result.fields.statusCode, 'TextDiff');
       expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
       realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
@@ -252,6 +250,7 @@ describe('validate', () => {
     });
 
     describe('headers', () => {
+      isValid(result.fields.headers, false);
       validator(result.fields.headers, 'HeadersJsonExample');
       expectedType(
         result.fields.headers,
@@ -291,19 +290,14 @@ describe('validate', () => {
       }
     );
 
-    it('returns validation result object', () => {
-      assert.isObject(result);
-    });
-
-    it('has "isValid" as false', () => {
-      assert.propertyVal(result, 'isValid', false);
-    });
+    isValid(result, false);
 
     it('contains all validatable keys', () => {
       assert.hasAllKeys(result.fields, ['statusCode', 'headers']);
     });
 
     describe('statusCode', () => {
+      isValid(result.fields.statusCode);
       validator(result.fields.statusCode, 'TextDiff');
       expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
       realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
@@ -311,6 +305,7 @@ describe('validate', () => {
     });
 
     describe('headers', () => {
+      isValid(result.fields.headers, false);
       validator(result.fields.headers, 'HeadersJsonExample');
       expectedType(
         result.fields.headers,
@@ -348,6 +343,7 @@ describe('validate', () => {
   describe('always validates expected properties', () => {
     const result = validate(
       {
+        method: 'POST',
         statusCode: 200,
         headers: {
           'Content-Type': 'application/json'
@@ -355,34 +351,38 @@ describe('validate', () => {
         body: '{ "foo": "bar" }'
       },
       {
-        body: 'doe'
+        method: 'PUT'
       }
     );
 
-    it('has "isValid" as false', () => {
-      assert.propertyVal(result, 'isValid', false);
-    });
+    isValid(result, false);
 
     it('contains all validatable keys', () => {
-      assert.hasAllKeys(result.fields, ['statusCode', 'headers', 'body']);
+      assert.hasAllKeys(result.fields, [
+        'method',
+        'statusCode',
+        'headers',
+        'body'
+      ]);
     });
 
     describe('for properties present in both expected and real', () => {
-      describe('body', () => {
-        validator(result.fields.body, null);
-        expectedType(result.fields.body, 'application/json');
-        realType(result.fields.body, 'text/plain');
+      describe('method', () => {
+        isValid(result.fields.method, false);
+        validator(result.fields.method, null);
+        expectedType(result.fields.method, 'text/vnd.apiary.method');
+        realType(result.fields.method, 'text/vnd.apiary.method');
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.fields.body.errors, 1);
+            assert.lengthOf(result.fields.method.errors, 1);
           });
 
           it('has explanatory message', () => {
             assert.propertyVal(
-              result.fields.body.errors[0],
+              result.fields.method.errors[0],
               'message',
-              `Can't validate real media type 'text/plain' against expected media type 'application/json'.`
+              'Expected "method" field to equal "POST", but got "PUT".'
             );
           });
         });
@@ -391,6 +391,7 @@ describe('validate', () => {
 
     describe('for properties present in expected, but not in real', () => {
       describe('statusCode', () => {
+        isValid(result.fields.statusCode, false);
         validator(result.fields.statusCode, 'TextDiff');
         expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
         realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
@@ -411,6 +412,7 @@ describe('validate', () => {
       });
 
       describe('headers', () => {
+        isValid(result.fields.headers, false);
         validator(result.fields.headers, 'HeadersJsonExample');
         expectedType(
           result.fields.headers,
@@ -431,6 +433,27 @@ describe('validate', () => {
               result.fields.headers.errors[0],
               'message',
               `At '/content-type' Missing required property: content-type`
+            );
+          });
+        });
+      });
+
+      describe('body', () => {
+        isValid(result.fields.body, false);
+        validator(result.fields.body, null);
+        expectedType(result.fields.body, 'application/json');
+        realType(result.fields.body, 'text/plain');
+
+        describe('produces an error', () => {
+          it('exactly one error', () => {
+            assert.lengthOf(result.fields.body.errors, 1);
+          });
+
+          it('has explanatory message', () => {
+            assert.propertyVal(
+              result.fields.body.errors[0],
+              'message',
+              'Expected "body" of "application/json" media type, but actual "body" is missing.'
             );
           });
         });
