@@ -61,7 +61,7 @@ describe('validateBody', () => {
     describe('with explicit "Content-Type" header', () => {
       describe('application/json', () => {
         describe('with matching body type', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: '{ "foo": "bar" }'
             },
@@ -72,24 +72,24 @@ describe('validateBody', () => {
           );
 
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(res, 'validator', 'JsonExample');
+            assert.propertyVal(result, 'validator', 'JsonExample');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(res, 'realType', 'application/json');
+            assert.propertyVal(result, 'realType', 'application/json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'application/json');
+            assert.propertyVal(result, 'expectedType', 'application/json');
           });
 
           it('has no errors', () => {
-            assert.lengthOf(res.errors, 0);
+            assert.lengthOf(result.errors, 0);
           });
         });
 
         describe('with non-matching body type', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: '{ "foo": "bar" }'
             },
@@ -100,21 +100,21 @@ describe('validateBody', () => {
           );
 
           it('has no validator', () => {
-            assert.propertyVal(res, 'validator', null);
+            assert.propertyVal(result, 'validator', null);
           });
 
           it('fallbacks to "text/plain" real type', () => {
-            assert.propertyVal(res, 'realType', 'text/plain');
+            assert.propertyVal(result, 'realType', 'text/plain');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'application/json');
+            assert.propertyVal(result, 'expectedType', 'application/json');
           });
 
           describe('produces content-type error', () => {
             it('has explanatory message', () => {
               assert.match(
-                res.errors[0].message,
+                result.errors[0].message,
                 /^Can't validate: real body 'Content-Type' header is 'application\/json' but body is not a parseable JSON:/
               );
             });
@@ -124,7 +124,7 @@ describe('validateBody', () => {
 
       describe('application/hal+json', () => {
         describe('with matching body type', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: '{ "foo": "bar" }'
             },
@@ -137,24 +137,24 @@ describe('validateBody', () => {
           );
 
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(res, 'validator', 'JsonExample');
+            assert.propertyVal(result, 'validator', 'JsonExample');
           });
 
           it('has "application/hal+json" real type', () => {
-            assert.propertyVal(res, 'realType', 'application/hal+json');
+            assert.propertyVal(result, 'realType', 'application/hal+json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'application/json');
+            assert.propertyVal(result, 'expectedType', 'application/json');
           });
 
           it('has no errors', () => {
-            assert.lengthOf(res.errors, 0);
+            assert.lengthOf(result.errors, 0);
           });
         });
 
         describe('with non-matching body type', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: 'text'
             },
@@ -167,21 +167,21 @@ describe('validateBody', () => {
           );
 
           it('has no validator', () => {
-            assert.propertyVal(res, 'validator', null);
+            assert.propertyVal(result, 'validator', null);
           });
 
           it('fallbacks to "text/plain" real type', () => {
-            assert.propertyVal(res, 'realType', 'text/plain');
+            assert.propertyVal(result, 'realType', 'text/plain');
           });
 
           it('has "text/plain" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'text/plain');
+            assert.propertyVal(result, 'expectedType', 'text/plain');
           });
 
           describe('produces error', () => {
             it('has explanatory message', () => {
               assert.match(
-                res.errors[0].message,
+                result.errors[0].message,
                 /^Can't validate: real body 'Content-Type' header is 'application\/hal\+json' but body is not a parseable JSON:/
               );
             });
@@ -193,7 +193,7 @@ describe('validateBody', () => {
     describe('without explicit "Content-Type" header', () => {
       describe('text/plain', () => {
         describe('with matching bodies', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: 'foo'
             },
@@ -203,24 +203,24 @@ describe('validateBody', () => {
           );
 
           it('has "TextDiff" validator', () => {
-            assert.propertyVal(res, 'validator', 'TextDiff');
+            assert.propertyVal(result, 'validator', 'TextDiff');
           });
 
           it('has text/plain real type', () => {
-            assert.propertyVal(res, 'realType', 'text/plain');
+            assert.propertyVal(result, 'realType', 'text/plain');
           });
 
           it('has "text/plain" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'text/plain');
+            assert.propertyVal(result, 'expectedType', 'text/plain');
           });
 
           it('has no errors', () => {
-            assert.lengthOf(res.errors, 0);
+            assert.lengthOf(result.errors, 0);
           });
         });
 
         describe('with non-matching bodies', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: 'bar'
             },
@@ -230,26 +230,26 @@ describe('validateBody', () => {
           );
 
           it('has "TextDiff" validator', () => {
-            assert.propertyVal(res, 'validator', 'TextDiff');
+            assert.propertyVal(result, 'validator', 'TextDiff');
           });
 
           it('has "text/plain" real type', () => {
-            assert.propertyVal(res, 'realType', 'text/plain');
+            assert.propertyVal(result, 'realType', 'text/plain');
           });
 
           it('has "text/plain" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'text/plain');
+            assert.propertyVal(result, 'expectedType', 'text/plain');
           });
 
           describe('produces validation error', () => {
             it('exactly one error', () => {
-              assert.lengthOf(res.errors, 1);
+              assert.lengthOf(result.errors, 1);
             });
 
             it('with explanatory message', () => {
-              assert.hasAnyKeys(res.errors[0], 'message');
+              assert.hasAnyKeys(result.errors[0], 'message');
               assert.propertyVal(
-                res.errors[0],
+                result.errors[0],
                 'message',
                 'Real and expected data does not match.'
               );
@@ -260,7 +260,7 @@ describe('validateBody', () => {
 
       describe('application/json', () => {
         describe('with matching bodies', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: '{ "foo": "bar" }'
             },
@@ -270,24 +270,24 @@ describe('validateBody', () => {
           );
 
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(res, 'validator', 'JsonExample');
+            assert.propertyVal(result, 'validator', 'JsonExample');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(res, 'realType', 'application/json');
+            assert.propertyVal(result, 'realType', 'application/json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'application/json');
+            assert.propertyVal(result, 'expectedType', 'application/json');
           });
 
           it('has no errors', () => {
-            assert.lengthOf(res.errors, 0);
+            assert.lengthOf(result.errors, 0);
           });
         });
 
         describe('with non-matching bodies', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               body: '{ "bar": null }'
             },
@@ -297,25 +297,25 @@ describe('validateBody', () => {
           );
 
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(res, 'validator', 'JsonExample');
+            assert.propertyVal(result, 'validator', 'JsonExample');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(res, 'realType', 'application/json');
+            assert.propertyVal(result, 'realType', 'application/json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'application/json');
+            assert.propertyVal(result, 'expectedType', 'application/json');
           });
 
           describe('produces validation errors', () => {
             it('exactly one error', () => {
-              assert.lengthOf(res.errors, 1);
+              assert.lengthOf(result.errors, 1);
             });
 
             it('has explanatory message', () => {
               assert.propertyVal(
-                res.errors[0],
+                result.errors[0],
                 'message',
                 `At '/bar' Missing required property: bar`
               );
@@ -326,7 +326,7 @@ describe('validateBody', () => {
 
       describe('application/schema+json', () => {
         describe('with matching bodies', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               bodySchema: {
                 required: ['foo']
@@ -338,24 +338,28 @@ describe('validateBody', () => {
           );
 
           it('has "JsonSchema" validator', () => {
-            assert.propertyVal(res, 'validator', 'JsonSchema');
+            assert.propertyVal(result, 'validator', 'JsonSchema');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(res, 'realType', 'application/json');
+            assert.propertyVal(result, 'realType', 'application/json');
           });
 
           it('has "application/schema+json" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'application/schema+json');
+            assert.propertyVal(
+              result,
+              'expectedType',
+              'application/schema+json'
+            );
           });
 
           it('has no errors', () => {
-            assert.lengthOf(res.errors, 0);
+            assert.lengthOf(result.errors, 0);
           });
         });
 
         describe('with non-matching bodies', () => {
-          const res = validateBody(
+          const result = validateBody(
             {
               bodySchema: {
                 required: ['doe']
@@ -367,25 +371,29 @@ describe('validateBody', () => {
           );
 
           it('has "JsonSchema" validator', () => {
-            assert.propertyVal(res, 'validator', 'JsonSchema');
+            assert.propertyVal(result, 'validator', 'JsonSchema');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(res, 'realType', 'application/json');
+            assert.propertyVal(result, 'realType', 'application/json');
           });
 
           it('has "application/schema+json" expected type', () => {
-            assert.propertyVal(res, 'expectedType', 'application/schema+json');
+            assert.propertyVal(
+              result,
+              'expectedType',
+              'application/schema+json'
+            );
           });
 
           describe('produces an error', () => {
             it('exactly one error', () => {
-              assert.lengthOf(res.errors, 1);
+              assert.lengthOf(result.errors, 1);
             });
 
             it('has explanatory message', () => {
               assert.propertyVal(
-                res.errors[0],
+                result.errors[0],
                 'message',
                 `At '/doe' Missing required property: doe`
               );
