@@ -1,9 +1,9 @@
-const { assert } = require('chai');
+const { expect } = require('../../chai');
 const { validateHeaders } = require('../../../lib/units/validateHeaders');
 
 describe('validateHeaders', () => {
   describe('given matching headers', () => {
-    const res = validateHeaders(
+    const result = validateHeaders(
       {
         headers: {
           'content-type': 'application/json',
@@ -18,33 +18,33 @@ describe('validateHeaders', () => {
       }
     );
 
+    it('marks field as valid', () => {
+      expect(result).to.be.valid;
+    });
+
     it('has "HeadersJsonExample" validator', () => {
-      assert.propertyVal(res, 'validator', 'HeadersJsonExample');
+      expect(result).to.have.validator('HeadersJsonExample');
     });
 
     it('has "application/vnd.apiary.http-headers+json" real type', () => {
-      assert.propertyVal(
-        res,
-        'realType',
+      expect(result).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
     });
 
     it('has "application/vnd.apiary.http-headers+json" expected type', () => {
-      assert.propertyVal(
-        res,
-        'expectedType',
+      expect(result).to.have.expectedType(
         'application/vnd.apiary.http-headers+json'
       );
     });
 
     it('has no errors', () => {
-      assert.deepPropertyVal(res, 'errors', []);
+      expect(result.errors).to.have.length(0);
     });
   });
 
   describe('given non-matching headers', () => {
-    const res = validateHeaders(
+    const result = validateHeaders(
       {
         headers: {
           'accept-language': 'en-US,us',
@@ -59,22 +59,22 @@ describe('validateHeaders', () => {
       }
     );
 
+    it('marks field as invalid', () => {
+      expect(result).to.not.be.valid;
+    });
+
     it('has "HeadersJsonExample" validator', () => {
-      assert.propertyVal(res, 'validator', 'HeadersJsonExample');
+      expect(result).to.have.validator('HeadersJsonExample');
     });
 
     it('has "application/vnd.apiary.http-headers+json" real type', () => {
-      assert.propertyVal(
-        res,
-        'realType',
+      expect(result).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
     });
 
     it('has "application/vnd.apiary.http-headers+json" expected type', () => {
-      assert.propertyVal(
-        res,
-        'expectedType',
+      expect(result).to.have.expectedType(
         'application/vnd.apiary.http-headers+json'
       );
     });
@@ -82,24 +82,22 @@ describe('validateHeaders', () => {
     describe('produces errors', () => {
       const missingHeaders = ['accept-language', 'content-type'];
 
-      it('for two missing headers', () => {
-        assert.lengthOf(res.errors, missingHeaders.length);
+      it('for each missing headers', () => {
+        expect(result.errors).to.have.length(missingHeaders.length);
       });
 
       describe('for each missing header', () => {
         missingHeaders.forEach((headerName, index) => {
           describe(headerName, () => {
             it('has pointer to header name', () => {
-              assert.propertyVal(
-                res.errors[index],
+              expect(result.errors[index]).to.have.property(
                 'pointer',
                 `/${headerName}`
               );
             });
 
             it('has explanatory message', () => {
-              assert.propertyVal(
-                res.errors[index],
+              expect(result.errors[index]).to.have.property(
                 'message',
                 `At '/${headerName}' Missing required property: ${headerName}`
               );
@@ -111,7 +109,7 @@ describe('validateHeaders', () => {
   });
 
   describe('given non-json headers', () => {
-    const res = validateHeaders(
+    const result = validateHeaders(
       {
         headers: 'bar'
       },
@@ -120,31 +118,36 @@ describe('validateHeaders', () => {
       }
     );
 
+    it('marks field as invalid', () => {
+      expect(result).to.not.be.valid;
+    });
+
     it('has no validator', () => {
-      assert.propertyVal(res, 'validator', null);
+      expect(result).to.have.validator(null);
     });
 
     it('has no real type', () => {
-      assert.propertyVal(res, 'realType', null);
+      expect(result).to.have.realType(null);
     });
 
     it('has no expected type', () => {
-      assert.propertyVal(res, 'expectedType', null);
+      expect(result).to.have.expectedType(null);
     });
 
     describe('produces an error', () => {
       it('has one error', () => {
-        assert.lengthOf(res.errors, 1);
+        expect(result.errors).to.have.length(1);
       });
 
       it('has explanatory message', () => {
-        assert.propertyVal(
-          res.errors[0],
+        expect(result.errors[0]).to.have.property(
           'message',
-          `No validator found for real data media type
+          `\
+No validator found for real data media type
 "null"
 and expected data media type
-"null".`
+"null".\
+`
         );
       });
     });

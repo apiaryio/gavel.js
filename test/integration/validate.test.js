@@ -1,29 +1,9 @@
-const { assert } = require('chai');
+const { expect } = require('../chai');
 const { validate } = require('../../lib/validate');
 
-const isValid = (result, expectedValid = true) => {
-  it(`sets "isValid" to ${JSON.stringify(expectedValid)}`, () => {
-    assert.propertyVal(result, 'isValid', expectedValid);
-  });
-};
-
-const validator = (obj, expected) => {
-  it(`has "${expected}" validator`, () => {
-    assert.propertyVal(obj, 'validator', expected);
-  });
-};
-
-const createTypeAssertion = (typeName, propName) => (obj, expected) => {
-  it(`has "${expected}" ${typeName} type`, () => {
-    assert.propertyVal(obj, propName, expected);
-  });
-};
-
-const realType = createTypeAssertion('real', 'realType');
-const expectedType = createTypeAssertion('expected', 'expectedType');
 const noErrors = (obj) => {
   it('has no errors', () => {
-    assert.lengthOf(obj.errors, 0);
+    expect(obj.errors).to.have.length(0);
   });
 };
 
@@ -38,39 +18,44 @@ describe('validate', () => {
     };
     const result = validate(request, request);
 
-    isValid(result);
+    it('marks pair as valid', () => {
+      expect(result).to.be.valid;
+    });
 
     it('contains all validatable keys', () => {
-      assert.hasAllKeys(result.fields, ['method', 'headers', 'body']);
+      expect(result.fields).to.have.all.keys(['method', 'headers', 'body']);
     });
 
     describe('method', () => {
-      isValid(result.fields.method);
-      validator(result.fields.method, null);
-      expectedType(result.fields.method, 'text/vnd.apiary.method');
-      realType(result.fields.method, 'text/vnd.apiary.method');
+      expect(result.fields.method).to.be.valid;
+      expect(result.fields.method).to.have.validator(null);
+      expect(result.fields.method).to.have.expectedType(
+        'text/vnd.apiary.method'
+      );
+      expect(result.fields.method).to.have.realType('text/vnd.apiary.method');
+
       noErrors(result.fields.method);
     });
 
     describe('headers', () => {
-      isValid(result.fields.headers);
-      validator(result.fields.headers, 'HeadersJsonExample');
-      expectedType(
-        result.fields.headers,
+      expect(result.fields.headers).to.be.valid;
+      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
+      expect(result.fields.headers).to.have.expectedType(
         'application/vnd.apiary.http-headers+json'
       );
-      realType(
-        result.fields.headers,
+      expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
+
       noErrors(result.fields.headers);
     });
 
     describe('body', () => {
-      isValid(result.fields.body);
-      validator(result.fields.body, 'JsonExample');
-      expectedType(result.fields.body, 'application/json');
-      realType(result.fields.body, 'application/json');
+      expect(result.fields.body).to.be.valid;
+      expect(result.fields.body).to.have.validator('JsonExample');
+      expect(result.fields.body).to.have.expectedType('application/json');
+      expect(result.fields.body).to.have.realType('application/json');
+
       noErrors(result.fields.body);
     });
   });
@@ -91,26 +76,29 @@ describe('validate', () => {
       }
     );
 
-    isValid(result, false);
+    it('marks pairs as invalid', () => {
+      expect(result).to.not.be.valid;
+    });
 
     it('contains all validatable keys', () => {
-      assert.hasAllKeys(result.fields, ['method', 'headers', 'body']);
+      expect(result.fields).to.have.all.keys(['method', 'headers', 'body']);
     });
 
     describe('method', () => {
-      isValid(result.fields.method, false);
-      validator(result.fields.method, null);
-      expectedType(result.fields.method, 'text/vnd.apiary.method');
-      realType(result.fields.method, 'text/vnd.apiary.method');
+      expect(result.fields.method).to.not.be.valid;
+      expect(result.fields.method).to.have.validator(null);
+      expect(result.fields.method).to.have.expectedType(
+        'text/vnd.apiary.method'
+      );
+      expect(result.fields.method).to.have.realType('text/vnd.apiary.method');
 
       describe('produces one error', () => {
         it('exactly one error', () => {
-          assert.lengthOf(result.fields.method.errors, 1);
+          expect(result.fields.method.errors).to.have.length(1);
         });
 
         it('has explanatory message', () => {
-          assert.propertyVal(
-            result.fields.method.errors[0],
+          expect(result.fields.method.errors[0]).to.have.property(
             'message',
             'Expected "method" field to equal "PUT", but got "POST".'
           );
@@ -119,33 +107,31 @@ describe('validate', () => {
     });
 
     describe('headers', () => {
-      isValid(result.fields.headers);
-      validator(result.fields.headers, 'HeadersJsonExample');
-      expectedType(
-        result.fields.headers,
+      expect(result.fields.headers).to.be.valid;
+      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
+      expect(result.fields.headers).to.have.expectedType(
         'application/vnd.apiary.http-headers+json'
       );
-      realType(
-        result.fields.headers,
+      expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
+
       noErrors(result.fields.headers);
     });
 
     describe('body', () => {
-      isValid(result.fields.body, false);
-      validator(result.fields.body, 'JsonExample');
-      expectedType(result.fields.body, 'application/json');
-      realType(result.fields.body, 'application/json');
+      expect(result.fields.body).to.not.be.valid;
+      expect(result.fields.body).to.have.validator('JsonExample');
+      expect(result.fields.body).to.have.expectedType('application/json');
+      expect(result.fields.body).to.have.realType('application/json');
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          assert.lengthOf(result.fields.body.errors, 1);
+          expect(result.fields.body.errors).to.have.length(1);
         });
 
         it('has explanatory message', () => {
-          assert.propertyVal(
-            result.fields.body.errors[0],
+          expect(result.fields.body.errors[0]).to.have.property(
             'message',
             `At '' Invalid type: object (expected integer)`
           );
@@ -164,45 +150,46 @@ describe('validate', () => {
     };
     const result = validate(response, response);
 
-    it('returns validation result object', () => {
-      assert.isObject(result);
-    });
-
-    it('sets "isValid" to true', () => {
-      assert.propertyVal(result, 'isValid', true);
+    it('marks pairs as valid', () => {
+      expect(result).to.be.valid;
     });
 
     it('contains all validatable keys', () => {
-      assert.hasAllKeys(result.fields, ['statusCode', 'headers', 'body']);
+      expect(result.fields).to.have.all.keys(['statusCode', 'headers', 'body']);
     });
 
     describe('statusCode', () => {
-      isValid(result.fields.statusCode);
-      validator(result.fields.statusCode, 'TextDiff');
-      expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
-      realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
+      expect(result.fields.statusCode).to.be.valid;
+      expect(result.fields.statusCode).to.have.validator('TextDiff');
+      expect(result.fields.statusCode).to.have.expectedType(
+        'text/vnd.apiary.status-code'
+      );
+      expect(result.fields.statusCode).to.have.realType(
+        'text/vnd.apiary.status-code'
+      );
+
       noErrors(result.fields.statusCode);
     });
 
     describe('headers', () => {
-      isValid(result.fields.headers);
-      validator(result.fields.headers, 'HeadersJsonExample');
-      expectedType(
-        result.fields.headers,
+      expect(result.fields.headers).to.be.valid;
+      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
+      expect(result.fields.headers).to.have.expectedType(
         'application/vnd.apiary.http-headers+json'
       );
-      realType(
-        result.fields.headers,
+      expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
+
       noErrors(result.fields.headers);
     });
 
     describe('body', () => {
-      isValid(result.fields.body);
-      validator(result.fields.body, 'JsonExample');
-      expectedType(result.fields.body, 'application/json');
-      realType(result.fields.body, 'application/json');
+      expect(result.fields.body).to.be.valid;
+      expect(result.fields.body).to.have.validator('JsonExample');
+      expect(result.fields.body).to.have.expectedType('application/json');
+      expect(result.fields.body).to.have.realType('application/json');
+
       noErrors(result.fields.body);
     });
   });
@@ -222,26 +209,31 @@ describe('validate', () => {
     };
     const result = validate(expectedResponse, realResponse);
 
-    isValid(result, false);
+    it('marks pairs as invalid', () => {
+      expect(result).to.not.be.valid;
+    });
 
     it('contains all validatable keys', () => {
-      assert.hasAllKeys(result.fields, ['statusCode', 'headers']);
+      expect(result.fields).to.have.all.keys(['statusCode', 'headers']);
     });
 
     describe('statusCode', () => {
-      isValid(result.fields.statusCode, false);
-      validator(result.fields.statusCode, 'TextDiff');
-      expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
-      realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
+      expect(result.fields.statusCode).to.not.be.valid;
+      expect(result.fields.statusCode).to.have.validator('TextDiff');
+      expect(result.fields.statusCode).to.have.expectedType(
+        'text/vnd.apiary.status-code'
+      );
+      expect(result.fields.statusCode).to.have.realType(
+        'text/vnd.apiary.status-code'
+      );
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          assert.lengthOf(result.fields.statusCode.errors, 1);
+          expect(result.fields.statusCode.errors).to.have.length(1);
         });
 
         it('has explanatory message', () => {
-          assert.propertyVal(
-            result.fields.statusCode.errors[0],
+          expect(result.fields.statusCode.errors[0]).to.have.property(
             'message',
             `Status code is '400' instead of '200'`
           );
@@ -250,25 +242,22 @@ describe('validate', () => {
     });
 
     describe('headers', () => {
-      isValid(result.fields.headers, false);
-      validator(result.fields.headers, 'HeadersJsonExample');
-      expectedType(
-        result.fields.headers,
+      expect(result.fields.headers).to.not.be.valid;
+      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
+      expect(result.fields.headers).to.have.expectedType(
         'application/vnd.apiary.http-headers+json'
       );
-      realType(
-        result.fields.headers,
+      expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          assert.lengthOf(result.fields.headers.errors, 1);
+          expect(result.fields.headers.errors).to.have.length(1);
         });
 
         it('includes missing header in the message', () => {
-          assert.propertyVal(
-            result.fields.headers.errors[0],
+          expect(result.fields.headers.errors[0]).to.have.property(
             'message',
             `At '/accept-language' Missing required property: accept-language`
           );
@@ -290,48 +279,51 @@ describe('validate', () => {
       }
     );
 
-    isValid(result, false);
+    it('marks paris as invalid', () => {
+      expect(result).to.not.be.valid;
+    });
 
     it('contains all validatable keys', () => {
-      assert.hasAllKeys(result.fields, ['statusCode', 'headers']);
+      expect(result.fields).to.have.all.keys(['statusCode', 'headers']);
     });
 
     describe('statusCode', () => {
-      isValid(result.fields.statusCode);
-      validator(result.fields.statusCode, 'TextDiff');
-      expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
-      realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
+      expect(result.fields.statusCode).to.be.valid;
+      expect(result.fields.statusCode).to.have.validator('TextDiff');
+      expect(result.fields.statusCode).to.have.expectedType(
+        'text/vnd.apiary.status-code'
+      );
+      expect(result.fields.statusCode).to.have.realType(
+        'text/vnd.apiary.status-code'
+      );
+
       noErrors(result.fields.statusCode);
     });
 
     describe('headers', () => {
-      isValid(result.fields.headers, false);
-      validator(result.fields.headers, 'HeadersJsonExample');
-      expectedType(
-        result.fields.headers,
+      expect(result.fields.headers).to.not.be.valid;
+      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
+      expect(result.fields.headers).to.have.expectedType(
         'application/vnd.apiary.http-headers+json'
       );
-      realType(
-        result.fields.headers,
+      expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          assert.lengthOf(result.fields.headers.errors, 1);
+          expect(result.fields.headers.errors).to.have.length(1);
         });
 
         it('has pointer to missing "Content-Type"', () => {
-          assert.propertyVal(
-            result.fields.headers.errors[0],
+          expect(result.fields.headers.errors[0]).to.have.property(
             'pointer',
             '/content-type'
           );
         });
 
         it('has explanatory message', () => {
-          assert.propertyVal(
-            result.fields.headers.errors[0],
+          expect(result.fields.headers.errors[0]).to.have.property(
             'message',
             `At '/content-type' Missing required property: content-type`
           );
@@ -355,10 +347,12 @@ describe('validate', () => {
       }
     );
 
-    isValid(result, false);
+    it('marks pairs as invalid', () => {
+      expect(result).to.not.be.valid;
+    });
 
     it('contains all validatable keys', () => {
-      assert.hasAllKeys(result.fields, [
+      expect(result.fields).to.have.all.keys([
         'method',
         'statusCode',
         'headers',
@@ -368,19 +362,20 @@ describe('validate', () => {
 
     describe('for properties present in both expected and real', () => {
       describe('method', () => {
-        isValid(result.fields.method, false);
-        validator(result.fields.method, null);
-        expectedType(result.fields.method, 'text/vnd.apiary.method');
-        realType(result.fields.method, 'text/vnd.apiary.method');
+        expect(result.fields.method).to.not.be.valid;
+        expect(result.fields.method).to.have.validator(null);
+        expect(result.fields.method).to.have.expectedType(
+          'text/vnd.apiary.method'
+        );
+        expect(result.fields.method).to.have.realType('text/vnd.apiary.method');
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.fields.method.errors, 1);
+            expect(result.fields.method.errors).to.have.length(1);
           });
 
           it('has explanatory message', () => {
-            assert.propertyVal(
-              result.fields.method.errors[0],
+            expect(result.fields.method.errors[0]).to.have.property(
               'message',
               'Expected "method" field to equal "POST", but got "PUT".'
             );
@@ -391,19 +386,22 @@ describe('validate', () => {
 
     describe('for properties present in expected, but not in real', () => {
       describe('statusCode', () => {
-        isValid(result.fields.statusCode, false);
-        validator(result.fields.statusCode, 'TextDiff');
-        expectedType(result.fields.statusCode, 'text/vnd.apiary.status-code');
-        realType(result.fields.statusCode, 'text/vnd.apiary.status-code');
+        expect(result.fields.statusCode).to.not.be.valid;
+        expect(result.fields.statusCode).to.have.validator('TextDiff');
+        expect(result.fields.statusCode).to.have.expectedType(
+          'text/vnd.apiary.status-code'
+        );
+        expect(result.fields.statusCode).to.have.realType(
+          'text/vnd.apiary.status-code'
+        );
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.fields.statusCode.errors, 1);
+            expect(result.fields.statusCode.errors).to.have.length(1);
           });
 
           it('has explanatory message', () => {
-            assert.propertyVal(
-              result.fields.statusCode.errors[0],
+            expect(result.fields.statusCode.errors[0]).to.have.property(
               'message',
               `Status code is 'undefined' instead of '200'`
             );
@@ -412,25 +410,22 @@ describe('validate', () => {
       });
 
       describe('headers', () => {
-        isValid(result.fields.headers, false);
-        validator(result.fields.headers, 'HeadersJsonExample');
-        expectedType(
-          result.fields.headers,
+        expect(result.fields.headers).to.not.be.valid;
+        expect(result.fields.headers).to.have.validator('HeadersJsonExample');
+        expect(result.fields.headers).to.have.expectedType(
           'application/vnd.apiary.http-headers+json'
         );
-        realType(
-          result.fields.headers,
+        expect(result.fields.headers).to.have.realType(
           'application/vnd.apiary.http-headers+json'
         );
 
         describe('produces one error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.fields.headers.errors, 1);
+            expect(result.fields.headers.errors).to.have.length(1);
           });
 
           it('has explanatory message', () => {
-            assert.propertyVal(
-              result.fields.headers.errors[0],
+            expect(result.fields.headers.errors[0]).to.have.property(
               'message',
               `At '/content-type' Missing required property: content-type`
             );
@@ -439,19 +434,18 @@ describe('validate', () => {
       });
 
       describe('body', () => {
-        isValid(result.fields.body, false);
-        validator(result.fields.body, null);
-        expectedType(result.fields.body, 'application/json');
-        realType(result.fields.body, 'text/plain');
+        expect(result.fields.body).to.not.be.valid;
+        expect(result.fields.body).to.have.validator(null);
+        expect(result.fields.body).to.have.expectedType('application/json');
+        expect(result.fields.body).to.have.realType('text/plain');
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.fields.body.errors, 1);
+            expect(result.fields.body.errors).to.have.length(1);
           });
 
           it('has explanatory message', () => {
-            assert.propertyVal(
-              result.fields.body.errors[0],
+            expect(result.fields.body.errors[0]).to.have.property(
               'message',
               'Expected "body" of "application/json" media type, but actual "body" is missing.'
             );

@@ -1,4 +1,4 @@
-const { assert } = require('chai');
+const { assert, expect } = require('../../chai');
 const { validateBody } = require('../../../lib/units/validateBody');
 
 describe('validateBody', () => {
@@ -31,16 +31,20 @@ describe('validateBody', () => {
         }
       );
 
+      it('marks field as invalid', () => {
+        expect(result).to.not.be.valid;
+      });
+
       it('has no validator', () => {
-        assert.isNull(result.validator);
+        expect(result).to.have.validator(null);
       });
 
       it('has "application/json" real type', () => {
-        assert.propertyVal(result, 'realType', 'application/json');
+        expect(result).to.have.realType('application/json');
       });
 
       it('has "text/plain" expected type', () => {
-        assert.propertyVal(result, 'expectedType', 'text/plain');
+        expect(result).to.have.expectedType('text/plain');
       });
 
       describe('produces validation error', () => {
@@ -71,16 +75,20 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as valid', () => {
+            expect(result).to.be.valid;
+          });
+
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(result, 'validator', 'JsonExample');
+            expect(result).to.have.validator('JsonExample');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(result, 'realType', 'application/json');
+            expect(result).to.have.realType('application/json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'application/json');
+            expect(result).to.have.expectedType('application/json');
           });
 
           it('has no errors', () => {
@@ -99,16 +107,20 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as invalid', () => {
+            expect(result).to.not.be.valid;
+          });
+
           it('has no validator', () => {
-            assert.propertyVal(result, 'validator', null);
+            expect(result).to.have.validator(null);
           });
 
           it('fallbacks to "text/plain" real type', () => {
-            assert.propertyVal(result, 'realType', 'text/plain');
+            expect(result).to.have.realType('text/plain');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'application/json');
+            expect(result).to.have.expectedType('application/json');
           });
 
           describe('produces content-type error', () => {
@@ -136,16 +148,20 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as valid', () => {
+            expect(result).to.be.valid;
+          });
+
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(result, 'validator', 'JsonExample');
+            expect(result).to.have.validator('JsonExample');
           });
 
           it('has "application/hal+json" real type', () => {
-            assert.propertyVal(result, 'realType', 'application/hal+json');
+            expect(result).to.have.realType('application/hal+json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'application/json');
+            expect(result).to.have.expectedType('application/json');
           });
 
           it('has no errors', () => {
@@ -166,19 +182,27 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as invalid', () => {
+            expect(result).to.not.be.valid;
+          });
+
           it('has no validator', () => {
-            assert.propertyVal(result, 'validator', null);
+            expect(result).to.have.validator(null);
           });
 
           it('fallbacks to "text/plain" real type', () => {
-            assert.propertyVal(result, 'realType', 'text/plain');
+            expect(result).to.have.realType('text/plain');
           });
 
           it('has "text/plain" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'text/plain');
+            expect(result).to.have.expectedType('text/plain');
           });
 
           describe('produces error', () => {
+            it('exactly one error', () => {
+              assert.lengthOf(result.errors, 1);
+            });
+
             it('has explanatory message', () => {
               assert.match(
                 result.errors[0].message,
@@ -202,16 +226,20 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as valid', () => {
+            expect(result).to.be.valid;
+          });
+
           it('has "TextDiff" validator', () => {
-            assert.propertyVal(result, 'validator', 'TextDiff');
+            expect(result).to.have.validator('TextDiff');
           });
 
           it('has text/plain real type', () => {
-            assert.propertyVal(result, 'realType', 'text/plain');
+            expect(result).to.have.realType('text/plain');
           });
 
           it('has "text/plain" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'text/plain');
+            expect(result).to.have.expectedType('text/plain');
           });
 
           it('has no errors', () => {
@@ -229,16 +257,20 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as invalid', () => {
+            expect(result).to.not.be.valid;
+          });
+
           it('has "TextDiff" validator', () => {
-            assert.propertyVal(result, 'validator', 'TextDiff');
+            expect(result).to.have.validator('TextDiff');
           });
 
           it('has "text/plain" real type', () => {
-            assert.propertyVal(result, 'realType', 'text/plain');
+            expect(result).to.have.realType('text/plain');
           });
 
           it('has "text/plain" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'text/plain');
+            expect(result).to.have.expectedType('text/plain');
           });
 
           describe('produces validation error', () => {
@@ -269,20 +301,24 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as valid', () => {
+            expect(result).to.be.valid;
+          });
+
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(result, 'validator', 'JsonExample');
+            expect(result).to.have.validator('JsonExample');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(result, 'realType', 'application/json');
+            expect(result).to.have.realType('application/json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'application/json');
+            expect(result).to.have.expectedType('application/json');
           });
 
           it('has no errors', () => {
-            assert.lengthOf(result.errors, 0);
+            expect(result.errors).to.have.length(0);
           });
         });
 
@@ -296,16 +332,20 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as invalid', () => {
+            expect(result).to.not.be.valid;
+          });
+
           it('has "JsonExample" validator', () => {
-            assert.propertyVal(result, 'validator', 'JsonExample');
+            expect(result).to.have.validator('JsonExample');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(result, 'realType', 'application/json');
+            expect(result).to.have.realType('application/json');
           });
 
           it('has "application/json" expected type', () => {
-            assert.propertyVal(result, 'expectedType', 'application/json');
+            expect(result).to.have.expectedType('application/json');
           });
 
           describe('produces validation errors', () => {
@@ -337,20 +377,20 @@ describe('validateBody', () => {
             }
           );
 
+          it('marks field as valid', () => {
+            expect(result).to.be.valid;
+          });
+
           it('has "JsonSchema" validator', () => {
-            assert.propertyVal(result, 'validator', 'JsonSchema');
+            expect(result).to.have.validator('JsonSchema');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(result, 'realType', 'application/json');
+            expect(result).to.have.realType('application/json');
           });
 
           it('has "application/schema+json" expected type', () => {
-            assert.propertyVal(
-              result,
-              'expectedType',
-              'application/schema+json'
-            );
+            expect(result).to.have.expectedType('application/schema+json');
           });
 
           it('has no errors', () => {
@@ -362,28 +402,28 @@ describe('validateBody', () => {
           const result = validateBody(
             {
               bodySchema: {
-                required: ['doe']
+                required: ['firstName']
               }
             },
             {
-              body: '{ "oneTwoThree": "bar" }'
+              body: '{ "lastName": "Doe" }'
             }
           );
 
+          it('marks field as invalid', () => {
+            expect(result).to.not.be.valid;
+          });
+
           it('has "JsonSchema" validator', () => {
-            assert.propertyVal(result, 'validator', 'JsonSchema');
+            expect(result).to.have.validator('JsonSchema');
           });
 
           it('has "application/json" real type', () => {
-            assert.propertyVal(result, 'realType', 'application/json');
+            expect(result).to.have.realType('application/json');
           });
 
           it('has "application/schema+json" expected type', () => {
-            assert.propertyVal(
-              result,
-              'expectedType',
-              'application/schema+json'
-            );
+            expect(result).to.have.expectedType('application/schema+json');
           });
 
           describe('produces an error', () => {
@@ -395,7 +435,7 @@ describe('validateBody', () => {
               assert.propertyVal(
                 result.errors[0],
                 'message',
-                `At '/doe' Missing required property: doe`
+                `At '/firstName' Missing required property: firstName`
               );
             });
           });

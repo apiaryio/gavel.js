@@ -1,4 +1,4 @@
-const { assert } = require('chai');
+const { expect } = require('../../chai');
 const { validateURI } = require('../../../lib/units/validateURI');
 
 describe('validateURI', () => {
@@ -14,23 +14,23 @@ describe('validateURI', () => {
       );
 
       it('marks field as valid', () => {
-        assert.propertyVal(result, 'isValid', true);
+        expect(result).to.be.valid;
       });
 
       it('has "null" validator', () => {
-        assert.propertyVal(result, 'validator', null);
+        expect(result).to.have.validator(null);
       });
 
       it('has "text/vnd.apiary.uri" real type', () => {
-        assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+        expect(result).to.have.realType('text/vnd.apiary.uri');
       });
 
       it('has "text/vnd.apiary.uri" expected type', () => {
-        assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+        expect(result).to.have.expectedType('text/vnd.apiary.uri');
       });
 
       it('has no errors', () => {
-        assert.lengthOf(result.errors, 0);
+        expect(result.errors).to.have.length(0);
       });
     });
 
@@ -46,23 +46,23 @@ describe('validateURI', () => {
         );
 
         it('marks field as valid', () => {
-          assert.propertyVal(result, 'isValid', true);
+          expect(result).to.be.valid;
         });
 
         it('has "null" validator', () => {
-          assert.propertyVal(result, 'validator', null);
+          expect(result).to.have.validator(null);
         });
 
         it('has "text/vnd.apiary.uri" real type', () => {
-          assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+          expect(result).to.have.realType('text/vnd.apiary.uri');
         });
 
         it('has "text/vnd.apiary.uri" expected type', () => {
-          assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+          expect(result).to.have.expectedType('text/vnd.apiary.uri');
         });
 
         it('has no errors', () => {
-          assert.lengthOf(result.errors, 0);
+          expect(result.errors).to.have.length(0);
         });
       });
 
@@ -78,23 +78,23 @@ describe('validateURI', () => {
         );
 
         it('mark field as valid', () => {
-          assert.propertyVal(result, 'isValid', true);
+          expect(result).to.be.valid;
         });
 
         it('has "null" validator', () => {
-          assert.propertyVal(result, 'validator', null);
+          expect(result).to.have.validator(null);
         });
 
         it('has "text/vnd.apiary.uri" real type', () => {
-          assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+          expect(result).to.have.realType('text/vnd.apiary.uri');
         });
 
         it('has "text/vnd.apiary.uri" expected type', () => {
-          assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+          expect(result).to.have.expectedType('text/vnd.apiary.uri');
         });
 
         it('has no errors', () => {
-          assert.lengthOf(result.errors, 0);
+          expect(result.errors).to.have.length(0);
         });
       });
 
@@ -110,23 +110,23 @@ describe('validateURI', () => {
         );
 
         it('marks field as valid', () => {
-          assert.propertyVal(result, 'isValid', true);
+          expect(result).to.be.valid;
         });
 
         it('has "null" validator', () => {
-          assert.propertyVal(result, 'validator', null);
+          expect(result).to.have.validator(null);
         });
 
         it('has "text/vnd.apiary.uri" real type', () => {
-          assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+          expect(result).to.have.realType('text/vnd.apiary.uri');
         });
 
         it('has "text/vnd.apiary.uri" expected type', () => {
-          assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+          expect(result).to.have.expectedType('text/vnd.apiary.uri');
         });
 
         it('has no errors', () => {
-          assert.lengthOf(result.errors, 0);
+          expect(result.errors).to.have.length(0);
         });
       });
     });
@@ -144,29 +144,28 @@ describe('validateURI', () => {
       );
 
       it('marks field as invalid', () => {
-        assert.propertyVal(result, 'isValid', false);
+        expect(result).to.not.be.valid;
       });
 
       it('has "null" validator', () => {
-        assert.propertyVal(result, 'validator', null);
+        expect(result).to.have.validator(null);
       });
 
       it('has "text/vnd.apiary.uri" real type', () => {
-        assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+        expect(result).to.have.realType('text/vnd.apiary.uri');
       });
 
       it('has "text/vnd.apiary.uri" expected type', () => {
-        assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+        expect(result).to.have.expectedType('text/vnd.apiary.uri');
       });
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          assert.lengthOf(result.errors, 1);
+          expect(result.errors).to.have.length(1);
         });
 
         it('has explanatory message', () => {
-          assert.propertyVal(
-            result.errors[0],
+          expect(result.errors[0]).to.have.property(
             'message',
             'Expected "uri" field to equal "/dashboard", but got: "/profile".'
           );
@@ -186,29 +185,28 @@ describe('validateURI', () => {
         );
 
         it('marks field is invalid', () => {
-          assert.propertyVal(result, 'isValid', false);
+          expect(result).to.not.be.valid;
         });
 
         it('has "null" validator', () => {
-          assert.propertyVal(result, 'validator', null);
+          expect(result).to.have.validator(null);
         });
 
         it('has "text/vnd.apiary.uri" real type', () => {
-          assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+          expect(result).to.have.realType('text/vnd.apiary.uri');
         });
 
         it('has "text/vnd.apiary.uri" expected type', () => {
-          assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+          expect(result).to.have.expectedType('text/vnd.apiary.uri');
         });
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.errors, 1);
+            expect(result.errors).to.have.length(1);
           });
 
           it('has explanatory message', () => {
-            assert.propertyVal(
-              result.errors[0],
+            expect(result.errors[0]).to.have.property(
               'message',
               'Expected "uri" field to equal "/account?id=123", but got: "/account".'
             );
@@ -227,29 +225,28 @@ describe('validateURI', () => {
         );
 
         it('marks field is invalid', () => {
-          assert.propertyVal(result, 'isValid', false);
+          expect(result).to.not.be.valid;
         });
 
         it('has "null" validator', () => {
-          assert.propertyVal(result, 'validator', null);
+          expect(result).to.have.validator(null);
         });
 
         it('has "text/vnd.apiary.uri" real type', () => {
-          assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+          expect(result).to.have.realType('text/vnd.apiary.uri');
         });
 
         it('has "text/vnd.apiary.uri" expected type', () => {
-          assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+          expect(result).to.have.expectedType('text/vnd.apiary.uri');
         });
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.errors, 1);
+            expect(result.errors).to.have.length(1);
           });
 
           it('has explanatory message', () => {
-            assert.propertyVal(
-              result.errors[0],
+            expect(result.errors[0]).to.have.property(
               'message',
               'Expected "uri" field to equal "/account?name=user", but got: "/account?nAmE=usEr".'
             );
@@ -268,29 +265,28 @@ describe('validateURI', () => {
         );
 
         it('marks field is invalid', () => {
-          assert.propertyVal(result, 'isValid', false);
+          expect(result).to.not.be.valid;
         });
 
         it('has "null" validator', () => {
-          assert.propertyVal(result, 'validator', null);
+          expect(result).to.have.validator(null);
         });
 
         it('has "text/vnd.apiary.uri" real type', () => {
-          assert.propertyVal(result, 'realType', 'text/vnd.apiary.uri');
+          expect(result).to.have.realType('text/vnd.apiary.uri');
         });
 
         it('has "text/vnd.apiary.uri" expected type', () => {
-          assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.uri');
+          expect(result).to.have.expectedType('text/vnd.apiary.uri');
         });
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            assert.lengthOf(result.errors, 1);
+            expect(result.errors).to.have.length(1);
           });
 
           it('has explanatory message', () => {
-            assert.propertyVal(
-              result.errors[0],
+            expect(result.errors[0]).to.have.property(
               'message',
               'Expected "uri" field to equal "/zoo?type=cats&type=dogs", but got: "/zoo?type=dogs&type=cats".'
             );

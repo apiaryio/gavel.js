@@ -14,6 +14,7 @@ module.exports = {
 
     // Temporary overrides. Logic to be rewritten.
     // TODO https://github.com/apiaryio/gavel.js/issues/150
-    'no-param-reassign': 'off'
+    'no-param-reassign': 'off',
+    'no-unused-expressions': 'off'
   }
 };

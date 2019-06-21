@@ -1,4 +1,4 @@
-const { assert } = require('chai');
+const { expect } = require('../../chai');
 const { validateMethod } = require('../../../lib/units/validateMethod');
 
 describe('validateMethod', () => {
@@ -12,24 +12,24 @@ describe('validateMethod', () => {
       }
     );
 
-    it('has "isValid" as "true"', () => {
-      assert.propertyVal(result, 'isValid', true);
+    it('marks fields as valid', () => {
+      expect(result).to.be.valid;
     });
 
     it('has "null" validator', () => {
-      assert.isNull(result.validator);
+      expect(result).to.have.validator(null);
     });
 
     it('has "text/vnd.apiary.method" real type', () => {
-      assert.propertyVal(result, 'realType', 'text/vnd.apiary.method');
+      expect(result).to.have.realType('text/vnd.apiary.method');
     });
 
     it('has "text/vnd.apiary.method" expected type', () => {
-      assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.method');
+      expect(result).to.have.expectedType('text/vnd.apiary.method');
     });
 
     it('has no errors', () => {
-      assert.lengthOf(result.errors, 0);
+      expect(result.errors).to.have.length(0);
     });
   });
 
@@ -43,30 +43,29 @@ describe('validateMethod', () => {
       }
     );
 
-    it('returns "isValid" as "false"', () => {
-      assert.propertyVal(result, 'isValid', false);
+    it('marks field as valid', () => {
+      expect(result).to.not.be.valid;
     });
 
     it('has "null" validator', () => {
-      assert.propertyVal(result, 'validator', null);
+      expect(result).to.have.validator(null);
     });
 
     it('has "text/vnd.apiary.method" real type', () => {
-      assert.propertyVal(result, 'realType', 'text/vnd.apiary.method');
+      expect(result).to.have.realType('text/vnd.apiary.method');
     });
 
     it('has "text/vnd.apiary.method" expected type', () => {
-      assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.method');
+      expect(result).to.have.expectedType('text/vnd.apiary.method');
     });
 
     describe('produces an error', () => {
       it('exactly one error', () => {
-        assert.lengthOf(result.errors, 1);
+        expect(result.errors).to.have.length(1);
       });
 
       it('has explanatory message', () => {
-        assert.propertyVal(
-          result.errors[0],
+        expect(result.errors[0]).to.have.property(
           'message',
           'Expected "method" field to equal "POST", but got "GET".'
         );
@@ -84,30 +83,29 @@ describe('validateMethod', () => {
       }
     );
 
-    it('returns "isValid" as "false"', () => {
-      assert.propertyVal(result, 'isValid', false);
+    it('marks field as invalid', () => {
+      expect(result).to.not.be.valid;
     });
 
     it('has "null" validator', () => {
-      assert.propertyVal(result, 'validator', null);
+      expect(result).to.have.validator(null);
     });
 
     it('has "text/vnd.apiary.method" real type', () => {
-      assert.propertyVal(result, 'realType', 'text/vnd.apiary.method');
+      expect(result).to.have.realType('text/vnd.apiary.method');
     });
 
     it('has "text/vnd.apiary.method" expected type', () => {
-      assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.method');
+      expect(result).to.have.expectedType('text/vnd.apiary.method');
     });
 
     describe('produces an error', () => {
       it('exactly one error', () => {
-        assert.lengthOf(result.errors, 1);
+        expect(result.errors).to.have.length(1);
       });
 
       it('has explanatory message', () => {
-        assert.propertyVal(
-          result.errors[0],
+        expect(result.errors[0]).to.have.property(
           'message',
           'Expected "method" field to equal "PATCH", but got "".'
         );
