@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "amanda": "1.0.1",
-    "async": "3.0.1",
+    "async": "3.1.0",
     "caseless": "0.12.0",
     "clone": "2.1.2",
     "commander": "2.20.0",
