@@ -6,6 +6,51 @@ const stringify = (obj) => {
 };
 
 chai.use(({ Assertion }, utils) => {
+  const createErrorPropertyAssertion = (propName, methodName) => {
+    Assertion.addMethod(methodName, function(expectedValue) {
+      const stringifiedObj = stringify(this._obj);
+      const { currentError: error, currentErrorIndex } = this.__flags;
+      const target = error[propName];
+      const isRegExp = expectedValue instanceof RegExp;
+      const matchWord = isRegExp ? 'matches' : 'equals';
+
+      new Assertion(error).to.be.instanceOf(Object);
+      new Assertion(error).to.have.property(propName);
+
+      this.assert(
+        isRegExp ? expectedValue.test(target) : target === expectedValue,
+        `
+  Expected the next HTTP message field:
+  
+  ${stringifiedObj}
+  
+  to have ${propName} at index ${currentErrorIndex} that ${matchWord}:
+  
+  ${expectedValue.toString()}
+  
+  but got:
+  
+  ${target.toString()}
+  `,
+        `
+  Expected the next HTTP message field:
+  
+  ${stringifiedObj}
+  
+  not to have ${propName} at index ${currentErrorIndex}, but got:
+  
+  ${target.toString()}
+  `,
+        expectedValue.toString(),
+        target.toString(),
+        true
+      );
+    });
+  };
+
+  createErrorPropertyAssertion('message', 'withMessage');
+  createErrorPropertyAssertion('pointer', 'withPointer');
+
   utils.addProperty(Assertion.prototype, 'valid', function() {
     const { isValid } = this._obj;
     const stringifiedObj = stringify(this._obj);
@@ -24,8 +69,56 @@ Expected the following HTTP message field:
 
 ${stringifiedObj}
 
-to be invalid, but it is actually valid.`
+to be invalid, but it is actually valid.`,
+      { isValid },
+      { isValid: true },
+      true
     );
+  });
+
+  utils.addProperty(Assertion.prototype, 'errors', function() {
+    const { errors } = this._obj;
+    const stringifiedObj = stringify(this._obj);
+
+    this.assert(
+      errors.length > 0,
+      `
+Expected the following HTTP message field:
+
+${stringifiedObj}
+
+to have some errors, but got no errors.
+`,
+      `
+Expected the following HTTP message field:
+
+${stringifiedObj}
+
+to have no errors, but got ${errors.length} error(s).
+      `,
+      { errors: [] },
+      { errors },
+      true
+    );
+
+    utils.flag(this, 'object', errors);
+  });
+
+  Assertion.addMethod('errorAtIndex', function(index) {
+    const { errors } = this._obj;
+    const errorsCount = errors.length;
+
+    new Assertion(errors).to.be.instanceOf(Array);
+    new Assertion(errorsCount).to.be.a('number');
+
+    this.assert(
+      errors[index],
+      `Expected to have error at index ${index}`,
+      `Expected NOT to have error at index ${index}`
+    );
+
+    utils.flag(this, 'currentError', errors[index]);
+    utils.flag(this, 'currentErrorIndex', index);
   });
 
   Assertion.addMethod('validator', function(expectedValue) {
@@ -49,7 +142,8 @@ ${stringifiedObj}
 to not have validator equal to "${expectedValue}".
 `,
       expectedValue,
-      actualValue
+      actualValue,
+      true
     );
   });
 
@@ -74,7 +168,8 @@ ${stringifiedObj}
 to not have an "expectedType" of "${expectedValue}".
       `,
       expectedValue,
-      actualValue
+      actualValue,
+      true
     );
   });
 
@@ -99,7 +194,8 @@ ${stringifiedObj}
 to not have an "realType" of "${expectedValue}".
       `,
       expectedValue,
-      actualValue
+      actualValue,
+      true
     );
   });
 });

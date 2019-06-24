@@ -29,7 +29,7 @@ describe('validateMethod', () => {
     });
 
     it('has no errors', () => {
-      expect(result.errors).to.have.length(0);
+      expect(result).to.not.have.errors;
     });
   });
 
@@ -61,14 +61,15 @@ describe('validateMethod', () => {
 
     describe('produces an error', () => {
       it('exactly one error', () => {
-        expect(result.errors).to.have.length(1);
+        expect(result).to.have.errors.lengthOf(1);
       });
 
       it('has explanatory message', () => {
-        expect(result.errors[0]).to.have.property(
-          'message',
-          'Expected "method" field to equal "POST", but got "GET".'
-        );
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withMessage(
+            'Expected "method" field to equal "POST", but got "GET".'
+          );
       });
     });
   });
@@ -101,14 +102,13 @@ describe('validateMethod', () => {
 
     describe('produces an error', () => {
       it('exactly one error', () => {
-        expect(result.errors).to.have.length(1);
+        expect(result).to.have.errors.lengthOf(1);
       });
 
       it('has explanatory message', () => {
-        expect(result.errors[0]).to.have.property(
-          'message',
-          'Expected "method" field to equal "PATCH", but got "".'
-        );
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withMessage('Expected "method" field to equal "PATCH", but got "".');
       });
     });
   });

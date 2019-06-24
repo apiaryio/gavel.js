@@ -49,15 +49,15 @@ describe('validateBody', () => {
 
       describe('produces validation error', () => {
         it('exactly one error', () => {
-          assert.lengthOf(result.errors, 1);
+          expect(result).to.have.errors.lengthOf(1);
         });
 
         it('has explanatory message', () => {
-          assert.propertyVal(
-            result.errors[0],
-            'message',
-            `Can't validate real media type 'application/json' against expected media type 'text/plain'.`
-          );
+          expect(result)
+            .to.have.errorAtIndex(0)
+            .withMessage(
+              `Can't validate real media type 'application/json' against expected media type 'text/plain'.`
+            );
         });
       });
     });
@@ -92,7 +92,7 @@ describe('validateBody', () => {
           });
 
           it('has no errors', () => {
-            assert.lengthOf(result.errors, 0);
+            expect(result).to.not.have.errors;
           });
         });
 
@@ -124,11 +124,16 @@ describe('validateBody', () => {
           });
 
           describe('produces content-type error', () => {
+            it('exactly one error', () => {
+              expect(result).to.have.errors.lengthOf(1);
+            });
+
             it('has explanatory message', () => {
-              assert.match(
-                result.errors[0].message,
-                /^Can't validate: real body 'Content-Type' header is 'application\/json' but body is not a parseable JSON:/
-              );
+              expect(result)
+                .to.have.errorAtIndex(0)
+                .withMessage(
+                  /^Can't validate: real body 'Content-Type' header is 'application\/json' but body is not a parseable JSON:/
+                );
             });
           });
         });
@@ -165,7 +170,7 @@ describe('validateBody', () => {
           });
 
           it('has no errors', () => {
-            assert.lengthOf(result.errors, 0);
+            expect(result).to.not.have.errors;
           });
         });
 
@@ -200,14 +205,15 @@ describe('validateBody', () => {
 
           describe('produces error', () => {
             it('exactly one error', () => {
-              assert.lengthOf(result.errors, 1);
+              expect(result).to.have.errors.lengthOf(1);
             });
 
             it('has explanatory message', () => {
-              assert.match(
-                result.errors[0].message,
-                /^Can't validate: real body 'Content-Type' header is 'application\/hal\+json' but body is not a parseable JSON:/
-              );
+              expect(result)
+                .to.have.errorAtIndex(0)
+                .withMessage(
+                  /^Can't validate: real body 'Content-Type' header is 'application\/hal\+json' but body is not a parseable JSON:/
+                );
             });
           });
         });
@@ -243,7 +249,7 @@ describe('validateBody', () => {
           });
 
           it('has no errors', () => {
-            assert.lengthOf(result.errors, 0);
+            expect(result).to.not.have.errors;
           });
         });
 
@@ -275,16 +281,13 @@ describe('validateBody', () => {
 
           describe('produces validation error', () => {
             it('exactly one error', () => {
-              assert.lengthOf(result.errors, 1);
+              expect(result).to.have.errors.lengthOf(1);
             });
 
             it('with explanatory message', () => {
-              assert.hasAnyKeys(result.errors[0], 'message');
-              assert.propertyVal(
-                result.errors[0],
-                'message',
-                'Real and expected data does not match.'
-              );
+              expect(result)
+                .to.have.errorAtIndex(0)
+                .withMessage('Real and expected data does not match.');
             });
           });
         });
@@ -318,7 +321,7 @@ describe('validateBody', () => {
           });
 
           it('has no errors', () => {
-            expect(result.errors).to.have.length(0);
+            expect(result).to.not.have.errors;
           });
         });
 
@@ -350,15 +353,13 @@ describe('validateBody', () => {
 
           describe('produces validation errors', () => {
             it('exactly one error', () => {
-              assert.lengthOf(result.errors, 1);
+              expect(result).to.have.errors.lengthOf(1);
             });
 
             it('has explanatory message', () => {
-              assert.propertyVal(
-                result.errors[0],
-                'message',
-                `At '/bar' Missing required property: bar`
-              );
+              expect(result)
+                .to.have.errorAtIndex(0)
+                .withMessage(`At '/bar' Missing required property: bar`);
             });
           });
         });
@@ -394,7 +395,7 @@ describe('validateBody', () => {
           });
 
           it('has no errors', () => {
-            assert.lengthOf(result.errors, 0);
+            expect(result).to.not.have.errors;
           });
         });
 
@@ -428,15 +429,15 @@ describe('validateBody', () => {
 
           describe('produces an error', () => {
             it('exactly one error', () => {
-              assert.lengthOf(result.errors, 1);
+              expect(result).to.have.errors.lengthOf(1);
             });
 
             it('has explanatory message', () => {
-              assert.propertyVal(
-                result.errors[0],
-                'message',
-                `At '/firstName' Missing required property: firstName`
-              );
+              expect(result)
+                .to.have.errorAtIndex(0)
+                .withMessage(
+                  `At '/firstName' Missing required property: firstName`
+                );
             });
           });
         });

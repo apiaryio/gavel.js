@@ -29,7 +29,7 @@ describe('validateStatusCode', () => {
     });
 
     it('has no errors', () => {
-      expect(result.errors).to.have.length(0);
+      expect(result).to.not.have.errors;
     });
   });
 
@@ -61,14 +61,13 @@ describe('validateStatusCode', () => {
 
     describe('produces error', () => {
       it('exactly one error', () => {
-        expect(result.errors).to.have.length(1);
+        expect(result).to.have.errors.lengthOf(1);
       });
 
       it('has explanatory message', () => {
-        expect(result.errors[0]).to.have.property(
-          'message',
-          `Status code is '200' instead of '400'`
-        );
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withMessage(`Status code is '200' instead of '400'`);
       });
     });
   });

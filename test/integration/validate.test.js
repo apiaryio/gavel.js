@@ -1,12 +1,6 @@
 const { expect } = require('../chai');
 const { validate } = require('../../lib/validate');
 
-const noErrors = (obj) => {
-  it('has no errors', () => {
-    expect(obj.errors).to.have.length(0);
-  });
-};
-
 describe('validate', () => {
   describe('with matching requests', () => {
     const request = {
@@ -33,8 +27,7 @@ describe('validate', () => {
         'text/vnd.apiary.method'
       );
       expect(result.fields.method).to.have.realType('text/vnd.apiary.method');
-
-      noErrors(result.fields.method);
+      expect(result.fields.method).to.not.have.errors;
     });
 
     describe('headers', () => {
@@ -46,8 +39,7 @@ describe('validate', () => {
       expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
-
-      noErrors(result.fields.headers);
+      expect(result.fields.headers).to.not.have.errors;
     });
 
     describe('body', () => {
@@ -55,8 +47,7 @@ describe('validate', () => {
       expect(result.fields.body).to.have.validator('JsonExample');
       expect(result.fields.body).to.have.expectedType('application/json');
       expect(result.fields.body).to.have.realType('application/json');
-
-      noErrors(result.fields.body);
+      expect(result.fields.body).to.not.have.errors;
     });
   });
 
@@ -94,14 +85,15 @@ describe('validate', () => {
 
       describe('produces one error', () => {
         it('exactly one error', () => {
-          expect(result.fields.method.errors).to.have.length(1);
+          expect(result.fields.method).to.have.errors.lengthOf(1);
         });
 
         it('has explanatory message', () => {
-          expect(result.fields.method.errors[0]).to.have.property(
-            'message',
-            'Expected "method" field to equal "PUT", but got "POST".'
-          );
+          expect(result.fields.method)
+            .to.have.errorAtIndex(0)
+            .withMessage(
+              'Expected "method" field to equal "PUT", but got "POST".'
+            );
         });
       });
     });
@@ -115,8 +107,7 @@ describe('validate', () => {
       expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
-
-      noErrors(result.fields.headers);
+      expect(result.fields.headers).to.not.have.errors;
     });
 
     describe('body', () => {
@@ -127,14 +118,13 @@ describe('validate', () => {
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          expect(result.fields.body.errors).to.have.length(1);
+          expect(result.fields.body).to.have.errors.lengthOf(1);
         });
 
         it('has explanatory message', () => {
-          expect(result.fields.body.errors[0]).to.have.property(
-            'message',
-            `At '' Invalid type: object (expected integer)`
-          );
+          expect(result.fields.body)
+            .to.have.errorAtIndex(0)
+            .withMessage(`At '' Invalid type: object (expected integer)`);
         });
       });
     });
@@ -167,8 +157,7 @@ describe('validate', () => {
       expect(result.fields.statusCode).to.have.realType(
         'text/vnd.apiary.status-code'
       );
-
-      noErrors(result.fields.statusCode);
+      expect(result.fields.statusCode).to.not.have.errors;
     });
 
     describe('headers', () => {
@@ -180,8 +169,7 @@ describe('validate', () => {
       expect(result.fields.headers).to.have.realType(
         'application/vnd.apiary.http-headers+json'
       );
-
-      noErrors(result.fields.headers);
+      expect(result.fields.headers).to.not.have.errors;
     });
 
     describe('body', () => {
@@ -189,8 +177,7 @@ describe('validate', () => {
       expect(result.fields.body).to.have.validator('JsonExample');
       expect(result.fields.body).to.have.expectedType('application/json');
       expect(result.fields.body).to.have.realType('application/json');
-
-      noErrors(result.fields.body);
+      expect(result.fields.body).to.not.have.errors;
     });
   });
 
@@ -229,14 +216,13 @@ describe('validate', () => {
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          expect(result.fields.statusCode.errors).to.have.length(1);
+          expect(result.fields.statusCode).to.have.errors.lengthOf(1);
         });
 
         it('has explanatory message', () => {
-          expect(result.fields.statusCode.errors[0]).to.have.property(
-            'message',
-            `Status code is '400' instead of '200'`
-          );
+          expect(result.fields.statusCode)
+            .to.have.errorAtIndex(0)
+            .withMessage(`Status code is '400' instead of '200'`);
         });
       });
     });
@@ -253,14 +239,15 @@ describe('validate', () => {
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          expect(result.fields.headers.errors).to.have.length(1);
+          expect(result.fields.headers).to.have.errors.lengthOf(1);
         });
 
         it('includes missing header in the message', () => {
-          expect(result.fields.headers.errors[0]).to.have.property(
-            'message',
-            `At '/accept-language' Missing required property: accept-language`
-          );
+          expect(result.fields.headers)
+            .to.have.errorAtIndex(0)
+            .withMessage(
+              `At '/accept-language' Missing required property: accept-language`
+            );
         });
       });
     });
@@ -296,8 +283,7 @@ describe('validate', () => {
       expect(result.fields.statusCode).to.have.realType(
         'text/vnd.apiary.status-code'
       );
-
-      noErrors(result.fields.statusCode);
+      expect(result.fields.statusCode).to.not.have.errors;
     });
 
     describe('headers', () => {
@@ -312,21 +298,21 @@ describe('validate', () => {
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          expect(result.fields.headers.errors).to.have.length(1);
+          expect(result.fields.headers).to.have.errors.lengthOf(1);
         });
 
         it('has pointer to missing "Content-Type"', () => {
-          expect(result.fields.headers.errors[0]).to.have.property(
-            'pointer',
-            '/content-type'
-          );
+          expect(result.fields.headers)
+            .to.have.errorAtIndex(0)
+            .withPointer('/content-type');
         });
 
         it('has explanatory message', () => {
-          expect(result.fields.headers.errors[0]).to.have.property(
-            'message',
-            `At '/content-type' Missing required property: content-type`
-          );
+          expect(result.fields.headers)
+            .to.have.errorAtIndex(0)
+            .withMessage(
+              `At '/content-type' Missing required property: content-type`
+            );
         });
       });
     });
@@ -371,14 +357,15 @@ describe('validate', () => {
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            expect(result.fields.method.errors).to.have.length(1);
+            expect(result.fields.method).to.have.errors.lengthOf(1);
           });
 
           it('has explanatory message', () => {
-            expect(result.fields.method.errors[0]).to.have.property(
-              'message',
-              'Expected "method" field to equal "POST", but got "PUT".'
-            );
+            expect(result.fields.method)
+              .to.have.errorAtIndex(0)
+              .withMessage(
+                'Expected "method" field to equal "POST", but got "PUT".'
+              );
           });
         });
       });
@@ -397,14 +384,13 @@ describe('validate', () => {
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            expect(result.fields.statusCode.errors).to.have.length(1);
+            expect(result.fields.statusCode).to.have.errors.lengthOf(1);
           });
 
           it('has explanatory message', () => {
-            expect(result.fields.statusCode.errors[0]).to.have.property(
-              'message',
-              `Status code is 'undefined' instead of '200'`
-            );
+            expect(result.fields.statusCode)
+              .to.have.errorAtIndex(0)
+              .withMessage(`Status code is 'undefined' instead of '200'`);
           });
         });
       });
@@ -421,14 +407,15 @@ describe('validate', () => {
 
         describe('produces one error', () => {
           it('exactly one error', () => {
-            expect(result.fields.headers.errors).to.have.length(1);
+            expect(result.fields.headers).to.have.errors.lengthOf(1);
           });
 
           it('has explanatory message', () => {
-            expect(result.fields.headers.errors[0]).to.have.property(
-              'message',
-              `At '/content-type' Missing required property: content-type`
-            );
+            expect(result.fields.headers)
+              .to.have.errorAtIndex(0)
+              .withMessage(
+                `At '/content-type' Missing required property: content-type`
+              );
           });
         });
       });
@@ -441,14 +428,15 @@ describe('validate', () => {
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            expect(result.fields.body.errors).to.have.length(1);
+            expect(result.fields.body).to.have.errors.lengthOf(1);
           });
 
           it('has explanatory message', () => {
-            expect(result.fields.body.errors[0]).to.have.property(
-              'message',
-              'Expected "body" of "application/json" media type, but actual "body" is missing.'
-            );
+            expect(result.fields.body)
+              .to.have.errorAtIndex(0)
+              .withMessage(
+                'Expected "body" of "application/json" media type, but actual "body" is missing.'
+              );
           });
         });
       });

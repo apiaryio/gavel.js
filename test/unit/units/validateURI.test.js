@@ -30,7 +30,7 @@ describe('validateURI', () => {
       });
 
       it('has no errors', () => {
-        expect(result.errors).to.have.length(0);
+        expect(result).to.not.have.errors;
       });
     });
 
@@ -62,7 +62,7 @@ describe('validateURI', () => {
         });
 
         it('has no errors', () => {
-          expect(result.errors).to.have.length(0);
+          expect(result).to.not.have.errors;
         });
       });
 
@@ -94,7 +94,7 @@ describe('validateURI', () => {
         });
 
         it('has no errors', () => {
-          expect(result.errors).to.have.length(0);
+          expect(result).to.not.have.errors;
         });
       });
 
@@ -126,7 +126,7 @@ describe('validateURI', () => {
         });
 
         it('has no errors', () => {
-          expect(result.errors).to.have.length(0);
+          expect(result).to.not.have.errors;
         });
       });
     });
@@ -161,14 +161,15 @@ describe('validateURI', () => {
 
       describe('produces an error', () => {
         it('exactly one error', () => {
-          expect(result.errors).to.have.length(1);
+          expect(result).to.have.errors.lengthOf(1);
         });
 
         it('has explanatory message', () => {
-          expect(result.errors[0]).to.have.property(
-            'message',
-            'Expected "uri" field to equal "/dashboard", but got: "/profile".'
-          );
+          expect(result)
+            .to.have.errorAtIndex(0)
+            .withMessage(
+              'Expected "uri" field to equal "/dashboard", but got: "/profile".'
+            );
         });
       });
     });
@@ -202,14 +203,15 @@ describe('validateURI', () => {
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            expect(result.errors).to.have.length(1);
+            expect(result).to.have.errors.lengthOf(1);
           });
 
           it('has explanatory message', () => {
-            expect(result.errors[0]).to.have.property(
-              'message',
-              'Expected "uri" field to equal "/account?id=123", but got: "/account".'
-            );
+            expect(result)
+              .to.have.errorAtIndex(0)
+              .withMessage(
+                'Expected "uri" field to equal "/account?id=123", but got: "/account".'
+              );
           });
         });
       });
@@ -242,14 +244,15 @@ describe('validateURI', () => {
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            expect(result.errors).to.have.length(1);
+            expect(result).to.have.errors.lengthOf(1);
           });
 
           it('has explanatory message', () => {
-            expect(result.errors[0]).to.have.property(
-              'message',
-              'Expected "uri" field to equal "/account?name=user", but got: "/account?nAmE=usEr".'
-            );
+            expect(result)
+              .to.have.errorAtIndex(0)
+              .withMessage(
+                'Expected "uri" field to equal "/account?name=user", but got: "/account?nAmE=usEr".'
+              );
           });
         });
       });
@@ -282,14 +285,15 @@ describe('validateURI', () => {
 
         describe('produces an error', () => {
           it('exactly one error', () => {
-            expect(result.errors).to.have.length(1);
+            expect(result).to.have.errors.lengthOf(1);
           });
 
           it('has explanatory message', () => {
-            expect(result.errors[0]).to.have.property(
-              'message',
-              'Expected "uri" field to equal "/zoo?type=cats&type=dogs", but got: "/zoo?type=dogs&type=cats".'
-            );
+            expect(result)
+              .to.have.errorAtIndex(0)
+              .withMessage(
+                'Expected "uri" field to equal "/zoo?type=cats&type=dogs", but got: "/zoo?type=dogs&type=cats".'
+              );
           });
         });
       });

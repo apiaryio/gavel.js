@@ -39,7 +39,7 @@ describe('validateHeaders', () => {
     });
 
     it('has no errors', () => {
-      expect(result.errors).to.have.length(0);
+      expect(result).to.not.have.errors;
     });
   });
 
@@ -83,24 +83,24 @@ describe('validateHeaders', () => {
       const missingHeaders = ['accept-language', 'content-type'];
 
       it('for each missing headers', () => {
-        expect(result.errors).to.have.length(missingHeaders.length);
+        expect(result).to.have.errors.lengthOf(missingHeaders.length);
       });
 
       describe('for each missing header', () => {
         missingHeaders.forEach((headerName, index) => {
           describe(headerName, () => {
             it('has pointer to header name', () => {
-              expect(result.errors[index]).to.have.property(
-                'pointer',
-                `/${headerName}`
-              );
+              expect(result)
+                .to.have.errorAtIndex(index)
+                .withPointer(`/${headerName}`);
             });
 
             it('has explanatory message', () => {
-              expect(result.errors[index]).to.have.property(
-                'message',
-                `At '/${headerName}' Missing required property: ${headerName}`
-              );
+              expect(result)
+                .to.have.errorAtIndex(index)
+                .withMessage(
+                  `At '/${headerName}' Missing required property: ${headerName}`
+                );
             });
           });
         });
@@ -135,20 +135,21 @@ describe('validateHeaders', () => {
     });
 
     describe('produces an error', () => {
-      it('has one error', () => {
-        expect(result.errors).to.have.length(1);
+      it('exactly one error', () => {
+        expect(result).to.have.errors.lengthOf(1);
       });
 
       it('has explanatory message', () => {
-        expect(result.errors[0]).to.have.property(
-          'message',
-          `\
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withMessage(
+            `\
 No validator found for real data media type
 "null"
 and expected data media type
 "null".\
 `
-        );
+          );
       });
     });
   });
