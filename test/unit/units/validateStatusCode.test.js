@@ -1,4 +1,4 @@
-const { assert } = require('chai');
+const { expect } = require('../../chai');
 const { validateStatusCode } = require('../../../lib/units/validateStatusCode');
 
 describe('validateStatusCode', () => {
@@ -12,20 +12,24 @@ describe('validateStatusCode', () => {
       }
     );
 
+    it('marks field as valid', () => {
+      expect(result).to.be.valid;
+    });
+
     it('has "TextDiff" validator', () => {
-      assert.propertyVal(result, 'validator', 'TextDiff');
+      expect(result).to.have.validator('TextDiff');
     });
 
     it('has "text/vnd.apiary.status-code" expected type', () => {
-      assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.status-code');
+      expect(result).to.have.expectedType('text/vnd.apiary.status-code');
     });
 
     it('has "text/vnd.apiary.status-code" real type', () => {
-      assert.propertyVal(result, 'realType', 'text/vnd.apiary.status-code');
+      expect(result).to.have.realType('text/vnd.apiary.status-code');
     });
 
     it('has no errors', () => {
-      assert.deepPropertyVal(result, 'errors', []);
+      expect(result).to.not.have.errors;
     });
   });
 
@@ -39,29 +43,31 @@ describe('validateStatusCode', () => {
       }
     );
 
+    it('marks field as invalid', () => {
+      expect(result).to.not.be.valid;
+    });
+
     it('has "TextDiff" validator', () => {
-      assert.propertyVal(result, 'validator', 'TextDiff');
+      expect(result).to.have.validator('TextDiff');
     });
 
     it('has "text/vnd.apiary.status-code" expected type', () => {
-      assert.propertyVal(result, 'expectedType', 'text/vnd.apiary.status-code');
+      expect(result).to.have.expectedType('text/vnd.apiary.status-code');
     });
 
     it('has "text/vnd.apiary.status-code" real type', () => {
-      assert.propertyVal(result, 'realType', 'text/vnd.apiary.status-code');
+      expect(result).to.have.realType('text/vnd.apiary.status-code');
     });
 
     describe('produces error', () => {
       it('exactly one error', () => {
-        assert.lengthOf(result.errors, 1);
+        expect(result).to.have.errors.lengthOf(1);
       });
 
       it('has explanatory message', () => {
-        assert.propertyVal(
-          result.errors[0],
-          'message',
-          `Status code is '200' instead of '400'`
-        );
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withMessage(`Status code is '200' instead of '400'`);
       });
     });
   });
