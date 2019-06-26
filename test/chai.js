@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const chai = require('chai');
+const deepEqual = require('deep-equal');
 
 const stringify = (obj) => {
   return JSON.stringify(obj, null, 2);
@@ -18,31 +19,33 @@ chai.use(({ Assertion }, utils) => {
       new Assertion(error).to.have.property(propName);
 
       this.assert(
-        isRegExp ? expectedValue.test(target) : target === expectedValue,
+        isRegExp
+          ? expectedValue.test(target)
+          : deepEqual(target, expectedValue),
         `
-  Expected the next HTTP message field:
-  
-  ${stringifiedObj}
-  
-  to have ${propName} at index ${currentErrorIndex} that ${matchWord}:
-  
-  ${expectedValue.toString()}
-  
-  but got:
-  
-  ${target.toString()}
+Expected the next HTTP message field:
+
+${stringifiedObj}
+
+to have an error at index ${currentErrorIndex} that includes property "${propName}" that ${matchWord}:
+
+${JSON.stringify(expectedValue)}
+
+but got:
+
+${JSON.stringify(target)}
   `,
         `
-  Expected the next HTTP message field:
-  
-  ${stringifiedObj}
-  
-  not to have ${propName} at index ${currentErrorIndex}, but got:
-  
-  ${target.toString()}
+Expected the next HTTP message field:
+
+${stringifiedObj}
+
+to have an error at index ${currentErrorIndex} that includes property "${propName}" that not ${matchWord}:
+
+${JSON.stringify(target)}
   `,
-        expectedValue.toString(),
-        target.toString(),
+        JSON.stringify(expectedValue),
+        JSON.stringify(target),
         true
       );
     });
@@ -50,19 +53,43 @@ chai.use(({ Assertion }, utils) => {
 
   createErrorPropertyAssertion('message', 'withMessage');
   createErrorPropertyAssertion('pointer', 'withPointer');
+  createErrorPropertyAssertion('values', 'withValues');
 
-  utils.addProperty(Assertion.prototype, 'valid', function() {
-    const { isValid } = this._obj;
+  //
+  // TODO
+  // Finish the error messages
+  Assertion.addMethod('kind', function(expectedValue) {
+    const { kind } = this._obj;
     const stringifiedObj = stringify(this._obj);
 
     this.assert(
-      isValid === true,
+      kind === expectedValue,
       `
 Expected the following HTTP message field:
 
 ${stringifiedObj}
 
-to have "isValid" equal #{exp}, but got #{act}'.
+to have "kind" property equal to "${expectedValue}".
+      `,
+      'asdas',
+      expectedValue,
+      kind,
+      true
+    );
+  });
+
+  utils.addProperty(Assertion.prototype, 'valid', function() {
+    const { valid } = this._obj;
+    const stringifiedObj = stringify(this._obj);
+
+    this.assert(
+      valid === true,
+      `
+Expected the following HTTP message field:
+
+${stringifiedObj}
+
+to have "valid" equal #{exp}, but got #{act}'.
 `,
       `
 Expected the following HTTP message field:
@@ -70,8 +97,8 @@ Expected the following HTTP message field:
 ${stringifiedObj}
 
 to be invalid, but it is actually valid.`,
-      { isValid },
-      { isValid: true },
+      { valid },
+      { valid: true },
       true
     );
   });
@@ -119,84 +146,6 @@ to have no errors, but got ${errors.length} error(s).
 
     utils.flag(this, 'currentError', errors[index]);
     utils.flag(this, 'currentErrorIndex', index);
-  });
-
-  Assertion.addMethod('validator', function(expectedValue) {
-    const { validator: actualValue } = this._obj;
-    const stringifiedObj = stringify(this._obj);
-
-    this.assert(
-      actualValue === expectedValue,
-      `
-Expected the following HTTP message field:
-
-${stringifiedObj}
-
-to have "${expectedValue}" validator, but got "${actualValue}".
-      `,
-      `
-Expected the following HTTP message field:
-
-${stringifiedObj}
-
-to not have validator equal to "${expectedValue}".
-`,
-      expectedValue,
-      actualValue,
-      true
-    );
-  });
-
-  Assertion.addMethod('expectedType', function(expectedValue) {
-    const { expectedType: actualValue } = this._obj;
-    const stringifiedObj = stringify(this._obj);
-
-    this.assert(
-      actualValue === expectedValue,
-      `
-Expected the following HTTP message field:
-
-${stringifiedObj}
-
-to have an "expectedType" equal to "${expectedValue}", but got "${actualValue}".
-  `,
-      `
-Expected the following HTTP message field:
-
-${stringifiedObj}
-
-to not have an "expectedType" of "${expectedValue}".
-      `,
-      expectedValue,
-      actualValue,
-      true
-    );
-  });
-
-  Assertion.addMethod('realType', function(expectedValue) {
-    const { realType: actualValue } = this._obj;
-    const stringifiedObj = stringify(this._obj);
-
-    this.assert(
-      actualValue === expectedValue,
-      `
-Expected the following HTTP message field:
-
-${stringifiedObj}
-
-to have an "realType" equal to "${expectedValue}", but got "${actualValue}".
-`,
-      `
-Expected the following HTTP message field:
-
-${stringifiedObj}
-
-to not have an "realType" of "${expectedValue}".
-      `,
-      expectedValue,
-      actualValue,
-      true
-    );
   });
 });
 

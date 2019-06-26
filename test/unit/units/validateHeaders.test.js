@@ -22,20 +22,8 @@ describe('validateHeaders', () => {
       expect(result).to.be.valid;
     });
 
-    it('has "HeadersJsonExample" validator', () => {
-      expect(result).to.have.validator('HeadersJsonExample');
-    });
-
-    it('has "application/vnd.apiary.http-headers+json" real type', () => {
-      expect(result).to.have.realType(
-        'application/vnd.apiary.http-headers+json'
-      );
-    });
-
-    it('has "application/vnd.apiary.http-headers+json" expected type', () => {
-      expect(result).to.have.expectedType(
-        'application/vnd.apiary.http-headers+json'
-      );
+    it('has "json" kind', () => {
+      expect(result).to.have.kind('json');
     });
 
     it('has no errors', () => {
@@ -63,20 +51,8 @@ describe('validateHeaders', () => {
       expect(result).to.not.be.valid;
     });
 
-    it('has "HeadersJsonExample" validator', () => {
-      expect(result).to.have.validator('HeadersJsonExample');
-    });
-
-    it('has "application/vnd.apiary.http-headers+json" real type', () => {
-      expect(result).to.have.realType(
-        'application/vnd.apiary.http-headers+json'
-      );
-    });
-
-    it('has "application/vnd.apiary.http-headers+json" expected type', () => {
-      expect(result).to.have.expectedType(
-        'application/vnd.apiary.http-headers+json'
-      );
+    it('has "json" kind', () => {
+      expect(result).to.have.kind('json');
     });
 
     describe('produces errors', () => {
@@ -122,16 +98,8 @@ describe('validateHeaders', () => {
       expect(result).to.not.be.valid;
     });
 
-    it('has no validator', () => {
-      expect(result).to.have.validator(null);
-    });
-
-    it('has no real type', () => {
-      expect(result).to.have.realType(null);
-    });
-
-    it('has no expected type', () => {
-      expect(result).to.have.expectedType(null);
+    it('has "text" validator', () => {
+      expect(result).to.have.kind('text');
     });
 
     describe('produces an error', () => {

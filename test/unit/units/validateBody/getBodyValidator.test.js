@@ -44,6 +44,7 @@ describe('getBodyValidator', () => {
     });
   });
 
+  // TODO Remove or uncomment
   // describe('when given unknown media type', () => {
   //   const unknownContentTypes = [['text/html', 'text/xml']];
 

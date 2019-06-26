@@ -17,16 +17,8 @@ describe('validateURI', () => {
         expect(result).to.be.valid;
       });
 
-      it('has "null" validator', () => {
-        expect(result).to.have.validator(null);
-      });
-
-      it('has "text/vnd.apiary.uri" real type', () => {
-        expect(result).to.have.realType('text/vnd.apiary.uri');
-      });
-
-      it('has "text/vnd.apiary.uri" expected type', () => {
-        expect(result).to.have.expectedType('text/vnd.apiary.uri');
+      it('has "text" kind', () => {
+        expect(result).to.have.kind('text');
       });
 
       it('has no errors', () => {
@@ -49,16 +41,8 @@ describe('validateURI', () => {
           expect(result).to.be.valid;
         });
 
-        it('has "null" validator', () => {
-          expect(result).to.have.validator(null);
-        });
-
-        it('has "text/vnd.apiary.uri" real type', () => {
-          expect(result).to.have.realType('text/vnd.apiary.uri');
-        });
-
-        it('has "text/vnd.apiary.uri" expected type', () => {
-          expect(result).to.have.expectedType('text/vnd.apiary.uri');
+        it('has "text" kind', () => {
+          expect(result).to.have.kind('text');
         });
 
         it('has no errors', () => {
@@ -81,16 +65,8 @@ describe('validateURI', () => {
           expect(result).to.be.valid;
         });
 
-        it('has "null" validator', () => {
-          expect(result).to.have.validator(null);
-        });
-
-        it('has "text/vnd.apiary.uri" real type', () => {
-          expect(result).to.have.realType('text/vnd.apiary.uri');
-        });
-
-        it('has "text/vnd.apiary.uri" expected type', () => {
-          expect(result).to.have.expectedType('text/vnd.apiary.uri');
+        it('has "text" kind', () => {
+          expect(result).to.have.kind('text');
         });
 
         it('has no errors', () => {
@@ -113,16 +89,8 @@ describe('validateURI', () => {
           expect(result).to.be.valid;
         });
 
-        it('has "null" validator', () => {
-          expect(result).to.have.validator(null);
-        });
-
-        it('has "text/vnd.apiary.uri" real type', () => {
-          expect(result).to.have.realType('text/vnd.apiary.uri');
-        });
-
-        it('has "text/vnd.apiary.uri" expected type', () => {
-          expect(result).to.have.expectedType('text/vnd.apiary.uri');
+        it('has "text" kind', () => {
+          expect(result).to.have.kind('text');
         });
 
         it('has no errors', () => {
@@ -147,16 +115,8 @@ describe('validateURI', () => {
         expect(result).to.not.be.valid;
       });
 
-      it('has "null" validator', () => {
-        expect(result).to.have.validator(null);
-      });
-
-      it('has "text/vnd.apiary.uri" real type', () => {
-        expect(result).to.have.realType('text/vnd.apiary.uri');
-      });
-
-      it('has "text/vnd.apiary.uri" expected type', () => {
-        expect(result).to.have.expectedType('text/vnd.apiary.uri');
+      it('has "text" kind', () => {
+        expect(result).to.have.kind('text');
       });
 
       describe('produces an error', () => {
@@ -170,6 +130,15 @@ describe('validateURI', () => {
             .withMessage(
               'Expected "uri" field to equal "/dashboard", but got: "/profile".'
             );
+        });
+
+        it('includes values', () => {
+          expect(result)
+            .to.have.errorAtIndex(0)
+            .withValues({
+              expected: '/dashboard',
+              actual: '/profile'
+            });
         });
       });
     });
@@ -189,16 +158,8 @@ describe('validateURI', () => {
           expect(result).to.not.be.valid;
         });
 
-        it('has "null" validator', () => {
-          expect(result).to.have.validator(null);
-        });
-
-        it('has "text/vnd.apiary.uri" real type', () => {
-          expect(result).to.have.realType('text/vnd.apiary.uri');
-        });
-
-        it('has "text/vnd.apiary.uri" expected type', () => {
-          expect(result).to.have.expectedType('text/vnd.apiary.uri');
+        it('has "text" kind', () => {
+          expect(result).to.have.kind('text');
         });
 
         describe('produces an error', () => {
@@ -212,6 +173,15 @@ describe('validateURI', () => {
               .withMessage(
                 'Expected "uri" field to equal "/account?id=123", but got: "/account".'
               );
+          });
+
+          it('includes values', () => {
+            expect(result)
+              .to.have.errorAtIndex(0)
+              .withValues({
+                expected: '/account?id=123',
+                actual: '/account'
+              });
           });
         });
       });
@@ -230,16 +200,8 @@ describe('validateURI', () => {
           expect(result).to.not.be.valid;
         });
 
-        it('has "null" validator', () => {
-          expect(result).to.have.validator(null);
-        });
-
-        it('has "text/vnd.apiary.uri" real type', () => {
-          expect(result).to.have.realType('text/vnd.apiary.uri');
-        });
-
-        it('has "text/vnd.apiary.uri" expected type', () => {
-          expect(result).to.have.expectedType('text/vnd.apiary.uri');
+        it('has "text" kind', () => {
+          expect(result).to.have.kind('text');
         });
 
         describe('produces an error', () => {
@@ -253,6 +215,15 @@ describe('validateURI', () => {
               .withMessage(
                 'Expected "uri" field to equal "/account?name=user", but got: "/account?nAmE=usEr".'
               );
+          });
+
+          it('includes values', () => {
+            expect(result)
+              .to.have.errorAtIndex(0)
+              .withValues({
+                expected: '/account?name=user',
+                actual: '/account?nAmE=usEr'
+              });
           });
         });
       });
@@ -271,16 +242,8 @@ describe('validateURI', () => {
           expect(result).to.not.be.valid;
         });
 
-        it('has "null" validator', () => {
-          expect(result).to.have.validator(null);
-        });
-
-        it('has "text/vnd.apiary.uri" real type', () => {
-          expect(result).to.have.realType('text/vnd.apiary.uri');
-        });
-
-        it('has "text/vnd.apiary.uri" expected type', () => {
-          expect(result).to.have.expectedType('text/vnd.apiary.uri');
+        it('has "text" kind', () => {
+          expect(result).to.have.kind('text');
         });
 
         describe('produces an error', () => {
@@ -294,6 +257,15 @@ describe('validateURI', () => {
               .withMessage(
                 'Expected "uri" field to equal "/zoo?type=cats&type=dogs", but got: "/zoo?type=dogs&type=cats".'
               );
+          });
+
+          it('includes values', () => {
+            expect(result)
+              .to.have.errorAtIndex(0)
+              .withValues({
+                expected: '/zoo?type=cats&type=dogs',
+                actual: '/zoo?type=dogs&type=cats'
+              });
           });
         });
       });

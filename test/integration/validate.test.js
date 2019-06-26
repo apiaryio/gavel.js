@@ -22,31 +22,19 @@ describe('validate', () => {
 
     describe('method', () => {
       expect(result.fields.method).to.be.valid;
-      expect(result.fields.method).to.have.validator(null);
-      expect(result.fields.method).to.have.expectedType(
-        'text/vnd.apiary.method'
-      );
-      expect(result.fields.method).to.have.realType('text/vnd.apiary.method');
+      expect(result.fields.method).to.have.kind('text');
       expect(result.fields.method).to.not.have.errors;
     });
 
     describe('headers', () => {
       expect(result.fields.headers).to.be.valid;
-      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
-      expect(result.fields.headers).to.have.expectedType(
-        'application/vnd.apiary.http-headers+json'
-      );
-      expect(result.fields.headers).to.have.realType(
-        'application/vnd.apiary.http-headers+json'
-      );
+      expect(result.fields.headers).to.have.kind('json');
       expect(result.fields.headers).to.not.have.errors;
     });
 
     describe('body', () => {
       expect(result.fields.body).to.be.valid;
-      expect(result.fields.body).to.have.validator('JsonExample');
-      expect(result.fields.body).to.have.expectedType('application/json');
-      expect(result.fields.body).to.have.realType('application/json');
+      expect(result.fields.body).to.have.kind('json');
       expect(result.fields.body).to.not.have.errors;
     });
   });
@@ -77,12 +65,7 @@ describe('validate', () => {
 
     describe('method', () => {
       expect(result.fields.method).to.not.be.valid;
-      expect(result.fields.method).to.have.validator(null);
-      expect(result.fields.method).to.have.expectedType(
-        'text/vnd.apiary.method'
-      );
-      expect(result.fields.method).to.have.realType('text/vnd.apiary.method');
-
+      expect(result.fields.method).to.have.kind('text');
       describe('produces one error', () => {
         it('exactly one error', () => {
           expect(result.fields.method).to.have.errors.lengthOf(1);
@@ -100,21 +83,13 @@ describe('validate', () => {
 
     describe('headers', () => {
       expect(result.fields.headers).to.be.valid;
-      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
-      expect(result.fields.headers).to.have.expectedType(
-        'application/vnd.apiary.http-headers+json'
-      );
-      expect(result.fields.headers).to.have.realType(
-        'application/vnd.apiary.http-headers+json'
-      );
+      expect(result.fields.headers).to.have.kind('json');
       expect(result.fields.headers).to.not.have.errors;
     });
 
     describe('body', () => {
       expect(result.fields.body).to.not.be.valid;
-      expect(result.fields.body).to.have.validator('JsonExample');
-      expect(result.fields.body).to.have.expectedType('application/json');
-      expect(result.fields.body).to.have.realType('application/json');
+      expect(result.fields.body).to.have.kind('json');
 
       describe('produces an error', () => {
         it('exactly one error', () => {
@@ -150,33 +125,19 @@ describe('validate', () => {
 
     describe('statusCode', () => {
       expect(result.fields.statusCode).to.be.valid;
-      expect(result.fields.statusCode).to.have.validator('TextDiff');
-      expect(result.fields.statusCode).to.have.expectedType(
-        'text/vnd.apiary.status-code'
-      );
-      expect(result.fields.statusCode).to.have.realType(
-        'text/vnd.apiary.status-code'
-      );
+      expect(result.fields.statusCode).to.have.kind('text');
       expect(result.fields.statusCode).to.not.have.errors;
     });
 
     describe('headers', () => {
       expect(result.fields.headers).to.be.valid;
-      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
-      expect(result.fields.headers).to.have.expectedType(
-        'application/vnd.apiary.http-headers+json'
-      );
-      expect(result.fields.headers).to.have.realType(
-        'application/vnd.apiary.http-headers+json'
-      );
+      expect(result.fields.headers).to.have.kind('json');
       expect(result.fields.headers).to.not.have.errors;
     });
 
     describe('body', () => {
       expect(result.fields.body).to.be.valid;
-      expect(result.fields.body).to.have.validator('JsonExample');
-      expect(result.fields.body).to.have.expectedType('application/json');
-      expect(result.fields.body).to.have.realType('application/json');
+      expect(result.fields.body).to.have.kind('json');
       expect(result.fields.body).to.not.have.errors;
     });
   });
@@ -206,14 +167,7 @@ describe('validate', () => {
 
     describe('statusCode', () => {
       expect(result.fields.statusCode).to.not.be.valid;
-      expect(result.fields.statusCode).to.have.validator('TextDiff');
-      expect(result.fields.statusCode).to.have.expectedType(
-        'text/vnd.apiary.status-code'
-      );
-      expect(result.fields.statusCode).to.have.realType(
-        'text/vnd.apiary.status-code'
-      );
-
+      expect(result.fields.statusCode).to.have.kind('text');
       describe('produces an error', () => {
         it('exactly one error', () => {
           expect(result.fields.statusCode).to.have.errors.lengthOf(1);
@@ -229,13 +183,7 @@ describe('validate', () => {
 
     describe('headers', () => {
       expect(result.fields.headers).to.not.be.valid;
-      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
-      expect(result.fields.headers).to.have.expectedType(
-        'application/vnd.apiary.http-headers+json'
-      );
-      expect(result.fields.headers).to.have.realType(
-        'application/vnd.apiary.http-headers+json'
-      );
+      expect(result.fields.headers).to.have.kind('json');
 
       describe('produces an error', () => {
         it('exactly one error', () => {
@@ -276,26 +224,13 @@ describe('validate', () => {
 
     describe('statusCode', () => {
       expect(result.fields.statusCode).to.be.valid;
-      expect(result.fields.statusCode).to.have.validator('TextDiff');
-      expect(result.fields.statusCode).to.have.expectedType(
-        'text/vnd.apiary.status-code'
-      );
-      expect(result.fields.statusCode).to.have.realType(
-        'text/vnd.apiary.status-code'
-      );
+      expect(result.fields.statusCode).to.have.kind('text');
       expect(result.fields.statusCode).to.not.have.errors;
     });
 
     describe('headers', () => {
       expect(result.fields.headers).to.not.be.valid;
-      expect(result.fields.headers).to.have.validator('HeadersJsonExample');
-      expect(result.fields.headers).to.have.expectedType(
-        'application/vnd.apiary.http-headers+json'
-      );
-      expect(result.fields.headers).to.have.realType(
-        'application/vnd.apiary.http-headers+json'
-      );
-
+      expect(result.fields.headers).to.have.kind('json');
       describe('produces an error', () => {
         it('exactly one error', () => {
           expect(result.fields.headers).to.have.errors.lengthOf(1);
@@ -349,11 +284,7 @@ describe('validate', () => {
     describe('for properties present in both expected and real', () => {
       describe('method', () => {
         expect(result.fields.method).to.not.be.valid;
-        expect(result.fields.method).to.have.validator(null);
-        expect(result.fields.method).to.have.expectedType(
-          'text/vnd.apiary.method'
-        );
-        expect(result.fields.method).to.have.realType('text/vnd.apiary.method');
+        expect(result.fields.method).to.have.kind('text');
 
         describe('produces an error', () => {
           it('exactly one error', () => {
@@ -367,6 +298,15 @@ describe('validate', () => {
                 'Expected "method" field to equal "POST", but got "PUT".'
               );
           });
+
+          it('includes values', () => {
+            expect(result.fields.method)
+              .to.have.errorAtIndex(0)
+              .withValues({
+                expected: 'POST',
+                actual: 'PUT'
+              });
+          });
         });
       });
     });
@@ -374,14 +314,7 @@ describe('validate', () => {
     describe('for properties present in expected, but not in real', () => {
       describe('statusCode', () => {
         expect(result.fields.statusCode).to.not.be.valid;
-        expect(result.fields.statusCode).to.have.validator('TextDiff');
-        expect(result.fields.statusCode).to.have.expectedType(
-          'text/vnd.apiary.status-code'
-        );
-        expect(result.fields.statusCode).to.have.realType(
-          'text/vnd.apiary.status-code'
-        );
-
+        expect(result.fields.statusCode).to.have.kind('text');
         describe('produces an error', () => {
           it('exactly one error', () => {
             expect(result.fields.statusCode).to.have.errors.lengthOf(1);
@@ -397,14 +330,7 @@ describe('validate', () => {
 
       describe('headers', () => {
         expect(result.fields.headers).to.not.be.valid;
-        expect(result.fields.headers).to.have.validator('HeadersJsonExample');
-        expect(result.fields.headers).to.have.expectedType(
-          'application/vnd.apiary.http-headers+json'
-        );
-        expect(result.fields.headers).to.have.realType(
-          'application/vnd.apiary.http-headers+json'
-        );
-
+        expect(result.fields.headers).to.have.kind('json');
         describe('produces one error', () => {
           it('exactly one error', () => {
             expect(result.fields.headers).to.have.errors.lengthOf(1);
@@ -422,10 +348,7 @@ describe('validate', () => {
 
       describe('body', () => {
         expect(result.fields.body).to.not.be.valid;
-        expect(result.fields.body).to.have.validator(null);
-        expect(result.fields.body).to.have.expectedType('application/json');
-        expect(result.fields.body).to.have.realType('text/plain');
-
+        expect(result.fields.body).to.have.kind(null);
         describe('produces an error', () => {
           it('exactly one error', () => {
             expect(result.fields.body).to.have.errors.lengthOf(1);
