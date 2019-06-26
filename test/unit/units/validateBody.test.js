@@ -469,7 +469,9 @@ describe('validateBody', () => {
       );
 
     it('must throw with malformed JSON schema error', () => {
-      expect(getResult).to.throw(/^Failed to parse a given JSON Schema:/g);
+      expect(getResult).to.throw(
+        /^Failed to validate HTTP message "body": given JSON Schema is not a valid JSON/g
+      );
     });
   });
 });
