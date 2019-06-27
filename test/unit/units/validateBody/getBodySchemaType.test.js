@@ -1,4 +1,4 @@
-const { assert } = require('chai');
+const { expect } = require('chai');
 const mediaTyper = require('media-typer');
 const { getBodySchemaType } = require('../../../../lib/units/validateBody');
 
@@ -17,14 +17,13 @@ describe('getBodySchemaType', () => {
         const [error, mediaType] = getBodySchemaType(value);
 
         it('returns "application/schema+json" media type', () => {
-          assert.deepEqual(
-            mediaType,
+          expect(mediaType).to.deep.equal(
             mediaTyper.parse('application/schema+json')
           );
         });
 
         it('has no errors', () => {
-          assert.isNull(error);
+          expect(error).to.be.null;
         });
       });
     });
@@ -41,31 +40,25 @@ describe('getBodySchemaType', () => {
         const [error, mediaType] = getBodySchemaType(jsonSchema);
 
         it('returns "application/schema+json" media type', () => {
-          assert.deepEqual(
-            mediaType,
+          expect(mediaType).to.deep.equal(
             mediaTyper.parse('application/schema+json')
           );
         });
 
         it('returns no errors', () => {
-          assert.isNull(error);
+          expect(error).to.be.null;
         });
       });
     });
   });
 
   describe('when given non-JSON string', () => {
-    const [error, mediaType] = getBodySchemaType('foo');
+    const run = () => getBodySchemaType('foo');
 
-    it('returns no media type', () => {
-      assert.isNull(mediaType);
-    });
-
-    it('returns parsing error', () => {
-      assert.match(
-        error,
-        /^Can't validate: expected body JSON Schema is not a parseable JSON:/
-      );
-    });
+    it('throws exception about invalid JSON', () => [
+      expect(run).to.throw(
+        /^Failed to validate HTTP message "body": given JSON Schema is not a valid JSON/
+      )
+    ]);
   });
 });

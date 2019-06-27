@@ -444,4 +444,34 @@ describe('validateBody', () => {
       });
     });
   });
+
+  describe('given malformed JSON schema', () => {
+    const getResult = () =>
+      validateBody(
+        {
+          // Purposely invalid JSON Schema
+          bodySchema: `
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+                "href"": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+          `
+        },
+        {
+          body: '{ "foo": "bar" }'
+        }
+      );
+
+    it('must throw with malformed JSON schema error', () => {
+      expect(getResult).to.throw(
+        /^Failed to validate HTTP message "body": given JSON Schema is not a valid JSON/g
+      );
+    });
+  });
 });
