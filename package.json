@@ -61,7 +61,7 @@
     "mochify": "6.3.0",
     "nyc": "14.1.1",
     "prettier": "1.18.2",
-    "semantic-release": "15.13.17",
+    "semantic-release": "15.13.18",
     "sinon": "7.3.2"
   },
   "repository": {
