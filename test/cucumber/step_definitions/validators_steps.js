@@ -29,7 +29,6 @@ module.exports = function() {
       try {
         const result = this.validate();
         this.results = JSON.parse(JSON.stringify(result));
-        this.booleanResult = result.isValid;
         return callback();
       } catch (error) {
         callback(new Error(`Got error during validation:\n${error}`));
@@ -168,25 +167,6 @@ module.exports = function() {
     } catch (error) {
       callback(new Error(`Error during validation: ${error}`));
     }
-  });
-
-  this.Then(/^validator "([^"]*)" is used for validation$/, function(
-    validator,
-    callback
-  ) {
-    const usedValidator = this.componentResults.validator;
-    if (validator !== usedValidator) {
-      callback(
-        new Error(
-          `Used validator '${usedValidator}'` +
-            " instead of '" +
-            validator +
-            "'. Got validation results: " +
-            JSON.stringify(this.results, null, 2)
-        )
-      );
-    }
-    return callback();
   });
 
   this.Then(

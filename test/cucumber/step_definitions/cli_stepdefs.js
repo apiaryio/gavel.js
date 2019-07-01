@@ -9,7 +9,7 @@ module.exports = function() {
     return callback();
   });
 
-  this.Given(/^you record real raw HTTP messages:$/, function(cmd, callback) {
+  this.Given(/^you record actual raw HTTP messages:$/, function(cmd, callback) {
     this.commandBuffer += `;${cmd}`;
     return callback();
   });
@@ -22,7 +22,10 @@ module.exports = function() {
     }
   );
 
-  this.When(/^a header is missing in real messages:$/, function(cmd, callback) {
+  this.When(/^a header is missing in actual messages:$/, function(
+    cmd,
+    callback
+  ) {
     this.commandBuffer += `;${cmd}`;
     return callback();
   });
@@ -36,16 +39,11 @@ module.exports = function() {
     }`;
     const child = exec(cmd, function(error, stdout, stderr) {
       if (error) {
-        if (parseInt(error.code) !== parseInt(expectedExitStatus)) {
+        if (parseInt(error.code, 10) !== parseInt(expectedExitStatus, 10)) {
           return callback(
             new Error(
-              `Expected exit status ${expectedExitStatus} but got ${
-                error.code
-              }.` +
-                'STDERR: ' +
-                stderr +
-                'STDOUT: ' +
-                stdout
+              `Expected exit status ${expectedExitStatus} but got ${error.code}. STDERR: ${stderr}
+                STDOUT: ${stdout}`
             )
           );
         }
@@ -55,7 +53,7 @@ module.exports = function() {
     });
 
     return child.on('exit', function(code) {
-      if (parseInt(code) !== parseInt(expectedExitStatus)) {
+      if (parseInt(code, 10) !== parseInt(expectedExitStatus, 10)) {
         callback(
           new Error(
             `Expected exit status ${expectedExitStatus} but got ${code}.`

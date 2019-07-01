@@ -43,25 +43,4 @@ describe('getBodyValidator', () => {
       });
     });
   });
-
-  // TODO Remove or uncomment
-  // describe('when given unknown media type', () => {
-  //   const unknownContentTypes = [['text/html', 'text/xml']];
-
-  //   unknownContentTypes.forEach((contentTypes) => {
-  //     const [realContentType, expectedContentType] = contentTypes;
-  //     const [real, expected] = getMediaTypes(
-  //       realContentType,
-  //       expectedContentType
-  //     );
-
-  //     describe(`${realContentType} + ${expectedContentType}`, () => {
-  //       const [error, validator] = getBodyValidator(real, expected);
-
-  //       it('...', () => {
-  //         console.log({ error, validator });
-  //       });
-  //     });
-  //   });
-  // });
 });

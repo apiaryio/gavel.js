@@ -5,10 +5,12 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 /* eslint-disable */
-const gavel = require('../../../lib');
 const vm = require('vm');
+const Diff = require('googlediff');
 const util = require('util');
 const { assert } = require('chai');
+const { exec } = require('child_process');
+const gavel = require('../../../lib');
 
 const HTTP_LINE_DELIMITER = '\n';
 
@@ -17,35 +19,27 @@ class World {
     this.codeBuffer = '';
     this.commandBuffer = '';
 
-    // Data for creation of:
-    //
-    // - ExpecterHttpResponse
-    // - ExpectedHttpRequest
-    // - ExpectedHttpMessage
-    this.expected = {};
+    // NEW
+    this.commands = [];
 
-    // Data for creation of:
-    //
-    // - HttpResponse
-    // - HttpRequest
-    // - HttpMessage
-    this.real = {};
+    this.expected = {};
+    this.actual = {};
 
     // Parsed HTTP objects for model valdiation
     this.model = {};
 
-    // Results of validators
+    // Gavel validation result
     this.results = {};
 
+    // CLI: Process exit status
+    this.status = null;
+
     // Validation verdict for the whole HTTP Message
-    this.booleanResult = false;
+    // this.booleanResult = false;
 
     // Component relevant to the expectation, e.g. 'body'
     this.component = null;
     this.componentResults = null;
-
-    this.expectedType = null;
-    this.realType = null;
   }
 
   expectBlockEval(block, expectedReturn, callback) {
@@ -93,8 +87,8 @@ class World {
     // http://nodejs.org/docs/v0.8.23/api/all.html#all_all_together
 
     const formattedCode = code.replace(
-      "require('gavel",
-      "require('../../../lib"
+      `require('gavel`,
+      `require('../../../lib`
     );
 
     try {
@@ -111,31 +105,83 @@ class World {
     }
   }
 
+  executeCommands(commands) {
+    const commandsBuffer = commands.join(';');
+    const cmd =
+      `PATH=$PATH:${process.cwd()}/bin:${process.cwd()}/node_modules/.bin; cd /tmp/gavel-* ;` +
+      commandsBuffer;
+
+    return new Promise((resolve) => {
+      const child = exec(cmd, function(error, stdout, stderr) {
+        if (error) {
+          resolve(error.code);
+        }
+      });
+
+      child.on('exit', function(code) {
+        resolve(code);
+      });
+    });
+  }
+
   validate() {
-    return gavel.validate(this.expected, this.real);
+    this.result = gavel.validate(this.expected, this.actual);
+  }
+
+  transformCodeBlock(fieldName, value) {
+    switch (fieldName) {
+      case 'headers':
+        return this.parseHeaders(value);
+      default:
+        return value;
+    }
   }
 
   parseHeaders(headersString) {
     const lines = headersString.split(HTTP_LINE_DELIMITER);
-    const headers = {};
-    for (let line of Array.from(lines)) {
-      const parts = line.split(':');
-      const key = parts.shift();
-      headers[key.toLowerCase()] = parts.join(':').trim();
-    }
+
+    const headers = lines.reduce((acc, line) => {
+      // Using RegExp to parse a header line.
+      // Splitting by semicolon (:) would split
+      // Date header's time delimiter:
+      // > Date: Fri, 13 Dec 3000 23:59:59 GMT
+      const match = line.match(/^(\S+):\s+(.+)$/);
+
+      assert.isNotNull(
+        match,
+        `\
+Failed to parse a header line:
+${line}
+
+Make sure it's in the "Header-Name: value" format.
+`
+      );
+
+      const [_, key, value] = match;
+
+      return {
+        ...acc,
+        [key.toLowerCase()]: value.trim()
+      };
+    }, {});
     return headers;
   }
 
   parseRequestLine(parsed, firstLine) {
-    firstLine = firstLine.split(' ');
-    parsed.method = firstLine[0];
-    parsed.uri = firstLine[1];
+    const [method, uri] = firstLine.split(' ');
+    parsed.method = method;
+    parsed.uri = uri;
+    // firstLine = firstLine.split(' ');
+    // parsed.method = firstLine[0];
+    // parsed.uri = firstLine[1];
   }
 
   parseResponseLine(parsed, firstLine) {
-    firstLine = firstLine.split(' ');
-    parsed.statusCode = firstLine[1];
-    parsed.statusMessage = firstLine[2];
+    const [statusCode] = firstLine.split(' ');
+    parsed.statusCode = statusCode;
+    // firstLine = firstLine.split(' ');
+    // parsed.statusCode = firstLine[1];
+    // parsed.statusMessage = firstLine[2];
   }
 
   parseHttp(type, string) {
@@ -144,7 +190,6 @@ class World {
     }
 
     const parsed = {};
-
     const lines = string.split(HTTP_LINE_DELIMITER);
 
     if (type === 'request') {
@@ -157,6 +202,7 @@ class World {
     const bodyLines = [];
     const headersLines = [];
     let bodyEntered = false;
+
     for (let line of Array.from(lines)) {
       if (line === '') {
         bodyEntered = true;
@@ -177,21 +223,24 @@ class World {
 
   // Hacky coercion function to parse expcected Boolean values
   // from Gherkin feature suites.
+  //
+  // TODO Replace with the {boolean} placeholder from the
+  // next version of Cucumber.
   toBoolean(string) {
     if (string === 'true') return true;
     if (string === 'false') return false;
     return !!string;
   }
 
-  toCamelCase(input) {
-    const result = input.replace(/\s([a-z])/g, (strings) =>
+  toCamelCase(string) {
+    const result = string.replace(/\s([a-z])/g, (strings) =>
       strings[1].toUpperCase()
     );
     return result;
   }
 
-  toPascalCase(input) {
-    let result = input.replace(
+  toPascalCase(string) {
+    let result = string.replace(
       /(\w)(\w*)/g,
       (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
     );
@@ -205,6 +254,15 @@ class World {
     } else {
       return data;
     }
+  }
+
+  diff(expected, actual) {
+    const dmp = new Diff();
+    console.log(
+      dmp.patch_toText(
+        dmp.patch_make(JSON.stringify(actual), JSON.stringify(expected))
+      )
+    );
   }
 
   // Debugging helper

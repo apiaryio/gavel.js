@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const spawn = require('cross-spawn');
 
 const isWindows = process.platform.match(/^win/);
@@ -22,7 +23,7 @@ const cucumber = spawn(
     '-r',
     'test/cucumber/support/',
     '-r',
-    'test/cucumber/step_definitions/',
+    'test/cucumber/steps/',
     '-f',
     'pretty',
     'node_modules/gavel-spec/features/'
