@@ -44,8 +44,8 @@ to have an error at index ${currentErrorIndex} that includes property "${propNam
 
 ${JSON.stringify(target)}
   `,
-        JSON.stringify(expectedValue),
         JSON.stringify(target),
+        JSON.stringify(expectedValue),
         true
       );
     });

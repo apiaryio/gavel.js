@@ -48,7 +48,7 @@ describe('validateBody', () => {
           expect(result)
             .to.have.errorAtIndex(0)
             .withMessage(
-              `Can't validate real media type 'application/json' against expected media type 'text/plain'.`
+              `Can't validate actual media type 'application/json' against the expected media type 'text/plain'.`
             );
         });
 

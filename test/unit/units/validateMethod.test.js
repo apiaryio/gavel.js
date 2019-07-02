@@ -51,9 +51,7 @@ describe('validateMethod', () => {
       it('has explanatory message', () => {
         expect(result)
           .to.have.errorAtIndex(0)
-          .withMessage(
-            'Expected "method" field to equal "POST", but got "GET".'
-          );
+          .withMessage(`Expected method 'POST', but got 'GET'.`);
       });
 
       it('includes values', () => {
@@ -93,7 +91,7 @@ describe('validateMethod', () => {
       it('has explanatory message', () => {
         expect(result)
           .to.have.errorAtIndex(0)
-          .withMessage('Expected "method" field to equal "PATCH", but got "".');
+          .withMessage(`Expected method 'PATCH', but got ''.`);
       });
 
       it('includes values', () => {

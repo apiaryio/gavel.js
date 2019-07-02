@@ -74,9 +74,7 @@ describe('validate', () => {
         it('has explanatory message', () => {
           expect(result.fields.method)
             .to.have.errorAtIndex(0)
-            .withMessage(
-              'Expected "method" field to equal "PUT", but got "POST".'
-            );
+            .withMessage(`Expected method 'PUT', but got 'POST'.`);
         });
       });
     });
@@ -176,7 +174,7 @@ describe('validate', () => {
         it('has explanatory message', () => {
           expect(result.fields.statusCode)
             .to.have.errorAtIndex(0)
-            .withMessage(`Status code is '400' instead of '200'`);
+            .withMessage(`Expected status code '200', but got '400'.`);
         });
       });
     });
@@ -294,9 +292,7 @@ describe('validate', () => {
           it('has explanatory message', () => {
             expect(result.fields.method)
               .to.have.errorAtIndex(0)
-              .withMessage(
-                'Expected "method" field to equal "POST", but got "PUT".'
-              );
+              .withMessage(`Expected method 'POST', but got 'PUT'.`);
           });
 
           it('includes values', () => {
@@ -323,7 +319,7 @@ describe('validate', () => {
           it('has explanatory message', () => {
             expect(result.fields.statusCode)
               .to.have.errorAtIndex(0)
-              .withMessage(`Status code is 'undefined' instead of '200'`);
+              .withMessage(`Expected status code '200', but got 'undefined'.`);
           });
         });
       });

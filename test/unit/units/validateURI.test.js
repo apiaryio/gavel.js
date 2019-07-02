@@ -127,9 +127,7 @@ describe('validateURI', () => {
         it('has explanatory message', () => {
           expect(result)
             .to.have.errorAtIndex(0)
-            .withMessage(
-              'Expected "uri" field to equal "/dashboard", but got: "/profile".'
-            );
+            .withMessage(`Expected URI '/dashboard', but got '/profile'.`);
         });
 
         it('includes values', () => {
@@ -171,7 +169,7 @@ describe('validateURI', () => {
             expect(result)
               .to.have.errorAtIndex(0)
               .withMessage(
-                'Expected "uri" field to equal "/account?id=123", but got: "/account".'
+                `Expected URI '/account?id=123', but got '/account'.`
               );
           });
 
@@ -213,7 +211,7 @@ describe('validateURI', () => {
             expect(result)
               .to.have.errorAtIndex(0)
               .withMessage(
-                'Expected "uri" field to equal "/account?name=user", but got: "/account?nAmE=usEr".'
+                `Expected URI '/account?name=user', but got '/account?nAmE=usEr'.`
               );
           });
 
@@ -255,7 +253,7 @@ describe('validateURI', () => {
             expect(result)
               .to.have.errorAtIndex(0)
               .withMessage(
-                'Expected "uri" field to equal "/zoo?type=cats&type=dogs", but got: "/zoo?type=dogs&type=cats".'
+                `Expected URI '/zoo?type=cats&type=dogs', but got '/zoo?type=dogs&type=cats'.`
               );
           });
 

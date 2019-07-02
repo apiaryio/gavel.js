@@ -51,7 +51,7 @@ describe('validateStatusCode', () => {
       it('has explanatory message', () => {
         expect(result)
           .to.have.errorAtIndex(0)
-          .withMessage(`Status code is '200' instead of '400'`);
+          .withMessage(`Expected status code '400', but got '200'.`);
       });
 
       it('includes values', () => {
