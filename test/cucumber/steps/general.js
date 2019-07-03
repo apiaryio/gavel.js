@@ -42,8 +42,8 @@ module.exports = function() {
   this.Given(
     /^you expect "body" field to match the following "([^"]*)":$/,
     function(bodyType, value) {
-      switch (bodyType) {
-        case 'JSON schema':
+      switch (bodyType.toLowerCase()) {
+        case 'json schema':
           this.expected.bodySchema = value;
           break;
         default:
