@@ -5,7 +5,10 @@ chai.config.truncateThreshold = 0;
 const { expect } = chai;
 
 module.exports = function() {
-  this.Then(/^field "([^"]*)" equals:$/, function(fieldName, expectedJson) {
+  this.Then(/^result field "([^"]*)" equals:$/, function(
+    fieldName,
+    expectedJson
+  ) {
     const expected = jhp.parse(expectedJson);
     expect(this.result.fields[fieldName]).to.deep.equal(expected);
   });

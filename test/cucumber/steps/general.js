@@ -17,21 +17,21 @@ module.exports = function() {
     this.actual = jhp.parse(actualMessage);
   });
 
-  this.Given(/^actual "([^"]*)" field equals "([^"]*)"/, function(
+  this.Given(/^actual field "([^"]*)" equals "([^"]*)"/, function(
     fieldName,
     value
   ) {
     this.actual[fieldName] = value;
   });
 
-  this.Given(/^you expect "([^"]*)" field to equal "([^"]*)"$/, function(
+  this.Given(/^you expect field "([^"]*)" to equal "([^"]*)"$/, function(
     fieldName,
     expectedValue
   ) {
     this.expected[fieldName] = expectedValue;
   });
 
-  this.Given(/^you expect "([^"]*)" field to equal:$/, function(
+  this.Given(/^you expect field "([^"]*)" to equal:$/, function(
     fieldName,
     codeBlock
   ) {
@@ -40,7 +40,7 @@ module.exports = function() {
   });
 
   this.Given(
-    /^you expect "body" field to match the following "([^"]*)":$/,
+    /^you expect field "body" to match the following "([^"]*)":$/,
     function(bodyType, value) {
       switch (bodyType.toLowerCase()) {
         case 'json schema':
@@ -53,7 +53,7 @@ module.exports = function() {
     }
   );
 
-  this.Given(/^actual "([^"]*)" field equals:$/, function(
+  this.Given(/^actual field "([^"]*)" equals:$/, function(
     fieldName,
     codeBlock
   ) {
@@ -93,7 +93,10 @@ ${dmp.patch_toText(dmp.patch_make(stringifiedActual, expectedResult))}
     );
   });
 
-  this.Then(/^field "(\w+)" is( NOT)? valid$/i, function(fieldName, isInvalid) {
+  this.Then(/^result field "(\w+)" is( NOT)? valid$/i, function(
+    fieldName,
+    isInvalid
+  ) {
     expect(this.result).to.have.nested.property(
       `fields.${fieldName}.valid`,
       !isInvalid
