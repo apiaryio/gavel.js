@@ -229,7 +229,7 @@ interface FieldError {
   location?: { // kind-specific additional information
     // kind: json
     pointer?: string
-    property?: string
+    property?: string[]
   }
   values?: {
     expected: any
