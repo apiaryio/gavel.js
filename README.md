@@ -113,6 +113,8 @@ The code above would return the following validation `result`:
 
 ### Usage with JSON Schema
 
+> When a parsable JSON body is expected without an explicit schema the [default schema](https://github.com/apiaryio/gavel-spec/blob/master/features/expectations/bodyJsonExample.feature) is inferred.
+
 You can describe the body expectations using [JSON Schema](https://json-schema.org/) by providing a valid schema to the `bodySchema` property of the expected HTTP message:
 
 ```js
@@ -166,7 +168,7 @@ The validation `result` against the given JSON Schema will look as follows:
 }
 ```
 
-> Note that JSON schema V5+ are not currently supported.
+> Note that JSON schema V5+ are not currently supported. [Follow the support progress](https://github.com/apiaryio/gavel.js/issues/90).
 
 ## Examples
 
