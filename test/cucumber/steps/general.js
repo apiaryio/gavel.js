@@ -10,28 +10,26 @@ module.exports = function() {
     }
   );
 
-  this.Given(/^actual HTTP (message|request|response) is:$/i, function(
+  this.Given(/^the actual HTTP (message|request|response) equals:$/i, function(
     _,
     actualMessage
   ) {
     this.actual = jhp.parse(actualMessage);
   });
 
-  this.Given(/^actual field "([^"]*)" equals "([^"]*)"/, function(
-    fieldName,
-    value
-  ) {
+  // Inline value assertion.
+  this.Given(/^the actual "([^"]*)" is "([^"]*)"/, function(fieldName, value) {
     this.actual[fieldName] = value;
   });
 
-  this.Given(/^you expect field "([^"]*)" to equal "([^"]*)"$/, function(
+  this.Given(/^you expect "([^"]*)" to be "([^"]*)"$/, function(
     fieldName,
     expectedValue
   ) {
     this.expected[fieldName] = expectedValue;
   });
 
-  this.Given(/^you expect field "([^"]*)" to equal:$/, function(
+  this.Given(/^you expect "([^"]*)" to equal:$/, function(
     fieldName,
     codeBlock
   ) {
@@ -39,35 +37,33 @@ module.exports = function() {
     this.expected[fieldName] = this.transformCodeBlock(fieldName, codeBlock);
   });
 
-  this.Given(
-    /^you expect field "body" to match the following "([^"]*)":$/,
-    function(bodyType, value) {
-      switch (bodyType.toLowerCase()) {
-        case 'json schema':
-          this.expected.bodySchema = value;
-          break;
-        default:
-          this.expected.body = value;
-          break;
-      }
-    }
-  );
-
-  this.Given(/^actual field "([^"]*)" equals:$/, function(
-    fieldName,
-    codeBlock
+  this.Given(/^you expect "body" to match the following "([^"]*)":$/, function(
+    bodyType,
+    value
   ) {
+    switch (bodyType.toLowerCase()) {
+      case 'json schema':
+        this.expected.bodySchema = value;
+        break;
+      default:
+        this.expected.body = value;
+        break;
+    }
+  });
+
+  // Block value assertion.
+  this.Given(/^the actual "([^"]*)" equals:$/, function(fieldName, codeBlock) {
     // Also perform conditional code parsing
     this.actual[fieldName] = this.transformCodeBlock(fieldName, codeBlock);
   });
 
   // Actions
-  this.When('Gavel validates HTTP message', function() {
+  this.When('Gavel validates the HTTP message', function() {
     this.validate();
   });
 
   // Assertions
-  this.Then(/^HTTP message is( NOT)? valid$/i, function(isInvalid) {
+  this.Then(/^the actual HTTP message is( NOT)? valid$/i, function(isInvalid) {
     expect(this.result).to.have.property('valid', !isInvalid);
   });
 
@@ -93,10 +89,7 @@ ${dmp.patch_toText(dmp.patch_make(stringifiedActual, expectedResult))}
     );
   });
 
-  this.Then(/^result field "(\w+)" is( NOT)? valid$/i, function(
-    fieldName,
-    isInvalid
-  ) {
+  this.Then(/^the "(\w+)" is( NOT)? valid$/i, function(fieldName, isInvalid) {
     expect(this.result).to.have.nested.property(
       `fields.${fieldName}.valid`,
       !isInvalid

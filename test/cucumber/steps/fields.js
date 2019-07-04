@@ -5,7 +5,7 @@ chai.config.truncateThreshold = 0;
 const { expect } = chai;
 
 module.exports = function() {
-  this.Then(/^result field "([^"]*)" equals:$/, function(
+  this.Then(/^the result field "([^"]*)" equals:$/, function(
     fieldName,
     expectedJson
   ) {
