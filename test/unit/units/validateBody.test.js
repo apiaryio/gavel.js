@@ -240,7 +240,7 @@ describe('validateBody', () => {
             it('with explanatory message', () => {
               expect(result)
                 .to.have.errorAtIndex(0)
-                .withMessage('Real and expected data does not match.');
+                .withMessage('Actual and expected data do not match.');
             });
           });
         });

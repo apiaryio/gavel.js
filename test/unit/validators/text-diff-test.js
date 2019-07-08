@@ -88,14 +88,10 @@ describe('TextDiff', () => {
       });
 
       it('should set output property', () => {
-        assert.isDefined(validator.output);
+        assert.isDefined(validator.valid);
 
-        it('output should be a string', () => {
-          assert.isString(validator.output);
-        });
-
-        it('output should be empty string', () => {
-          assert.equal(validator.output, '');
+        it('output should be marked as valid', () => {
+          assert.isTrue(validator.vaild);
         });
       });
     });
@@ -108,22 +104,8 @@ describe('TextDiff', () => {
         validationResult = validator.validate();
       });
 
-      it('output property should be a string', () => {
-        assert.isString(validator.output);
-      });
-
-      it('output property should not be empty string', () => {
-        assert.notEqual(validator.output, '');
-      });
-
-      it('output property should contain + and -', () => {
-        assert.include(validator.output, '-');
-        assert.include(validator.output, '+');
-      });
-
-      it('output property should be persed by googlediff to an array', () => {
-        dmp = new DiffMatchPatch();
-        assert.isArray(dmp.patch_fromText(validator.output));
+      it('output property should not be marked as valid', () => {
+        assert.isNotTrue(validator.valid);
       });
     });
   });
