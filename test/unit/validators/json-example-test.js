@@ -12,10 +12,9 @@ describe('JsonExample', () => {
     describe('when I provide non string real data', () => {
       it('should throw exception', () => {
         const fn = () => {
-          bodyValidator = new JsonExample(
-            { malformed: 'malformed ' },
-            "{'header1': 'value1'}"
-          );
+          bodyValidator = new JsonExample("{'header1': 'value1'}", {
+            malformed: 'malformed '
+          });
         };
         assert.throws(fn);
       });
@@ -25,8 +24,8 @@ describe('JsonExample', () => {
       it('should not throw exception', () => {
         fn = () => {
           bodyValidator = new JsonExample(
-            '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"',
-            '{"header1": "value1"}'
+            '{"header1": "value1"}',
+            '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"'
           );
         };
         assert.doesNotThrow(fn);
@@ -37,8 +36,8 @@ describe('JsonExample', () => {
       it('should not throw exception', () => {
         const fn = () => {
           bodyValidator = new JsonExample(
-            '{"header1": "value1"}',
-            '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"'
+            '"Number of profiles deleted: com.viacom.auth.infrastructure.DocumentsUpdated@1"',
+            '{"header1": "value1"}'
           );
         };
         assert.doesNotThrow(fn);
@@ -109,8 +108,8 @@ describe('JsonExample', () => {
     describe('when key is missing in provided real data', () => {
       before(() => {
         bodyValidator = new JsonExample(
-          fixtures.sampleJsonSimpleKeyMissing,
-          fixtures.sampleJson
+          fixtures.sampleJson,
+          fixtures.sampleJsonSimpleKeyMissing
         );
       });
       describe('and i run validate()', () => {
@@ -122,7 +121,7 @@ describe('JsonExample', () => {
 
       describe.skip('when value has different primitive type', () => {
         before(() => {
-          bodyValidator = new JsonExample('{"a": "a"}', '{"a": 1}');
+          bodyValidator = new JsonExample('{"a": 1}', '{"a": "a"}');
         });
         describe('and i run validate()', () => {
           it('PROPOSAL: should return 1 errors', () => {
@@ -150,8 +149,8 @@ describe('JsonExample', () => {
       describe('when key is added to provided data', () => {
         before(() => {
           bodyValidator = new JsonExample(
-            fixtures.sampleJsonComplexKeyAdded,
-            fixtures.sampleJson
+            fixtures.sampleJson,
+            fixtures.sampleJsonComplexKeyAdded
           );
         });
         describe('and i run validate()', () => {
@@ -180,8 +179,8 @@ describe('JsonExample', () => {
       describe('when key value is a null', () => {
         before(() => {
           bodyValidator = new JsonExample(
-            '{"a": "a","b": null }',
-            '{"a":"a", "b": null}'
+            '{"a":"a", "b": null}',
+            '{"a": "a","b": null }'
           );
         });
         describe('and i run validate()', () => {
@@ -195,7 +194,7 @@ describe('JsonExample', () => {
       describe('when expected and real data are different on root level', () => {
         describe('when expected is object and real is array', () => {
           before(() => {
-            bodyValidator = new JsonExample('[{"a":1}]', '{"a":1}');
+            bodyValidator = new JsonExample('{"a":1}', '[{"a":1}]');
           });
           describe('and i run validate()', () => {
             it('should not throw exception', () => {
@@ -210,7 +209,7 @@ describe('JsonExample', () => {
 
       describe('when expected is array and real is object', () => {
         before(() => {
-          bodyValidator = new JsonExample('{"a":1}', '[{"a":1}]');
+          bodyValidator = new JsonExample('[{"a":1}]', '{"a":1}');
         });
         describe('and i run validate()', () => {
           it('should not throw exception', () => {
@@ -224,7 +223,7 @@ describe('JsonExample', () => {
 
       describe('when expected is primitive and real is object', () => {
         before(() => {
-          bodyValidator = new JsonExample('0', '{"a":1}');
+          bodyValidator = new JsonExample('{"a":1}', '0');
         });
         describe('and i run validate()', () => {
           it('should not throw exception', () => {
@@ -238,7 +237,7 @@ describe('JsonExample', () => {
 
       describe('when expected array and real is object', () => {
         before(() => {
-          bodyValidator = new JsonExample('[0,1,2]', '{"a":1}');
+          bodyValidator = new JsonExample('{"a":1}', '[0,1,2]');
         });
         describe('and i run validate()', () => {
           it('should not throw exception', () => {
@@ -252,7 +251,7 @@ describe('JsonExample', () => {
 
       describe('when real is empty object and expected is non-empty object', () => {
         before(() => {
-          bodyValidator = new JsonExample('{}', '{"a":1}');
+          bodyValidator = new JsonExample('{"a":1}', '{}');
         });
 
         describe('and i run validate()', () => {
