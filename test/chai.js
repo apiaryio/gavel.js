@@ -52,7 +52,7 @@ ${JSON.stringify(target)}
   };
 
   createErrorPropertyAssertion('message', 'withMessage');
-  createErrorPropertyAssertion('pointer', 'withPointer');
+  createErrorPropertyAssertion('location', 'withLocation');
   createErrorPropertyAssertion('values', 'withValues');
 
   //

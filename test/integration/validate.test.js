@@ -237,7 +237,10 @@ describe('validate', () => {
         it('has pointer to missing "Content-Type"', () => {
           expect(result.fields.headers)
             .to.have.errorAtIndex(0)
-            .withPointer('/content-type');
+            .withLocation({
+              pointer: '/content-type',
+              property: ['content-type']
+            });
         });
 
         it('has explanatory message', () => {

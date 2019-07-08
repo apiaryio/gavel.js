@@ -68,7 +68,10 @@ describe('validateHeaders', () => {
             it('has pointer to header name', () => {
               expect(result)
                 .to.have.errorAtIndex(index)
-                .withPointer(`/${headerName}`);
+                .withLocation({
+                  pointer: `/${headerName}`,
+                  property: [headerName]
+                });
             });
 
             it('has explanatory message', () => {
