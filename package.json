@@ -19,8 +19,12 @@
     "coveralls": "nyc --reporter=text-lcov npm run test:server | coveralls",
     "ci:lint": "npm run lint",
     "ci:test": "npm run coveralls && npm run test:browser && npm run test:features",
-    "ci:release": "semantic-release",
-    "precommit": "lint-staged"
+    "ci:release": "semantic-release"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.js": [
