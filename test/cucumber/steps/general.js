@@ -4,7 +4,7 @@ const jhp = require('json-parse-helpfulerror');
 
 module.exports = function() {
   this.Given(
-    /^you expect the following HTTP (message|request|response):$/i,
+    /^I expect the following HTTP (message|request|response):$/i,
     function(_, expectedMessage) {
       this.expected = jhp.parse(expectedMessage);
     }
@@ -22,22 +22,19 @@ module.exports = function() {
     this.actual[fieldName] = value;
   });
 
-  this.Given(/^you expect "([^"]*)" to be "([^"]*)"$/, function(
+  this.Given(/^I expect "([^"]*)" to be "([^"]*)"$/, function(
     fieldName,
     expectedValue
   ) {
     this.expected[fieldName] = expectedValue;
   });
 
-  this.Given(/^you expect "([^"]*)" to equal:$/, function(
-    fieldName,
-    codeBlock
-  ) {
+  this.Given(/^I expect "([^"]*)" to equal:$/, function(fieldName, codeBlock) {
     // Perform conditional code block parsing (if headers, etc.)
     this.expected[fieldName] = this.transformCodeBlock(fieldName, codeBlock);
   });
 
-  this.Given(/^you expect "body" to match the following "([^"]*)":$/, function(
+  this.Given(/^I expect "body" to match the following "([^"]*)":$/, function(
     bodyType,
     value
   ) {
@@ -59,6 +56,11 @@ module.exports = function() {
 
   // Actions
   this.When('Gavel validates the HTTP message', function() {
+    this.validate();
+  });
+
+  // Vocabulary proxy over the previous action for better scenarios readability.
+  this.When(/^I call "([^"]*)"$/, function(_command) {
     this.validate();
   });
 
