@@ -69,7 +69,6 @@ module.exports = function() {
   });
 
   this.Then('the validation result is:', function(expectedResult) {
-    const dmp = new Diff();
     const stringifiedActual = JSON.stringify(this.result, null, 2);
 
     expect(this.result).to.deep.equal(
