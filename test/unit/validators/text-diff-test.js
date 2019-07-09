@@ -1,6 +1,5 @@
 /* eslint-disable */
 const { assert } = require('chai');
-const DiffMatchPatch = require('googlediff');
 
 const fixtures = require('../../fixtures');
 const { TextDiff } = require('../../../lib/validators/text-diff');

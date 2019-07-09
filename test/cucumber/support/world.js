@@ -6,7 +6,6 @@
  */
 /* eslint-disable */
 const vm = require('vm');
-const Diff = require('googlediff');
 const util = require('util');
 const { assert } = require('chai');
 const { exec } = require('child_process');
@@ -254,15 +253,6 @@ Make sure it's in the "Header-Name: value" format.
     } else {
       return data;
     }
-  }
-
-  diff(expected, actual) {
-    const dmp = new Diff();
-    console.log(
-      dmp.patch_toText(
-        dmp.patch_make(JSON.stringify(actual), JSON.stringify(expected))
-      )
-    );
   }
 
   // Debugging helper

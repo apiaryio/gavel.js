@@ -1,5 +1,4 @@
 const { expect } = require('chai');
-const Diff = require('googlediff');
 const jhp = require('json-parse-helpfulerror');
 
 module.exports = function() {
@@ -83,10 +82,6 @@ ${stringifiedActual}
 to equal:
 
 ${expectedResult}
-
-See the text diff patches below:
-
-${dmp.patch_toText(dmp.patch_make(stringifiedActual, expectedResult))}
 `
     );
   });
