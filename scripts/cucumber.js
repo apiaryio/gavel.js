@@ -6,7 +6,7 @@ const isWindows = process.platform.match(/^win/);
 // Excludes Cucumber features marked with the "@cli" tag.
 // CLI does not work on Windows:
 // https://github.com/apiaryio/gavel-spec/issues/24
-const tags = [isWindows && '~@cli'].filter(Boolean);
+const tags = [isWindows && '-t ~@cli'].filter(Boolean);
 
 const args = [
   ...tags,
