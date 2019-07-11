@@ -35,22 +35,6 @@ describe('TextDiff', () => {
     });
   });
 
-  describe('when expected a string with surrogate pair', () => {
-    const expected = 'text1\uD800';
-
-    it('should resolve on matching string', () => {
-      const validator = new TextDiff(expected, 'text1\uD800');
-      expect(validator.validate()).to.be.true;
-    });
-
-    it('should reject on non-matching string', () => {
-      // This is not considered as non-matching strings
-      // due to surrogate pairs in it. Rewrite the test.
-      const validator = new TextDiff(expected, 'barry');
-      expect(validator.validate()).to.be.false;
-    });
-  });
-
   describe('when expected textual data', () => {
     const expected = 'john';
 
