@@ -63,9 +63,8 @@ exports.shouldBehaveLikeAmandaToGavel = (instance) => {
         });
 
         it('should be a parseable JSON poitner', () => {
-          parsed = jsonPointer.parse(value);
-
-          assert.isArray(parsed);
+          const parsedPointer = jsonPointer.parse(value);
+          assert.isArray(parsedPointer);
         });
       });
     });
