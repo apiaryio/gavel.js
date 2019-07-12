@@ -59,7 +59,7 @@ module.exports = function() {
   });
 
   // Vocabulary proxy over the previous action for better scenarios readability.
-  this.When(/^I call "([^"]*)"$/, function(_command) {
+  this.When(/^I call "gavel.validate(([^"]*))"$/, function(_, _command) {
     this.validate();
   });
 

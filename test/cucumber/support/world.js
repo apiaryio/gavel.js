@@ -15,30 +15,15 @@ const HTTP_LINE_DELIMITER = '\n';
 
 class World {
   constructor() {
-    this.codeBuffer = '';
-    this.commandBuffer = '';
-
-    // NEW
-    this.commands = [];
-
     this.expected = {};
     this.actual = {};
-
-    // Parsed HTTP objects for model valdiation
-    this.model = {};
 
     // Gavel validation result
     this.results = {};
 
-    // CLI: Process exit status
-    this.status = null;
-
-    // Validation verdict for the whole HTTP Message
-    // this.booleanResult = false;
-
-    // Component relevant to the expectation, e.g. 'body'
-    this.component = null;
-    this.componentResults = null;
+    // CLI
+    this.commands = [];
+    this.exitCode = null;
   }
 
   executeCommands(commands) {
@@ -107,17 +92,11 @@ Make sure it's in the "Header-Name: value" format.
     const [method, uri] = firstLine.split(' ');
     parsed.method = method;
     parsed.uri = uri;
-    // firstLine = firstLine.split(' ');
-    // parsed.method = firstLine[0];
-    // parsed.uri = firstLine[1];
   }
 
   parseResponseLine(parsed, firstLine) {
     const [statusCode] = firstLine.split(' ');
     parsed.statusCode = statusCode;
-    // firstLine = firstLine.split(' ');
-    // parsed.statusCode = firstLine[1];
-    // parsed.statusMessage = firstLine[2];
   }
 
   parseHttp(type, string) {
