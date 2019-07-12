@@ -174,11 +174,11 @@ The validation `result` against the given JSON Schema will look as follows:
 
 Take a look at the [Gherkin](https://cucumber.io/docs/gherkin/) specification, which describes on examples how validation of each field behaves:
 
-- [`method`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/method)
-- [`statusCode`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/statusCode)
-- [`headers`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/headers)
-- [`body`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/body)
-- [`bodySchema`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/bodySchema)
+- [`method`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/method.feature)
+- [`statusCode`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/statusCode.feature)
+- [`headers`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/headers.feature)
+- [`body`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/body.feature)
+- [`bodySchema`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/bodySchema.feature)
 
 ## Type definitions
 
