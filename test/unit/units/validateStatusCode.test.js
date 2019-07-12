@@ -16,16 +16,8 @@ describe('validateStatusCode', () => {
       expect(result).to.be.valid;
     });
 
-    it('has "TextDiff" validator', () => {
-      expect(result).to.have.validator('TextDiff');
-    });
-
-    it('has "text/vnd.apiary.status-code" expected type', () => {
-      expect(result).to.have.expectedType('text/vnd.apiary.status-code');
-    });
-
-    it('has "text/vnd.apiary.status-code" real type', () => {
-      expect(result).to.have.realType('text/vnd.apiary.status-code');
+    it('has "text" kind', () => {
+      expect(result).to.have.kind('text');
     });
 
     it('has no errors', () => {
@@ -47,16 +39,8 @@ describe('validateStatusCode', () => {
       expect(result).to.not.be.valid;
     });
 
-    it('has "TextDiff" validator', () => {
-      expect(result).to.have.validator('TextDiff');
-    });
-
-    it('has "text/vnd.apiary.status-code" expected type', () => {
-      expect(result).to.have.expectedType('text/vnd.apiary.status-code');
-    });
-
-    it('has "text/vnd.apiary.status-code" real type', () => {
-      expect(result).to.have.realType('text/vnd.apiary.status-code');
+    it('has "text" kind', () => {
+      expect(result).to.have.kind('text');
     });
 
     describe('produces error', () => {
@@ -67,7 +51,16 @@ describe('validateStatusCode', () => {
       it('has explanatory message', () => {
         expect(result)
           .to.have.errorAtIndex(0)
-          .withMessage(`Status code is '200' instead of '400'`);
+          .withMessage(`Expected status code '400', but got '200'.`);
+      });
+
+      it('includes values', () => {
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withValues({
+            expected: '400',
+            actual: '200'
+          });
       });
     });
   });

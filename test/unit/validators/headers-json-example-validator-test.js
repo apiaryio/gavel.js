@@ -16,7 +16,7 @@ describe('HeadersJsonExample', () => {
     describe('when I provede real data as non obejct', () => {
       it('should throw an exception', () => {
         const fn = () => {
-          headersValidator = new HeadersJsonExample('', { header1: 'value1' });
+          headersValidator = new HeadersJsonExample({ header1: 'value1' }, '');
         };
         assert.throw(fn, 'is not an Object');
       });
@@ -25,7 +25,7 @@ describe('HeadersJsonExample', () => {
     describe('when I provede expected data as non obejct', () => {
       it('should throw an exception', () => {
         const fn = () => {
-          headersValidator = new HeadersJsonExample({ header1: 'value1' }, '');
+          headersValidator = new HeadersJsonExample('', { header1: 'value1' });
         };
         assert.throw(fn, 'is not an Object');
       });
@@ -62,8 +62,8 @@ describe('HeadersJsonExample', () => {
     describe('when provided real and expected headers differ in upper/lower-case state of keys', () => {
       before(() => {
         headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeadersMixedCase,
-          fixtures.sampleHeaders
+          fixtures.sampleHeaders,
+          fixtures.sampleHeadersMixedCase
         );
       });
 
@@ -78,8 +78,8 @@ describe('HeadersJsonExample', () => {
     describe('when provided real and expected headers differ in one value (real change) of a key different by upper/lower', () => {
       before(() => {
         headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeadersMixedCaseDiffers,
-          fixtures.sampleHeaders
+          fixtures.sampleHeaders,
+          fixtures.sampleHeadersMixedCaseDiffers
         );
       });
       describe('and I run validate()', () => {
@@ -93,8 +93,8 @@ describe('HeadersJsonExample', () => {
     describe('when key is missing in provided headers', () => {
       beforeEach(() => {
         headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeadersMissing,
-          fixtures.sampleHeaders
+          fixtures.sampleHeaders,
+          fixtures.sampleHeadersMissing
         );
       });
       describe('and i run validate()', () => {
@@ -113,8 +113,8 @@ describe('HeadersJsonExample', () => {
     describe('when value of content negotiation header in provided headers differs', () => {
       beforeEach(() => {
         headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeadersDiffers,
-          fixtures.sampleHeaders
+          fixtures.sampleHeaders,
+          fixtures.sampleHeadersDiffers
         );
       });
 
@@ -138,8 +138,8 @@ describe('HeadersJsonExample', () => {
   describe('when key is added to provided headers', () => {
     before(() => {
       headersValidator = new HeadersJsonExample(
-        fixtures.sampleHeadersAdded,
-        fixtures.sampleHeaders
+        fixtures.sampleHeaders,
+        fixtures.sampleHeadersAdded
       );
     });
 
@@ -153,7 +153,7 @@ describe('HeadersJsonExample', () => {
 
   describe('when real is empty object and expected is proper object', () => {
     before(() => {
-      headersValidator = new HeadersJsonExample({}, fixtures.sampleHeaders);
+      headersValidator = new HeadersJsonExample(fixtures.sampleHeaders, {});
     });
 
     describe('and i run validate()', () => {
@@ -167,8 +167,8 @@ describe('HeadersJsonExample', () => {
   describe('when non content negotiation header header values differs', () => {
     before(() => {
       headersValidator = new HeadersJsonExample(
-        fixtures.sampleHeadersWithNonContentNegotiationChanged,
-        fixtures.sampleHeadersNonContentNegotiation
+        fixtures.sampleHeadersNonContentNegotiation,
+        fixtures.sampleHeadersWithNonContentNegotiationChanged
       );
     });
 
@@ -184,8 +184,8 @@ describe('HeadersJsonExample', () => {
     output = null;
     before(() => {
       headersValidator = new HeadersJsonExample(
-        fixtures.sampleHeadersMissing,
-        fixtures.sampleHeaders
+        fixtures.sampleHeaders,
+        fixtures.sampleHeadersMissing
       );
       output = headersValidator.validate();
     });

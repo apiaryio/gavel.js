@@ -45,7 +45,7 @@ exports.shouldBehaveLikeAmandaToGavel = (instance) => {
         assert.isObject(item);
       });
 
-      const props = ['message', 'pointer'];
+      const props = ['message', 'location'];
       props.forEach((key) => {
         it('should have "' + key + '"', () => {
           assert.include(Object.keys(item), key);
@@ -55,7 +55,7 @@ exports.shouldBehaveLikeAmandaToGavel = (instance) => {
       describe('pointer key value', () => {
         value = null;
         before(() => {
-          value = item['pointer'];
+          value = item.location.pointer;
         });
 
         it('should be a string', () => {
@@ -63,9 +63,8 @@ exports.shouldBehaveLikeAmandaToGavel = (instance) => {
         });
 
         it('should be a parseable JSON poitner', () => {
-          parsed = jsonPointer.parse(value);
-
-          assert.isArray(parsed);
+          const parsedPointer = jsonPointer.parse(value);
+          assert.isArray(parsedPointer);
         });
       });
     });

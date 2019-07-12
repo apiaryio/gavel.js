@@ -33,7 +33,7 @@ process.stdin.on('end', function() {
     const requestResult = gavel.validate(expectedRequest, realRequest);
     const responseResult = gavel.validate(expectedResponse, realResponse);
 
-    if (requestResult.isValid && responseResult.isValid) {
+    if (requestResult.valid && responseResult.valid) {
       process.exit(0);
     } else {
       process.exit(1);

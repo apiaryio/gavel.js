@@ -16,16 +16,8 @@ describe('validateMethod', () => {
       expect(result).to.be.valid;
     });
 
-    it('has "null" validator', () => {
-      expect(result).to.have.validator(null);
-    });
-
-    it('has "text/vnd.apiary.method" real type', () => {
-      expect(result).to.have.realType('text/vnd.apiary.method');
-    });
-
-    it('has "text/vnd.apiary.method" expected type', () => {
-      expect(result).to.have.expectedType('text/vnd.apiary.method');
+    it('has "text" kind', () => {
+      expect(result).to.have.kind('text');
     });
 
     it('has no errors', () => {
@@ -47,16 +39,8 @@ describe('validateMethod', () => {
       expect(result).to.not.be.valid;
     });
 
-    it('has "null" validator', () => {
-      expect(result).to.have.validator(null);
-    });
-
-    it('has "text/vnd.apiary.method" real type', () => {
-      expect(result).to.have.realType('text/vnd.apiary.method');
-    });
-
-    it('has "text/vnd.apiary.method" expected type', () => {
-      expect(result).to.have.expectedType('text/vnd.apiary.method');
+    it('has "text" kind', () => {
+      expect(result).to.have.kind('text');
     });
 
     describe('produces an error', () => {
@@ -67,9 +51,16 @@ describe('validateMethod', () => {
       it('has explanatory message', () => {
         expect(result)
           .to.have.errorAtIndex(0)
-          .withMessage(
-            'Expected "method" field to equal "POST", but got "GET".'
-          );
+          .withMessage(`Expected method 'POST', but got 'GET'.`);
+      });
+
+      it('includes values', () => {
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withValues({
+            expected: 'POST',
+            actual: 'GET'
+          });
       });
     });
   });
@@ -88,16 +79,8 @@ describe('validateMethod', () => {
       expect(result).to.not.be.valid;
     });
 
-    it('has "null" validator', () => {
-      expect(result).to.have.validator(null);
-    });
-
-    it('has "text/vnd.apiary.method" real type', () => {
-      expect(result).to.have.realType('text/vnd.apiary.method');
-    });
-
-    it('has "text/vnd.apiary.method" expected type', () => {
-      expect(result).to.have.expectedType('text/vnd.apiary.method');
+    it('has "text" kind', () => {
+      expect(result).to.have.kind('text');
     });
 
     describe('produces an error', () => {
@@ -108,7 +91,16 @@ describe('validateMethod', () => {
       it('has explanatory message', () => {
         expect(result)
           .to.have.errorAtIndex(0)
-          .withMessage('Expected "method" field to equal "PATCH", but got "".');
+          .withMessage(`Expected method 'PATCH', but got ''.`);
+      });
+
+      it('includes values', () => {
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withValues({
+            expected: 'PATCH',
+            actual: ''
+          });
       });
     });
   });

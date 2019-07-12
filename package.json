@@ -19,8 +19,12 @@
     "coveralls": "nyc --reporter=text-lcov npm run test:server | coveralls",
     "ci:lint": "npm run lint",
     "ci:test": "npm run coveralls && npm run test:browser && npm run test:features",
-    "ci:release": "semantic-release",
-    "precommit": "lint-staged"
+    "ci:release": "semantic-release"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.js": [
@@ -37,7 +41,6 @@
     "content-type": "1.0.4",
     "curl-trace-parser": "0.0.10",
     "deep-equal": "1.0.1",
-    "googlediff": "0.1.0",
     "http-string-parser": "0.0.6",
     "json-parse-helpfulerror": "1.0.3",
     "json-pointer": "0.6.0",
@@ -54,7 +57,7 @@
     "eslint-config-airbnb-base": "13.2.0",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-import": "2.18.0",
-    "gavel-spec": "3.0.2",
+    "gavel-spec": "4.0.0",
     "husky": "3.0.0",
     "lint-staged": "9.1.0",
     "mocha": "6.1.4",

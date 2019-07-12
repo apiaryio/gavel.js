@@ -35,16 +35,8 @@ describe('validateBody', () => {
         expect(result).to.not.be.valid;
       });
 
-      it('has no validator', () => {
-        expect(result).to.have.validator(null);
-      });
-
-      it('has "application/json" real type', () => {
-        expect(result).to.have.realType('application/json');
-      });
-
-      it('has "text/plain" expected type', () => {
-        expect(result).to.have.expectedType('text/plain');
+      it('has "null" kind', () => {
+        expect(result).to.have.kind(null);
       });
 
       describe('produces validation error', () => {
@@ -56,8 +48,17 @@ describe('validateBody', () => {
           expect(result)
             .to.have.errorAtIndex(0)
             .withMessage(
-              `Can't validate real media type 'application/json' against expected media type 'text/plain'.`
+              `Can't validate actual media type 'application/json' against the expected media type 'text/plain'.`
             );
+        });
+
+        it('includes values', () => {
+          expect(result)
+            .to.have.errorAtIndex(0)
+            .withValues({
+              expected: '',
+              actual: '{ "foo": "bar" }'
+            });
         });
       });
     });
@@ -79,16 +80,8 @@ describe('validateBody', () => {
             expect(result).to.be.valid;
           });
 
-          it('has "JsonExample" validator', () => {
-            expect(result).to.have.validator('JsonExample');
-          });
-
-          it('has "application/json" real type', () => {
-            expect(result).to.have.realType('application/json');
-          });
-
-          it('has "application/json" expected type', () => {
-            expect(result).to.have.expectedType('application/json');
+          it('has "json" kind', () => {
+            expect(result).to.have.kind('json');
           });
 
           it('has no errors', () => {
@@ -111,16 +104,8 @@ describe('validateBody', () => {
             expect(result).to.not.be.valid;
           });
 
-          it('has no validator', () => {
-            expect(result).to.have.validator(null);
-          });
-
-          it('fallbacks to "text/plain" real type', () => {
-            expect(result).to.have.realType('text/plain');
-          });
-
-          it('has "application/json" expected type', () => {
-            expect(result).to.have.expectedType('application/json');
+          it('has "null" kind', () => {
+            expect(result).to.have.kind(null);
           });
 
           describe('produces content-type error', () => {
@@ -157,16 +142,8 @@ describe('validateBody', () => {
             expect(result).to.be.valid;
           });
 
-          it('has "JsonExample" validator', () => {
-            expect(result).to.have.validator('JsonExample');
-          });
-
-          it('has "application/hal+json" real type', () => {
-            expect(result).to.have.realType('application/hal+json');
-          });
-
-          it('has "application/json" expected type', () => {
-            expect(result).to.have.expectedType('application/json');
+          it('has "json" kind', () => {
+            expect(result).to.have.kind('json');
           });
 
           it('has no errors', () => {
@@ -191,16 +168,8 @@ describe('validateBody', () => {
             expect(result).to.not.be.valid;
           });
 
-          it('has no validator', () => {
-            expect(result).to.have.validator(null);
-          });
-
-          it('fallbacks to "text/plain" real type', () => {
-            expect(result).to.have.realType('text/plain');
-          });
-
-          it('has "text/plain" expected type', () => {
-            expect(result).to.have.expectedType('text/plain');
+          it('has "null" kind', () => {
+            expect(result).to.have.kind(null);
           });
 
           describe('produces error', () => {
@@ -236,16 +205,8 @@ describe('validateBody', () => {
             expect(result).to.be.valid;
           });
 
-          it('has "TextDiff" validator', () => {
-            expect(result).to.have.validator('TextDiff');
-          });
-
-          it('has text/plain real type', () => {
-            expect(result).to.have.realType('text/plain');
-          });
-
-          it('has "text/plain" expected type', () => {
-            expect(result).to.have.expectedType('text/plain');
+          it('has "text" kind', () => {
+            expect(result).to.have.kind('text');
           });
 
           it('has no errors', () => {
@@ -267,16 +228,8 @@ describe('validateBody', () => {
             expect(result).to.not.be.valid;
           });
 
-          it('has "TextDiff" validator', () => {
-            expect(result).to.have.validator('TextDiff');
-          });
-
-          it('has "text/plain" real type', () => {
-            expect(result).to.have.realType('text/plain');
-          });
-
-          it('has "text/plain" expected type', () => {
-            expect(result).to.have.expectedType('text/plain');
+          it('has "text" kind', () => {
+            expect(result).to.have.kind('text');
           });
 
           describe('produces validation error', () => {
@@ -287,7 +240,7 @@ describe('validateBody', () => {
             it('with explanatory message', () => {
               expect(result)
                 .to.have.errorAtIndex(0)
-                .withMessage('Real and expected data does not match.');
+                .withMessage('Actual and expected data do not match.');
             });
           });
         });
@@ -308,16 +261,8 @@ describe('validateBody', () => {
             expect(result).to.be.valid;
           });
 
-          it('has "JsonExample" validator', () => {
-            expect(result).to.have.validator('JsonExample');
-          });
-
-          it('has "application/json" real type', () => {
-            expect(result).to.have.realType('application/json');
-          });
-
-          it('has "application/json" expected type', () => {
-            expect(result).to.have.expectedType('application/json');
+          it('has "json" kind', () => {
+            expect(result).to.have.kind('json');
           });
 
           it('has no errors', () => {
@@ -339,16 +284,8 @@ describe('validateBody', () => {
             expect(result).to.not.be.valid;
           });
 
-          it('has "JsonExample" validator', () => {
-            expect(result).to.have.validator('JsonExample');
-          });
-
-          it('has "application/json" real type', () => {
-            expect(result).to.have.realType('application/json');
-          });
-
-          it('has "application/json" expected type', () => {
-            expect(result).to.have.expectedType('application/json');
+          it('has "json" kind', () => {
+            expect(result).to.have.kind('json');
           });
 
           describe('produces validation errors', () => {
@@ -382,16 +319,8 @@ describe('validateBody', () => {
             expect(result).to.be.valid;
           });
 
-          it('has "JsonSchema" validator', () => {
-            expect(result).to.have.validator('JsonSchema');
-          });
-
-          it('has "application/json" real type', () => {
-            expect(result).to.have.realType('application/json');
-          });
-
-          it('has "application/schema+json" expected type', () => {
-            expect(result).to.have.expectedType('application/schema+json');
+          it('has "json" kind', () => {
+            expect(result).to.have.kind('json');
           });
 
           it('has no errors', () => {
@@ -415,16 +344,8 @@ describe('validateBody', () => {
             expect(result).to.not.be.valid;
           });
 
-          it('has "JsonSchema" validator', () => {
-            expect(result).to.have.validator('JsonSchema');
-          });
-
-          it('has "application/json" real type', () => {
-            expect(result).to.have.realType('application/json');
-          });
-
-          it('has "application/schema+json" expected type', () => {
-            expect(result).to.have.expectedType('application/schema+json');
+          it('has "json" kind', () => {
+            expect(result).to.have.kind('json');
           });
 
           describe('produces an error', () => {

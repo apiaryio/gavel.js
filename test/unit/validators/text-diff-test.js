@@ -1,166 +1,91 @@
-/* eslint-disable */
-const { assert } = require('chai');
-const DiffMatchPatch = require('googlediff');
-
-const fixtures = require('../../fixtures');
+/* eslint-disable no-new */
+const { expect } = require('chai');
 const { TextDiff } = require('../../../lib/validators/text-diff');
-const {
-  ValidationErrors
-} = require('../../../lib/validators/validation-errors');
 
 describe('TextDiff', () => {
-  validator = null;
-
-  describe('when i create new instance of validator with incorrect "data" (first argument)', () => {
-    validator = null;
-
-    it('should throw exception', () => {
+  describe('when expected non-string data', () => {
+    it('should throw an exception', () => {
       const fn = () => {
-        validator = new TextDiff(null, '');
+        new TextDiff(null, '');
       };
-      assert.throws(fn);
+      expect(fn).to.throw();
     });
   });
 
-  describe('when i create new instance of validator with incorrect "expected" (second argument)', () => {
-    validator = null;
-
-    it('should throw exception', () => {
-      fn = () => {
-        validator = new TextDiff('', null);
-      };
-      assert.throws(fn);
-    });
-  });
-
-  describe('when i create new instance of validator with "Iñtërnâtiônàlizætiøn☃" string as "data"', () => {
-    validator = null;
-
-    it('should not throw exception', () => {
+  describe('when given non-string actual data', () => {
+    it('should throw an exception', () => {
       const fn = () => {
-        validator = new TextDiff('Iñtërnâtiônàlizætiøn☃', '');
+        new TextDiff('', null);
       };
-      assert.doesNotThrow(fn);
-    });
-
-    describe('when I run validate', () => {
-      it('should not throw exception', () => {
-        const fn = () => validator.validate();
-        assert.doesNotThrow(fn);
-      });
+      expect(fn).to.throw();
     });
   });
 
-  describe('when i create new instance of validator with surrogate pair in data', () => {
-    validator = null;
+  describe('when expected internationalized string', () => {
+    const expected = 'Iñtërnâtiônàlizætiøn☃';
 
-    it('should not throw exception', () => {
-      const fn = () => {
-        validator = new TextDiff('text1\uD800', '\uD800text1');
-      };
-      assert.doesNotThrow(fn);
+    it('should resolve on matching actual string', () => {
+      const validator = new TextDiff(expected, expected);
+      expect(validator.validate()).to.be.true;
     });
 
-    describe('when  I run validate', () => {
-      it('should not throw exception', () => {
-        const fn = () => validator.validate();
-        assert.doesNotThrow(fn);
-      });
+    it('should reject on non-matching actual string', () => {
+      const validator = new TextDiff(expected, 'Nâtiônàl');
+      expect(validator.validate()).to.be.false;
     });
   });
 
-  describe('when i create new instance of validator with correct data', () => {
-    validator = null;
+  describe('when expected textual data', () => {
+    const expected = 'john';
 
-    it('should not throw exception', () => {
-      const fn = () => {
-        validator = new TextDiff('text1', 'text1');
-      };
-      assert.doesNotThrow(fn);
+    it('should resolve when given matching actual data', () => {
+      const validator = new TextDiff(expected, 'john');
+      expect(validator.validate()).to.be.true;
     });
 
-    describe('when data are same and I run validate', () => {
-      validationResult = null;
-
-      before(() => {
-        validator = new TextDiff('text1', 'text1');
-        validationResult = validator.validate();
-      });
-
-      it('should set output property', () => {
-        assert.isDefined(validator.output);
-
-        it('output should be a string', () => {
-          assert.isString(validator.output);
-        });
-
-        it('output should be empty string', () => {
-          assert.equal(validator.output, '');
-        });
-      });
-    });
-
-    describe('when data differs and I run validate', () => {
-      validationResult = null;
-
-      before(() => {
-        validator = new TextDiff('text1', 'text2');
-        validationResult = validator.validate();
-      });
-
-      it('output property should be a string', () => {
-        assert.isString(validator.output);
-      });
-
-      it('output property should not be empty string', () => {
-        assert.notEqual(validator.output, '');
-      });
-
-      it('output property should contain + and -', () => {
-        assert.include(validator.output, '-');
-        assert.include(validator.output, '+');
-      });
-
-      it('output property should be persed by googlediff to an array', () => {
-        dmp = new DiffMatchPatch();
-        assert.isArray(dmp.patch_fromText(validator.output));
-      });
+    it('should reject when given non-matching actual data', () => {
+      const validator = new TextDiff(expected, 'barry');
+      expect(validator.validate()).to.be.false;
     });
   });
 
-  describe('.evaluateOutputToResults', () => {
-    data = null;
-    results = null;
+  describe('when evaluating output to results', () => {
+    describe('when expected and actual data match', () => {
+      const validator = new TextDiff('john', 'john');
+      validator.validate();
+      const result = validator.evaluateOutputToResults();
 
-    describe('empty validation result', () => {
-      before(() => {
-        validator = new TextDiff('', '');
-        validator.validate();
-        results = validator.evaluateOutputToResults();
+      it('should return an empty array', () => {
+        expect(result).to.be.instanceOf(Array);
+        expect(result).to.have.lengthOf(0);
       });
+    });
+
+    describe('when expected and actual data do not match', () => {
+      const validator = new TextDiff('john', 'barry');
+      validator.validate();
+      const result = validator.evaluateOutputToResults();
 
       it('should return an array', () => {
-        assert.isArray(results);
+        expect(result).to.be.instanceOf(Array);
       });
 
-      it('should has no results', () => {
-        assert.equal(results.length, 0);
-      });
-    });
-
-    describe('non empty validation result', () => {
-      before(() => {
-        validator = new TextDiff('abc', 'cde');
-        validator.validate();
-        results = validator.evaluateOutputToResults();
+      it('should contain exactly one error', () => {
+        expect(result).to.have.lengthOf(1);
       });
 
-      it('should return an array', () => {
-        assert.isArray(results);
+      it('error should include the "message"', () => {
+        expect(result[0]).to.have.property(
+          'message',
+          'Actual and expected data do not match.'
+        );
       });
 
-      it('should contain one error', () => {
-        assert.lengthOf(results, 1);
+      it('error should contain compared values', () => {
+        expect(result[0]).to.have.deep.property('values', {
+          expected: 'john',
+          actual: 'barry'
+        });
       });
     });
   });

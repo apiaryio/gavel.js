@@ -1,33 +1,25 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const spawn = require('cross-spawn');
 
 const isWindows = process.platform.match(/^win/);
 
-// Removing '@cli' behavior from tests due to
+// Excludes Cucumber features marked with the "@cli" tag.
+// CLI does not work on Windows:
 // https://github.com/apiaryio/gavel-spec/issues/24
-const tags = [
-  '@javascript',
-  '~@proposal',
-  '~@draft',
-  '~@javascript-pending',
-  isWindows && '~@cli'
-].filter(Boolean);
+const tags = [isWindows && '-t ~@cli'].filter(Boolean);
 
-const args = tags.reduce((acc, tag) => {
-  return acc.concat('-t').concat(tag);
-}, []);
+const args = [
+  ...tags,
+  '-r',
+  'test/cucumber/support/',
+  '-r',
+  'test/cucumber/steps/',
+  '-f',
+  'pretty',
+  'node_modules/gavel-spec/features/'
+];
 
-const cucumber = spawn(
-  'node_modules/.bin/cucumber-js',
-  args.concat([
-    '-r',
-    'test/cucumber/support/',
-    '-r',
-    'test/cucumber/step_definitions/',
-    '-f',
-    'pretty',
-    'node_modules/gavel-spec/features/'
-  ])
-);
+const cucumber = spawn('node_modules/.bin/cucumber-js', args);
 
 cucumber.stdout.on('data', (data) => process.stdout.write(data));
 cucumber.stderr.on('data', (data) => process.stderr.write(data));

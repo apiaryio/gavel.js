@@ -13,11 +13,11 @@ describe('JsonSchema', () => {
 
   const dataForTypes = {
     string: {
-      real: fixtures.sampleJsonComplexKeyMissing,
+      actual: fixtures.sampleJsonComplexKeyMissing,
       schema: fixtures.sampleJsonSchemaNonStrict
     },
     object: {
-      real: JSON.parse(fixtures.sampleJsonComplexKeyMissing),
+      actual: JSON.parse(fixtures.sampleJsonComplexKeyMissing),
       schema: JSON.parse(fixtures.sampleJsonSchemaNonStrict)
     }
   };
@@ -34,12 +34,12 @@ describe('JsonSchema', () => {
         let validator = null;
 
         beforeEach(() => {
-          validator = new JsonSchema(data.real, data.schema);
+          validator = new JsonSchema(data.schema, data.actual);
         });
 
         it('should not throw an exception', () => {
           const fn = () => {
-            new JsonSchema(data.real, data.schema);
+            new JsonSchema(data.schema, data.actual);
           };
           assert.doesNotThrow(fn);
         });
@@ -134,11 +134,11 @@ describe('JsonSchema', () => {
       }
     );
 
-    describe('when validation performed on real empty object', () => {
+    describe('when validation performed on actual empty object', () => {
       it('should return some errors', () => {
         validator = new JsonSchema(
-          {},
-          JSON.parse(fixtures.sampleJsonSchemaNonStrict)
+          JSON.parse(fixtures.sampleJsonSchemaNonStrict),
+          {}
         );
         result = validator.validate();
         assert.notEqual(validator.validate().length, 0);
@@ -176,7 +176,7 @@ describe('JsonSchema', () => {
       it('should throw an error for "schema"', () => {
         const invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
         const fn = () => {
-          new JsonSchema({}, invalidStringifiedSchema);
+          new JsonSchema(invalidStringifiedSchema, {});
         };
         assert.throw(fn);
       });
@@ -192,8 +192,8 @@ describe('JsonSchema', () => {
           fixtures.sampleJsonBodyTestingAmandaMessages
         ).length;
         validator = new JsonSchema(
-          fixtures.sampleJsonBodyTestingAmandaMessages,
-          fixtures.sampleJsonSchemaTestingAmandaMessages
+          fixtures.sampleJsonSchemaTestingAmandaMessages,
+          fixtures.sampleJsonBodyTestingAmandaMessages
         );
         results = validator.validate();
       });
@@ -220,7 +220,7 @@ describe('JsonSchema', () => {
           before(() => {
             const invalidSchema = require('../../fixtures/invalid-schema-v3');
             fn = () => {
-              validator = new JsonSchema({}, invalidSchema);
+              validator = new JsonSchema(invalidSchema, {});
             };
           });
 
@@ -242,7 +242,7 @@ describe('JsonSchema', () => {
           before(() => {
             const validSchema = require('../../fixtures/valid-schema-v3');
             fn = () => {
-              validator = new JsonSchema({}, validSchema);
+              validator = new JsonSchema(validSchema, {});
             };
           });
 
@@ -263,7 +263,7 @@ describe('JsonSchema', () => {
           before(() => {
             const invalidSchema = require('../../fixtures/invalid-schema-v4');
             fn = () => {
-              validator = new JsonSchema({}, invalidSchema);
+              validator = new JsonSchema(invalidSchema, {});
             };
           });
 
@@ -285,7 +285,7 @@ describe('JsonSchema', () => {
           before(() => {
             validSchema = require('../../fixtures/valid-schema-v4');
             fn = () => {
-              validator = new JsonSchema({}, validSchema);
+              validator = new JsonSchema(validSchema, {});
             };
           });
 
@@ -306,7 +306,7 @@ describe('JsonSchema', () => {
               validSchema = require('../../fixtures/valid-schema-v3');
               delete validSchema['$schema'];
               fn = () => {
-                validator = new JsonSchema({}, validSchema);
+                validator = new JsonSchema(validSchema, {});
               };
             });
 
@@ -326,7 +326,7 @@ describe('JsonSchema', () => {
               validSchema = require('../../fixtures/valid-schema-v4');
               delete validSchema['$schema'];
               fn = () => {
-                validator = new JsonSchema({}, validSchema);
+                validator = new JsonSchema(validSchema, {});
               };
             });
 
@@ -346,7 +346,7 @@ describe('JsonSchema', () => {
               validSchema = require('../../fixtures/invalid-schema-v3-v4');
               delete validSchema['$schema'];
               fn = () => {
-                validator = new JsonSchema({}, validSchema);
+                validator = new JsonSchema(validSchema, {});
               };
             });
 
@@ -375,7 +375,7 @@ describe('JsonSchema', () => {
       before(() => {
         validSchema = require('../../fixtures/valid-schema-v3');
         delete validSchema['$schema'];
-        validator = new JsonSchema({}, validSchema);
+        validator = new JsonSchema(validSchema, {});
 
         v3 = sinon.stub(validator, 'validateSchemaV3');
         v4 = sinon.stub(validator, 'validateSchemaV4');
@@ -404,7 +404,7 @@ describe('JsonSchema', () => {
       before(() => {
         const validSchema = require('../../fixtures/valid-schema-v4');
         delete validSchema['$schema'];
-        validator = new JsonSchema({}, validSchema);
+        validator = new JsonSchema(validSchema, {});
 
         sinon.stub(validator, 'validateSchemaV3');
         sinon.stub(validator, 'validateSchemaV4');
@@ -434,9 +434,9 @@ describe('JsonSchema', () => {
 
       before(() => {
         const validSchema = require('../../fixtures/valid-schema-v4-with-refs');
-        const real = JSON.parse('{ "foo": "bar" }');
+        const actual = JSON.parse('{ "foo": "bar" }');
         fn = () => {
-          validator = new JsonSchema(real, validSchema);
+          validator = new JsonSchema(validSchema, actual);
           return validator.validatePrivate();
         };
       });
@@ -452,9 +452,9 @@ describe('JsonSchema', () => {
 
       before(() => {
         const validSchema = require('../../fixtures/valid-schema-v4-with-refs');
-        const real = JSON.parse('{ "foo": 1 }');
+        const actual = JSON.parse('{ "foo": 1 }');
         fn = () => {
-          validator = new JsonSchema(real, validSchema);
+          validator = new JsonSchema(validSchema, actual);
           return validator.validatePrivate();
         };
       });
@@ -475,9 +475,9 @@ describe('JsonSchema', () => {
 
       before(() => {
         const invalidSchema = require('../../fixtures/invalid-schema-v4-with-refs');
-        const real = JSON.parse('{ "foo": "bar" }');
+        const actual = JSON.parse('{ "foo": "bar" }');
         fn = () => {
-          validator = new JsonSchema(real, invalidSchema);
+          validator = new JsonSchema(invalidSchema, actual);
           return validator.validatePrivate();
         };
       });
@@ -500,7 +500,7 @@ describe('JsonSchema', () => {
         const validSchema = require('../../fixtures/valid-schema-v3');
         delete validSchema['$schema'];
         fn = () => {
-          validator = new JsonSchema({}, validSchema);
+          validator = new JsonSchema(validSchema, {});
           validator.jsonSchemaVersion = null;
           validator.validatePrivate();
         };
