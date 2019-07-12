@@ -55,9 +55,6 @@ ${JSON.stringify(target)}
   createErrorPropertyAssertion('location', 'withLocation');
   createErrorPropertyAssertion('values', 'withValues');
 
-  //
-  // TODO
-  // Finish the error messages
   Assertion.addMethod('kind', function(expectedValue) {
     const { kind } = this._obj;
     const stringifiedObj = stringify(this._obj);
@@ -69,11 +66,17 @@ Expected the following HTTP message field:
 
 ${stringifiedObj}
 
-to have "kind" property equal to "${expectedValue}".
+to have "kind" property equal "${expectedValue}", but got ${kind}.
       `,
-      'asdas',
-      expectedValue,
+      `
+Expected the following HTTP message field:
+
+${stringifiedObj}
+
+to not have "kind" property equal "${expectedValue}".
+      `,
       kind,
+      expectedValue,
       true
     );
   });
