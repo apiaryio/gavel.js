@@ -168,11 +168,11 @@ The validation `result` against the given JSON Schema will look as follows:
 }
 ```
 
-> Note that JSON schema V5+ are not currently supported. [Follow the support progress](https://github.com/apiaryio/gavel.js/issues/90).
+> Note that JSON schema Draft-05+ are not currently supported. [Follow the support progress](https://github.com/apiaryio/gavel.js/issues/90).
 
 ## Examples
 
-Take a look at the examples of each field validation described in [Gherkin](https://cucumber.io/docs/gherkin/):
+Take a look at the [Gherkin](https://cucumber.io/docs/gherkin/) specification, which describes on examples how validation of each field behaves:
 
 - [`method`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/method)
 - [`statusCode`](https://github.com/apiaryio/gavel-spec/blob/master/features/javascript/fields/statusCode)
@@ -205,7 +205,7 @@ interface HttpMessage {
 ```ts
 // Field kind describes the type of a field's values
 // subjected to the end comparison.
-enum FieldKind {
+enum ValidationKind {
   null // non-comparable data (validation didn't happen)
   text // compared as text
   json // compared as JSON
@@ -216,7 +216,7 @@ interface ValidationResult {
   fields: {
     [fieldName: string]: {
       valid: boolean // validity of a single field
-      kind: FieldKind
+      kind: ValidationKind
       values: { // end compared values (coerced, normalized)
         actual: any
         expected: any
@@ -246,4 +246,4 @@ interface FieldError {
 
 ## License
 
-MIT
+[MIT](LICENSE)
