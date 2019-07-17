@@ -80,10 +80,9 @@ Make sure it's in the "Header-Name: value" format.
 
       const [_, key, value] = match;
 
-      return {
-        ...acc,
+      return Object.assign({}, acc, {
         [key.toLowerCase()]: value.trim()
-      };
+      });
     }, {});
     return headers;
   }
