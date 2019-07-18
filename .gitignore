@@ -8,5 +8,6 @@ cov.*
 .nyc_output
 
 # List specific to .gitignore
+build
 node_modules
 .idea/

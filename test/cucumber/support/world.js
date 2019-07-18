@@ -1,15 +1,6 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-/* eslint-disable */
-const vm = require('vm');
-const util = require('util');
 const { assert } = require('chai');
 const { exec } = require('child_process');
-const gavel = require('../../../lib');
+const gavel = require('../../../build');
 
 const HTTP_LINE_DELIMITER = '\n';
 
@@ -28,12 +19,10 @@ class World {
 
   executeCommands(commands) {
     const commandsBuffer = commands.join(';');
-    const cmd =
-      `PATH=$PATH:${process.cwd()}/bin:${process.cwd()}/node_modules/.bin; cd /tmp/gavel-* ;` +
-      commandsBuffer;
+    const cmd = `PATH=$PATH:${process.cwd()}/bin:${process.cwd()}/node_modules/.bin; cd /tmp/gavel-* ;${commandsBuffer}`;
 
     return new Promise((resolve) => {
-      const child = exec(cmd, function(error, stdout, stderr) {
+      const child = exec(cmd, function(error) {
         if (error) {
           resolve(error.code);
         }
@@ -78,12 +67,12 @@ Make sure it's in the "Header-Name: value" format.
 `
       );
 
-      const [_, key, value] = match;
+      const key = match[1];
+      const value = match[2];
 
-      return {
-        ...acc,
+      return Object.assign({}, acc, {
         [key.toLowerCase()]: value.trim()
-      };
+      });
     }, {});
     return headers;
   }
@@ -118,17 +107,17 @@ Make sure it's in the "Header-Name: value" format.
     const headersLines = [];
     let bodyEntered = false;
 
-    for (let line of Array.from(lines)) {
+    /* eslint-disable no-restricted-syntax */
+    for (const line of Array.from(lines)) {
       if (line === '') {
         bodyEntered = true;
+      } else if (bodyEntered) {
+        bodyLines.push(line);
       } else {
-        if (bodyEntered) {
-          bodyLines.push(line);
-        } else {
-          headersLines.push(line);
-        }
+        headersLines.push(line);
       }
     }
+    /* eslint-enable no-restricted-syntax */
 
     parsed.headers = this.parseHeaders(headersLines.join(HTTP_LINE_DELIMITER));
     parsed.body = bodyLines.join(HTTP_LINE_DELIMITER);
@@ -155,20 +144,21 @@ Make sure it's in the "Header-Name: value" format.
   }
 
   toPascalCase(string) {
-    let result = string.replace(
-      /(\w)(\w*)/g,
-      (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
-    );
-    return (result = result.replace(' ', ''));
+    return string
+      .replace(
+        /(\w)(\w*)/g,
+        (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+      )
+      .replace(' ', '');
   }
 
   // Debugging helper
   inspect(data) {
     if (data !== null && typeof data === 'object') {
       return JSON.stringify(data, null, 2);
-    } else {
-      return data;
     }
+
+    return data;
   }
 
   // Debugging helper
@@ -178,5 +168,5 @@ Make sure it's in the "Header-Name: value" format.
 }
 
 module.exports = function() {
-  return (this.World = World);
+  this.World = World;
 };

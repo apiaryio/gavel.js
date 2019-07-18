@@ -1,11 +1,11 @@
 const { expect } = require('chai');
-const jhp = require('json-parse-helpfulerror');
+const parseJson = require('../../../lib/utils/parseJson');
 
 module.exports = function() {
   this.Given(
     /^I expect the following HTTP (message|request|response):$/i,
     function(_, expectedMessage) {
-      this.expected = jhp.parse(expectedMessage);
+      this.expected = parseJson(expectedMessage);
     }
   );
 
@@ -13,7 +13,7 @@ module.exports = function() {
     _,
     actualMessage
   ) {
-    this.actual = jhp.parse(actualMessage);
+    this.actual = parseJson(actualMessage);
   });
 
   // Inline value assertion.
@@ -72,7 +72,7 @@ module.exports = function() {
     const stringifiedActual = JSON.stringify(this.result, null, 2);
 
     expect(this.result).to.deep.equal(
-      jhp.parse(expectedResult),
+      parseJson(expectedResult),
       `\
 Expected the following result:
 

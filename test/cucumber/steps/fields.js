@@ -1,5 +1,5 @@
 const chai = require('chai');
-const jhp = require('json-parse-helpfulerror');
+const parseJson = require('../../../lib/utils/parseJson');
 
 chai.config.truncateThreshold = 0;
 const { expect } = chai;
@@ -9,7 +9,7 @@ module.exports = function() {
     fieldName,
     expectedJson
   ) {
-    const expected = jhp.parse(expectedJson);
+    const expected = parseJson(expectedJson);
     expect(this.result.fields[fieldName]).to.deep.equal(expected);
   });
 };

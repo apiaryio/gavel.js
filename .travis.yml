@@ -14,6 +14,7 @@ install:
   - 'npm install --no-save'
 script:
   - 'npm run ci:lint'
+  - 'npm run ci:build'
   - 'npm run ci:test'
 after_success:
   - 'npm run ci:release'
