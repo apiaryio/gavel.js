@@ -2,7 +2,7 @@
   "name": "gavel",
   "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
-  "main": "lib/index.js",
+  "main": "build/index.js",
   "engines": {
     "node": ">= 8"
   },
@@ -10,6 +10,8 @@
     "gavel": "bin/gavel"
   },
   "scripts": {
+    "start": "npm run build -- --watch",
+    "build": "rollup -c=rollup.config.js",
     "lint": "eslint lib/**/*.js test/**/*.js",
     "test": "npm run test:server && npm run test:browser && npm run test:features",
     "test:server": "mocha \"test/**/*.test.js\"",
@@ -19,6 +21,7 @@
     "coveralls": "nyc --reporter=text-lcov npm run test:server | coveralls",
     "ci:lint": "npm run lint",
     "ci:test": "npm run coveralls && npm run test:browser && npm run test:features",
+    "ci:build": "npm run build",
     "ci:release": "semantic-release"
   },
   "husky": {

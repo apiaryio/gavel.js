@@ -10,6 +10,7 @@ cov.*
 # List specific to .npmignore
 .travis.yml
 .npmignore
+lib
 docs/
 img/
 test/
