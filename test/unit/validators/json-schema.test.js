@@ -5,7 +5,6 @@ const { JsonSchema } = require('../../../lib/validators/json-schema');
 const {
   ValidationErrors
 } = require('../../../lib/validators/validation-errors');
-const sinon = require('sinon');
 const shared = require('../support/amanda-to-gavel-shared');
 
 describe('JsonSchema', () => {
@@ -148,19 +147,6 @@ describe('JsonSchema', () => {
     it('should have validateSchema method', () => {
       validator = new JsonSchema({}, {});
       assert.isDefined(validator.validateSchema);
-    });
-
-    describe('when I create new instance', () => {
-      before(() => {
-        sinon.spy(JsonSchema.prototype, 'validateSchema');
-      });
-      after(() => {
-        JsonSchema.prototype.validateSchema.restore();
-      });
-      it('should call validateSchema', () => {
-        validator = new JsonSchema({}, {});
-        assert.isTrue(validator.validateSchema.called);
-      });
     });
 
     describe('when invalid JSON-stringified-data are provided', () => {
@@ -354,7 +340,7 @@ describe('JsonSchema', () => {
               assert.throw(fn);
             });
 
-            it('should metion both v3 and v4 in the error message', () => {
+            it('should mention both v3 and v4 in the error message', () => {
               try {
                 fn();
               } catch (error) {
@@ -364,161 +350,6 @@ describe('JsonSchema', () => {
             });
           });
         });
-      });
-    });
-  });
-
-  describe('validatePrivate()', () => {
-    describe('when @jsonSchemaVersion is set to v3', () => {
-      let validator = null;
-
-      before(() => {
-        validSchema = require('../../fixtures/valid-schema-v3');
-        delete validSchema['$schema'];
-        validator = new JsonSchema(validSchema, {});
-
-        v3 = sinon.stub(validator, 'validateSchemaV3');
-        v4 = sinon.stub(validator, 'validateSchemaV4');
-        validator.jsonSchemaVersion = 'v3';
-
-        validator.validatePrivate();
-      });
-
-      after(() => {
-        validator.validateSchemaV3.restore();
-        validator.validateSchemaV4.restore();
-      });
-
-      it('should validate using Amanda', () => {
-        assert.ok(validator.validateSchemaV3.called);
-      });
-
-      it('should not valiate using tv4', () => {
-        assert.notOk(validator.validateSchemaV4.called);
-      });
-    });
-
-    describe('when @jsonSchemaVersion is set to v4', () => {
-      let validator = null;
-
-      before(() => {
-        const validSchema = require('../../fixtures/valid-schema-v4');
-        delete validSchema['$schema'];
-        validator = new JsonSchema(validSchema, {});
-
-        sinon.stub(validator, 'validateSchemaV3');
-        sinon.stub(validator, 'validateSchemaV4');
-
-        validator.jsonSchemaVersion = 'v4';
-
-        validator.validatePrivate();
-      });
-
-      after(() => {
-        validator.validateSchemaV3.restore();
-        validator.validateSchemaV4.restore();
-      });
-
-      it('should validate using tv4', () => {
-        assert.ok(validator.validateSchemaV4.called);
-      });
-
-      it('should not validate using amanda', () => {
-        assert.notOk(validator.validateSchemaV3.called);
-      });
-    });
-
-    describe('when valid v4 $ref schema provided with valid data', () => {
-      let fn = null;
-      let validator = null;
-
-      before(() => {
-        const validSchema = require('../../fixtures/valid-schema-v4-with-refs');
-        const actual = JSON.parse('{ "foo": "bar" }');
-        fn = () => {
-          validator = new JsonSchema(validSchema, actual);
-          return validator.validatePrivate();
-        };
-      });
-
-      it('should not return a validation error', () => {
-        assert.lengthOf(fn(), 0);
-      });
-    });
-
-    describe('when valid v4 $ref schema provided with invalid data', () => {
-      let fn = null;
-      let validator = null;
-
-      before(() => {
-        const validSchema = require('../../fixtures/valid-schema-v4-with-refs');
-        const actual = JSON.parse('{ "foo": 1 }');
-        fn = () => {
-          validator = new JsonSchema(validSchema, actual);
-          return validator.validatePrivate();
-        };
-      });
-
-      it('should return a validation error', () => {
-        assert.lengthOf(fn(), 1);
-      });
-
-      it('should mention an invalid type error', () => {
-        const e = fn()[0];
-        assert.include(e.message, 'Invalid type');
-      });
-    });
-
-    describe('when invalid v4 $ref schema provided with valid data', () => {
-      let fn = null;
-      let validator = null;
-
-      before(() => {
-        const invalidSchema = require('../../fixtures/invalid-schema-v4-with-refs');
-        const actual = JSON.parse('{ "foo": "bar" }');
-        fn = () => {
-          validator = new JsonSchema(invalidSchema, actual);
-          return validator.validatePrivate();
-        };
-      });
-
-      it('should return a validation error', () => {
-        assert.lengthOf(fn(), 1);
-      });
-
-      it('should mention a missing schema error', () => {
-        const e = fn()[0];
-        assert.include(e.message, 'Missing schema');
-      });
-    });
-
-    describe('when @jsonSchemaVersion is null', () => {
-      let fn = null;
-      let validator = null;
-
-      beforeEach(() => {
-        const validSchema = require('../../fixtures/valid-schema-v3');
-        delete validSchema['$schema'];
-        fn = () => {
-          validator = new JsonSchema(validSchema, {});
-          validator.jsonSchemaVersion = null;
-          validator.validatePrivate();
-        };
-      });
-
-      it('shuold throw an error', () => {
-        assert.throw(fn);
-      });
-
-      it('should let know in the error message that it should not happen', () => {
-        try {
-          fn();
-        } catch (error) {
-          assert.include(
-            error.message,
-            "JSON schema version not identified, can't validate!"
-          );
-        }
       });
     });
   });
