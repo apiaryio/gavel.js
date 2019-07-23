@@ -548,13 +548,13 @@ describe "Http validatable mixin", () ->
 
               assert.include results, 'error'
 
-            it 'should add error message with lint result', () ->
-              expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
+            it 'should add error message', () ->
+              expected = /(Unexpected token ' in JSON at position 21|JSON Parse error: Single quotes \('\) are not allowed in JSON)/
               messages = []
               for result in instance.validation.body.results
                 messages.push result.message
 
-              assert.include messages[0], expected
+              assert.match messages[0], expected
 
             it 'should not overwrite existing errors', () ->
               instance.validation.body.results = [
@@ -750,13 +750,13 @@ describe "Http validatable mixin", () ->
 
                 assert.include messages[0], 'is not a parseable JSON'
 
-              it 'should add error message with lint result', () ->
-                expected = "Parse error on line 1:\n...\"creative?\": false, 'creativ': true }\n-----------------------^\nExpecting 'STRING', got 'undefined'"
+              it 'should add error message', () ->
+                expected = /(Unexpected token ' in JSON at position 21|JSON Parse error: Single quotes \('\) are not allowed in JSON)/
                 messages = []
                 for result in instance.validation.body.results
                   messages.push result.message
 
-                assert.include messages[0], expected
+                assert.match messages[0], expected
 
         describe 'expected headers have not content-type application/json', () ->
           describe 'expected body is a parseable JSON', () ->
