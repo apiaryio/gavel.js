@@ -1,6 +1,6 @@
 {
   "name": "gavel",
-  "version": "0.0.0-semantically-released",
+  "version": "2.1.3",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
   "main": "lib/gavel.js",
   "engines": {
