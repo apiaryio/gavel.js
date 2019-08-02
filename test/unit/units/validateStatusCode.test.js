@@ -53,15 +53,6 @@ describe('validateStatusCode', () => {
           .to.have.errorAtIndex(0)
           .withMessage(`Expected status code '400', but got '200'.`);
       });
-
-      it('includes values', () => {
-        expect(result)
-          .to.have.errorAtIndex(0)
-          .withValues({
-            expected: '400',
-            actual: '200'
-          });
-      });
     });
   });
 });

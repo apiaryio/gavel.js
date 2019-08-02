@@ -51,15 +51,6 @@ describe('validateBody', () => {
               `Can't validate actual media type 'application/json' against the expected media type 'text/plain'.`
             );
         });
-
-        it('includes values', () => {
-          expect(result)
-            .to.have.errorAtIndex(0)
-            .withValues({
-              expected: '',
-              actual: '{ "foo": "bar" }'
-            });
-        });
       });
     });
 
