@@ -193,6 +193,7 @@ Both expected and actual HTTP messages (no matter request or response) inherit f
 
 ```ts
 interface HttpMessage {
+  uri?: string;
   method?: string;
   statusCode?: number;
   headers?: Record<string> | string;
@@ -233,10 +234,6 @@ interface FieldError {
     // kind: json
     pointer?: string
     property?: string[]
-  }
-  values?: {
-    expected: any
-    actual: any
   }
 }
 ```
