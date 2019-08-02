@@ -129,15 +129,6 @@ describe('validateURI', () => {
             .to.have.errorAtIndex(0)
             .withMessage(`Expected URI '/dashboard', but got '/profile'.`);
         });
-
-        it('includes values', () => {
-          expect(result)
-            .to.have.errorAtIndex(0)
-            .withValues({
-              expected: '/dashboard',
-              actual: '/profile'
-            });
-        });
       });
     });
 
@@ -172,15 +163,6 @@ describe('validateURI', () => {
                 `Expected URI '/account?id=123', but got '/account'.`
               );
           });
-
-          it('includes values', () => {
-            expect(result)
-              .to.have.errorAtIndex(0)
-              .withValues({
-                expected: '/account?id=123',
-                actual: '/account'
-              });
-          });
         });
       });
 
@@ -214,15 +196,6 @@ describe('validateURI', () => {
                 `Expected URI '/account?name=user', but got '/account?nAmE=usEr'.`
               );
           });
-
-          it('includes values', () => {
-            expect(result)
-              .to.have.errorAtIndex(0)
-              .withValues({
-                expected: '/account?name=user',
-                actual: '/account?nAmE=usEr'
-              });
-          });
         });
       });
 
@@ -255,15 +228,6 @@ describe('validateURI', () => {
               .withMessage(
                 `Expected URI '/zoo?type=cats&type=dogs', but got '/zoo?type=dogs&type=cats'.`
               );
-          });
-
-          it('includes values', () => {
-            expect(result)
-              .to.have.errorAtIndex(0)
-              .withValues({
-                expected: '/zoo?type=cats&type=dogs',
-                actual: '/zoo?type=dogs&type=cats'
-              });
           });
         });
       });

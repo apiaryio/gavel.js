@@ -53,15 +53,6 @@ describe('validateMethod', () => {
           .to.have.errorAtIndex(0)
           .withMessage(`Expected method 'POST', but got 'GET'.`);
       });
-
-      it('includes values', () => {
-        expect(result)
-          .to.have.errorAtIndex(0)
-          .withValues({
-            expected: 'POST',
-            actual: 'GET'
-          });
-      });
     });
   });
 
@@ -92,15 +83,6 @@ describe('validateMethod', () => {
         expect(result)
           .to.have.errorAtIndex(0)
           .withMessage(`Expected method 'PATCH', but got ''.`);
-      });
-
-      it('includes values', () => {
-        expect(result)
-          .to.have.errorAtIndex(0)
-          .withValues({
-            expected: 'PATCH',
-            actual: ''
-          });
       });
     });
   });

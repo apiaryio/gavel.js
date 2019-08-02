@@ -297,15 +297,6 @@ describe('validate', () => {
               .to.have.errorAtIndex(0)
               .withMessage(`Expected method 'POST', but got 'PUT'.`);
           });
-
-          it('includes values', () => {
-            expect(result.fields.method)
-              .to.have.errorAtIndex(0)
-              .withValues({
-                expected: 'POST',
-                actual: 'PUT'
-              });
-          });
         });
       });
     });
