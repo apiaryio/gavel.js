@@ -2,8 +2,8 @@ const { assert } = require('chai');
 const mediaTyper = require('media-typer');
 const { getBodyValidator } = require('../../../../lib/units/validateBody');
 
-const getMediaTypes = (real, expected) => {
-  return [real, expected].map(mediaTyper.parse);
+const getMediaTypes = (expected, actual) => {
+  return [expected, actual].map(mediaTyper.parse);
 };
 
 describe('getBodyValidator', () => {
@@ -14,7 +14,7 @@ describe('getBodyValidator', () => {
         expectedValidator: 'JsonExample'
       },
       {
-        contentTypes: ['application/json', 'application/schema+json'],
+        contentTypes: ['application/schema+json', 'application/json'],
         expectedValidator: 'JsonSchema'
       },
       {
@@ -24,14 +24,14 @@ describe('getBodyValidator', () => {
     ];
 
     knownContentTypes.forEach(({ contentTypes, expectedValidator }) => {
-      const [realContentType, expectedContentType] = contentTypes;
-      const [real, expected] = getMediaTypes(
-        realContentType,
-        expectedContentType
+      const [expectedContentType, actualContentType] = contentTypes;
+      const [expected, actual] = getMediaTypes(
+        expectedContentType,
+        actualContentType
       );
 
-      describe(`${realContentType} + ${expectedContentType}`, () => {
-        const [error, validator] = getBodyValidator(real, expected);
+      describe(`${expectedContentType} + ${actualContentType}`, () => {
+        const [error, validator] = getBodyValidator(expected, actual);
 
         it('returns no error', () => {
           assert.isNull(error);
