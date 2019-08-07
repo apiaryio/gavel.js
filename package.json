@@ -70,7 +70,7 @@
     "rollup-plugin-commonjs": "10.0.2",
     "rollup-plugin-node-resolve": "5.2.0",
     "semantic-release": "15.13.19",
-    "sinon": "7.3.2"
+    "sinon": "7.4.1"
   },
   "repository": {
     "type": "git",
