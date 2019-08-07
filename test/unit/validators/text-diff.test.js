@@ -80,13 +80,6 @@ describe('TextDiff', () => {
           'Actual and expected data do not match.'
         );
       });
-
-      it('error should contain compared values', () => {
-        expect(result[0]).to.have.deep.property('values', {
-          expected: 'john',
-          actual: 'barry'
-        });
-      });
     });
   });
 });

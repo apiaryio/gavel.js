@@ -108,7 +108,7 @@ describe('validateBody', () => {
               expect(result)
                 .to.have.errorAtIndex(0)
                 .withMessage(
-                  /^Can't validate: real body 'Content-Type' header is 'application\/json' but body is not a parseable JSON:/
+                  /^Can't validate: actual body 'Content-Type' header is 'application\/json' but body is not a parseable JSON:/
                 );
             });
           });
@@ -172,7 +172,7 @@ describe('validateBody', () => {
               expect(result)
                 .to.have.errorAtIndex(0)
                 .withMessage(
-                  /^Can't validate: real body 'Content-Type' header is 'application\/hal\+json' but body is not a parseable JSON:/
+                  /^Can't validate: actual body 'Content-Type' header is 'application\/hal\+json' but body is not a parseable JSON:/
                 );
             });
           });
