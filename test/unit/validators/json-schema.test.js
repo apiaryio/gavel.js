@@ -149,6 +149,17 @@ describe('JsonSchema', () => {
       assert.isDefined(validator.validateSchema);
     });
 
+    describe('when invalid, but jju-compliant, JSON-stringified-data are provided', () => {
+      const invalidJjuCompliantSchema = `{"foo":'key',}`;
+
+      it('should not throw an error', () => {
+        const fn = () => {
+          new JsonSchema(invalidJjuCompliantSchema);
+        };
+        assert.doesNotThrow(fn);
+      });
+    });
+
     describe('when invalid JSON-stringified-data are provided', () => {
       const invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
 
