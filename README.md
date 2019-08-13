@@ -8,9 +8,6 @@
   <a href="https://ci.appveyor.com/project/Apiary/gavel-js/branch/master" target="_blank">
     <img src="https://ci.appveyor.com/api/projects/status/0cpnaoakhs8q58tn/branch/master?svg=true" alt="Build Status" />
   </a>
-  <a href="https://coveralls.io/r/apiaryio/gavel.js?branch=master" target="_blank">
-    <img src="https://coveralls.io/repos/apiaryio/gavel.js/badge.svg?branch=master" alt="Coverage Status" />
-  </a>
   <a href="https://snyk.io/test/npm/gavel" target="_blank">
     <img src="https://snyk.io/test/npm/gavel/badge.svg" alt="Known Vulnerabilities" />
   </a>
