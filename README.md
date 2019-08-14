@@ -83,11 +83,7 @@ The code above would return the following validation `result`:
       },
       errors: [
         {
-          message: `Expected status code '200', but got '404'.`,
-          values: {
-            expected: '200',
-            actual: '404'
-          }
+          message: `Expected status code '200', but got '404'.`
         }
       ]
     },
