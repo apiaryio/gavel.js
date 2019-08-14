@@ -13,7 +13,7 @@ chai.use(({ Assertion }, utils) => {
       const { currentError: error, currentErrorIndex } = this.__flags;
       const target = error[propName];
       const isRegExp = expectedValue instanceof RegExp;
-      const matchWord = isRegExp ? 'matches' : 'equals';
+      const matchWord = isRegExp ? 'matches the following RegExp' : 'equals';
 
       new Assertion(error).to.be.instanceOf(Object);
       new Assertion(error).to.have.property(propName);
@@ -29,7 +29,7 @@ ${stringifiedObj}
 
 to have an error at index ${currentErrorIndex} that includes property "${propName}" that ${matchWord}:
 
-${JSON.stringify(expectedValue)}
+${isRegExp ? expectedValue.toString() : JSON.stringify(expectedValue)}
 
 but got:
 
@@ -45,7 +45,7 @@ to have an error at index ${currentErrorIndex} that includes property "${propNam
 ${JSON.stringify(target)}
   `,
         JSON.stringify(target),
-        JSON.stringify(expectedValue),
+        isRegExp ? expectedValue.toString() : JSON.stringify(expectedValue),
         true
       );
     });

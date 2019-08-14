@@ -1,1 +1,1 @@
-module.exports = `{"111!invalid string ... issue":''}`;
+module.exports = `{"111!invalid string ... issue":malformed''}`;
