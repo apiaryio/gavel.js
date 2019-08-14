@@ -50,6 +50,22 @@ describe('Regression: Unparseable JSON body', () => {
     });
   });
 
+  describe('given unparseable expected JSON schema', () => {
+    const getResult = () =>
+      validateBody(
+        {
+          bodySchema: '{ "foo: key }'
+        },
+        {
+          body: 'irrelevant'
+        }
+      );
+
+    it('should throw when trying to create JSON Schema', () => {
+      expect(getResult).to.throw();
+    });
+  });
+
   describe('given unparseable JSON as actual body', () => {
     const result = validateBody(
       {
