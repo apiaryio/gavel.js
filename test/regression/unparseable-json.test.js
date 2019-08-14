@@ -20,11 +20,11 @@ describe('Regression: Unparseable JSON body', () => {
     );
 
     it('marks field as invalid', () => {
-      expect(result).to.be.valid;
+      expect(result).to.not.be.valid;
     });
 
-    it('has "json" kind', () => {
-      expect(result).to.have.kind('json');
+    it('has null kind', () => {
+      expect(result).to.have.kind(null);
     });
 
     it('has values', () => {
@@ -35,8 +35,18 @@ describe('Regression: Unparseable JSON body', () => {
       });
     });
 
-    it('has no errors', () => {
-      expect(result).to.not.have.errors;
+    describe('produces an error', () => {
+      it('exactly one error', () => {
+        expect(result).to.have.errors.lengthOf(1);
+      });
+
+      it('has error message about unparseable actual body', () => {
+        expect(result)
+          .to.have.errorAtIndex(0)
+          .withMessage(
+            /^Can't validate: expected body 'Content-Type' header is 'application\/json' but body is not a parseable JSON:/
+          );
+      });
     });
   });
 
@@ -61,7 +71,7 @@ describe('Regression: Unparseable JSON body', () => {
       expect(result).to.not.be.valid;
     });
 
-    it('has "null" kind', () => {
+    it('has null kind', () => {
       expect(result).to.have.kind(null);
     });
 
