@@ -176,60 +176,7 @@ Take a look at the [Gherkin](https://cucumber.io/docs/gherkin/) specification, w
 
 ## Type definitions
 
-Type definitions below are described using [TypeScript](https://www.typescriptlang.org/) syntax.
-
-### Input
-
-> Gavel makes no assumptions over the validity of a given HTTP message according to the HTTP specification (RFCs [2616](https://www.ietf.org/rfc/rfc2616.txt), [7540](https://httpwg.org/specs/rfc7540.html)) and will accept any input matching the input type definition. Gavel will throw an exception when given malformed input data.
-
-Both expected and actual HTTP messages (no matter request or response) inherit from a single `HttpMessage` interface:
-
-```ts
-interface HttpMessage {
-  uri?: string;
-  method?: string;
-  statusCode?: number;
-  headers?: Record<string> | string;
-  body?: string;
-  bodySchema?: Object | string;
-}
-```
-
-### Output
-
-```ts
-// Field kind describes the type of a field's values
-// subjected to the end comparison.
-enum ValidationKind {
-  null // non-comparable data (validation didn't happen)
-  text // compared as text
-  json // compared as JSON
-}
-
-interface ValidationResult {
-  valid: boolean // validity of the actual message
-  fields: {
-    [fieldName: string]: {
-      valid: boolean // validity of a single field
-      kind: ValidationKind
-      values: { // end compared values (coerced, normalized)
-        actual: any
-        expected: any
-      }
-      errors: FieldError[]
-    }
-  }
-}
-
-interface FieldError {
-  message: string
-  location?: { // kind-specific additional information
-    // kind: json
-    pointer?: string
-    property?: string[]
-  }
-}
-```
+Gavel ships with [TypeScript type definitions](./typings.d.ts). Please refer to the definitions file for more details.
 
 ## API
 
