@@ -62,7 +62,7 @@
     "lint-staged": "9.4.2",
     "mocha": "6.2.1",
     "prettier": "1.18.2",
-    "rollup": "1.23.1",
+    "rollup": "1.24.0",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "semantic-release": "15.13.24",
