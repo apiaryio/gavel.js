@@ -60,7 +60,7 @@
     "gavel-spec": "4.1.0",
     "husky": "3.0.9",
     "lint-staged": "9.4.2",
-    "mocha": "6.2.1",
+    "mocha": "6.2.2",
     "prettier": "1.18.2",
     "rollup": "1.25.0",
     "rollup-plugin-commonjs": "10.1.0",
