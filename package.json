@@ -35,6 +35,7 @@
     ]
   },
   "dependencies": {
+    "ajv": "6.10.2",
     "amanda": "1.0.1",
     "caseless": "0.12.0",
     "clone": "2.1.2",

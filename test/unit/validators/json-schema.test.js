@@ -71,7 +71,7 @@ describe('JsonSchema', () => {
               assert.isTrue(validator.errors instanceof ValidationErrors);
             });
 
-            it('should return some errors', () => {
+            it.only('should return some errors', () => {
               assert.notEqual(validatorReturn.length, 0);
             });
 

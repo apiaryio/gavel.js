@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "required": ["foo"],
+  "properties": {
+    "foo": {
+      "type": "any"
+    },
+    "bar": {
+      "type": "string",
+      "enum": ["a", "b", "c"]
+    }
+  }
+}
