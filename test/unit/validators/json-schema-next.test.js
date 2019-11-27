@@ -59,7 +59,7 @@ describe('JSON Schema (next)', () => {
       });
 
       it('should recognize schema version as v6', () => {
-        expect(validator).to.have.property('jsonSchemaVersion', 'v6');
+        expect(validator).to.have.property('jsonSchemaVersion', 'draftV6');
       });
 
       describe('given validating data', () => {
@@ -81,7 +81,7 @@ describe('JSON Schema (next)', () => {
         describe('and the data is invalid', () => {
           let errors;
           const data = {
-            foo: 'invalid-value'
+            foo: 'should be number'
           };
 
           before(() => {
@@ -147,7 +147,7 @@ describe('JSON Schema (next)', () => {
       });
 
       it('should recognize schema version as v7', () => {
-        expect(validator).to.have.property('jsonSchemaVersion', 'v7');
+        expect(validator).to.have.property('jsonSchemaVersion', 'draftV7');
       });
 
       describe('given validating data', () => {

@@ -41,7 +41,7 @@ describe('JSON Schema (legacy)', () => {
       });
 
       it('should recognize schema version as v3', () => {
-        expect(validator).to.have.property('jsonSchemaVersion', 'v3');
+        expect(validator).to.have.property('jsonSchemaVersion', 'draftV3');
       });
 
       describe('given validating data', () => {
@@ -128,14 +128,14 @@ describe('JSON Schema (legacy)', () => {
       });
 
       it('should recognize schema version as v4', () => {
-        expect(validator).to.have.property('jsonSchemaVersion', 'v4');
+        expect(validator).to.have.property('jsonSchemaVersion', 'draftV4');
       });
 
       describe('given validating data', () => {
         describe('and the data is invalid', () => {
           let errors;
           const data = {
-            foo: 'wrong value type',
+            foo: 'should be number',
             b: 'z' // DOES NOT RESPECT ENUM HERE. THINKS THIS IS VALID.
           };
 
