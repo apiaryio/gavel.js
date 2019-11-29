@@ -45,31 +45,27 @@ describe('JsonSchema', () => {
         });
 
         describe('when I run validate()', () => {
-          let validatorReturn = null;
-          let validatorReturnAgain = null;
-          let validatorReturnAfterDataChanged = null;
+          let errors = null;
+          let errorsAgain = null;
+          let errorsAfterDataChanged = null;
 
           beforeEach(() => {
-            validatorReturn = validator.validate(data.actual);
-          });
-
-          it('should set @errors', () => {
-            assert.isTrue(validator.errors instanceof ValidationErrors);
+            errors = validator.validate(data.actual);
           });
 
           it('should return some errors', () => {
-            assert.notEqual(validatorReturn.length, 0);
+            assert.notEqual(errors.length, 0);
           });
 
           describe('and run validate again', () => {
             before(() => {
-              validatorReturnAgain = validator.validate(data.actual);
+              errorsAgain = validator.validate(data.actual);
             });
 
             it('errors should not change', () => {
               assert.deepEqual(
-                JSON.parse(JSON.stringify(validatorReturnAgain)),
-                JSON.parse(JSON.stringify(validatorReturn))
+                JSON.parse(JSON.stringify(errorsAgain)),
+                JSON.parse(JSON.stringify(errors))
               );
             });
           });
@@ -77,13 +73,13 @@ describe('JsonSchema', () => {
           describe('when i change data', () => {
             describe('and run validate again', () => {
               before(() => {
-                validatorReturnAfterDataChanged = validator.validate(
-                  data.actual
+                errorsAfterDataChanged = validator.validate(
+                  fixtures.sampleJson
                 );
               });
 
-              it('errors should change', () => {
-                assert.equal(validatorReturnAfterDataChanged.length, 0);
+              it('should not return any errors', () => {
+                assert.equal(errorsAfterDataChanged.length, 0);
               });
             });
           });
@@ -96,17 +92,16 @@ describe('JsonSchema', () => {
             });
 
             describe('and run validate again', () => {
-              validatorReturnAfterDataChanged2 = null;
+              errorsAfterDataChanged2 = null;
+
               before(() => {
-                validatorReturnAfterDataChanged2 = validator.validate(
-                  data.actual
-                );
+                errorsAfterDataChanged2 = validator.validate(data.actual);
               });
 
               it('errors should change', () => {
                 assert.notDeepEqual(
-                  JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)),
-                  JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
+                  JSON.parse(JSON.stringify(errorsAfterDataChanged2)),
+                  JSON.parse(JSON.stringify(errorsAfterDataChanged))
                 );
               });
             });
@@ -122,8 +117,8 @@ describe('JsonSchema', () => {
         validator = new JsonSchema(
           JSON.parse(fixtures.sampleJsonSchemaNonStrict)
         );
-        result = validator.validate({});
-        assert.notEqual(result.length, 0);
+        errors = validator.validate({});
+        assert.notEqual(errors.length, 0);
       });
     });
 
@@ -155,8 +150,7 @@ describe('JsonSchema', () => {
     });
 
     describe('validate an object to check json_schema_options passed to Amanda', () => {
-      let results = null;
-      let error = null;
+      let errors = null;
       let messagesLength = null;
 
       before(() => {
@@ -166,22 +160,20 @@ describe('JsonSchema', () => {
         validator = new JsonSchema(
           fixtures.sampleJsonSchemaTestingAmandaMessages
         );
-        results = validator.validate(
+        errors = validator.validate(
           fixtures.sampleJsonBodyTestingAmandaMessages
         );
       });
 
       it('contains all those schema defined messages', () => {
-        assert.isNull(error);
-        assert.isObject(results);
+        assert.lengthOf(errors, messagesLength);
         assert.lengthOf(
           Object.keys(
             fixtures.sampleJsonSchemaTestingAmandaMessages.properties
           ),
           messagesLength
         );
-        assert.propertyVal(results, 'length', messagesLength);
-        assert.lengthOf(results, messagesLength);
+        assert.lengthOf(errors, messagesLength);
       });
     });
 
