@@ -25,127 +25,113 @@ describe('JsonSchema', () => {
   types.forEach((type) => {
     const data = dataForTypes[type];
 
-    describe(
-      'when i create new instance of validator with "' +
-        type +
-        '" type arguments',
-      () => {
-        let validator = null;
+    describe(`when i create new instance of validator with "${type}" type arguments`, () => {
+      let validator = null;
 
-        beforeEach(() => {
-          validator = new JsonSchema(data.schema, data.actual);
+      beforeEach(() => {
+        validator = new JsonSchema(data.schema);
+      });
+
+      it('should not throw an exception', () => {
+        const fn = () => new JsonSchema(data.schema);
+        assert.doesNotThrow(fn);
+      });
+
+      it('should parse schema to object', () => {
+        assert.equal(typeof validator.jsonSchema, 'object');
+
+        it('should parse schema to object which is json parsable', () => {
+          assert.doesNotThrow(() => JSON.stringify(validator.jsonSchema));
         });
 
-        it('should not throw an exception', () => {
-          const fn = () => {
-            new JsonSchema(data.schema, data.actual);
-          };
-          assert.doesNotThrow(fn);
-        });
+        describe('when I run validate()', () => {
+          let validatorReturn = null;
+          let validatorReturnAgain = null;
+          let validatorReturnAfterDataChanged = null;
 
-        it('should set data to object', () => {
-          assert.equal(typeof validator.data, 'object');
-        });
-
-        it('should parse data to object which is json parsable', () => {
-          assert.doesNotThrow(() => JSON.stringify(validator.data));
-        });
-
-        it('should parse schema to object', () => {
-          assert.equal(typeof validator.schema, 'object');
-
-          it('should parse schema to object which is json parsable', () => {
-            assert.doesNotThrow(() => JSON.stringify(validator.schema));
+          beforeEach(() => {
+            validatorReturn = validator.validate(data.actual);
           });
 
-          describe('when I run validate()', () => {
-            let validatorReturn = null;
-            let validatorReturnAgain = null;
-            let validatorReturnAfterDataChanged = null;
+          it('should set @errors', () => {
+            assert.isTrue(validator.errors instanceof ValidationErrors);
+          });
 
-            beforeEach(() => {
-              validatorReturn = validator.validate();
+          it('should return some errors', () => {
+            assert.notEqual(validatorReturn.length, 0);
+          });
+
+          describe('and run validate again', () => {
+            before(() => {
+              validatorReturnAgain = validator.validate(data.actual);
             });
 
-            it('should set @errors', () => {
-              assert.isTrue(validator.errors instanceof ValidationErrors);
+            it('errors should not change', () => {
+              assert.deepEqual(
+                JSON.parse(JSON.stringify(validatorReturnAgain)),
+                JSON.parse(JSON.stringify(validatorReturn))
+              );
             });
+          });
 
-            it.only('should return some errors', () => {
-              assert.notEqual(validatorReturn.length, 0);
+          describe('when i change data', () => {
+            describe('and run validate again', () => {
+              before(() => {
+                validatorReturnAfterDataChanged = validator.validate(
+                  data.actual
+                );
+              });
+
+              it('errors should change', () => {
+                assert.equal(validatorReturnAfterDataChanged.length, 0);
+              });
+            });
+          });
+
+          describe('when i change schema', () => {
+            before(() => {
+              validator.jsonSchema = JSON.parse(
+                fixtures.sampleJsonSchemaNonStrict2
+              );
             });
 
             describe('and run validate again', () => {
+              validatorReturnAfterDataChanged2 = null;
               before(() => {
-                validatorReturnAgain = validator.validate();
-              });
-
-              it('errors should not change', () => {
-                assert.deepEqual(
-                  JSON.parse(JSON.stringify(validatorReturnAgain)),
-                  JSON.parse(JSON.stringify(validatorReturn))
-                );
-              });
-            });
-
-            describe('when i change data', () => {
-              before(() => {
-                validator.data = JSON.parse(fixtures.sampleJson);
-              });
-
-              describe('and run validate again', () => {
-                before(() => {
-                  validatorReturnAfterDataChanged = validator.validate();
-                });
-                it('errors should change', () => {
-                  assert.equal(validatorReturnAfterDataChanged.length, 0);
-                });
-              });
-            });
-
-            describe('when i change schema', () => {
-              before(() => {
-                validator.schema = JSON.parse(
-                  fixtures.sampleJsonSchemaNonStrict2
+                validatorReturnAfterDataChanged2 = validator.validate(
+                  data.actual
                 );
               });
 
-              describe('and run validate again', () => {
-                validatorReturnAfterDataChanged2 = null;
-                before(() => {
-                  validatorReturnAfterDataChanged2 = validator.validate();
-                });
-
-                it('errors should change', () => {
-                  assert.notDeepEqual(
-                    JSON.parse(
-                      JSON.stringify(validatorReturnAfterDataChanged2)
-                    ),
-                    JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
-                  );
-                });
+              it('errors should change', () => {
+                assert.notDeepEqual(
+                  JSON.parse(JSON.stringify(validatorReturnAfterDataChanged2)),
+                  JSON.parse(JSON.stringify(validatorReturnAfterDataChanged))
+                );
               });
             });
           });
         });
+      });
 
-        shared.shouldBehaveLikeAmandaToGavel(new JsonSchema('{}', '{}'));
-      }
-    );
+      // shared.shouldBehaveLikeAmandaToGavel(new JsonSchema('{}'));
+    });
 
     describe('when validation performed on actual empty object', () => {
       it('should return some errors', () => {
         validator = new JsonSchema(
-          JSON.parse(fixtures.sampleJsonSchemaNonStrict),
-          {}
+          JSON.parse(fixtures.sampleJsonSchemaNonStrict)
         );
-        result = validator.validate();
-        assert.notEqual(validator.validate().length, 0);
+        result = validator.validate({});
+        assert.notEqual(result.length, 0);
       });
     });
 
+    /**
+     * @deprecate Stop testing implementation detail.
+     */
     it('should have validateSchema method', () => {
-      validator = new JsonSchema({}, {});
+      validator = new JsonSchema({});
       assert.isDefined(validator.validateSchema);
     });
 
@@ -162,7 +148,7 @@ describe('JsonSchema', () => {
       it('should throw an error for "schema"', () => {
         const invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
         const fn = () => {
-          new JsonSchema(invalidStringifiedSchema, {});
+          new JsonSchema(invalidStringifiedSchema);
         };
         assert.throw(fn);
       });
@@ -178,10 +164,11 @@ describe('JsonSchema', () => {
           fixtures.sampleJsonBodyTestingAmandaMessages
         ).length;
         validator = new JsonSchema(
-          fixtures.sampleJsonSchemaTestingAmandaMessages,
+          fixtures.sampleJsonSchemaTestingAmandaMessages
+        );
+        results = validator.validate(
           fixtures.sampleJsonBodyTestingAmandaMessages
         );
-        results = validator.validate();
       });
 
       it('contains all those schema defined messages', () => {
@@ -206,7 +193,7 @@ describe('JsonSchema', () => {
           before(() => {
             const invalidSchema = require('../../fixtures/invalid-schema-v3');
             fn = () => {
-              validator = new JsonSchema(invalidSchema, {});
+              validator = new JsonSchema(invalidSchema);
             };
           });
 
@@ -218,7 +205,7 @@ describe('JsonSchema', () => {
             try {
               fn();
             } catch (e) {
-              assert.include(e.message, 'v3');
+              assert.include(e.message, 'draftV3');
             }
           });
         });
@@ -228,7 +215,7 @@ describe('JsonSchema', () => {
           before(() => {
             const validSchema = require('../../fixtures/valid-schema-v3');
             fn = () => {
-              validator = new JsonSchema(validSchema, {});
+              validator = new JsonSchema(validSchema);
             };
           });
 
@@ -238,7 +225,7 @@ describe('JsonSchema', () => {
 
           it('should set @jsonSchemaVersion to v3', () => {
             fn();
-            assert.equal(validator.jsonSchemaVersion, 'v3');
+            assert.equal(validator.jsonSchemaVersion, 'draftV3');
           });
         });
       });
@@ -249,7 +236,7 @@ describe('JsonSchema', () => {
           before(() => {
             const invalidSchema = require('../../fixtures/invalid-schema-v4');
             fn = () => {
-              validator = new JsonSchema(invalidSchema, {});
+              validator = new JsonSchema(invalidSchema);
             };
           });
 
@@ -261,7 +248,7 @@ describe('JsonSchema', () => {
             try {
               fn();
             } catch (error) {
-              assert.include(error.message, 'v4');
+              assert.include(error.message, 'draftV4');
             }
           });
         });
@@ -271,7 +258,7 @@ describe('JsonSchema', () => {
           before(() => {
             validSchema = require('../../fixtures/valid-schema-v4');
             fn = () => {
-              validator = new JsonSchema(validSchema, {});
+              validator = new JsonSchema(validSchema);
             };
           });
 
@@ -281,7 +268,7 @@ describe('JsonSchema', () => {
 
           it('should set @jsonSchemaVersion to v4', () => {
             fn();
-            assert.equal(validator.jsonSchemaVersion, 'v4');
+            assert.equal(validator.jsonSchemaVersion, 'draftV4');
           });
         });
 
@@ -290,9 +277,9 @@ describe('JsonSchema', () => {
             let fn = null;
             before(() => {
               validSchema = require('../../fixtures/valid-schema-v3');
-              delete validSchema['$schema'];
+              delete validSchema.$schema;
               fn = () => {
-                validator = new JsonSchema(validSchema, {});
+                validator = new JsonSchema(validSchema);
               };
             });
 
@@ -302,7 +289,7 @@ describe('JsonSchema', () => {
 
             it('should set @jsonSchemaVersion to v3', () => {
               fn();
-              assert.equal(validator.jsonSchemaVersion, 'v3');
+              assert.equal(validator.jsonSchemaVersion, 'draftV3');
             });
           });
 
@@ -310,9 +297,9 @@ describe('JsonSchema', () => {
             let fn = null;
             before(() => {
               validSchema = require('../../fixtures/valid-schema-v4');
-              delete validSchema['$schema'];
+              delete validSchema.$schema;
               fn = () => {
-                validator = new JsonSchema(validSchema, {});
+                validator = new JsonSchema(validSchema);
               };
             });
 
@@ -322,7 +309,7 @@ describe('JsonSchema', () => {
 
             it('should set @jsonSchemaVersion to v4', () => {
               fn();
-              assert.equal(validator.jsonSchemaVersion, 'v4');
+              assert.equal(validator.jsonSchemaVersion, 'draftV4');
             });
           });
 
@@ -330,9 +317,9 @@ describe('JsonSchema', () => {
             let fn = null;
             before(() => {
               validSchema = require('../../fixtures/invalid-schema-v3-v4');
-              delete validSchema['$schema'];
+              delete validSchema.$schema;
               fn = () => {
-                validator = new JsonSchema(validSchema, {});
+                validator = new JsonSchema(validSchema);
               };
             });
 
@@ -344,8 +331,8 @@ describe('JsonSchema', () => {
               try {
                 fn();
               } catch (error) {
-                assert.include(error.message, 'v3');
-                assert.include(error.message, 'v4');
+                assert.include(error.message, 'draftV3');
+                assert.include(error.message, 'draftV4');
               }
             });
           });
