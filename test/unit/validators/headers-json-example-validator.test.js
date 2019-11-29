@@ -4,7 +4,6 @@ const {
   HeadersJsonExample
 } = require('../../../lib/validators/headers-json-example');
 const fixtures = require('../../fixtures');
-const shared = require('../support/amanda-to-gavel-shared');
 
 describe('HeadersJsonExample', () => {
   headersValidator = {};
@@ -16,7 +15,7 @@ describe('HeadersJsonExample', () => {
     describe('when I provede real data as non obejct', () => {
       it('should throw an exception', () => {
         const fn = () => {
-          headersValidator = new HeadersJsonExample({ header1: 'value1' });
+          headersValidator = new HeadersJsonExample('');
         };
         assert.throw(fn, 'is not an Object');
       });
@@ -34,10 +33,7 @@ describe('HeadersJsonExample', () => {
     describe('when I provide correct data', () => {
       it('should not throw an exception', () => {
         const fn = () => {
-          headersValidator = new HeadersJsonExample(
-            { header1: 'value1' },
-            { header1: 'value1' }
-          );
+          headersValidator = new HeadersJsonExample({ header1: 'value1' });
         };
         assert.doesNotThrow(fn);
       });
@@ -50,8 +46,9 @@ describe('HeadersJsonExample', () => {
 
       describe('and i run validate()', () => {
         it("shouldn't return any errors", () => {
-          result = headersValidator.validate(fixtures.sampleHeaders);
-          assert.equal(result.length, 0);
+          errors = headersValidator.validate(fixtures.sampleHeaders);
+          console.log({ errors });
+          assert.equal(errors.length, 0);
         });
       });
     });
@@ -173,9 +170,7 @@ describe('HeadersJsonExample', () => {
     });
 
     it('should return an obejct', () => {
-      assert.isObject(errors);
+      assert.isArray(errors);
     });
   });
-
-  shared.shouldBehaveLikeAmandaToGavel(new HeadersJsonExample({}, {}));
 });
