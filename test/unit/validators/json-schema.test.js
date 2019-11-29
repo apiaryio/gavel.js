@@ -5,7 +5,6 @@ const { JsonSchema } = require('../../../lib/validators/json-schema');
 const {
   ValidationErrors
 } = require('../../../lib/validators/validation-errors');
-const shared = require('../support/amanda-to-gavel-shared');
 
 describe('JsonSchema', () => {
   let validator = null;
