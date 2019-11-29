@@ -16,7 +16,7 @@ describe('HeadersJsonExample', () => {
     describe('when I provede real data as non obejct', () => {
       it('should throw an exception', () => {
         const fn = () => {
-          headersValidator = new HeadersJsonExample({ header1: 'value1' }, '');
+          headersValidator = new HeadersJsonExample({ header1: 'value1' });
         };
         assert.throw(fn, 'is not an Object');
       });
@@ -25,7 +25,7 @@ describe('HeadersJsonExample', () => {
     describe('when I provede expected data as non obejct', () => {
       it('should throw an exception', () => {
         const fn = () => {
-          headersValidator = new HeadersJsonExample('', { header1: 'value1' });
+          headersValidator = new HeadersJsonExample('');
         };
         assert.throw(fn, 'is not an Object');
       });
@@ -45,15 +45,12 @@ describe('HeadersJsonExample', () => {
 
     describe('when provided real and expected headers are the same', () => {
       before(() => {
-        headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeaders,
-          fixtures.sampleHeaders
-        );
+        headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
       });
 
       describe('and i run validate()', () => {
         it("shouldn't return any errors", () => {
-          result = headersValidator.validate();
+          result = headersValidator.validate(fixtures.sampleHeaders);
           assert.equal(result.length, 0);
         });
       });
@@ -61,73 +58,63 @@ describe('HeadersJsonExample', () => {
 
     describe('when provided real and expected headers differ in upper/lower-case state of keys', () => {
       before(() => {
-        headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeaders,
-          fixtures.sampleHeadersMixedCase
-        );
+        headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
       });
 
       describe('and I run validate()', () => {
         it("shouldn't return any errors", () => {
-          result = headersValidator.validate();
-          assert.equal(result.length, 0);
+          errors = headersValidator.validate(fixtures.sampleHeadersMixedCase);
+          assert.equal(errors.length, 0);
         });
       });
     });
 
     describe('when provided real and expected headers differ in one value (real change) of a key different by upper/lower', () => {
       before(() => {
-        headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeaders,
-          fixtures.sampleHeadersMixedCaseDiffers
-        );
+        headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
       });
       describe('and I run validate()', () => {
         it('should not return error', () => {
-          result = headersValidator.validate();
-          assert.lengthOf(result, 0);
+          errors = headersValidator.validate(
+            fixtures.sampleHeadersMixedCaseDiffers
+          );
+          assert.lengthOf(errors, 0);
         });
       });
     });
 
     describe('when key is missing in provided headers', () => {
       beforeEach(() => {
-        headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeaders,
-          fixtures.sampleHeadersMissing
-        );
+        headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
       });
       describe('and i run validate()', () => {
         it('should return 1 error', () => {
-          result = headersValidator.validate();
-          assert.equal(result.length, 1);
+          errors = headersValidator.validate(fixtures.sampleHeadersMissing);
+          assert.equal(errors.length, 1);
         });
 
         it('should have beautiful error message', () => {
-          result = headersValidator.validate();
-          assert.equal(result[0].message, "Header 'header2' is missing");
+          errors = headersValidator.validate(fixtures.sampleHeadersMissing);
+          assert.equal(errors[0].message, "Header 'header2' is missing");
         });
       });
     });
 
     describe('when value of content negotiation header in provided headers differs', () => {
       beforeEach(() => {
-        headersValidator = new HeadersJsonExample(
-          fixtures.sampleHeaders,
-          fixtures.sampleHeadersDiffers
-        );
+        headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
       });
 
       describe('and i run validate()', () => {
         it('should return 1 errors', () => {
-          result = headersValidator.validate();
-          assert.equal(result.length, 1);
+          errors = headersValidator.validate(fixtures.sampleHeadersDiffers);
+          assert.equal(errors.length, 1);
         });
 
         it('should have beautiful error message', () => {
-          result = headersValidator.validate();
+          errors = headersValidator.validate(fixtures.sampleHeadersDiffers);
           assert.equal(
-            result[0].message,
+            errors[0].message,
             "Header 'content-type' has value 'application/fancy-madiatype' instead of 'application/json'"
           );
         });
@@ -137,29 +124,26 @@ describe('HeadersJsonExample', () => {
 
   describe('when key is added to provided headers', () => {
     before(() => {
-      headersValidator = new HeadersJsonExample(
-        fixtures.sampleHeaders,
-        fixtures.sampleHeadersAdded
-      );
+      headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
     });
 
     describe('and i run validate()', () => {
       it("shouldn't return any errors", () => {
-        result = headersValidator.validate();
-        assert.equal(result.length, 0);
+        errors = headersValidator.validate(fixtures.sampleHeadersAdded);
+        assert.equal(errors.length, 0);
       });
     });
   });
 
   describe('when real is empty object and expected is proper object', () => {
     before(() => {
-      headersValidator = new HeadersJsonExample(fixtures.sampleHeaders, {});
+      headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
     });
 
     describe('and i run validate()', () => {
       it('should return 2 errors', () => {
-        result = headersValidator.validate();
-        assert.equal(result.length, 2);
+        errors = headersValidator.validate({});
+        assert.equal(errors.length, 2);
       });
     });
   });
@@ -167,15 +151,16 @@ describe('HeadersJsonExample', () => {
   describe('when non content negotiation header header values differs', () => {
     before(() => {
       headersValidator = new HeadersJsonExample(
-        fixtures.sampleHeadersNonContentNegotiation,
-        fixtures.sampleHeadersWithNonContentNegotiationChanged
+        fixtures.sampleHeadersNonContentNegotiation
       );
     });
 
     describe('and i run validate()', () => {
       it("shouldn't return any errors", () => {
-        result = headersValidator.validate();
-        assert.equal(result.length, 0);
+        errors = headersValidator.validate(
+          fixtures.sampleHeadersWithNonContentNegotiationChanged
+        );
+        assert.equal(errors.length, 0);
       });
     });
   });
@@ -183,15 +168,12 @@ describe('HeadersJsonExample', () => {
   describe('#validate()', () => {
     output = null;
     before(() => {
-      headersValidator = new HeadersJsonExample(
-        fixtures.sampleHeaders,
-        fixtures.sampleHeadersMissing
-      );
-      output = headersValidator.validate();
+      headersValidator = new HeadersJsonExample(fixtures.sampleHeaders);
+      errors = headersValidator.validate(fixtures.sampleHeadersMissing);
     });
 
     it('should return an obejct', () => {
-      assert.isObject(output);
+      assert.isObject(errors);
     });
   });
 

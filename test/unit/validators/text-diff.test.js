@@ -6,7 +6,7 @@ describe('TextDiff', () => {
   describe('when expected non-string data', () => {
     it('should throw an exception', () => {
       const fn = () => {
-        new TextDiff(null, '');
+        new TextDiff(null);
       };
       expect(fn).to.throw();
     });
@@ -15,7 +15,7 @@ describe('TextDiff', () => {
   describe('when given non-string actual data', () => {
     it('should throw an exception', () => {
       const fn = () => {
-        new TextDiff('', null);
+        new TextDiff('');
       };
       expect(fn).to.throw();
     });
@@ -25,13 +25,13 @@ describe('TextDiff', () => {
     const expected = 'Iñtërnâtiônàlizætiøn☃';
 
     it('should resolve on matching actual string', () => {
-      const validator = new TextDiff(expected, expected);
-      expect(validator.validate()).to.be.true;
+      const validator = new TextDiff(expected);
+      expect(validator.validate(expected)).to.be.true;
     });
 
     it('should reject on non-matching actual string', () => {
-      const validator = new TextDiff(expected, 'Nâtiônàl');
-      expect(validator.validate()).to.be.false;
+      const validator = new TextDiff(expected);
+      expect(validator.validate('Nâtiônàl')).to.be.false;
     });
   });
 
@@ -39,21 +39,20 @@ describe('TextDiff', () => {
     const expected = 'john';
 
     it('should resolve when given matching actual data', () => {
-      const validator = new TextDiff(expected, 'john');
-      expect(validator.validate()).to.be.true;
+      const validator = new TextDiff(expected);
+      expect(validator.validate('john')).to.be.true;
     });
 
     it('should reject when given non-matching actual data', () => {
-      const validator = new TextDiff(expected, 'barry');
-      expect(validator.validate()).to.be.false;
+      const validator = new TextDiff(expected);
+      expect(validator.validate('barry')).to.be.false;
     });
   });
 
   describe('when evaluating output to results', () => {
     describe('when expected and actual data match', () => {
-      const validator = new TextDiff('john', 'john');
-      validator.validate();
-      const result = validator.evaluateOutputToResults();
+      const validator = new TextDiff('john');
+      const result = validator.validate('john');
 
       it('should return an empty array', () => {
         expect(result).to.be.instanceOf(Array);
@@ -62,9 +61,8 @@ describe('TextDiff', () => {
     });
 
     describe('when expected and actual data do not match', () => {
-      const validator = new TextDiff('john', 'barry');
-      validator.validate();
-      const result = validator.evaluateOutputToResults();
+      const validator = new TextDiff('john');
+      const result = validator.validate('barry');
 
       it('should return an array', () => {
         expect(result).to.be.instanceOf(Array);
