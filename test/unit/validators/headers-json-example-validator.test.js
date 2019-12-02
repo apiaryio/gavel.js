@@ -47,7 +47,6 @@ describe('HeadersJsonExample', () => {
       describe('and i run validate()', () => {
         it("shouldn't return any errors", () => {
           errors = headersValidator.validate(fixtures.sampleHeaders);
-          console.log({ errors });
           assert.equal(errors.length, 0);
         });
       });
@@ -92,7 +91,10 @@ describe('HeadersJsonExample', () => {
 
         it('should have beautiful error message', () => {
           errors = headersValidator.validate(fixtures.sampleHeadersMissing);
-          assert.equal(errors[0].message, "Header 'header2' is missing");
+          assert.equal(
+            errors[0].message,
+            `At '/header2' Missing required property: header2`
+          );
         });
       });
     });
@@ -112,7 +114,7 @@ describe('HeadersJsonExample', () => {
           errors = headersValidator.validate(fixtures.sampleHeadersDiffers);
           assert.equal(
             errors[0].message,
-            "Header 'content-type' has value 'application/fancy-madiatype' instead of 'application/json'"
+            `At '/content-type' No enum match for: "application/fancy-madiatype"`
           );
         });
       });
