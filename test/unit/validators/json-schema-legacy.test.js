@@ -136,7 +136,7 @@ describe('JSON Schema (legacy)', () => {
           let errors;
           const data = {
             foo: 'should be number',
-            b: 'z' // DOES NOT RESPECT ENUM HERE. THINKS THIS IS VALID.
+            bar: 'z'
           };
 
           before(() => {
@@ -148,21 +148,42 @@ describe('JSON Schema (legacy)', () => {
               expect(errors).to.have.lengthOf(2);
             });
 
-            it('should have an error message', () => {
-              expect(errors[0].message).to.equal(
-                `At '/foo' Invalid type: string (expected number)`
-              );
+            describe('first error', () => {
+              it('should have an error message', () => {
+                expect(errors[0].message).to.equal(
+                  `At '/foo' Invalid type: string (expected number)`
+                );
+              });
+
+              it('should have a pointer', () => {
+                expect(errors[0]).to.have.nested.property(
+                  'location.pointer',
+                  '/foo'
+                );
+              });
+
+              it('should have a property name', () => {
+                expect(errors[0].location.property).to.deep.equal(['foo']);
+              });
             });
 
-            it('should have a pointer', () => {
-              expect(errors[0]).to.have.nested.property(
-                'location.pointer',
-                '/foo'
-              );
-            });
+            describe('second error', () => {
+              it('should have an error message', () => {
+                expect(errors[1].message).to.equal(
+                  `At '/bar' No enum match for: "z"`
+                );
+              });
 
-            it('should have a property name', () => {
-              expect(errors[0].location.property).to.deep.equal(['foo']);
+              it('should have a pointer', () => {
+                expect(errors[1]).to.have.nested.property(
+                  'location.pointer',
+                  '/bar'
+                );
+              });
+
+              it('should have a property name', () => {
+                expect(errors[1].location.property).to.deep.equal(['bar']);
+              });
             });
           });
         });
