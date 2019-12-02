@@ -1,7 +1,6 @@
 /* eslint-disable */
 const { assert } = require('chai');
 const { JsonExample } = require('../../../lib/validators/json-example');
-const { JsonSchema } = require('../../../lib/validators/json-schema');
 const fixtures = require('../../fixtures');
 
 describe('JsonExample', () => {
