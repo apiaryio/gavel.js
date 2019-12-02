@@ -1,5 +1,6 @@
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
+const json = require('@rollup/plugin-json/dist');
 const packageJson = require('./package.json');
 
 const buildUmd = {
@@ -19,6 +20,7 @@ const buildUmd = {
       // Throw when such modules are present in the bundle.
       preferBuiltins: false
     }),
+    json(),
     commonjs()
   ]
 };
