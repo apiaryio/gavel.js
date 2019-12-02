@@ -17,10 +17,13 @@ describe('JSON Schema (next)', () => {
     let init;
 
     before(() => {
-      init = () =>
-        new JsonSchemaValidator({
-          $schema: 'http://json-schema.org/draft-02/schema'
-        });
+      /* eslint-disable-next-line global-require */
+      const validSchema = require('../../fixtures/invalid-schema-v3-v4.json');
+      delete validSchema.$schema;
+
+      init = () => {
+        return new JsonSchemaValidator(validSchema);
+      };
     });
 
     it('should throw an error about unsupported schema version', () => {
