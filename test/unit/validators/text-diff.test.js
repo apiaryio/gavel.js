@@ -14,10 +14,8 @@ describe('TextDiff', () => {
 
   describe('when given non-string actual data', () => {
     it('should throw an exception', () => {
-      const fn = () => {
-        new TextDiff('');
-      };
-      expect(fn).to.throw();
+      const validator = new TextDiff('');
+      expect(validator.validate.bind(this, null)).to.throw();
     });
   });
 
@@ -26,12 +24,16 @@ describe('TextDiff', () => {
 
     it('should resolve on matching actual string', () => {
       const validator = new TextDiff(expected);
-      expect(validator.validate(expected)).to.be.true;
+      expect(validator.validate(expected)).to.deep.equal([]);
     });
 
     it('should reject on non-matching actual string', () => {
       const validator = new TextDiff(expected);
-      expect(validator.validate('Nâtiônàl')).to.be.false;
+      expect(validator.validate('Nâtiônàl')).to.deep.equal([
+        {
+          message: 'Actual and expected data do not match.'
+        }
+      ]);
     });
   });
 
@@ -40,12 +42,16 @@ describe('TextDiff', () => {
 
     it('should resolve when given matching actual data', () => {
       const validator = new TextDiff(expected);
-      expect(validator.validate('john')).to.be.true;
+      expect(validator.validate('john')).to.deep.equal([]);
     });
 
     it('should reject when given non-matching actual data', () => {
       const validator = new TextDiff(expected);
-      expect(validator.validate('barry')).to.be.false;
+      expect(validator.validate('barry')).to.deep.equal([
+        {
+          message: 'Actual and expected data do not match.'
+        }
+      ]);
     });
   });
 
