@@ -8,6 +8,7 @@ const invalidJsonSchema6 = require('../../fixtures/invalid-schema-v6');
 const validJsonSchema6 = require('../../fixtures/valid-schema-v6');
 const invalidJsonSchema7 = require('../../fixtures/invalid-schema-v7');
 const validJsonSchema7 = require('../../fixtures/valid-schema-v7');
+const validJsonSchema7Boolean = require('../../fixtures/valid-schema-v7-boolean');
 
 describe('JSON Schema (next)', () => {
   /**
@@ -204,6 +205,21 @@ describe('JSON Schema (next)', () => {
           });
         });
       });
+    });
+  });
+
+  /**
+   * Inferred JSON Schema version for boolean value schema.
+   */
+  describe('given a JSON Schema with a boolean value', () => {
+    let validator;
+
+    before(() => {
+      validator = new JsonSchemaValidator(validJsonSchema7Boolean);
+    });
+
+    it('should infer schema version as "draft7"', () => {
+      expect(validator).to.have.property('jsonSchemaVersion', 'draftV7');
     });
   });
 });
