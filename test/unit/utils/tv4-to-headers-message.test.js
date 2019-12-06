@@ -20,7 +20,7 @@ describe('tv4ToHeadersMessages()', () => {
       const message = tv4ToHeadersMessage(tv4Message, expectedHeaders);
       assert.equal(
         message,
-        "Header 'content-type' has value 'application/fancy-madiatype' instead of 'application/json'"
+        `Header 'content-type' has value 'application/fancy-madiatype' instead of 'application/json'`
       );
     });
   });
