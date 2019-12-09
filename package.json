@@ -61,7 +61,7 @@
     "eslint-plugin-import": "2.18.2",
     "gavel-spec": "4.1.0",
     "husky": "3.0.9",
-    "lint-staged": "9.4.2",
+    "lint-staged": "9.5.0",
     "mocha": "6.2.2",
     "prettier": "1.19.1",
     "rollup": "1.27.9",
