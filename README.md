@@ -161,8 +161,6 @@ The validation `result` against the given JSON Schema will look as follows:
 }
 ```
 
-> Note that JSON schema Draft-05+ are not currently supported. [Follow the support progress](https://github.com/apiaryio/gavel.js/issues/90).
-
 ## Examples
 
 Take a look at the [Gherkin](https://cucumber.io/docs/gherkin/) specification, which describes on examples how validation of each field behaves:
