@@ -1,6 +1,8 @@
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const json = require('@rollup/plugin-json/dist');
+const { terser } = require('rollup-plugin-terser');
+
 const packageJson = require('./package.json');
 
 const buildUmd = {
@@ -21,7 +23,8 @@ const buildUmd = {
       preferBuiltins: false
     }),
     json(),
-    commonjs()
+    commonjs(),
+    terser()
   ]
 };
 
