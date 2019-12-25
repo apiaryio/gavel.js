@@ -57,7 +57,7 @@
     "eslint": "6.7.2",
     "eslint-config-airbnb": "17.1.1",
     "eslint-config-airbnb-base": "13.2.0",
-    "eslint-config-prettier": "6.7.0",
+    "eslint-config-prettier": "6.8.0",
     "eslint-plugin-import": "2.19.1",
     "gavel-spec": "4.1.0",
     "husky": "3.1.0",
