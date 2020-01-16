@@ -69,7 +69,7 @@
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-terser": "5.2.0",
     "semantic-release": "15.14.0",
-    "sinon": "7.5.0"
+    "sinon": "8.1.0"
   },
   "repository": {
     "type": "git",
