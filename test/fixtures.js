@@ -259,7 +259,7 @@ const sampleJsonArrayItemMissing = `
 const sampleJsonSchema = `
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "#",
+    "$id": "#",
     "required": [
         "simple_key_value_pair",
         "complex_key_value_pair",
@@ -271,45 +271,45 @@ const sampleJsonSchema = `
     "type": "object",
     "properties": {
         "simple_key_value_pair": {
-            "id": "simple_key_value_pair",
+            "$id": "simple_key_value_pair",
             "enum": [
                 "simple_key_value_pair_value"
             ],
             "type": "string"
         },
         "complex_key_value_pair": {
-            "id": "complex_key_value_pair",
+            "$id": "complex_key_value_pair",
             "additionalProperties": false,
             "type": "object",
             "properties": {
                 "complex_key_value_pair_key1": {
-                    "id": "complex_key_value_pair_key1",
+                    "$id": "complex_key_value_pair_key1",
                     "enum": [
                         "complex_key_value_pair_value1"
                     ],
                     "type": "string"
                 },
                 "complex_key_value_pair_key2": {
-                    "id": "complex_key_value_pair_key2",
+                    "$id": "complex_key_value_pair_key2",
                     "enum": [
                         "complex_key_value_pair_value2"
                     ],
                     "type": "string"
                 },
                 "complex_key_value_pair_key3": {
-                    "id": "complex_key_value_pair_key3",
+                    "$id": "complex_key_value_pair_key3",
                     "additionalProperties": false,
                     "type": "object",
                     "properties": {
                         "complex_key_value_pair_key1_in_nested_hash": {
-                            "id": "complex_key_value_pair_key1_in_nested_hash",
+                            "$id": "complex_key_value_pair_key1_in_nested_hash",
                             "enum": [
                                 "complex_key_value_pair_value1_in_nested_hash"
                             ],
                             "type": "string"
                         },
                         "complex_key_value_pair_key2_in_nested_hash": {
-                            "id": "complex_key_value_pair_key2_in_nested_hash",
+                            "$id": "complex_key_value_pair_key2_in_nested_hash",
                             "enum": [
                                 "complex_key_value_pair_value2_in_nested_hash"
                             ],
@@ -329,12 +329,12 @@ const sampleJsonSchema = `
             ]
         },
         "array_of_hashes": {
-            "id": "array_of_hashes",
+            "$id": "array_of_hashes",
             "additionalItems": false,
             "type": "array",
             "items": [
                 {
-                    "id": "0",
+                    "$id": "0",
                     "required": [
                         "array_of_hashes_item1_key1",
                         "array_of_hashes_item1_key2"
@@ -343,14 +343,14 @@ const sampleJsonSchema = `
                     "type": "object",
                     "properties": {
                         "array_of_hashes_item1_key1": {
-                            "id": "array_of_hashes_item1_key1",
+                            "$id": "array_of_hashes_item1_key1",
                             "enum": [
                                 "array_of_hashes_item1_value1"
                             ],
                             "type": "string"
                         },
                         "array_of_hashes_item1_key2": {
-                            "id": "array_of_hashes_item1_key2",
+                            "$id": "array_of_hashes_item1_key2",
                             "enum": [
                                 "array_of_hashes_item1_value2"
                             ],
@@ -359,7 +359,7 @@ const sampleJsonSchema = `
                     }
                 },
                 {
-                    "id": "1",
+                    "$id": "1",
                     "required": [
                         "array_of_hashes_item2_key1",
                         "array_of_hashes_item2_key2"
@@ -368,14 +368,14 @@ const sampleJsonSchema = `
                     "type": "object",
                     "properties": {
                         "array_of_hashes_item2_key1": {
-                            "id": "array_of_hashes_item2_key1",
+                            "$id": "array_of_hashes_item2_key1",
                             "enum": [
                                 "array_of_hashes_item2_value1"
                             ],
                             "type": "string"
                         },
                         "array_of_hashes_item2_key2": {
-                            "id": "array_of_hashes_item2_key2",
+                            "$id": "array_of_hashes_item2_key2",
                             "enum": [
                                 "array_of_hashes_item2_value2"
                             ],
@@ -386,33 +386,33 @@ const sampleJsonSchema = `
             ]
         },
         "array_of_mixed_simple_types": {
-            "id": "array_of_mixed_simple_types",
+            "$id": "array_of_mixed_simple_types",
             "additionalItems": false,
             "type": "array",
             "items": [
                 {
-                    "id": "0",
+                    "$id": "0",
                     "enum": [
                         1
                     ],
                     "type": "integer"
                 },
                 {
-                    "id": "1",
+                    "$id": "1",
                     "enum": [
                         2
                     ],
                     "type": "integer"
                 },
                 {
-                    "id": "2",
+                    "$id": "2",
                     "enum": [
                         "a"
                     ],
                     "type": "string"
                 },
                 {
-                    "id": "3",
+                    "$id": "3",
                     "enum": [
                         "b"
                     ],
@@ -421,19 +421,19 @@ const sampleJsonSchema = `
             ]
         },
         "array_of_same_simple_types": {
-            "id": "array_of_same_simple_types",
+            "$id": "array_of_same_simple_types",
             "additionalItems": false,
             "type": "array",
             "items": [
                 {
-                    "id": "0",
+                    "$id": "0",
                     "enum": [
                         "a"
                     ],
                     "type": "string"
                 },
                 {
-                    "id": "1",
+                    "$id": "1",
                     "enum": [
                         "b"
                     ],
@@ -533,7 +533,7 @@ const sampleJsonBodyTestingAmandaMessages = {
 const sampleJsonSchemaNonStrict = `
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "#",
+    "$id": "#",
     "required": [
         "simple_key_value_pair",
         "complex_key_value_pair",
@@ -545,29 +545,29 @@ const sampleJsonSchemaNonStrict = `
     "type": "object",
     "properties": {
         "simple_key_value_pair": {
-            "id": "simple_key_value_pair"
+            "$id": "simple_key_value_pair"
         },
         "complex_key_value_pair": {
-            "id": "complex_key_value_pair",
+            "$id": "complex_key_value_pair",
             "additionalProperties": true,
             "type": "object",
             "properties": {
                 "complex_key_value_pair_key1": {
-                    "id": "complex_key_value_pair_key1"
+                    "$id": "complex_key_value_pair_key1"
                 },
                 "complex_key_value_pair_key2": {
-                    "id": "complex_key_value_pair_key2"
+                    "$id": "complex_key_value_pair_key2"
                 },
                 "complex_key_value_pair_key3": {
-                    "id": "complex_key_value_pair_key3",
+                    "$id": "complex_key_value_pair_key3",
                     "additionalProperties": true,
                     "type": "object",
                     "properties": {
                         "complex_key_value_pair_key1_in_nested_hash": {
-                            "id": "complex_key_value_pair_key1_in_nested_hash"
+                            "$id": "complex_key_value_pair_key1_in_nested_hash"
                         },
                         "complex_key_value_pair_key2_in_nested_hash": {
-                            "id": "complex_key_value_pair_key2_in_nested_hash"
+                            "$id": "complex_key_value_pair_key2_in_nested_hash"
                         }
                     },
                     "required": [
@@ -583,12 +583,12 @@ const sampleJsonSchemaNonStrict = `
             ]
         },
         "array_of_hashes": {
-            "id": "array_of_hashes",
+            "$id": "array_of_hashes",
             "additionalItems": true,
             "type": "array",
             "items": [
                 {
-                    "id": "0",
+                    "$id": "0",
                     "required": [
                         "array_of_hashes_item1_key1",
                         "array_of_hashes_item1_key2"
@@ -597,15 +597,15 @@ const sampleJsonSchemaNonStrict = `
                     "type": "object",
                     "properties": {
                         "array_of_hashes_item1_key1": {
-                            "id": "array_of_hashes_item1_key1"
+                            "$id": "array_of_hashes_item1_key1"
                         },
                         "array_of_hashes_item1_key2": {
-                            "id": "array_of_hashes_item1_key2"
+                            "$id": "array_of_hashes_item1_key2"
                         }
                     }
                 },
                 {
-                    "id": "1",
+                    "$id": "1",
                     "required": [
                         "array_of_hashes_item2_key1",
                         "array_of_hashes_item2_key2"
@@ -614,44 +614,44 @@ const sampleJsonSchemaNonStrict = `
                     "type": "object",
                     "properties": {
                         "array_of_hashes_item2_key1": {
-                            "id": "array_of_hashes_item2_key1"
+                            "$id": "array_of_hashes_item2_key1"
                         },
                         "array_of_hashes_item2_key2": {
-                            "id": "array_of_hashes_item2_key2"
+                            "$id": "array_of_hashes_item2_key2"
                         }
                     }
                 }
             ]
         },
         "array_of_mixed_simple_types": {
-            "id": "array_of_mixed_simple_types",
+            "$id": "array_of_mixed_simple_types",
             "additionalItems": true,
             "type": "array",
             "items": [
                 {
-                    "id": "0"
+                    "$id": "0"
                 },
                 {
-                    "id": "1"
+                    "$id": "1"
                 },
                 {
-                    "id": "2"
+                    "$id": "2"
                 },
                 {
-                    "id": "3"
+                    "$id": "3"
                 }
             ]
         },
         "array_of_same_simple_types": {
-            "id": "array_of_same_simple_types",
+            "$id": "array_of_same_simple_types",
             "additionalItems": true,
             "type": "array",
             "items": [
                 {
-                    "id": "0"
+                    "$id": "0"
                 },
                 {
-                    "id": "1"
+                    "$id": "1"
                 }
             ]
         }

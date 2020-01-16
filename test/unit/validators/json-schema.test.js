@@ -1,7 +1,9 @@
 /* eslint-disable */
 const { assert } = require('chai');
 const fixtures = require('../../fixtures');
-const { JsonSchema } = require('../../../lib/validators/json-schema');
+const {
+  JsonSchemaValidator
+} = require('../../../lib/validators/json-schema-next');
 const {
   ValidationErrors
 } = require('../../../lib/validators/validation-errors');
@@ -28,11 +30,11 @@ describe('JsonSchema', () => {
       let validator = null;
 
       beforeEach(() => {
-        validator = new JsonSchema(data.schema);
+        validator = new JsonSchemaValidator(data.schema);
       });
 
       it('should not throw an exception', () => {
-        const fn = () => new JsonSchema(data.schema);
+        const fn = () => new JsonSchemaValidator(data.schema);
         assert.doesNotThrow(fn);
       });
 
@@ -108,12 +110,12 @@ describe('JsonSchema', () => {
         });
       });
 
-      // shared.shouldBehaveLikeAmandaToGavel(new JsonSchema('{}'));
+      // shared.shouldBehaveLikeAmandaToGavel(new JsonSchemaValidator('{}'));
     });
 
     describe('when validation performed on actual empty object', () => {
       it('should return some errors', () => {
-        validator = new JsonSchema(
+        validator = new JsonSchemaValidator(
           JSON.parse(fixtures.sampleJsonSchemaNonStrict)
         );
         errors = validator.validate({});
@@ -125,7 +127,7 @@ describe('JsonSchema', () => {
      * @deprecate Stop testing implementation detail.
      */
     it('should have validateSchema method', () => {
-      validator = new JsonSchema({});
+      validator = new JsonSchemaValidator({});
       assert.isDefined(validator.validateSchema);
     });
 
@@ -134,7 +136,7 @@ describe('JsonSchema', () => {
 
       it('should throw an error for "data"', () => {
         const fn = () => {
-          new JsonSchema(invalidStringifiedSchema);
+          new JsonSchemaValidator(invalidStringifiedSchema);
         };
         assert.throw(fn);
       });
@@ -142,7 +144,7 @@ describe('JsonSchema', () => {
       it('should throw an error for "schema"', () => {
         const invalidStringifiedSchema = require('../../fixtures/invalid-stringified-schema');
         const fn = () => {
-          new JsonSchema(invalidStringifiedSchema);
+          new JsonSchemaValidator(invalidStringifiedSchema);
         };
         assert.throw(fn);
       });
@@ -155,7 +157,7 @@ describe('JsonSchema', () => {
           before(() => {
             const invalidSchema = require('../../fixtures/invalid-schema-v4');
             fn = () => {
-              validator = new JsonSchema(invalidSchema);
+              validator = new JsonSchemaValidator(invalidSchema);
             };
           });
 
@@ -177,7 +179,7 @@ describe('JsonSchema', () => {
           before(() => {
             validSchema = require('../../fixtures/valid-schema-v4');
             fn = () => {
-              validator = new JsonSchema(validSchema);
+              validator = new JsonSchemaValidator(validSchema);
             };
           });
 
@@ -198,7 +200,7 @@ describe('JsonSchema', () => {
               validSchema = require('../../fixtures/valid-schema-v4');
               delete validSchema.$schema;
               fn = () => {
-                validator = new JsonSchema(validSchema);
+                validator = new JsonSchemaValidator(validSchema);
               };
             });
 
@@ -218,7 +220,7 @@ describe('JsonSchema', () => {
               validSchema = require('../../fixtures/invalid-schema-v3-v4');
               delete validSchema.$schema;
               fn = () => {
-                validator = new JsonSchema(validSchema);
+                validator = new JsonSchemaValidator(validSchema);
               };
             });
 
