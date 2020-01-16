@@ -15,7 +15,7 @@ declare module 'gavel' {
     headers: Record<string, string> | string;
     body: Record<string, any> | string;
     /**
-     * [JSON Schema](https://json-schema.org/) Draft V3-4.
+     * Instance of the supported version of [JSON Schema](https://json-schema.org/).
      */
     bodySchema: Record<string, any> | string;
   }
@@ -33,7 +33,7 @@ declare module 'gavel' {
     valid: boolean;
     /**
      * Validation results of each individual HTTP message
-     * field (i.e. "statusCode", "body", etc).
+     * field (i.e. `statusCode`, `body`, etc).
      */
     fields: Record<string, FieldValidationResult>;
   }
@@ -54,6 +54,9 @@ declare module 'gavel' {
       expected: any;
       actual: any;
     };
+    /**
+     * The list of validation errors, if any.
+     */
     errors: FieldValidationError[];
   }
 
@@ -64,6 +67,9 @@ declare module 'gavel' {
      * Dependends on the HTTP message field's "kind" property.
      */
     location?: {
+      /**
+       * A complete JSON pointer to the related property in the data.
+       */
       pointer?: string;
       property?: string[];
     };
