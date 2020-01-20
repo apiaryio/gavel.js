@@ -72,6 +72,12 @@ declare module 'gavel' {
        */
       pointer?: string;
       property?: string[];
+      /**
+       * A JSON pointer to the relevant rule in the JSON Schema.
+       * Applicable only if validating using `bodySchema` in
+       * the expected HTTP message.
+       */
+      schemaPath?: string;
     };
   }
 
