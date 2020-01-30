@@ -161,6 +161,12 @@ The validation `result` against the given JSON Schema will look as follows:
 }
 ```
 
+### Supported JSON Schema versions
+
+- [JSON Schema Draft 7](https://json-schema.org/specification-links.html#draft-7)
+- [JSON Schema Draft 6](https://json-schema.org/specification-links.html#draft-6)
+- [JSON Schema Draft 4](https://json-schema.org/specification-links.html#draft-4)
+
 ## Examples
 
 Take a look at the [Gherkin](https://cucumber.io/docs/gherkin/) specification, which describes on examples how validation of each field behaves:

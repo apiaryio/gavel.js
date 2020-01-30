@@ -148,79 +148,7 @@ describe('JsonSchema', () => {
       });
     });
 
-    describe('validate an object to check json_schema_options passed to Amanda', () => {
-      let errors = null;
-      let messagesLength = null;
-
-      before(() => {
-        messagesLength = Object.keys(
-          fixtures.sampleJsonBodyTestingAmandaMessages
-        ).length;
-        validator = new JsonSchema(
-          fixtures.sampleJsonSchemaTestingAmandaMessages
-        );
-        errors = validator.validate(
-          fixtures.sampleJsonBodyTestingAmandaMessages
-        );
-      });
-
-      it('contains all those schema defined messages', () => {
-        assert.lengthOf(errors, messagesLength);
-        assert.lengthOf(
-          Object.keys(
-            fixtures.sampleJsonSchemaTestingAmandaMessages.properties
-          ),
-          messagesLength
-        );
-        assert.lengthOf(errors, messagesLength);
-      });
-    });
-
     describe('validateSchema', () => {
-      describe('with schema v3', () => {
-        describe('when invalid schema provided', () => {
-          let fn = null;
-
-          before(() => {
-            const invalidSchema = require('../../fixtures/invalid-schema-v3');
-            fn = () => {
-              validator = new JsonSchema(invalidSchema);
-            };
-          });
-
-          it('should throw an error', () => {
-            assert.throw(fn);
-          });
-
-          it('should mention schema v3 in the message', () => {
-            try {
-              fn();
-            } catch (e) {
-              assert.include(e.message, 'draftV3');
-            }
-          });
-        });
-
-        describe('when valid v3 schema provided', () => {
-          let fn = null;
-          before(() => {
-            const validSchema = require('../../fixtures/valid-schema-v3');
-            fn = () => {
-              validator = new JsonSchema(validSchema);
-            };
-          });
-
-          it('should not throw any error', () => {
-            assert.doesNotThrow(fn);
-          });
-
-          it('should set @jsonSchemaVersion to v3', () => {
-            fn();
-            assert.equal(validator.jsonSchemaVersion, 'draftV3');
-          });
-        });
-      });
-
       describe('with schema v4', () => {
         describe('when invalid v4 schema provided', () => {
           let fn = null;
@@ -264,26 +192,6 @@ describe('JsonSchema', () => {
         });
 
         describe('with not identified version of schema', () => {
-          describe('valid against v3 metaschema', () => {
-            let fn = null;
-            before(() => {
-              validSchema = require('../../fixtures/valid-schema-v3');
-              delete validSchema.$schema;
-              fn = () => {
-                validator = new JsonSchema(validSchema);
-              };
-            });
-
-            it('should not throw any error', () => {
-              assert.doesNotThrow(fn);
-            });
-
-            it('should set @jsonSchemaVersion to v3', () => {
-              fn();
-              assert.equal(validator.jsonSchemaVersion, 'draftV3');
-            });
-          });
-
           describe('valid against v4 metaschema', () => {
             let fn = null;
             before(() => {
@@ -318,12 +226,12 @@ describe('JsonSchema', () => {
               assert.throw(fn);
             });
 
-            it('should mention both v3 and v4 in the error message', () => {
+            it('should mention only v4 in the error message', () => {
               try {
                 fn();
               } catch (error) {
-                assert.include(error.message, 'draftV3');
                 assert.include(error.message, 'draftV4');
+                assert.notInclude(error.message, 'draftV3');
               }
             });
           });

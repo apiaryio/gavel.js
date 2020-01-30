@@ -1,5 +1,4 @@
 const { assert } = require('chai');
-const amanda = require('amanda');
 const tv4 = require('tv4');
 
 const {
@@ -62,12 +61,6 @@ describe('SchemaV4Generator', () => {
 
     it('and schema should be valid json', () => {
       assert.doesNotThrow(() => JSON.stringify(schema));
-    });
-
-    it('which is valid json schema for amanda (doesNotThrow)', () => {
-      assert.doesNotThrow(() =>
-        amanda.validate(JSON.parse(sampleJson), sg.schema, () => {})
-      );
     });
 
     it('which is expected strict schema', () => {
