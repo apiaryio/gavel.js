@@ -9,7 +9,9 @@ module.exports = function() {
     fieldName,
     expectedJson
   ) {
+    const actual = this.result.fields[fieldName];
     const expected = parseJson(expectedJson);
-    expect(this.result.fields[fieldName]).to.deep.equal(expected);
+
+    expect(actual).to.deep.equal(expected);
   });
 };

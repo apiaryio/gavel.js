@@ -61,7 +61,7 @@ describe('Root-level array validation', () => {
         it('should have explanatory message', () => {
           expect(result.fields.body)
             .to.have.errorAtIndex(0)
-            .withMessage('data/1 should be string');
+            .withMessage(`At '/1' Invalid type: number (expected string)`);
         });
 
         describe('should have "location"', () => {

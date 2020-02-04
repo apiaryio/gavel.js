@@ -8,7 +8,6 @@
       "type": "number"
     },
     "bar": {
-      "type": "string",
       "enum": ["a", "b", "c"]
     }
   }

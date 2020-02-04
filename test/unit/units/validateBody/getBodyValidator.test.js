@@ -15,7 +15,7 @@ describe('getBodyValidator', () => {
       },
       {
         contentTypes: ['application/schema+json', 'application/json'],
-        expectedValidator: 'JsonSchema'
+        expectedValidator: 'JsonSchemaValidator'
       },
       {
         contentTypes: ['text/plain', 'text/plain'],
