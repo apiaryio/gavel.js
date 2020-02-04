@@ -109,8 +109,6 @@ describe('JsonSchema', () => {
           });
         });
       });
-
-      // shared.shouldBehaveLikeAmandaToGavel(new JsonSchemaValidator('{}'));
     });
 
     describe('when validation performed on actual empty object', () => {

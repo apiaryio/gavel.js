@@ -353,6 +353,45 @@ describe('validateBody', () => {
             });
           });
         });
+
+        describe('with non-matching body types', () => {
+          const result = validateBody(
+            {
+              bodySchema: {
+                properties: {
+                  firstName: {
+                    type: 'string'
+                  }
+                }
+              }
+            },
+            {
+              body: '{ "firstName": null }'
+            }
+          );
+
+          it('marks field as invalid', () => {
+            expect(result).to.not.be.valid;
+          });
+
+          it('has "json" kind', () => {
+            expect(result).to.have.kind('json');
+          });
+
+          describe('produces an error', () => {
+            it('exactly one error', () => {
+              expect(result).to.have.errors.lengthOf(1);
+            });
+
+            it('has explanatory message', () => {
+              expect(result)
+                .to.have.errorAtIndex(0)
+                .withMessage(
+                  `At '/firstName' Invalid type: null (expected string)`
+                );
+            });
+          });
+        });
       });
     });
   });
