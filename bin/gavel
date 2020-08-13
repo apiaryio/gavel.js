@@ -4,7 +4,7 @@
 var cmd = require('commander');
 var httpParser = require('http-string-parser');
 var curlParser = require('curl-trace-parser');
-var gavel = require('../lib');
+var gavel = require('../build');
 var fs = require('fs');
 
 cmd.version('0.0.1');
