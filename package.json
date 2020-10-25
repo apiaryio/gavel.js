@@ -38,7 +38,7 @@
     "ajv": "6.12.3",
     "caseless": "0.12.0",
     "clone": "2.1.2",
-    "commander": "3.0.2",
+    "commander": "6.2.0",
     "content-type": "1.0.4",
     "curl-trace-parser": "0.0.10",
     "deep-equal": "1.1.1",
