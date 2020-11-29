@@ -1,3 +1,4 @@
+const { defineSupportCode } = require('cucumber');
 const { assert } = require('chai');
 const { exec } = require('child_process');
 const gavel = require('../../../build');
@@ -167,6 +168,6 @@ Make sure it's in the "Header-Name: value" format.
   }
 }
 
-module.exports = function() {
-  this.World = World;
-};
+defineSupportCode(function({ setWorldConstructor }) {
+  setWorldConstructor(World);
+});
