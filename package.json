@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "typings": "typings.d.ts",
   "engines": {
-    "node": ">= 8"
+    "node": ">= 10.18"
   },
   "bin": {
     "gavel": "bin/gavel"
