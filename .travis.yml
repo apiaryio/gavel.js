@@ -2,7 +2,6 @@
 # in https://travis-ci.org/apiaryio/gavel.js/settings
 language: 'node_js'
 node_js:
-  - '8'
   - '10'
   - '12'
 cache:
