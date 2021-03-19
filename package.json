@@ -30,15 +30,14 @@
   "lint-staged": {
     "*.js": [
       "prettier --write",
-      "eslint",
-      "git add"
+      "eslint"
     ]
   },
   "dependencies": {
     "ajv": "6.12.6",
     "caseless": "0.12.0",
     "clone": "2.1.2",
-    "commander": "3.0.2",
+    "commander": "7.1.0",
     "content-type": "1.0.4",
     "curl-trace-parser": "0.0.10",
     "deep-equal": "2.0.5",
@@ -60,14 +59,14 @@
     "eslint-plugin-import": "2.20.2",
     "gavel-spec": "5.0.0",
     "husky": "4.3.8",
-    "lint-staged": "9.5.0",
+    "lint-staged": "10.5.4",
     "mocha": "8.3.2",
     "prettier": "1.19.1",
     "rollup": "1.32.1",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-terser": "7.0.2",
-    "semantic-release": "17.2.3",
+    "semantic-release": "17.4.2",
     "sinon": "9.2.4"
   },
   "repository": {
