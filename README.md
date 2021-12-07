@@ -2,12 +2,6 @@
   <a href="https://badge.fury.io/js/gavel" target="_blank">
     <img src="https://badge.fury.io/js/gavel.svg" alt="npm version" />
   </a>
-  <a href="https://travis-ci.org/apiaryio/gavel.js" target="_blank">
-    <img src="https://travis-ci.org/apiaryio/gavel.js.svg?branch=master" alt="Build Status" />
-  </a>
-  <a href="https://ci.appveyor.com/project/Apiary/gavel-js/branch/master" target="_blank">
-    <img src="https://ci.appveyor.com/api/projects/status/0cpnaoakhs8q58tn/branch/master?svg=true" alt="Build Status" />
-  </a>
   <a href="https://snyk.io/test/npm/gavel" target="_blank">
     <img src="https://snyk.io/test/npm/gavel/badge.svg" alt="Known Vulnerabilities" />
   </a>
