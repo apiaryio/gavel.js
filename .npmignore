@@ -8,7 +8,6 @@ cov.*
 .nyc_output
 
 # List specific to .npmignore
-.travis.yml
 .npmignore
 lib
 docs/
