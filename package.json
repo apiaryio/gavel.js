@@ -33,6 +33,11 @@
       "eslint"
     ]
   },
+  "files": [
+    "LICENSE",
+    "bin",
+    "lib"
+  ],
   "dependencies": {
     "ajv": "6.12.6",
     "commander": "8.1.0",
