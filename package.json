@@ -16,11 +16,7 @@
     "lint": "eslint lib/**/*.js test/**/*.js",
     "test": "npm run test:unit && npm run test:features",
     "test:unit": "mocha \"test/**/*.test.js\"",
-    "test:features": "node scripts/cucumber.js",
-    "ci:lint": "npm run lint",
-    "ci:test": "npm test",
-    "ci:build": "npm run build",
-    "ci:release": "semantic-release"
+    "test:features": "node scripts/cucumber.js"
   },
   "husky": {
     "hooks": {
