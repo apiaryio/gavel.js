@@ -14,8 +14,6 @@ const args = [
   'test/cucumber/support/',
   '-r',
   'test/cucumber/steps/',
-  '-f',
-  'pretty',
   'node_modules/gavel-spec/features/'
 ];
 

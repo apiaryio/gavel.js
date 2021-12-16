@@ -1,7 +1,8 @@
+const { defineSupportCode } = require('cucumber');
 const { exec } = require('child_process');
 
-module.exports = function() {
-  this.Before({ tags: ['@cli', '@cli'] }, function(scenario, callback) {
+defineSupportCode(function({ After, Before }) {
+  Before({ tags: '@cli and @cli' }, function(scenarioResult, callback) {
     const proc = exec('mkdir /tmp/gavel-test-`date +%s`', function(
       err,
       stdout,
@@ -15,7 +16,7 @@ module.exports = function() {
     proc.on('exit', callback);
   });
 
-  return this.After({ tags: ['@cli', '@cli'] }, function(scenario, callback) {
+  After({ tags: '@cli and @cli' }, function(scenarioResult, callback) {
     const proc = exec('rm -rf /tmp/gavel-test-*', function(
       err,
       stdout,
@@ -28,4 +29,4 @@ module.exports = function() {
 
     proc.on('exit', callback);
   });
-};
+});
