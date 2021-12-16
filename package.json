@@ -3,6 +3,8 @@
   "version": "0.0.0-semantically-released",
   "description": "Validator of HTTP transactions (JavaScript implementation)",
   "main": "build/index.js",
+  "unpkg": "build/index.umd.js",
+  "jsdelivr": "build/index.umd.js",
   "typings": "typings.d.ts",
   "engines": {
     "node": ">= 10.18"
